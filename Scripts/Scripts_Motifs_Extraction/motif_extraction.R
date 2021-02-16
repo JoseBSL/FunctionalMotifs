@@ -18,11 +18,14 @@ int.threshold <- 1
 networks <- read_csv("Data/Csv/data_for_motifs_analysis.csv") %>% select(-X1) %>%
   filter(Interaction >= int.threshold)
 
+
+
 # MOTIF MINING --------
 
-
+# Get the list of network available to iterate
 list_Network_id <- networks$Network_id %>% unique()
 
+# Initialize variables for storing purposes
 freq_motifs <- NULL #Store the frequency each motif types
 node_positions <- NULL # Store the frequency of motif positions for each node
 
@@ -60,12 +63,12 @@ for (i.network in 1:length(list_Network_id)){
   # combinations that occur in a motif as a proportion of the number of species combinations that
   # could occur in that motif.
   
-  freq_motifs_i <- mcount(inc_matrix_i, normalisation = T,
+  freq_motifs_i <- mcount(inc_matrix_i, six_node = T, normalisation = T,
                           mean_weight = mean_weight_i, standard_dev = F)
   
   # Nodes position in motifs --------
   # Check Normalisation information
-  node_positions_i <- node_positions(inc_matrix_i, level = "all",
+  node_positions_i <- node_positions(inc_matrix_i, six_node = T, level = "all",
                                      weights_method = weights_method_i)
   
   
@@ -76,16 +79,17 @@ for (i.network in 1:length(list_Network_id)){
   
   freq_motifs_i$Network_id  <- list_Network_id[i.network]
   node_positions_i$Network_id  <- list_Network_id[i.network]
+  node_positions_i$Node_id  <- row.names(node_positions_i)
   
   # Rearrange columns
   
   freq_motifs_i <- freq_motifs_i[,c("Network_id",col_names_freq_i)]
-  node_positions_i <- node_positions_i[,c("Network_id",col_names_posit_i)]
+  node_positions_i <- node_positions_i[,c("Network_id","Node_id",col_names_posit_i)]
   
   
   # Store results----
   
-  freq_motifs <-bind_rows(freq_motifs,freq_motifs_i)
+  freq_motifs <- bind_rows(freq_motifs,freq_motifs_i)
   node_positions <- bind_rows(node_positions,node_positions_i)
   
 }

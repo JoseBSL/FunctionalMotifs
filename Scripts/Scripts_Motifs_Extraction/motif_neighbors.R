@@ -25,6 +25,7 @@ list_parterns <- patterns$motif_id %>% unique()
 
 for (i.network in 1:length(list_Network_id)){
   
+  start_time <- Sys.time()
   print(list_Network_id[i.network])
   print(i.network)
   
@@ -122,7 +123,7 @@ for (i.network in 1:length(list_Network_id)){
       
       # Check and correct node roles: plant/pollinator
       
-      for(i.edge in nrow(edge_list_motif_i)){
+      for(i.edge in 1:nrow(edge_list_motif_i)){
         
         if(!edge_list_motif_i$Pollinator_species[i.edge] %in% edge_list_i$Pollinator_species){
           poll_aux <- edge_list_motif_i$Plant_species[i.edge]
@@ -157,4 +158,7 @@ for (i.network in 1:length(list_Network_id)){
   file_motifs <- paste0(folder_motifs,"/Motifs_links_",list_Network_id[i.network],".csv") 
   write_csv(motifs_connections,file_motifs)
   
+  #Print time consumed
+  end_time <- Sys.time()
+  print(end_time-start_time)
 }

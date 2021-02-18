@@ -23,7 +23,21 @@ patterns <- read_csv("Data/Data_processing/Motifs_connections/motif_pattern_conn
 list_Network_id <- networks$Network_id %>% unique()
 list_parterns <- patterns$motif_id %>% unique()
 
-for (i.network in 1:length(list_Network_id)){
+# Select networks with fewer motifs
+
+min_num_motifs <- 0
+max_num_motifs <- 10000
+
+small_network_motifs <- read_csv("Data/Csv/network_frequency_motifs.csv") %>% filter(nodes<=5) %>%
+  group_by(Network_id) %>% count(wt = frequency) %>% filter(n >= min_num_motifs,
+                                                            n <= max_num_motifs) %>%
+  dplyr::select(Network_id) %>% pull()
+
+small_network_index <- which(list_Network_id %in% small_network_motifs)
+
+# Extract motifs' links for selected networks
+
+for (i.network in small_network_index){#1:length(list_Network_id)){
   
   start_time <- Sys.time()
   print(list_Network_id[i.network])
@@ -64,12 +78,35 @@ for (i.network in 1:length(list_Network_id)){
     
     motifs <- lapply(iso, function (x) { induced_subgraph(g_i, x) })
     
+    
+    # Remove elements with wrong number of pollinators in the pattern
+    # or incorrect edge distribution
+    
+    pollinators_pattern_i <- pattern_i$pollinator %>% unique() %>% length()
+    
+    for (i.motifs in length(motifs):1){
+      
+      nodes_i <- V(motifs[[i.motifs]])$name
+      
+      pollinators_motif_i <- sum(nodes_i %in% networks_i$Pollinator_species)
+      
+      if(pollinators_motif_i!=pollinators_pattern_i){
+        
+        motifs[[i.motifs]] <- NULL
+      
+      }else if(all(degree_distribution(p_i) != degree_distribution(motifs[[i.motifs]]))){
+        
+        motifs[[i.motifs]] <- NULL
+        
+      }
+      
+    }
+    
     # Filter non-correct motifs-----
     
     list_nodes <- NULL
     list_motifs_i <- NULL
     
-    pollinators_pattern_i <- pattern_i$pollinator %>% unique() %>% length()
     
     for (i.motifs in 1:length(motifs)){
       

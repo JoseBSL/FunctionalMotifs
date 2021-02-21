@@ -79,6 +79,7 @@ for (i.network in small_network_index[2:length(small_network_index)]){#1:length(
     
     
   }
+
   
   # Save results in folder
   folder_motifs <- "Data/Csv/Motifs links"

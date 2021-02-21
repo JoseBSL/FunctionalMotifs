@@ -259,6 +259,34 @@ connections_pattern_i <- function(motifs_connections,patterns,
     return(list(motifs_connections,df_motif_8_17))
     
   }else if(i.pattern == 17){
+    
+    # Since we will use our previous calculations for the 8th pattern, we calculated
+    # the motifs that are based on them.
+    
+    i.pattern <- 8
+    
+    # Create a graph for the i-th pattern
+    
+    pattern_i <- patterns %>% filter(motif_id == list_parterns[i.pattern])
+    edge_pattern_i  <- pattern_i[,c("pollinator","plant")]
+    p_i <- igraph::graph_from_edgelist(as.matrix(edge_pattern_i), directed = FALSE)
+    
+    # To create a two mode network we define the types
+    V(p_i)$type <- bipartite_mapping(p_i)$type
+    
+    # Calculate subgraph isomorphisms by using the patern of a given motif
+    
+    # WARNING subgraph_isomorphisms works with directed graphs and
+    # at the end of the day it duplicates the motifs in our list
+    # check manual: https://igraph.org/r/doc/subgraph_isomorphisms.html
+    
+    iso <- subgraph_isomorphisms(p_i, g_i)
+    
+    # WARNING subgraph_isomorphisms works with directed graphs and
+    # at the end of the day it duplicates the motifs in our list
+    # check manual: https://igraph.org/r/doc/subgraph_isomorphisms.html
+    
+    motifs <- lapply(iso, function (x) { induced_subgraph(g_i, x) })
 
     if(nrow(df_motif_8_17)>0){
       

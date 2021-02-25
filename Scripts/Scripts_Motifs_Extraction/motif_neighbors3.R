@@ -156,7 +156,7 @@ for (i.network in small_network_index){#1:length(list_Network_id)){
   print(end_time-start_time)
 }
 
-read_csv("Data/Csv/Motifs links/Motifs_links_15_2_peralta_2006_mendoza_site_2.csv") %>%
+read_csv("Data/Csv/Motifs links/Motifs_links_12_6_bartomeus_spain_2008_Elpozo_unp.csv") %>%
   dplyr::select(Motif_pattern_id,Motif_number) %>% unique() %>% 
   group_by(Motif_pattern_id) %>% count()
   

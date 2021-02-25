@@ -25,8 +25,8 @@ list_parterns <- patterns$motif_id %>% unique()
 
 # Select networks with fewer motifs
 
-min_num_motifs <- 0
-max_num_motifs <- 10000
+min_num_motifs <- 5300
+max_num_motifs <- 5400
 
 small_network_motifs <- read_csv("Data/Csv/network_frequency_motifs.csv") %>% filter(nodes<=5) %>%
   group_by(Network_id) %>% count(wt = frequency) %>% filter(n >= min_num_motifs,
@@ -37,7 +37,7 @@ small_network_index <- which(list_Network_id %in% small_network_motifs)
 
 # Extract motifs' links for selected networks
 
-for (i.network in small_network_index[5:length(small_network_index)]){#1:length(list_Network_id)){
+for (i.network in small_network_index){#1:length(list_Network_id)){
   
   start_time <- Sys.time()
   print(list_Network_id[i.network])
@@ -108,7 +108,7 @@ for (i.network in small_network_index[5:length(small_network_index)]){#1:length(
           
           df_motif_i$use[i.motifs] <- F
           
-        }else if(all(degree_distribution(p_i) != degree_distribution(motifs[[i.motifs]]))){
+        }else if(any(degree_distribution(p_i) != degree_distribution(motifs[[i.motifs]]))){
           
           df_motif_i$use[i.motifs] <- F
           
@@ -189,3 +189,7 @@ for (i.network in small_network_index[5:length(small_network_index)]){#1:length(
   end_time <- Sys.time()
   print(end_time-start_time)
 }
+
+read_csv("Data/Csv/Motifs links/Motifs_links_15_2_peralta_2006_mendoza_site_2.csv") %>%
+  dplyr::select(Motif_pattern_id,Motif_number) %>% unique() %>% 
+  group_by(Motif_pattern_id) %>% count()

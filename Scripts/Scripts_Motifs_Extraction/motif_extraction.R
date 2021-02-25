@@ -32,6 +32,7 @@ node_positions <- NULL # Store the frequency of motif positions for each node
 # We are not using weigths to estimate motif info
 mean_weight_i <-  F
 weights_method_i <-  'none'
+six_node_conf = F # only up to 5 nodes motifs
 
 # Get info
 
@@ -63,12 +64,12 @@ for (i.network in 1:length(list_Network_id)){
   # combinations that occur in a motif as a proportion of the number of species combinations that
   # could occur in that motif.
   
-  freq_motifs_i <- mcount(inc_matrix_i, six_node = T, normalisation = T,
+  freq_motifs_i <- mcount(inc_matrix_i, six_node = six_node_conf, normalisation = T,
                           mean_weight = mean_weight_i, standard_dev = F)
   
   # Nodes position in motifs --------
   # Check Normalisation information
-  node_positions_i <- node_positions(inc_matrix_i, six_node = T, level = "all",
+  node_positions_i <- node_positions(inc_matrix_i, six_node = six_node_conf, level = "all",
                                      weights_method = weights_method_i)
   
   

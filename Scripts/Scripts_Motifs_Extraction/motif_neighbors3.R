@@ -26,8 +26,8 @@ list_parterns <- patterns$motif_id %>% unique()
 
 # Select networks with fewer motifs
 
-min_num_motifs <- 55001
-max_num_motifs <- 110000
+min_num_motifs <- 1#110001
+max_num_motifs <- 5300#600000
 
 small_network_motifs <- read_csv("Data/Csv/network_frequency_motifs.csv") %>% filter(nodes<=5) %>%
   group_by(Network_id) %>% count(wt = frequency) %>% filter(n >= min_num_motifs,
@@ -38,7 +38,7 @@ small_network_index <- which(list_Network_id %in% small_network_motifs)
 
 # Extract motifs' links for selected networks
 
-for (i.network in small_network_index[2:length(small_network_index)]){#1:length(list_Network_id)){
+for (i.network in small_network_index){#1:length(list_Network_id)){
   
   start_time <- Sys.time()
   print(list_Network_id[i.network])
@@ -47,7 +47,10 @@ for (i.network in small_network_index[2:length(small_network_index)]){#1:length(
   # Initialize variables for storing purposes
   motifs_connections <- NULL # Store the connections of each motif
   df_motif_8_17 <- NULL # Auxiliary variable that storages info about patterns 8 and 17
-  
+  df_motif_9_13 <- NULL # Auxiliary variable that storages info about patterns 9 and 13
+  df_motif_10_14 <- NULL # Auxiliary variable that storages info about patterns 10 and 14
+  df_motif_11_15 <- NULL # Auxiliary variable that storages info about patterns 11 and 15
+  df_motif_12_16 <- NULL # Auxiliary variable that storages info about patterns 12 and 16
   
   # Create a graph for the i-th network
   networks_i <- networks %>% filter(Network_id == list_Network_id[i.network])
@@ -65,16 +68,78 @@ for (i.network in small_network_index[2:length(small_network_index)]){#1:length(
     
     if(i.pattern == 8){
       
-      results_8_17 <- connections_pattern_i(motifs_connections,patterns,
-                                            list_parterns,i.pattern,df_motif_8_17)
+      results_8_17 <- connections_pattern_i(g_i,motifs_connections,patterns,
+                                            list_parterns,i.pattern,
+                                            df_motif_8_17,
+                                            df_motif_9_13,
+                                            df_motif_10_14,
+                                            df_motif_11_15,
+                                            df_motif_12_16)
       
       motifs_connections <- results_8_17[[1]]
       df_motif_8_17 <- results_8_17[[2]]
       
+    }else if(i.pattern == 9){
+      
+      results_9_13 <- connections_pattern_i(g_i,motifs_connections,patterns,
+                                            list_parterns,i.pattern,
+                                            df_motif_8_17,
+                                            df_motif_9_13,
+                                            df_motif_10_14,
+                                            df_motif_11_15,
+                                            df_motif_12_16)
+      
+      motifs_connections <- results_9_13[[1]]
+      df_motif_9_13 <- results_9_13[[2]]
+      
+    }else if(i.pattern == 10){
+      
+      results_10_14 <- connections_pattern_i(g_i,motifs_connections,patterns,
+                                            list_parterns,i.pattern,
+                                            df_motif_8_17,
+                                            df_motif_9_13,
+                                            df_motif_10_14,
+                                            df_motif_11_15,
+                                            df_motif_12_16)
+      
+      motifs_connections <- results_10_14[[1]]
+      df_motif_10_14 <- results_10_14[[2]]
+      
+    }else if(i.pattern == 11){
+      
+      results_11_15 <- connections_pattern_i(g_i,motifs_connections,patterns,
+                                             list_parterns,i.pattern,
+                                             df_motif_8_17,
+                                             df_motif_9_13,
+                                             df_motif_10_14,
+                                             df_motif_11_15,
+                                             df_motif_12_16)
+      
+      motifs_connections <- results_11_15[[1]]
+      df_motif_11_15 <- results_11_15[[2]]
+      
+    }else if(i.pattern == 12){
+      
+      results_12_16 <- connections_pattern_i(g_i,motifs_connections,patterns,
+                                             list_parterns,i.pattern,
+                                             df_motif_8_17,
+                                             df_motif_9_13,
+                                             df_motif_10_14,
+                                             df_motif_11_15,
+                                             df_motif_12_16)
+      
+      motifs_connections <- results_12_16[[1]]
+      df_motif_12_16 <- results_12_16[[2]]
+      
     }else{
       
-      motifs_connections <- connections_pattern_i(motifs_connections,patterns,
-                                                  list_parterns,i.pattern,df_motif_8_17)
+      motifs_connections <- connections_pattern_i(g_i,motifs_connections,patterns,
+                                                  list_parterns,i.pattern,
+                                                  df_motif_8_17,
+                                                  df_motif_9_13,
+                                                  df_motif_10_14,
+                                                  df_motif_11_15,
+                                                  df_motif_12_16)
     }
     
     
@@ -90,3 +155,9 @@ for (i.network in small_network_index[2:length(small_network_index)]){#1:length(
   end_time <- Sys.time()
   print(end_time-start_time)
 }
+
+read_csv("Data/Csv/Motifs links/Motifs_links_15_2_peralta_2006_mendoza_site_2.csv") %>%
+  dplyr::select(Motif_pattern_id,Motif_number) %>% unique() %>% 
+  group_by(Motif_pattern_id) %>% count()
+  
+  

@@ -193,10 +193,10 @@ for (i in 1:length(motif_link_files)){
     
   motif_links_i_FG <- motif_links_i %>% left_join(all_FG, by = "Node_id")
   
-  # Rearrange data frame and display equal node positions alphabetically
+  # Sort functional groups in equal node positions
   
   motif_links_i_FG <- motif_links_i_FG %>% 
-    arrange(Motif_pattern_id,Motif_number,Position,Node_id)
+    arrange(Motif_pattern_id,Motif_number,Position,Functional_group)
   
   # Add motif functional ID
   

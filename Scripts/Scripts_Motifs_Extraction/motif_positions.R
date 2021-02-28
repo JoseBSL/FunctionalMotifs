@@ -193,7 +193,7 @@ for (i in 1:length(motif_link_files)){
     
   motif_links_i_FG <- motif_links_i %>% left_join(all_FG, by = "Node_id")
   
-  # Sort functional groups in equal node positions
+  # Sort positions as well as functional groups in equal node positions
   
   motif_links_i_FG <- motif_links_i_FG %>% 
     arrange(Motif_pattern_id,Motif_number,Position,Functional_group)

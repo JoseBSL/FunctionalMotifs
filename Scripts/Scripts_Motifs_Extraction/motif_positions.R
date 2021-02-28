@@ -21,6 +21,7 @@ motif_link_files <-  motif_files[grep("Motifs_links_",motif_files)]
 # Extract positions and save the results
 
 for (i in 1:length(motif_link_files)){
+
   
   start_time <- Sys.time()
   print(motif_link_files[i])
@@ -191,6 +192,11 @@ for (i in 1:length(motif_link_files)){
   all_FG <- bind_rows(pollinator_FG, plant_FG)
     
   motif_links_i_FG <- motif_links_i %>% left_join(all_FG, by = "Node_id")
+  
+  # Rearrange data frame and display equal node positions alphabetically
+  
+  motif_links_i_FG <- motif_links_i_FG %>% 
+    arrange(Motif_pattern_id,Motif_number,Position,Node_id)
   
   # Add motif functional ID
   

@@ -22,6 +22,9 @@ motif_link_files <-  motif_files[grep("Motifs_links_",motif_files)]
 
 for (i in 1:length(motif_link_files)){
   
+  start_time <- Sys.time()
+  print(motif_link_files[i])
+  
   # Open link file and rearrange it
   file_i <- paste0(folder_motif_data, "/", motif_link_files[i])
   motif_links_i <- read_csv(file_i) %>% 
@@ -231,5 +234,9 @@ for (i in 1:length(motif_link_files)){
   
   summary_file_i <- paste0(folder_motif_data, "/Summary_functional_motifs_", network_i, ".csv")
   write_csv(summary_i,summary_file_i)
+  
+  #Print time consumed
+  end_time <- Sys.time()
+  print(end_time-start_time)
   
 }

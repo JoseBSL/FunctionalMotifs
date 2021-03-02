@@ -78,6 +78,8 @@ ggplot(topology_motifs %>% filter(Connectance > 0),
                 labels = trans_format("log10", math_format(10^.x))) +
   scale_y_log10(breaks = trans_breaks("log10", function(x) 10^x),
                 labels = trans_format("log10", math_format(10^.x)))+
+  xlab("Number of pollinators x Number of plants")+
+  ylab("Number of (up to 5) motifs")+
   theme_bw()
 
 m1 <- lm(log10(Pollinators*Plants) ~ log10(total_motifs),

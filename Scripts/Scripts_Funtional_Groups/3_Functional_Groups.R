@@ -55,7 +55,8 @@ w <- c(0.1428,	#breeding system
        0.0285,0.0285,0.0285,0.0285,0.0285, #floral investment  	
        0.1428, #style length
        0.1428, #ovule number
-       0.0476,0.0476,0.0476) #life form
+       0.0476,0.0476,0.0476, #life form
+       0.1428) #nectar
 
 #calculate gowers distance for all species
 g.dist <- gowdis(trait_data)
@@ -94,7 +95,7 @@ ggplot(aes(x = X, y = Y), data = tsne_data) + geom_point(aes(color = cluster))
 ########################################################################################################################################################
 
 #SAVE 5 CLUSTERS
-#The order is still the same (I have check it previously) so I can cbind the output and trait data
+#The order is still the same (I have checked it previously) so I can cbind the output and trait data
 trait_data_5 <- cbind(trait_data, e.gr_5)
 head(trait_data_5)
 #change colname

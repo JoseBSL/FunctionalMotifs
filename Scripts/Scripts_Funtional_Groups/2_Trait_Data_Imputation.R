@@ -39,7 +39,7 @@ trait_data <- read_excel("Data/Trait_data_raw/Trait_data_final.xlsx",na = "NA")
 #A) CLEAN DATA
 #####
 #select just filled rows
-trait_data_1 <- trait_data[1:1711,]
+trait_data_1 <- trait_data[1:1712,]
 
 
 #filter data, select species with flower level info and capitulum
@@ -53,11 +53,9 @@ trait_filtered_2 <- trait_filtered_1[!duplicated(trait_filtered_1$Species_all),]
 
 #select columns of interest
 t <- trait_filtered_2[c("Species_geonet","Order_all","Family_all","Genus_all","Species_all","Breeding_system","IMPUTED_Compatibility","Autonomous_selfing_level",
-                  "Autonomous_selfing_level_fruit_set", "Flower_morphology", "Flower_symmetry", "Flowers_per_plant", "Flowers_per_inflorescence",
-                  "Floral_unit_width", "Corolla_diameter_mean", "Corolla_length_mean", "STYLE_IMPUTED", "OVULES_IMPUTED", "life_form", "lifespan",
-                  "IMPUTED_plant_height_mean_m")]
-
-
+                        "Autonomous_selfing_level_fruit_set", "Flower_morphology", "Flower_symmetry", "Flowers_per_plant", "Flowers_per_inflorescence",
+                        "Floral_unit_width", "Corolla_diameter_mean", "Corolla_length_mean", "STYLE_IMPUTED", "OVULES_IMPUTED", "life_form", "lifespan",
+                        "IMPUTED_plant_height_mean_m","Nectar_presence_absence","Nectar_ul","Nectar_mg","Nectar_concentration")]
 
 ########################################################################################################################################################
 #####
@@ -118,15 +116,27 @@ t$lifespan <- as.factor(t$lifespan )
 #Explore patterns of missing data
 missing_data <- unlist(lapply(t, function(x) sum(is.na(x))))/nrow(t)
 sort(missing_data[missing_data >= 0], decreasing=T)
-#just one cololumn with 68% missing data, then one with 35% and then 20% and 10%. The rest under 5%.
+#nectar values all above 50% except presence/absence
+#then, just one cololumn with 68% missing data, then one with 35% and then 20% and 10%. The rest under 5%.
 #it is recommended to remove columns over 50% but we are particulary interested in having numeric levels of quantitative selfing 
-#we are going to keep it due to the little missing data of the other columns
+#we are going to work just with presence/absence of nectar
+#we will perform further analysis just with a subset with the quantitative values o nectar (very interesting data and diffciult to obtain)
+
 
 #use ifelse base r does not work with these NA'S Even with work around. base r does not like the na option of read excel
 t$Autonomous_selfing_level_fruit_set <- ifelse(t$Autonomous_selfing_level %in% c("high") & is.na(t$Autonomous_selfing_level_fruit_set), 88, t$Autonomous_selfing_level_fruit_set)
 t$Autonomous_selfing_level_fruit_set <- ifelse(t$Autonomous_selfing_level %in% c("medium") & is.na(t$Autonomous_selfing_level_fruit_set), 50.5, t$Autonomous_selfing_level_fruit_set)
 t$Autonomous_selfing_level_fruit_set <- ifelse(t$Autonomous_selfing_level %in% c("low") & is.na(t$Autonomous_selfing_level_fruit_set), 13, t$Autonomous_selfing_level_fruit_set)
 t$Autonomous_selfing_level_fruit_set <- ifelse(t$Autonomous_selfing_level %in% c("none") & is.na(t$Autonomous_selfing_level_fruit_set), 0, t$Autonomous_selfing_level_fruit_set)
+
+
+#Now we just select presence/absence of nectar
+#select columns of interest
+t <- t[c("Species_geonet","Order_all","Family_all","Genus_all","Species_all","Breeding_system","IMPUTED_Compatibility","Autonomous_selfing_level",
+         "Autonomous_selfing_level_fruit_set", "Flower_morphology", "Flower_symmetry", "Flowers_per_plant", "Flowers_per_inflorescence",
+         "Floral_unit_width", "Corolla_diameter_mean", "Corolla_length_mean", "STYLE_IMPUTED", "OVULES_IMPUTED", "life_form", "lifespan",
+         "IMPUTED_plant_height_mean_m","Nectar_presence_absence")]
+
 
 #check missing data now
 missing_data <- unlist(lapply(t, function(x) sum(is.na(x))))/nrow(t)*100
@@ -140,7 +150,7 @@ sort(missing_data[missing_data >= 0], decreasing=T)
 
 #Convert to factor 
 cols <- c("Order_all", "Family_all", "Genus_all", "Species_all", "IMPUTED_Compatibility", "Autonomous_selfing_level", "Flower_morphology",
-          "Flower_symmetry", "life_form", "lifespan")
+          "Flower_symmetry", "life_form", "lifespan","Nectar_presence_absence")
 t[cols] <- lapply(t[cols], factor)  ## as.factor() could also be used
 str(t)
 
@@ -225,44 +235,43 @@ dat_phylo[cols.num] <- sapply(dat_phylo[cols.num],as.factor)
 ########################################################################################################################################################
 #6) IMPUTE DATA -TWO METHODS- FAMD AND RANDOM FOREST
 ########################################################################################################################################################
-
-#####
-#METHOD 1: FAMD
-#####
-# better output than random forest when there is colinearity of variables
-#Impute
-t_imputed <- imputeFAMD(dat_phylo[,c(6:22)], ncp=4,threshold = 1e-06,method="Regularized") 
-
-t_imputed_1 <- t_imputed$completeObs[,-17]
-str(t_imputed_1)
-
-sp<- dat_phylo[,c("Order_all","Family_all","Genus_all","Species_all")]
-#merge
-famd_data <- as.data.frame(cbind(sp, t_imputed_1))
-#add species geonet column 
-rownames(famd_data) <- dat_phylo$Species_geonet
-
-
-#The imputation with famd gives some values under the lower limit with ecological sense
-#fix and set new lower bound
-famd_data$Autonomous_selfing_level_fruit_set <-replace(famd_data$Autonomous_selfing_level_fruit_set, famd_data$Autonomous_selfing_level_fruit_set<0, 0)
-famd_data$Flowers_per_plant <-replace(famd_data$Flowers_per_plant, famd_data$Flowers_per_plant<1, 1)
-famd_data$Flowers_per_inflorescence <-replace(famd_data$Flowers_per_inflorescence, famd_data$Flowers_per_inflorescence<1, 1)
-famd_data$Floral_unit_width <-replace(famd_data$Floral_unit_width, famd_data$Floral_unit_width<1, 0.001)
-famd_data$Corolla_diameter_mean <-replace(famd_data$Corolla_diameter_mean, famd_data$Corolla_diameter_mean<1, 0.001)
-famd_data$Corolla_length_mean <-replace(famd_data$Corolla_length_mean, famd_data$Corolla_length_mean<1, 0.001)
-famd_data$STYLE_IMPUTED <-replace(famd_data$STYLE_IMPUTED, famd_data$STYLE_IMPUTED<1, 0.001)
-famd_data$OVULES_IMPUTED <-replace(famd_data$OVULES_IMPUTED, famd_data$OVULES_IMPUTED<1, 1)
-famd_data$IMPUTED_plant_height_mean_m <-replace(famd_data$IMPUTED_plant_height_mean_m, famd_data$IMPUTED_plant_height_mean_m<1, 0.001)
+######
+##METHOD 1: FAMD
+######
+## better output than random forest when there is colinearity of variables
+##Impute
+#t_imputed <- imputeFAMD(dat_phylo[,c(6:23)], ncp=4,threshold = 1e-06,method="Regularized") 
+#
+#t_imputed_1 <- t_imputed$completeObs[,-18]
+#str(t_imputed_1)
+#
+#sp <- dat_phylo[,c("Order_all","Family_all","Genus_all","Species_all")]
+##merge
+#famd_data <- as.data.frame(cbind(sp, t_imputed_1))
+##add species geonet column 
+#rownames(famd_data) <- dat_phylo$Species_geonet
+#
+#
+##The imputation with famd gives some values under the lower limit with ecological sense
+##fix and set new lower bound
+#famd_data$Autonomous_selfing_level_fruit_set <-replace(famd_data$Autonomous_selfing_level_fruit_set, famd_data$Autonomous_selfing_level_fruit_set<0, 0)
+#famd_data$Flowers_per_plant <-replace(famd_data$Flowers_per_plant, famd_data$Flowers_per_plant<1, 1)
+#famd_data$Flowers_per_inflorescence <-replace(famd_data$Flowers_per_inflorescence, famd_data$Flowers_per_inflorescence<1, 1)
+#famd_data$Floral_unit_width <-replace(famd_data$Floral_unit_width, famd_data$Floral_unit_width<1, 0.001)
+#famd_data$Corolla_diameter_mean <-replace(famd_data$Corolla_diameter_mean, famd_data$Corolla_diameter_mean<1, 0.001)
+#famd_data$Corolla_length_mean <-replace(famd_data$Corolla_length_mean, famd_data$Corolla_length_mean<1, 0.001)
+#famd_data$STYLE_IMPUTED <-replace(famd_data$STYLE_IMPUTED, famd_data$STYLE_IMPUTED<1, 0.001)
+#famd_data$OVULES_IMPUTED <-replace(famd_data$OVULES_IMPUTED, famd_data$OVULES_IMPUTED<1, 1)
+#famd_data$IMPUTED_plant_height_mean_m <-replace(famd_data$IMPUTED_plant_height_mean_m, famd_data$IMPUTED_plant_height_mean_m<1, 0.001)
 ########################################################################################################################################################
 
 #####
 #METHOD 2: RANDOM FOREST
 #####
-forest_imputed <- missForest(dat_phylo[,c(6:22)], maxiter = 10,mtry = 4, ntree = 200)
+forest_imputed <- missForest(dat_phylo[,c(6:23)], maxiter = 10,mtry = 4, ntree = 200)
 f_imp_data <- forest_imputed$ximp
 #remove last column of eigens
-f_imp_data <- f_imp_data[,-17]
+f_imp_data <- f_imp_data[,-18]
 #add species names
 spp <- dat_phylo[,c("Order_all","Family_all","Genus_all","Species_all")]
 forest_data <- cbind(spp, f_imp_data)
@@ -273,7 +282,6 @@ rownames(forest_data) <- dat_phylo$Species_geonet
 #7) SAVE THE TWO IMPUTATION METHODS
 ########################################################################################################################################################
 write.csv(forest_data, "Data/Csv/all_species_imputed_trait_data_forest_data.csv")
-write.csv(famd_data, "Data/Csv/all_species_imputed_trait_data_famd_data.csv")
 ########################################################################################################################################################
 ########################################################################################################################################################
 ########################################################################################################################################################

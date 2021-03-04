@@ -851,6 +851,123 @@ all_long_poll_names$order[all_long_poll_names$Pollinator_species=="Zizina sp."] 
 all_long_poll_names$family[all_long_poll_names$Pollinator_species=="Zizina sp."] <- "Lycaenidae"
 all_long_poll_names$genus[all_long_poll_names$Pollinator_species=="Zizina sp."] <- "Zizinia"
 
+#Acromyrmex lobicornis
+all_long_poll_names$order[all_long_poll_names$Pollinator_species=="Acromyrmex lobicornis"] <- "Hymenoptera"
+all_long_poll_names$family[all_long_poll_names$Pollinator_species=="Acromyrmex lobicornis"] <- "Formicidae"
+all_long_poll_names$genus[all_long_poll_names$Pollinator_species=="Acromyrmex lobicornis"] <- "Acromyrmex"
+
+#Audre sp.
+all_long_poll_names$order[all_long_poll_names$Pollinator_species=="Audre sp."] <- "Lepidoptera"
+all_long_poll_names$family[all_long_poll_names$Pollinator_species=="Audre sp."] <- "Papilionidae"
+all_long_poll_names$genus[all_long_poll_names$Pollinator_species=="Audre sp."] <- "Audre"
+
+#Chaetophthalamus dorsalis
+all_long_poll_names$order[all_long_poll_names$Pollinator_species=="Chaetophthalamus dorsalis"] <- "Diptera"
+all_long_poll_names$family[all_long_poll_names$Pollinator_species=="Chaetophthalamus dorsalis"] <- NA
+all_long_poll_names$genus[all_long_poll_names$Pollinator_species=="Chaetophthalamus dorsalis"] <- NA
+
+#Danaidae sp..
+all_long_poll_names$order[all_long_poll_names$Pollinator_species=="Danaidae sp."] <- "Lepidoptera"
+all_long_poll_names$family[all_long_poll_names$Pollinator_species=="Danaidae sp."] <- "Nymphalidae"
+all_long_poll_names$genus[all_long_poll_names$Pollinator_species=="Danaidae sp."] <- NA
+
+#Dermestidae sp.2
+all_long_poll_names$order[all_long_poll_names$Pollinator_species=="Dermestidae sp.2"] <- "Coleoptera"
+all_long_poll_names$family[all_long_poll_names$Pollinator_species=="Dermestidae sp.2"] <- "Dermestidae"
+all_long_poll_names$genus[all_long_poll_names$Pollinator_species=="Dermestidae sp.2"] <- NA
+
+#Dolichoderus bispinosus
+all_long_poll_names$order[all_long_poll_names$Pollinator_species=="Dolichoderus bispinosus"] <- "Hymenoptera"
+all_long_poll_names$family[all_long_poll_names$Pollinator_species=="Dolichoderus bispinosus"] <- "Formicidae"
+all_long_poll_names$genus[all_long_poll_names$Pollinator_species=="Dolichoderus bispinosus"] <- "Dolichoderus"
+
+#Ephydridae
+all_long_poll_names$order[all_long_poll_names$Pollinator_species=="Ephydridae"] <- "Diptera"
+all_long_poll_names$family[all_long_poll_names$Pollinator_species=="Ephydridae"] <- "Ephydridae"
+all_long_poll_names$genus[all_long_poll_names$Pollinator_species=="Ephydridae"] <- NA
+
+#Eudaeus sp.
+all_long_poll_names$order[all_long_poll_names$Pollinator_species=="Eudaeus sp."] <- "Coleoptera"
+all_long_poll_names$family[all_long_poll_names$Pollinator_species=="Eudaeus sp."] <- "Curculionidae"
+all_long_poll_names$genus[all_long_poll_names$Pollinator_species=="Eudaeus sp."] <- NA
+
+#Exonera sp.1
+all_long_poll_names$order[all_long_poll_names$Pollinator_species=="Exonera sp.1"] <- "Hymenoptera"
+all_long_poll_names$family[all_long_poll_names$Pollinator_species=="Exonera sp.1"] <- NA
+all_long_poll_names$genus[all_long_poll_names$Pollinator_species=="Exonera sp.1"] <- NA
+
+#near Eurycratus sp1 
+all_long_poll_names$order[all_long_poll_names$Pollinator_species=="near Eurycratus sp1 "] <- "Coleoptera"
+all_long_poll_names$family[all_long_poll_names$Pollinator_species=="near Eurycratus sp1 "] <- NA
+all_long_poll_names$genus[all_long_poll_names$Pollinator_species=="near Eurycratus sp1 "] <- NA
+
+#Physiphora azurea
+all_long_poll_names$order[all_long_poll_names$Pollinator_species=="Physiphora azurea"] <- "Diptera"
+all_long_poll_names$family[all_long_poll_names$Pollinator_species=="Physiphora azurea"] <- "Ulidiidae"
+all_long_poll_names$genus[all_long_poll_names$Pollinator_species=="Physiphora azurea"] <- "Physiphora"
+
+#Pieris sp.
+all_long_poll_names$order[all_long_poll_names$Pollinator_species=="Pieris sp."] <- "Lepidoptera"
+all_long_poll_names$family[all_long_poll_names$Pollinator_species=="Pieris sp."] <- "Pieridae"
+all_long_poll_names$genus[all_long_poll_names$Pollinator_species=="Pieris sp."] <- "Pieris"
+
+#Pieris rapae
+all_long_poll_names$order[all_long_poll_names$Pollinator_species=="Pieris rapae"] <- "Lepidoptera"
+all_long_poll_names$family[all_long_poll_names$Pollinator_species=="Pieris rapae"] <- "Pieridae"
+all_long_poll_names$genus[all_long_poll_names$Pollinator_species=="Pieris rapae"] <- "Pieris"
+
+#Pieris rapae
+all_long_poll_names$order[all_long_poll_names$Pollinator_species=="Pieris napi"] <- "Lepidoptera"
+all_long_poll_names$family[all_long_poll_names$Pollinator_species=="Pieris napi"] <- "Pieridae"
+all_long_poll_names$genus[all_long_poll_names$Pollinator_species=="Pieris napi"] <- "Pieris"
+
+#Pieris rapae
+all_long_poll_names$order[all_long_poll_names$Pollinator_species=="Pieris sp.1"] <- "Lepidoptera"
+all_long_poll_names$family[all_long_poll_names$Pollinator_species=="Pieris sp.1"] <- "Pieridae"
+all_long_poll_names$genus[all_long_poll_names$Pollinator_species=="Pieris sp.1"] <- "Pieris"
+
+#Pieris brassicae
+all_long_poll_names$order[all_long_poll_names$Pollinator_species=="Pieris brassicae"] <- "Lepidoptera"
+all_long_poll_names$family[all_long_poll_names$Pollinator_species=="Pieris brassicae"] <- "Pieridae"
+all_long_poll_names$genus[all_long_poll_names$Pollinator_species=="Pieris brassicae"] <- "Pieris"
+
+#Prohardya carinata
+all_long_poll_names$order[all_long_poll_names$Pollinator_species=="Prohardya carinata"] <- "Diptera"
+all_long_poll_names$family[all_long_poll_names$Pollinator_species=="Prohardya carinata"] <- NA
+all_long_poll_names$genus[all_long_poll_names$Pollinator_species=="Prohardya carinata"] <- NA
+
+
+
+
+
+#remove network "mistakes"
+all_long_poll_names <- all_long_poll_names[ grep("Agrostis atritegulator", all_long_poll_names$Pollinator_species, invert = TRUE) , ]
+all_long_poll_names <- all_long_poll_names[ grep("Alophera sp.1", all_long_poll_names$Pollinator_species, invert = TRUE) , ]
+all_long_poll_names <- all_long_poll_names[ grep("Anosymia sp.", all_long_poll_names$Pollinator_species, invert = TRUE) , ]
+all_long_poll_names <- all_long_poll_names[ grep("Mydeae sp.", all_long_poll_names$Pollinator_species, invert = TRUE) , ]
+#removing earthworms
+all_long_poll_names <- all_long_poll_names[ grep("Panara naso", all_long_poll_names$Pollinator_species, invert = TRUE) , ]
+#removing Unidentified
+all_long_poll_names <- all_long_poll_names[ grep("sp.1", all_long_poll_names$Pollinator_species, invert = TRUE) , ]
+all_long_poll_names <- all_long_poll_names[ grep("sp.2", all_long_poll_names$Pollinator_species, invert = TRUE) , ]
+all_long_poll_names <- all_long_poll_names[ grep("sp.3", all_long_poll_names$Pollinator_species, invert = TRUE) , ]
+all_long_poll_names <- all_long_poll_names[ grep("sp.4", all_long_poll_names$Pollinator_species, invert = TRUE) , ]
+all_long_poll_names <- all_long_poll_names[ grep("sp.5", all_long_poll_names$Pollinator_species, invert = TRUE) , ]
+all_long_poll_names <- all_long_poll_names[ grep("Unientified sp.1", all_long_poll_names$Pollinator_species, invert = TRUE) , ]
+all_long_poll_names <- all_long_poll_names[ grep("Unidentified sp.1", all_long_poll_names$Pollinator_species, invert = TRUE) , ]
+all_long_poll_names <- all_long_poll_names[ grep("Unidentified sp.5", all_long_poll_names$Pollinator_species, invert = TRUE) , ]
+all_long_poll_names <- all_long_poll_names[ grep("Unidentified sp.8", all_long_poll_names$Pollinator_species, invert = TRUE) , ]
+all_long_poll_names <- all_long_poll_names[ grep("Unientified sp.2", all_long_poll_names$Pollinator_species, invert = TRUE) , ]
+all_long_poll_names <- all_long_poll_names[ grep("Unientified sp.3", all_long_poll_names$Pollinator_species, invert = TRUE) , ]
+all_long_poll_names <- all_long_poll_names[ grep("Unidentified sp.6", all_long_poll_names$Pollinator_species, invert = TRUE) , ]
+all_long_poll_names <- all_long_poll_names[ grep("Unidentified sp.7", all_long_poll_names$Pollinator_species, invert = TRUE) , ]
+all_long_poll_names <- all_long_poll_names[ grep("Unidentified sp.2", all_long_poll_names$Pollinator_species, invert = TRUE) , ]
+all_long_poll_names <- all_long_poll_names[ grep("Unidentified sp.3", all_long_poll_names$Pollinator_species, invert = TRUE) , ]
+all_long_poll_names <- all_long_poll_names[ grep("Unidentified sp.4", all_long_poll_names$Pollinator_species, invert = TRUE) , ]
+all_long_poll_names <- all_long_poll_names[ grep("Unientified sp.4", all_long_poll_names$Pollinator_species, invert = TRUE) , ]
+all_long_poll_names <- all_long_poll_names[ grep("Unidentified sp.9", all_long_poll_names$Pollinator_species, invert = TRUE) , ]
+
+
 all_long_poll_names$guild <- NA
 
 #Add pollinator guilds for analysis
@@ -866,6 +983,30 @@ all_long_poll_names$guild[all_long_poll_names$family=="Andrenidae"] <- "Bee"
 all_long_poll_names$guild[all_long_poll_names$family=="Colletidae"] <- "Bee"
 all_long_poll_names$guild[all_long_poll_names$family=="Melittidae"] <- "Bee"
 all_long_poll_names$guild[all_long_poll_names$family=="Stenotritidae"] <- "Bee"
+#Now the other guilds
+
+all_long_poll_names$guild[all_long_poll_names$Pollinator_species=="Acarina sp.1"] <- "Other_insects"
+all_long_poll_names$guild[all_long_poll_names$order=="Neuroptera"] <- "Other_insects"
+all_long_poll_names$guild[all_long_poll_names$order=="Neuroptera"] <- "Other_insects"
+all_long_poll_names$guild[all_long_poll_names$order=="Neuroptera"] <- "Other_insects"
+all_long_poll_names$guild[all_long_poll_names$order=="Hemiptera"] <- "Other_insects"
+all_long_poll_names$guild[all_long_poll_names$order=="Orthoptera"] <- "Other_insects"
+all_long_poll_names$guild[all_long_poll_names$order=="Dermaptera"] <- "Other_insects"
+all_long_poll_names$guild[all_long_poll_names$order=="Blattodea"] <- "Other_insects"
+all_long_poll_names$guild[all_long_poll_names$order=="Isopoda"] <- "Other_insects"
+all_long_poll_names$guild[all_long_poll_names$order=="Araneae"] <- "Other_insects"
+all_long_poll_names$guild[all_long_poll_names$order=="Thysanoptera"] <- "Other_insects"
+
+
+all_long_poll_names$guild[all_long_poll_names$order=="Apodiformes"] <- "Birds"
+all_long_poll_names$guild[all_long_poll_names$Pollinator_species=="Cinnyris dussumieri"] <- "Birds"
+all_long_poll_names$guild[all_long_poll_names$order=="Passeriformes"] <- "Birds"
+
+all_long_poll_names$guild[all_long_poll_names$order=="Squamata"] <- "Lizards"
+
+
+na <- all_long_poll_names[is.na(all_long_poll_names$guild),]
+#check for na
 
 #Aggregate by poll guild
 #all_poll <- reshape2::dcast(Plant_species + guild +Id ~ "Interaction", value.var = "Interaction", fun.aggregate = sum, data = all_long_poll_names, na.rm= TRUE)

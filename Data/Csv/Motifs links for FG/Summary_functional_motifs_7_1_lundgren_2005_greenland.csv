@@ -1,0 +1,16 @@
+Network_id,Motif_pattern_id,Motif_functional_ID,Counts
+7_1_lundgren_2005_greenland,1,2_Lepidoptera,1
+7_1_lundgren_2005_greenland,1,2_Non-syrphids-diptera,1
+7_1_lundgren_2005_greenland,1,2_Other_insects,1
+7_1_lundgren_2005_greenland,1,2_Syrphids,1
+7_1_lundgren_2005_greenland,3,2_Lepidoptera_Non-syrphids-diptera,1
+7_1_lundgren_2005_greenland,3,2_Lepidoptera_Other_insects,1
+7_1_lundgren_2005_greenland,3,2_Lepidoptera_Syrphids,1
+7_1_lundgren_2005_greenland,3,2_Non-syrphids-diptera_Other_insects,1
+7_1_lundgren_2005_greenland,3,2_Non-syrphids-diptera_Syrphids,1
+7_1_lundgren_2005_greenland,3,2_Other_insects_Syrphids,1
+7_1_lundgren_2005_greenland,4,2_Lepidoptera_Non-syrphids-diptera_Other_insects,1
+7_1_lundgren_2005_greenland,4,2_Lepidoptera_Non-syrphids-diptera_Syrphids,1
+7_1_lundgren_2005_greenland,4,2_Lepidoptera_Other_insects_Syrphids,1
+7_1_lundgren_2005_greenland,4,2_Non-syrphids-diptera_Other_insects_Syrphids,1
+7_1_lundgren_2005_greenland,8,2_Lepidoptera_Non-syrphids-diptera_Other_insects_Syrphids,1

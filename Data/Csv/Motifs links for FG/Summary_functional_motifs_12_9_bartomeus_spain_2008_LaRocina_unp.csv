@@ -1,0 +1,17 @@
+Network_id,Motif_pattern_id,Motif_functional_ID,Counts
+12_9_bartomeus_spain_2008_LaRocina_unp,1,3_Bee,1
+12_9_bartomeus_spain_2008_LaRocina_unp,1,3_Syrphids,1
+12_9_bartomeus_spain_2008_LaRocina_unp,1,5_Bee,1
+12_9_bartomeus_spain_2008_LaRocina_unp,1,5_Non-syrphids-diptera,1
+12_9_bartomeus_spain_2008_LaRocina_unp,1,5_Syrphids,1
+12_9_bartomeus_spain_2008_LaRocina_unp,2,3_5_Bee,1
+12_9_bartomeus_spain_2008_LaRocina_unp,2,3_5_Syrphids,1
+12_9_bartomeus_spain_2008_LaRocina_unp,3,3_Bee_Syrphids,1
+12_9_bartomeus_spain_2008_LaRocina_unp,3,5_Bee_Non-syrphids-diptera,1
+12_9_bartomeus_spain_2008_LaRocina_unp,3,5_Bee_Syrphids,1
+12_9_bartomeus_spain_2008_LaRocina_unp,3,5_Non-syrphids-diptera_Syrphids,1
+12_9_bartomeus_spain_2008_LaRocina_unp,4,5_Bee_Non-syrphids-diptera_Syrphids,1
+12_9_bartomeus_spain_2008_LaRocina_unp,5,3_5_Non-syrphids-diptera_Bee,1
+12_9_bartomeus_spain_2008_LaRocina_unp,5,3_5_Non-syrphids-diptera_Syrphids,1
+12_9_bartomeus_spain_2008_LaRocina_unp,6,3_5_Bee_Syrphids,1
+12_9_bartomeus_spain_2008_LaRocina_unp,11,3_5_Non-syrphids-diptera_Bee_Syrphids,1

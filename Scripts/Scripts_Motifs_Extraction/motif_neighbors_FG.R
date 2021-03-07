@@ -1,0 +1,168 @@
+
+# This script (i) replaces species nodes by their corresponding functional group, and 
+# (ii) extracts the interactions of (up to 5 nodes) motifs and save them in the
+# folder "Data/Csv/Motifs links for FG"
+
+# Load libraries
+library(tidyverse)
+library(igraph)
+source("Scripts/Scripts_Motifs_Extraction/aux_functions_FG.R")
+
+# CLEANING----------
+# Load data networks raw data and select those interactions whose Interaction frequency is 
+# greater than a given threshold
+
+int.threshold <- 1
+
+networks <- read_csv("Data/Csv/data_for_motifs_analysis_1.csv") %>% select(-X1) %>%
+  filter(Interaction >= int.threshold)
+
+patterns <- read_csv("Data/Data_processing/Motifs_connections/motif_pattern_connections.csv")
+
+# MOTIF MINING --------
+
+# Get the list of networks and motif patterns that are available to iterate
+list_Network_id <- networks$Network_id %>% unique()
+list_parterns <- patterns$motif_id %>% unique()
+
+# Select networks with fewer motifs
+
+min_num_motifs <- 0
+max_num_motifs <- 2000
+
+small_network_motifs <- read_csv("Data/Csv/network_frequency_motifs_FG.csv") %>% filter(nodes<=5) %>%
+  group_by(Network_id) %>% count(wt = frequency) %>% filter(n >= min_num_motifs,
+                                                            n <= max_num_motifs) %>%
+  dplyr::select(Network_id) %>% pull()
+
+small_network_index <- which(list_Network_id %in% small_network_motifs)
+
+# Extract motifs' links for selected networks
+
+for (i.network in small_network_index){#1:length(list_Network_id)){
+  
+  start_time <- Sys.time()
+  print(list_Network_id[i.network])
+  print(i.network)
+  
+  # Initialize variables for storing purposes
+  motifs_connections <- NULL # Store the connections of each motif
+  df_motif_8_17 <- NULL # Auxiliary variable that storages info about patterns 8 and 17
+  df_motif_9_13 <- NULL # Auxiliary variable that storages info about patterns 9 and 13
+  df_motif_10_14 <- NULL # Auxiliary variable that storages info about patterns 10 and 14
+  df_motif_11_15 <- NULL # Auxiliary variable that storages info about patterns 11 and 15
+  df_motif_12_16 <- NULL # Auxiliary variable that storages info about patterns 12 and 16
+  
+  # Create a graph for the i-th network
+  networks_i <- networks %>% filter(Network_id == list_Network_id[i.network])
+  networks_i <- networks_i %>% 
+    group_by(Pollinator_functional_group,Plant_functional_groups) %>%
+    count(wt = Interaction) %>% rename(Interaction = n)
+  edge_list_i <- networks_i[,c("Pollinator_functional_group","Plant_functional_groups")]
+  
+  g_i <- igraph::graph_from_edgelist(as.matrix(edge_list_i), directed = F)
+  
+  # To create a two mode network we define the types
+  V(g_i)$type <- bipartite_mapping(g_i)$type  ## Add the "type" attribute to the network.
+  
+  
+  for(i.pattern_index in 1:length(list_parterns)){
+    
+    i.pattern <- list_parterns[i.pattern_index]
+    
+    if(i.pattern == 8){
+      
+      results_8_17 <- connections_pattern_i(g_i,motifs_connections,patterns,
+                                            list_parterns,i.pattern,
+                                            df_motif_8_17,
+                                            df_motif_9_13,
+                                            df_motif_10_14,
+                                            df_motif_11_15,
+                                            df_motif_12_16)
+      
+      motifs_connections <- results_8_17[[1]]
+      df_motif_8_17 <- results_8_17[[2]]
+      
+    }else if(i.pattern == 9){
+      
+      results_9_13 <- connections_pattern_i(g_i,motifs_connections,patterns,
+                                            list_parterns,i.pattern,
+                                            df_motif_8_17,
+                                            df_motif_9_13,
+                                            df_motif_10_14,
+                                            df_motif_11_15,
+                                            df_motif_12_16)
+      
+      motifs_connections <- results_9_13[[1]]
+      df_motif_9_13 <- results_9_13[[2]]
+      
+    }else if(i.pattern == 10){
+      
+      results_10_14 <- connections_pattern_i(g_i,motifs_connections,patterns,
+                                            list_parterns,i.pattern,
+                                            df_motif_8_17,
+                                            df_motif_9_13,
+                                            df_motif_10_14,
+                                            df_motif_11_15,
+                                            df_motif_12_16)
+      
+      motifs_connections <- results_10_14[[1]]
+      df_motif_10_14 <- results_10_14[[2]]
+      
+    }else if(i.pattern == 11){
+      
+      results_11_15 <- connections_pattern_i(g_i,motifs_connections,patterns,
+                                             list_parterns,i.pattern,
+                                             df_motif_8_17,
+                                             df_motif_9_13,
+                                             df_motif_10_14,
+                                             df_motif_11_15,
+                                             df_motif_12_16)
+      
+      motifs_connections <- results_11_15[[1]]
+      df_motif_11_15 <- results_11_15[[2]]
+      
+    }else if(i.pattern == 12){
+      
+      results_12_16 <- connections_pattern_i(g_i,motifs_connections,patterns,
+                                             list_parterns,i.pattern,
+                                             df_motif_8_17,
+                                             df_motif_9_13,
+                                             df_motif_10_14,
+                                             df_motif_11_15,
+                                             df_motif_12_16)
+      
+      motifs_connections <- results_12_16[[1]]
+      df_motif_12_16 <- results_12_16[[2]]
+      
+    }else{
+      
+      motifs_connections <- connections_pattern_i(g_i,motifs_connections,patterns,
+                                                  list_parterns,i.pattern,
+                                                  df_motif_8_17,
+                                                  df_motif_9_13,
+                                                  df_motif_10_14,
+                                                  df_motif_11_15,
+                                                  df_motif_12_16)
+    }
+    
+    
+  }
+
+  
+  # Save results in folder
+  folder_motifs <- "Data/Csv/Motifs links for FG"
+  file_motifs <- paste0(folder_motifs,"/Motifs_links_",list_Network_id[i.network],".csv") 
+  write_csv(motifs_connections,file_motifs)
+  
+  #Print time consumed
+  end_time <- Sys.time()
+  print(end_time-start_time)
+}
+
+
+read_csv("Data/Csv/Motifs links for FG/Motifs_links_15_2_peralta_2006_mendoza_site_2.csv") %>%
+  dplyr::select(Motif_pattern_id,Motif_number) %>% unique() %>% 
+  group_by(Motif_pattern_id) %>% count()
+  
+  

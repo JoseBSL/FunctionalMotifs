@@ -9,5 +9,24 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ##ABSTRACT
 
-The interaction between plants and pollinators can be studied at different scales, from species level interactions (micro-scale) to the full network structure (macro-scale). However, condensing to species level and the holistic view of the full network involves missing relevant information for the understanding of ecological processes. Intermediate levels to study plant-pollinator networks (meso-scale) have been little explored but can shed light of ecological processes not captured by the traditional approaches used in plant-pollinator network studies. On the meso-scale, smaller versions of the full network are considered with a reduced number of species and are also known as motifs. Exploring with motifs plant-pollinator interactions could help our understanding of species interactions due to motifs consider both direct and indirect species interactions. In this study, we have defined for 29 plant-pollinator networks plant's and pollinator's functional groups and explored the most common pattern of motifs between them. We found [...]
+The interaction between plants and pollinators can be studied at different scales, from species level interactions (micro-scale) to the full network structure (macro-scale). However, condensing to species level and the holistic view of the full network involves missing relevant information for the understanding of ecological processes. Intermediate levels to study plant-pollinator networks (meso-scale) have been little explored but can shed light of ecological processes not captured by the traditional approaches used in plant-pollinator network studies. On the meso-scale, smaller versions of the full network are considered with a reduced number of species which are also known as motifs. Exploring the different and most frequent motifs could help our understanding of species interactions due to motifs consider direct and indirect interactions not accounted in single species metrics. In order to progress knowledge in plant-pollinator networks we have compiled 60 networks from 29 different studies and defined plant functional groups by using a comprehensive dataset with several reproductive traits and pollinator functional groups as the main differentiated guilds in life form and behaviour. Then, we explored the main motifs of these networks and we found [...]
 
+
+
+Analysis:
+
+__Ranking de motifs__
+Alfonso en slack
+1) reemplazar en cada red los "nodos especie" de plantas y visitantes florales por su correspondiente "nodo de grupo funcional"
+2) colapsar en cada red todos los nodos del mismo grupo funcional en uno solo
+3) descomponer en motifs (de hasta 5 nodos) la estructura resultante del paso 2
+Los rankings absolutos (contando enlaces [Motifs 1-17] y sin contar enlaces [Motifs 2-17]) quedan así
+
+
+##INTRODUCTION
+
+##METHODS
+
+We have compiled 60 plant-pollinator networks from 29 different studies [...]
+
+##RESULTS

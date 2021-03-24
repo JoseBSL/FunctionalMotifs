@@ -1,0 +1,13 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##ABSTRACT
+
+The interaction between plants and pollinators can be studied at different scales, from species level interactions (micro-scale) to the full network structure (macro-scale). However, condensing to species level and the holistic view of the full network involves missing relevant information for the understanding of ecological processes. Intermediate levels to study plant-pollinator networks (meso-scale) have been little explored but can shed light of ecological processes not captured by the traditional approaches used in plant-pollinator network studies. On the meso-scale, smaller versions of the full network are considered with a reduced number of species and are also known as motifs. Exploring with motifs plant-pollinator interactions could help our understanding of species interactions due to motifs consider both direct and indirect species interactions. In this study, we have defined for 29 plant-pollinator networks plant's and pollinator's functional groups and explored the most common pattern of motifs between them. We found [...]
+

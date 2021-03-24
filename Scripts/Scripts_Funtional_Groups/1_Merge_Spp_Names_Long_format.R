@@ -27,7 +27,7 @@ library(tidyverse)
 #1) LOAD NETWORK DATA
 ########################################################################################################################################################
 #Set working directory to read files
-setwd("~/R_Projects/Reproductive traits/Data/Data_networks_quantitative") 
+setwd("~/R_Projects/FunctionalMotifs/Data/Data_networks_quantitative") 
 
 temp <- list.files(pattern="*.csv")
 my.list <- list(for (i in 1:length(temp)) assign(temp[i], read.csv(temp[i])))
@@ -58,7 +58,7 @@ colnames(all_long) <- c("Plant_species", "Id", "Pollinator_species", "Interactio
 #BECAUSE OF SOME NETWORKS WERE ADDED LATE)
 #PLANT SPECIES NAMES HAS BEEN ALSO BEEN SEARCHED BUT PREVIOUSLY WITH TAXSIZE
 
-setwd("~/R_Projects/Reproductive traits") 
+setwd("~/R_Projects/FunctionalMotifs") 
 poll_names <- read.csv("Data/Data_processing/pollinator_species_names/poll_spp_names_corrected.csv")
 #select unique word in order to meger
 all_long$genus_old <- word(all_long$Pollinator_species)

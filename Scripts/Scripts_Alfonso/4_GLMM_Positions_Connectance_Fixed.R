@@ -4,57 +4,52 @@ library(lme4)
 library(nlme)
 
 # List the files with information about the positions
-folder_motif_data <- "Data/Csv/Motifs positions and null models"
+file_pos <- "Data/Csv/Motifs positions and null models/GF_positions_frequency_percentile.csv"
+all_position_percentiles <- read_csv(file_pos)
 
-position_files <- list.files(folder_motif_data) 
-position_percentile_files <-  position_files[grep("Position_quantiles_Conn_Fixed_",
-                                                  position_files)]
-
-all_position_percentiles <- NULL
-
-for(i in 1:length(position_percentile_files)){
-  
-  # Open link file and rearrange it
-  file_i <- paste0(folder_motif_data, "/", position_percentile_files[i])
-  all_position_percentiles_i <- read_csv(file_i)
-  
-  all_position_percentiles <- bind_rows(all_position_percentiles, all_position_percentiles_i)
-  
-}
-
+# Create different dataframes for plant and pollinators, and remove data for postions np1 and np2,
+# and leave only those positions that can be occupied either by plants or poll. 
 list_plants_FG <- as.character(1:10)
 
-plant_position_percentiles <- all_position_percentiles %>% 
-  filter(Node_FG %in% list_plants_FG)
-pollinatior_position_percentiles <- all_position_percentiles %>% 
-  filter(!Node_FG %in% list_plants_FG)
-
-# Remove plant positions from  the data for pollinators' FG
-
-pollinator_positions <- which(is.na(plant_position_percentiles[1,]))
-pollinator_position_percentiles_filtered <- 
-  pollinatior_position_percentiles[,c(1,3,pollinator_positions)] %>%
-  gather("position", "percentile",-Network_id,-Node_FG)
-
-# Remove pollinator positions from  the data for plant' FG
-plant_positions <- which(is.na(pollinatior_position_percentiles[1,]))
-plant_position_percentiles_filtered <- plant_position_percentiles[,c(1,3,plant_positions)] %>%
-  gather("position", "percentile",-Network_id,-Node_FG)
-
-
+plant_position_percentiles_filtered <- all_position_percentiles %>% 
+  filter(Node_FG %in% list_plants_FG, !position %in% c("np1","np2"),
+         !is.na(expected_freq_its_GF))
+pollinator_position_percentiles_filtered <- all_position_percentiles %>% 
+  filter(!Node_FG %in% list_plants_FG, !position %in% c("np1","np2"),
+         !is.na(expected_freq_its_GF))
 
   
 # Plot positions
 
 ggplot(plant_position_percentiles_filtered, 
-       aes(x = position, y = percentile, color = Node_FG))+
+       aes(x = position, y = percentil_its_GF, color = Node_FG))+
+  geom_boxplot(alpha=0.3)+
+  facet_wrap(~Node_FG)
+
+ggplot(plant_position_percentiles_filtered, 
+       aes(x = position, y = percentil_all_GF, color = Node_FG))+
+  geom_boxplot(alpha=0.3)+
+  facet_wrap(~Node_FG)
+
+ggplot(plant_position_percentiles_filtered, 
+       aes(x = percentil_its_GF, y = percentil_all_GF, color = Node_FG))+
+  geom_point(alpha=0.3)+
+  facet_wrap(~position)
+
+ggplot(pollinator_position_percentiles_filtered, 
+       aes(x = position, y = percentil_its_GF, color = Node_FG))+
   geom_boxplot(alpha=0.3)+
   facet_wrap(~Node_FG)
 
 ggplot(pollinator_position_percentiles_filtered, 
-       aes(x = position, y = percentile, color = Node_FG))+
+       aes(x = position, y = percentil_all_GF, color = Node_FG))+
   geom_boxplot(alpha=0.3)+
   facet_wrap(~Node_FG)
+
+ggplot(pollinator_position_percentiles_filtered, 
+       aes(x = percentil_its_GF, y = percentil_all_GF, color = Node_FG))+
+  geom_point(alpha=0.3)+
+  facet_wrap(~position)
 
 #############################################
 # EXTRACT 95% CI for Pollinators percentiles
@@ -67,7 +62,7 @@ pollinator_positions_CI$lower_CI <- NA
 pollinator_positions_CI$upper_CI <- NA
 
 for(i.pos in 1:length(pollinator_positions_codes)){
-  pollinator_m <- lmer(percentile ~ 1+(1|Node_FG),
+  pollinator_m <- lmer(percentil_all_GF ~ 1+(1|Node_FG),
                        data = pollinator_position_percentiles_filtered %>% 
                          filter(position == pollinator_positions_codes[i.pos]))
   
@@ -82,27 +77,27 @@ results_pollinator_position <- pollinator_position_percentiles_filtered %>%
   left_join(pollinator_positions_CI, by = "position")
 
 results_pollinator_position$evaluation <- "[2.5,97.5]"
-results_pollinator_position$evaluation[results_pollinator_position$percentile > 
+results_pollinator_position$evaluation[results_pollinator_position$percentil_all_GF > 
                                          results_pollinator_position$upper_CI ] <- "(97.5,100]"
-results_pollinator_position$evaluation[results_pollinator_position$percentile < 
+results_pollinator_position$evaluation[results_pollinator_position$percentil_all_GF < 
                                          results_pollinator_position$lower_CI ] <- "[0,2.5)"
 
 ggplot(results_pollinator_position, 
-       aes(x = position, y = percentile, color = evaluation))+
+       aes(x = position, y = percentil_all_GF, color = evaluation))+
   geom_point(alpha=0.3)+
   facet_wrap(~Node_FG)+
   theme_bw()+
   theme(axis.text.x=element_text(angle=45,hjust=1))+#,legend.position="bottom")+
   labs(x=NULL, color = "Percentile's C.I.")
 
+
 library(RColorBrewer)
-ggplot(results_pollinator_position %>% 
+ggplot(results_pollinator_position %>%
          mutate(evaluation = factor(evaluation, 
                                     levels=c("(97.5,100]", "[2.5,97.5]", "[0,2.5)")),
-                position = factor(position,
-                                  levels = 
-                                    colnames(pollinatior_position_percentiles[,pollinator_positions]))), 
-       aes(x = position, y = percentile, fill = evaluation))+
+                position = factor(position),
+                counts = 1), 
+       aes(x = position, y = counts, fill = evaluation))+
   geom_bar(position="stack", stat="identity")+
   scale_fill_brewer(palette = "RdYlBu") +
   facet_wrap(~Node_FG)+
@@ -110,13 +105,13 @@ ggplot(results_pollinator_position %>%
   theme(axis.text.x=element_text(angle=45,hjust=1))+#,legend.position="bottom")+
   labs(x=NULL, y = "Number of observations", fill = "Percentile's C.I.")
 
+
 ggplot(results_pollinator_position %>% 
          mutate(evaluation = factor(evaluation, 
                                     levels=c("(97.5,100]", "[2.5,97.5]", "[0,2.5)")),
-                position = factor(position,
-                                  levels = 
-                                    colnames(pollinatior_position_percentiles[,pollinator_positions]))), 
-       aes(x = position, y = percentile, fill = evaluation))+
+                position = factor(position),
+                counts = 1), 
+       aes(x = position, y = counts, fill = evaluation))+
   geom_bar(position="fill", stat="identity")+
   scale_fill_brewer(palette = "RdYlBu") +
   facet_wrap(~Node_FG)+
@@ -136,7 +131,7 @@ plant_positions_CI$lower_CI <- NA
 plant_positions_CI$upper_CI <- NA
 
 for(i.pos in 1:length(plant_positions_codes)){
-  plant_m <- lmer(percentile ~ 1+(1|Node_FG),
+  plant_m <- lmer(percentil_all_GF ~ 1+(1|Node_FG),
                        data = plant_position_percentiles_filtered %>% 
                          filter(position == plant_positions_codes[i.pos]))
   
@@ -151,13 +146,13 @@ results_plant_position <- plant_position_percentiles_filtered %>%
   left_join(plant_positions_CI, by = "position")
 
 results_plant_position$evaluation <- "[2.5,97.5]"
-results_plant_position$evaluation[results_plant_position$percentile > 
+results_plant_position$evaluation[results_plant_position$percentil_all_GF > 
                                          results_plant_position$upper_CI ] <- "(97.5,100]"
-results_plant_position$evaluation[results_plant_position$percentile < 
+results_plant_position$evaluation[results_plant_position$percentil_all_GF < 
                                          results_plant_position$lower_CI ] <- "[0,2.5)"
 
 ggplot(results_plant_position, 
-       aes(x = position, y = percentile, color = evaluation))+
+       aes(x = position, y = percentil_all_GF, color = evaluation))+
   geom_point(alpha=0.3)+
   facet_wrap(~Node_FG)+
   theme_bw()+
@@ -168,10 +163,9 @@ library(RColorBrewer)
 ggplot(results_plant_position %>% 
          mutate(evaluation = factor(evaluation, 
                                     levels=c("(97.5,100]", "[2.5,97.5]", "[0,2.5)")),
-                position = factor(position,
-                                  levels = 
-                                    colnames(pollinatior_position_percentiles[,plant_positions]))), 
-       aes(x = position, y = percentile, fill = evaluation))+
+                position = factor(position),
+                counts = 1), 
+       aes(x = position, y = counts, fill = evaluation))+
   geom_bar(position="stack", stat="identity")+
   scale_fill_brewer(palette = "RdYlBu") +
   facet_wrap(~Node_FG)+
@@ -182,17 +176,15 @@ ggplot(results_plant_position %>%
 ggplot(results_plant_position %>% 
          mutate(evaluation = factor(evaluation, 
                                     levels=c("(97.5,100]", "[2.5,97.5]", "[0,2.5)")),
-                position = factor(position,
-                                  levels = 
-                                    colnames(pollinatior_position_percentiles[,plant_positions]))), 
-       aes(x = position, y = percentile, fill = evaluation))+
+                position = factor(position),
+                counts = 1), 
+       aes(x = position, y = counts, fill = evaluation))+
   geom_bar(position="fill", stat="identity")+
   scale_fill_brewer(palette = "RdYlBu") +
   facet_wrap(~Node_FG)+
   theme_bw()+
   theme(axis.text.x=element_text(angle=45,hjust=1))+#,legend.position="bottom")+
   labs(x=NULL, y = "Number of observations", fill = "Percentile's C.I.")
-
 
 
 

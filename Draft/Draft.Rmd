@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "Plant-pollintor networks worldwide are composed by the same specific building blocks"
 output: html_document
 ---
 
@@ -7,26 +7,79 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-##ABSTRACT
+##Abstract
 
-The interaction between plants and pollinators can be studied at different scales, from species level interactions (micro-scale) to the full network structure (macro-scale). However, condensing to species level and the holistic view of the full network involves missing relevant information for the understanding of ecological processes. Intermediate levels to study plant-pollinator networks (meso-scale) have been little explored but can shed light of ecological processes not captured by the traditional approaches used in plant-pollinator network studies. On the meso-scale, smaller versions of the full network are considered with a reduced number of species which are also known as motifs. Exploring the different and most frequent motifs could help our understanding of species interactions due to motifs consider direct and indirect interactions not accounted in single species metrics. In order to progress knowledge in plant-pollinator networks we have compiled 60 networks from 29 different studies and defined plant functional groups by using a comprehensive dataset with several reproductive traits and pollinator functional groups as the main differentiated guilds in life form and behaviour. Then, we explored the main motifs of these networks and we found [...]
-
-
-
-Analysis:
-
-__Ranking de motifs__
-Alfonso en slack
-1) reemplazar en cada red los "nodos especie" de plantas y visitantes florales por su correspondiente "nodo de grupo funcional"
-2) colapsar en cada red todos los nodos del mismo grupo funcional en uno solo
-3) descomponer en motifs (de hasta 5 nodos) la estructura resultante del paso 2
-Los rankings absolutos (contando enlaces [Motifs 1-17] y sin contar enlaces [Motifs 2-17]) quedan así
-
+Ecological processes leave distinct structural imprints on indirect interactions in mutualistic networks. Detecting those relationships is not trivial since they go beyond pair-wise interactions, but may get blurred when considering full network descriptors. However, recent work has shown the network meso-scale can capture this important information. The meso-scale describes network subgraphs representing patterns of interactions between a small number of species (i.e. motifs) and those constitute the building blocks of the whole network. Here we have compiled 60 networks from 29 different studies and show that some motifs are consitently over-represented worldwide, suggesting that the building blocks of plant-pollintor networks are not random and are associated to ... Second, we show that the position of pollinator guilds and plant reproductive strategies is not random with respect to the positions occupied within each motif. ... Hence, we show that species ecology is shaping the building blocks that conform the web of life.
 
 ##INTRODUCTION
+
+The interaction between plants and pollinators can be studied at different scales, from species level interactions (micro-scale) to the full network structure (macro-scale). However, condensing to species level and the holistic view of the full network involves missing relevant information for the understanding of ecological processes. Intermediate levels to study plant-pollinator networks (meso-scale) have been little explored but can shed light of ecological processes not captured by the traditional approaches used in plant-pollinator network studies. [Explain what macro-descriptors have found i.e. Bascompte, and what pairwise interactions descriptors have accomplished i.e. trait-matching. End explaining Benno simmons work]
+
+Exploring the different and most frequent motifs could help our understanding of species interactions due to motifs consider direct and indirect interactions not accounted in single species metrics. [Explain this: https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/1365-2435.13736 and say we don't know how motif distribution really looks like in the real world. Which is the expected pattern?]
+
+However, motifs are abstract representations often decoupled from species ecology. [explain here the importance of relating reproductive strategies and pollinators behaviours to their positions within a motif. This is interesting because bridges pairwise interactions to the emergent network via motifs] 
+
+Here, we used ... blah... and fined plant functional groups by using a comprehensive dataset with several reproductive traits and pollinator functional groups as the main differentiated guilds in life form and behaviour. Then, we explored the main motifs of these networks and we found [...]
 
 ##METHODS
 
 We have compiled 60 plant-pollinator networks from 29 different studies [...]
 
+Plants were grouped into reproductive strategies [justify and explain the process]
+
+Pollintors were grouped into guilds, because [justify and explain, it's important to convince the reader that Order level for pollinators and FG for plants makes sense].
+
+We follow Simmons et al. to decompose networks on their constituent motifs. We compare observed motif frecuancies to vaznull model, which constrains the number of plants, pollinators and the network connectance. For each network we compared the observed motif frequency with the expected frecuancies and ... . To summarize general patterns across networks we used a GLMM per motif with the percentile per network, ...
+
+Next, we calculated which functional groups were over or under-represented in different motif positions by comparing with ... . Again, we tested ...
+
+[potential additions: 
+Finally,for each motif, we recover the number of times a given combination of functional groups emerges ...
+Finally, we draw a network collapsing nodes per FG...]
+
 ##RESULTS
+
+0) Description of guilds and FG. 
+
+1) over and under represented motifs
+```{r}
+library(lme4)
+d <- read.csv("../Data/Csv/Motifs_frequencies_and_null_models/Motifs_frequency_percentile.csv")
+str(d)
+head(d)
+hist(d$percentil_sizeclass) #wow! 
+hist(subset(d, motif == 2)[,"percentil_sizeclass"]) #motif 2 tend to be over-represented
+hist(subset(d, motif == 3)[,"percentil_sizeclass"]) #motif 3 tend to be under-represented
+#quick and dirty 
+mean(subset(d, motif == 3)[,"percentil_sizeclass"]) #mean on 0.18
+#more elegant, taking into account the study system
+unique(d$Network_id) #we need to recover study_id
+m <- lmer(percentil_sizeclass ~ 1+(1|study_id), #HERE WE NEED STUDY SYSTEM ONLY!! 
+                       data = subset(d, motif == 2))  
+#plot(m)
+summary(m) #estimated mean taking into account the random str is 0.XX +- 0.XX (look at the (Intercept) estimate)
+
+#Fig 1 Should be a dot plot (or forest plot) of the mean +- SE of the 15 motifs.
+```
+2) FG-position associations.
+```{r}
+library(lme4)
+d <- read.csv("../Data/Csv/Motifs_positions_and_null_models/GF_positions_frequency_percentile.csv")
+str(d)
+head(d)
+hist(d$percentil_its_GF) #wow! 
+
+#quick and dirty 
+mean(subset(d, position == "np3" & Node_FG == 1)[,"percentil_its_GF"], na.rm = TRUE) #mean of 0.61
+#more elegant, taking into account the study system
+unique(d$Network_id) #we need to recover study_id
+m <- lmer(percentil_its_GF ~ 1+(1|study_id), #HERE WE NEED STUDY SYSTEM ONLY!! 
+                       data = subset(d, position == "np3" & Node_FG == 1))  
+#plot(m)
+summary(m) #estimated mean taking into account the random str is 0.XX +- 0.XX (look at the (Intercept) estimate)
+
+#Fig 2 may be the same, but for the each positions-FG combination? Maybe heatmap (but we lose the SE's)
+
+```
+
+

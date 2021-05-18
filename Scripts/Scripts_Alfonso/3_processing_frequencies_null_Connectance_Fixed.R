@@ -27,7 +27,7 @@
 library(tidyverse)
 
 # List the files with information about the frequencies of motifs
-folder_motif_data <- "Data/Csv/Motifs frequencies and null models"
+folder_motif_data <- "Data/Csv/Motifs_frequencies_and_null_models"
 
 motif_files <- list.files(folder_motif_data) 
 motif_freq_files <-  motif_files[grep("Binary_Mat_Sp_Motifs_frequencies_null_Conn_FiX_",
@@ -87,7 +87,7 @@ for(i in 1:length(motif_freq_files)){
 # Save every Motif_quantiles_Conn_Fixed_ in a single file
 
 # List the files with information about the positions
-folder_motif_data <- "Data/Csv/Motifs frequencies and null models"
+folder_motif_data <- "Data/Csv/Motifs_frequencies_and_null_models"
 
 motif_files <- list.files(folder_motif_data) 
 quant_link_files <-  motif_files[grep("Motif_quantiles_Conn_Fixed_",motif_files)]

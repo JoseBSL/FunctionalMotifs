@@ -190,11 +190,11 @@ for (i.network in 1:length(list_Network_id)){
   }
   
   # Save results in folder
-  folder_motifs_pos <- "Data/Csv/Motifs positions and null models"
+  folder_motifs_pos <- "Data/Csv/Motifs_positions_and_null_models"
   file_motifs_pos <- paste0(folder_motifs_pos,"/Binary_Mat_Sp_Motifs_positions_null_Conn_FiX_",list_Network_id[i.network],".csv") 
   write_csv(node_positions_i,file_motifs_pos)
   
-  folder_motifs_fre <- "Data/Csv/Motifs frequencies and null models"
+  folder_motifs_fre <- "Data/Csv/Motifs_frequencies_and_null_models"
   file_motifs_fre <- paste0(folder_motifs_fre,"/Binary_Mat_Sp_Motifs_frequencies_null_Conn_FiX_",list_Network_id[i.network],".csv") 
   write_csv(freq_motifs_i,file_motifs_fre)
   

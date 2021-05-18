@@ -207,7 +207,7 @@ GF_plant_pos2 <- ggplot(NULL) +
   theme_bw()+
   #theme(legend.position = "none",axis.text.x=element_text(angle=90,vjust=0.5, hjust=1))+
   theme(legend.position = "none")+#,axis.text.x=element_text(angle=90,vjust=0.5, hjust=1))+
-  coord_flip()
+  coord_flip() 
   
 GF_plant_pos2 #creo que mejor... me sigue sorprendiendo el e.g. GF 4. que esta asociado con muchas posiciones... 
 

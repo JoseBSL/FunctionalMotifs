@@ -44,39 +44,164 @@ Finally, we draw a network collapsing nodes per FG...]
 1) over and under represented motifs
 ```{r}
 library(lme4)
-d <- read.csv("../Data/Csv/Motifs_frequencies_and_null_models/Motifs_frequency_percentile.csv")
+library(tidyverse)
+source("../Scripts/Scripts_Alfonso/add_study_id.R")
+d <- read_csv("../Data/Csv/Motifs_frequencies_and_null_models/Motifs_frequency_percentile.csv")
+d <- add_study_id(d)
 str(d)
 head(d)
-hist(d$percentil_sizeclass) #wow! 
-hist(subset(d, motif == 2)[,"percentil_sizeclass"]) #motif 2 tend to be over-represented
-hist(subset(d, motif == 3)[,"percentil_sizeclass"]) #motif 3 tend to be under-represented
-#quick and dirty 
-mean(subset(d, motif == 3)[,"percentil_sizeclass"]) #mean on 0.18
-#more elegant, taking into account the study system
-unique(d$Network_id) #we need to recover study_id
-m <- lmer(percentil_sizeclass ~ 1+(1|study_id), #HERE WE NEED STUDY SYSTEM ONLY!! 
-                       data = subset(d, motif == 2))  
-#plot(m)
-summary(m) #estimated mean taking into account the random str is 0.XX +- 0.XX (look at the (Intercept) estimate)
+
+ggplot(d %>% filter(motif != 1), aes(percentil_sizeclass))+
+  geom_histogram(color="black", fill="white")+
+  facet_wrap(~motif)+
+  theme_bw()+
+  labs(x="Sizeclass percentile")
+
+# Motifs tend to be over- and under-represensented in real networks
+
+# Mean percentile and SE taking into account the study system
+motif_codes <- d %>% filter(motif != 1) %>% # We remove links (motif code: 1)
+  select(motif) %>% unique() %>% pull()
+motif_means <- tibble(motif = motif_codes)
+motif_means$mean <- NA
+motif_means$SE <- NA
+
+for(i.motif in 1:length(motif_codes)){
+  
+  m <- lmer(percentil_sizeclass ~ 1+(1|study_id), #HERE WE NEED STUDY SYSTEM ONLY!! 
+            data = subset(d, motif == motif_codes[i.motif]))  
+  
+  motif_means$mean[i.motif] <- fixed.effects(m) %>% unname()
+  motif_means$SE[i.motif] <- sqrt(diag(vcov(m)))
+  
+}
+
+
+ggplot(NULL) + 
+  geom_point(data = d %>% filter(motif != 1),
+             aes(x=as.factor(motif), y=percentil_sizeclass, 
+                 color = as.factor(motif)),
+             position = "jitter",alpha=0.5)+
+  geom_errorbar(data = motif_means,aes(x = as.factor(motif), ymin=mean-SE, ymax=mean+SE), 
+                width=1.0,size=1)+
+  geom_point(data = motif_means,aes(x = as.factor(motif), y=mean), 
+                size=2)+
+  labs(x="Motif", y = "Percentile")+
+  theme_bw()+
+  theme(legend.position = "none")
 
 #Fig 1 Should be a dot plot (or forest plot) of the mean +- SE of the 15 motifs.
 ```
 2) FG-position associations.
 ```{r}
 library(lme4)
-d <- read.csv("../Data/Csv/Motifs_positions_and_null_models/GF_positions_frequency_percentile.csv")
-str(d)
-head(d)
-hist(d$percentil_its_GF) #wow! 
+library(tidyverse)
+source("../Scripts/Scripts_Alfonso/add_study_id.R")
 
-#quick and dirty 
-mean(subset(d, position == "np3" & Node_FG == 1)[,"percentil_its_GF"], na.rm = TRUE) #mean of 0.61
-#more elegant, taking into account the study system
-unique(d$Network_id) #we need to recover study_id
-m <- lmer(percentil_its_GF ~ 1+(1|study_id), #HERE WE NEED STUDY SYSTEM ONLY!! 
-                       data = subset(d, position == "np3" & Node_FG == 1))  
-#plot(m)
-summary(m) #estimated mean taking into account the random str is 0.XX +- 0.XX (look at the (Intercept) estimate)
+all_position_percentiles <- read_csv("../Data/Csv/Motifs_positions_and_null_models/GF_positions_frequency_percentile.csv")
+
+
+all_position_percentiles <- add_study_id(all_position_percentiles)
+str(all_position_percentiles)
+head(all_position_percentiles)
+
+list_plants_FG <- as.character(1:10)
+
+plant_position_percentiles_filtered <- all_position_percentiles %>% 
+  filter(Node_FG %in% list_plants_FG, !position %in% c("np1","np2"),
+         !is.na(expected_freq_its_GF))
+pollinator_position_percentiles_filtered <- all_position_percentiles %>% 
+  filter(!Node_FG %in% list_plants_FG, !position %in% c("np1","np2"),
+         !is.na(expected_freq_its_GF))
+
+ggplot(plant_position_percentiles_filtered, aes(percentil_its_GF))+
+  geom_histogram(color="black", fill="white")+
+  facet_wrap(~position)+
+  theme_bw()+
+  labs(x="Sizeclass percentile", title = "Histograms: Percentiles for plant positions")
+
+ggplot(pollinator_position_percentiles_filtered, aes(percentil_its_GF))+
+  geom_histogram(color="black", fill="white")+
+  facet_wrap(~position)+
+  theme_bw()+
+  labs(x="Sizeclass percentile",title = "Histograms: Percentiles for pollinator positions")
+
+
+
+# estimated mean taking into account the random str is 0.XX +- 0.XX (look at the (Intercept) estimate)
+
+
+# Plants-------------
+
+# Mean percentile and SE taking into account the study system
+plant_codes <- plant_position_percentiles_filtered$position %>% unique()
+plant_means <- tibble(position = plant_codes)
+plant_means$mean <- NA
+plant_means$SE <- NA
+
+for(i.pos in 1:length(plant_codes)){
+  
+  m <- lmer(percentil_its_GF ~ 1+(1|study_id), #HERE WE NEED STUDY SYSTEM ONLY!! 
+            data = subset(plant_position_percentiles_filtered,
+                          position == plant_codes[i.pos]))  
+  
+  plant_means$mean[i.pos] <- fixed.effects(m) %>% unname()
+  plant_means$SE[i.pos] <- sqrt(diag(vcov(m)))
+  
+}
+
+
+ggplot(NULL) + 
+  geom_point(data = plant_position_percentiles_filtered,
+             aes(x=as.factor(position), y=percentil_its_GF, 
+                 color = as.factor(position)),
+             position = "jitter",alpha=0.5)+
+  facet_wrap(~Node_FG)+
+  geom_errorbar(data = plant_means,aes(x = as.factor(position), ymin=mean-SE, ymax=mean+SE), 
+                width=1.0,size=1)+
+  geom_point(data = plant_means,aes(x = as.factor(position), y=mean), 
+                size=2)+
+  labs(x="Position", y = "Percentile",title = "Pollinators")+
+  theme_bw()+
+  theme(legend.position = "none",axis.text.x=element_text(angle=90,vjust=0.5, hjust=1))
+
+
+
+# Pollinators--------
+
+# Mean percentile and SE taking into account the study system
+pollinator_codes <- pollinator_position_percentiles_filtered$position %>% unique()
+pollinator_means <- tibble(position = pollinator_codes)
+pollinator_means$mean <- NA
+pollinator_means$SE <- NA
+
+for(i.pos in 1:length(pollinator_codes)){
+  
+  m <- lmer(percentil_its_GF ~ 1+(1|study_id), #HERE WE NEED STUDY SYSTEM ONLY!! 
+            data = subset(pollinator_position_percentiles_filtered,
+                          position == pollinator_codes[i.pos]))  
+  
+  pollinator_means$mean[i.pos] <- fixed.effects(m) %>% unname()
+  pollinator_means$SE[i.pos] <- sqrt(diag(vcov(m)))
+  
+}
+
+
+ggplot(NULL) + 
+  geom_point(data = pollinator_position_percentiles_filtered,
+             aes(x=as.factor(position), y=percentil_its_GF, 
+                 color = as.factor(position)),
+             position = "jitter",alpha=0.5)+
+  facet_wrap(~Node_FG)+
+  geom_errorbar(data = pollinator_means,aes(x = as.factor(position), ymin=mean-SE, ymax=mean+SE), 
+                width=1.0,size=1)+
+  geom_point(data = pollinator_means,aes(x = as.factor(position), y=mean), 
+                size=2)+
+  labs(x="Position", y = "Percentile", title = "Pollinators")+
+  theme_bw()+
+  theme(legend.position = "none",axis.text.x=element_text(angle=90,vjust=0.5, hjust=1))
+
+
 
 #Fig 2 may be the same, but for the each positions-FG combination? Maybe heatmap (but we lose the SE's)
 

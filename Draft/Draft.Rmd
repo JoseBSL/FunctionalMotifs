@@ -96,10 +96,13 @@ ggplot(NULL) +
 ```{r}
 library(lme4)
 library(tidyverse)
+library(stringi)
 source("../Scripts/Scripts_Alfonso/add_study_id.R")
 
 all_position_percentiles <- read_csv("../Data/Csv/Motifs_positions_and_null_models/GF_positions_frequency_percentile.csv")
 
+all_position_percentiles$position <- stri_extract_first_regex(all_position_percentiles$position,
+                                                              "[0-9]+") %>% as.numeric()
 
 all_position_percentiles <- add_study_id(all_position_percentiles)
 str(all_position_percentiles)
@@ -108,10 +111,10 @@ head(all_position_percentiles)
 list_plants_FG <- as.character(1:10)
 
 plant_position_percentiles_filtered <- all_position_percentiles %>% 
-  filter(Node_FG %in% list_plants_FG, !position %in% c("np1","np2"),
+  filter(Node_FG %in% list_plants_FG, !position %in% c(1,2),
          !is.na(expected_freq_its_GF))
 pollinator_position_percentiles_filtered <- all_position_percentiles %>% 
-  filter(!Node_FG %in% list_plants_FG, !position %in% c("np1","np2"),
+  filter(!Node_FG %in% list_plants_FG, !position %in% c(1,2),
          !is.na(expected_freq_its_GF))
 
 ggplot(plant_position_percentiles_filtered, aes(percentil_its_GF))+

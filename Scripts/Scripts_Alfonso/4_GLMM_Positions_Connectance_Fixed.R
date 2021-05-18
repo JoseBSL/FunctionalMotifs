@@ -4,7 +4,7 @@ library(lme4)
 library(nlme)
 
 # List the files with information about the positions
-file_pos <- "Data/Csv/Motifs positions and null models/GF_positions_frequency_percentile.csv"
+file_pos <- "Data/Csv/Motifs_positions_and_null_models/GF_positions_frequency_percentile.csv"
 all_position_percentiles <- read_csv(file_pos)
 
 # Create different dataframes for plant and pollinators, and remove data for postions np1 and np2,

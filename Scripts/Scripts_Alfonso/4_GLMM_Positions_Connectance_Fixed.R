@@ -84,12 +84,19 @@ results_pollinator_position$evaluation[results_pollinator_position$percentil_all
 
 ggplot(results_pollinator_position, 
        aes(x = position, y = percentil_all_GF, color = evaluation))+
-  geom_point(alpha=0.3)+
+  geom_boxplot(alpha=0.3)+
   facet_wrap(~Node_FG)+
   theme_bw()+
   theme(axis.text.x=element_text(angle=45,hjust=1))+#,legend.position="bottom")+
   labs(x=NULL, color = "Percentile's C.I.")
 
+ggplot(results_pollinator_position, 
+       aes(x = Node_FG, y = percentil_all_GF, color = evaluation))+
+  geom_boxplot(alpha=0.3)+
+  facet_wrap(~position)+
+  theme_bw()+
+  theme(axis.text.x=element_text(angle=45,hjust=1))+#,legend.position="bottom")+
+  labs(x=NULL, color = "Percentile's C.I.")
 
 library(RColorBrewer)
 ggplot(results_pollinator_position %>%
@@ -117,8 +124,53 @@ ggplot(results_pollinator_position %>%
   facet_wrap(~Node_FG)+
   theme_bw()+
   theme(axis.text.x=element_text(angle=45,hjust=1))+#,legend.position="bottom")+
+  labs(x=NULL, y = "Percentage of observations", fill = "Percentile's C.I.")
+
+ggplot(results_pollinator_position %>% 
+         mutate(evaluation = factor(evaluation, 
+                                    levels=c("(97.5,100]", "[2.5,97.5]", "[0,2.5)")),
+                position = factor(position),
+                Node_FG = factor(Node_FG),
+                counts = 1), 
+       aes(x = Node_FG, y = counts, fill = evaluation))+
+  geom_bar(position="stack", stat="identity")+
+  scale_fill_brewer(palette = "RdYlBu") +
+  facet_wrap(~position)+
+  theme_bw()+
+  theme(axis.text.x=element_text(angle=45,hjust=1))+#,legend.position="bottom")+
   labs(x=NULL, y = "Number of observations", fill = "Percentile's C.I.")
 
+ggplot(results_pollinator_position %>% 
+         mutate(evaluation = factor(evaluation, 
+                                    levels=c("(97.5,100]", "[2.5,97.5]", "[0,2.5)")),
+                position = factor(position),
+                Node_FG = factor(Node_FG),
+                counts = 1), 
+       aes(x = Node_FG, y = counts, fill = evaluation))+
+  geom_bar(position="fill", stat="identity")+
+  scale_fill_brewer(palette = "RdYlBu") +
+  facet_wrap(~position)+
+  theme_bw()+
+  theme(axis.text.x=element_text(angle=45,hjust=1))+#,legend.position="bottom")+
+  labs(x=NULL, y = "Percentage of observations", fill = "Percentile's C.I.")
+
+
+FG_appearances <- results_pollinator_position %>% group_by(Node_FG,position) %>% count() %>% ungroup %>%
+  select(-position) %>% unique() %>% rename(appearances = n)
+
+percentage_significance_poll <- results_pollinator_position %>% group_by(Node_FG,position,evaluation) %>% count() %>%
+  left_join(FG_appearances, by = c("Node_FG")) %>% mutate(perc_eval = n/appearances) %>%
+  select(Node_FG,position,evaluation,perc_eval) %>%
+  spread(evaluation,perc_eval)
+percentage_significance_poll[is.na(percentage_significance_poll)] <- 0
+
+ggplot(percentage_significance_poll,aes(x = `[0,2.5)`, y = `(97.5,100]`, color = Node_FG))+
+  geom_point()+
+  scale_color_brewer(palette = "Paired")+
+  facet_wrap(~position)+
+  theme_bw()+
+  theme()+#,legend.position="bottom")+
+  labs(x="% significantly smaller", y = "% significantly larger", color = NULL)
 
 #############################################
 # EXTRACT 95% CI for Plant percentiles
@@ -153,11 +205,20 @@ results_plant_position$evaluation[results_plant_position$percentil_all_GF <
 
 ggplot(results_plant_position, 
        aes(x = position, y = percentil_all_GF, color = evaluation))+
-  geom_point(alpha=0.3)+
+  geom_boxplot(alpha=0.3)+
   facet_wrap(~Node_FG)+
   theme_bw()+
   theme(axis.text.x=element_text(angle=45,hjust=1))+#,legend.position="bottom")+
   labs(x=NULL, color = "Percentile's C.I.")
+
+ggplot(results_plant_position, 
+       aes(x = Node_FG, y = percentil_all_GF, color = evaluation))+
+  geom_boxplot(alpha=0.3)+
+  facet_wrap(~position)+
+  theme_bw()+
+  theme(axis.text.x=element_text(angle=45,hjust=1))+#,legend.position="bottom")+
+  labs(x=NULL, color = "Percentile's C.I.")
+
 
 library(RColorBrewer)
 ggplot(results_plant_position %>% 
@@ -184,8 +245,54 @@ ggplot(results_plant_position %>%
   facet_wrap(~Node_FG)+
   theme_bw()+
   theme(axis.text.x=element_text(angle=45,hjust=1))+#,legend.position="bottom")+
+  labs(x=NULL, y = "Percentage of observations", fill = "Percentile's C.I.")
+
+
+ggplot(results_plant_position %>% 
+         mutate(evaluation = factor(evaluation, 
+                                    levels=c("(97.5,100]", "[2.5,97.5]", "[0,2.5)")),
+                position = factor(position),
+                Node_FG = factor(Node_FG),
+                counts = 1), 
+       aes(x = Node_FG, y = counts, fill = evaluation))+
+  geom_bar(position="stack", stat="identity")+
+  scale_fill_brewer(palette = "RdYlBu") +
+  facet_wrap(~position)+
+  theme_bw()+
+  theme(axis.text.x=element_text(angle=45,hjust=1))+#,legend.position="bottom")+
   labs(x=NULL, y = "Number of observations", fill = "Percentile's C.I.")
 
+ggplot(results_plant_position %>% 
+         mutate(evaluation = factor(evaluation, 
+                                    levels=c("(97.5,100]", "[2.5,97.5]", "[0,2.5)")),
+                position = factor(position),
+                Node_FG = factor(Node_FG),
+                counts = 1), 
+       aes(x = Node_FG, y = counts, fill = evaluation))+
+  geom_bar(position="fill", stat="identity")+
+  scale_fill_brewer(palette = "RdYlBu") +
+  facet_wrap(~position)+
+  theme_bw()+
+  theme(axis.text.x=element_text(angle=45,hjust=1))+#,legend.position="bottom")+
+  labs(x=NULL, y = "Percentage of observations", fill = "Percentile's C.I.")
+
+
+FG_appearances_plant <- results_plant_position %>% group_by(Node_FG,position) %>% count() %>% ungroup %>%
+  select(-position) %>% unique() %>% rename(appearances = n)
+
+percentage_significance_plant <- results_plant_position %>% group_by(Node_FG,position,evaluation) %>% count() %>%
+  left_join(FG_appearances_plant, by = c("Node_FG")) %>% mutate(perc_eval = n/appearances) %>%
+  select(Node_FG,position,evaluation,perc_eval) %>%
+  spread(evaluation,perc_eval)
+percentage_significance_plant[is.na(percentage_significance_plant)] <- 0
+
+ggplot(percentage_significance_plant,aes(x = `[0,2.5)`, y = `(97.5,100]`, color = Node_FG))+
+  geom_point()+
+  scale_color_brewer(palette = "Paired")+
+  facet_wrap(~position)+
+  theme_bw()+
+  theme()+#,legend.position="bottom")+
+  labs(x="% significantly smaller", y = "% significantly larger", color = NULL)
 
 
 library(ggplot2)

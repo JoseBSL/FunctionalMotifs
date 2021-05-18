@@ -102,6 +102,7 @@ library(lme4)
 library(nlme)
 library(tidyverse)
 library(stringi)
+library(ggpubr)
 source("../Scripts/Scripts_Alfonso/add_study_id.R")
 
 all_position_percentiles <- read_csv("../Data/Csv/Motifs_positions_and_null_models/GF_positions_frequency_percentile.csv")
@@ -159,7 +160,7 @@ for(i.pos in 1:length(plant_codes)){
 }
 
 
-ggplot(NULL) + 
+GF_plant_pos <- ggplot(NULL) + 
   geom_point(data = plant_position_percentiles_filtered,
              aes(x=as.factor(position), y=percentil_its_GF, 
                  color = as.factor(position)),
@@ -168,11 +169,86 @@ ggplot(NULL) +
   geom_errorbar(data = plant_means,aes(x = as.factor(position), ymin=mean-SE, ymax=mean+SE), 
                 width=1.0,size=1)+
   geom_point(data = plant_means,aes(x = as.factor(position), y=mean), 
-                size=2)+
+             size=2)+
   labs(x="Position", y = "Percentile",title = "Pollinators")+
   theme_bw()+
-  theme(legend.position = "none",axis.text.x=element_text(angle=90,vjust=0.5, hjust=1))
+  theme(legend.position = "none",axis.text.x=element_text(angle=90,vjust=0.5, hjust=1))+
+  library(lme4)
+library(nlme)
+library(tidyverse)
+library(stringi)
+library(ggpubr)
+source("Scripts/Scripts_Alfonso/add_study_id.R")
 
+all_position_percentiles <- read_csv("Data/Csv/Motifs_positions_and_null_models/GF_positions_frequency_percentile.csv")
+
+all_position_percentiles$position <- stri_extract_first_regex(all_position_percentiles$position,
+                                                              "[0-9]+") %>% as.numeric()
+
+all_position_percentiles <- add_study_id(all_position_percentiles)
+str(all_position_percentiles)
+head(all_position_percentiles)
+
+list_plants_FG <- as.character(1:10)
+
+plant_position_percentiles_filtered <- all_position_percentiles %>% 
+  filter(Node_FG %in% list_plants_FG, !position %in% c(1,2),
+         !is.na(expected_freq_its_GF)) #ME DA ERROR
+pollinator_position_percentiles_filtered <- all_position_percentiles %>% 
+  filter(!Node_FG %in% list_plants_FG, !position %in% c(1,2),
+         !is.na(expected_freq_its_GF))
+
+ggplot(plant_position_percentiles_filtered, aes(percentil_its_GF))+
+  geom_histogram(color="black", fill="white")+
+  facet_wrap(~position)+
+  theme_bw()+
+  labs(x="Sizeclass percentile", title = "Histograms: Percentiles for plant positions")
+
+ggplot(pollinator_position_percentiles_filtered, aes(percentil_its_GF))+
+  geom_histogram(color="black", fill="white")+
+  facet_wrap(~position)+
+  theme_bw()+
+  labs(x="Sizeclass percentile",title = "Histograms: Percentiles for pollinator positions")
+
+
+
+# estimated mean taking into account the random str is 0.XX +- 0.XX (look at the (Intercept) estimate)
+
+
+# Plants-------------
+
+# Mean percentile and SE taking into account the study system
+plant_codes <- plant_position_percentiles_filtered$position %>% unique()
+plant_means <- tibble(position = plant_codes)
+plant_means$mean <- NA
+plant_means$SE <- NA
+
+for(i.pos in 1:length(plant_codes)){
+  
+  m <- lmer(percentil_its_GF ~ 1+(1|study_id), #HERE WE NEED STUDY SYSTEM ONLY!! 
+            data = subset(plant_position_percentiles_filtered,
+                          position == plant_codes[i.pos]))  
+  
+  plant_means$mean[i.pos] <- fixed.effects(m) %>% unname()
+  plant_means$SE[i.pos] <- sqrt(diag(vcov(m)))
+  
+}
+
+
+GF_plant_pos <- ggplot(NULL) + 
+  geom_point(data = plant_position_percentiles_filtered,
+             aes(x=as.factor(position), y=percentil_its_GF, 
+                 color = as.factor(position)),
+             position = "jitter",alpha=0.5)+
+  facet_wrap(~Node_FG,ncol = 5)+
+  geom_errorbar(data = plant_means,aes(x = as.factor(position), ymin=mean-SE, ymax=mean+SE), 
+                width=1.0,size=1)+
+  geom_point(data = plant_means,aes(x = as.factor(position), y=mean), 
+             size=2)+
+  labs(x="Position", y = "Percentile",title = "Plants")+
+  theme_bw()+
+  theme(legend.position = "none")+#,axis.text.x=element_text(angle=90,vjust=0.5, hjust=1))+
+  coord_flip()
 
 
 # Pollinators--------
@@ -195,21 +271,27 @@ for(i.pos in 1:length(pollinator_codes)){
 }
 
 
-ggplot(NULL) + 
+GF_poll_pos <- ggplot(NULL) + 
   geom_point(data = pollinator_position_percentiles_filtered,
              aes(x=as.factor(position), y=percentil_its_GF, 
                  color = as.factor(position)),
              position = "jitter",alpha=0.5)+
-  facet_wrap(~Node_FG)+
+  facet_wrap(~Node_FG,ncol = 5)+
   geom_errorbar(data = pollinator_means,aes(x = as.factor(position), ymin=mean-SE, ymax=mean+SE), 
                 width=1.0,size=1)+
   geom_point(data = pollinator_means,aes(x = as.factor(position), y=mean), 
-                size=2)+
+             size=2)+
   labs(x="Position", y = "Percentile", title = "Pollinators")+
   theme_bw()+
-  theme(legend.position = "none",axis.text.x=element_text(angle=90,vjust=0.5, hjust=1))
+  theme(legend.position = "none")+#,axis.text.x=element_text(angle=90,vjust=0.5, hjust=1))+
+  coord_flip()
 
 
+
+# Plant and Pollinators--------
+
+ggarrange(GF_plant_pos,GF_poll_pos,
+          ncol = 1, nrow = 2,heights = c(.9, 1.4))
 
 #Fig 2 may be the same, but for the each positions-FG combination? Maybe heatmap (but we lose the SE's)
 

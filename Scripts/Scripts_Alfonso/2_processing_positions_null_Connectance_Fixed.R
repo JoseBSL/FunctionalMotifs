@@ -28,7 +28,7 @@ library(tidyverse)
 source("Scripts/Scripts_Alfonso/sizeclass_normalization.R") # To normalize frequencies of FGs
 
 # List the files with information about the positions
-folder_motif_data <- "Data/Csv/Motifs positions and null models"
+folder_motif_data <- "Data/Csv/Motifs_positions_and_null_models"
 
 motif_files <- list.files(folder_motif_data) 
 motif_link_files <-  motif_files[grep("Binary_Mat_Sp_Motifs_positions_null_Conn_FiX_",motif_files)]
@@ -211,7 +211,7 @@ for(i in 1:length(motif_link_files)){
 # Save every Position_quantiles_Conn_Fixed in a single file
 
 # List the files with information about the positions
-folder_motif_data <- "Data/Csv/Motifs positions and null models"
+folder_motif_data <- "Data/Csv/Motifs_positions_and null_models"
 
 motif_files <- list.files(folder_motif_data) 
 quant_link_files <-  motif_files[grep("Position_quantiles_Conn_Fixed_",motif_files)]

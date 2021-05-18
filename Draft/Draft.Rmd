@@ -1,6 +1,8 @@
 ---
 title: "Plant-pollintor networks worldwide are composed by the same specific building blocks"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -44,6 +46,7 @@ Finally, we draw a network collapsing nodes per FG...]
 1) over and under represented motifs
 ```{r}
 library(lme4)
+library(nlme)
 library(tidyverse)
 source("../Scripts/Scripts_Alfonso/add_study_id.R")
 d <- read_csv("../Data/Csv/Motifs_frequencies_and_null_models/Motifs_frequency_percentile.csv")
@@ -79,22 +82,24 @@ for(i.motif in 1:length(motif_codes)){
 
 ggplot(NULL) + 
   geom_point(data = d %>% filter(motif != 1),
-             aes(x=as.factor(motif), y=percentil_sizeclass, 
+             aes(y=as.factor(motif), x=percentil_sizeclass, 
                  color = as.factor(motif)),
              position = "jitter",alpha=0.5)+
-  geom_errorbar(data = motif_means,aes(x = as.factor(motif), ymin=mean-SE, ymax=mean+SE), 
+  geom_errorbar(data = motif_means,aes(y = as.factor(motif), xmin=mean-SE, xmax=mean+SE), 
                 width=1.0,size=1)+
-  geom_point(data = motif_means,aes(x = as.factor(motif), y=mean), 
+  geom_point(data = motif_means,aes(y = as.factor(motif), x=mean), 
                 size=2)+
-  labs(x="Motif", y = "Percentile")+
+  labs(y="Motif", x = "Percentile")+
   theme_bw()+
   theme(legend.position = "none")
 
 #Fig 1 Should be a dot plot (or forest plot) of the mean +- SE of the 15 motifs.
+#NICE! Can we put motifs in Y axes, and % in X?
 ```
 2) FG-position associations.
 ```{r}
 library(lme4)
+library(nlme)
 library(tidyverse)
 library(stringi)
 source("../Scripts/Scripts_Alfonso/add_study_id.R")
@@ -112,7 +117,7 @@ list_plants_FG <- as.character(1:10)
 
 plant_position_percentiles_filtered <- all_position_percentiles %>% 
   filter(Node_FG %in% list_plants_FG, !position %in% c(1,2),
-         !is.na(expected_freq_its_GF))
+         !is.na(expected_freq_its_GF)) #ME DA ERROR
 pollinator_position_percentiles_filtered <- all_position_percentiles %>% 
   filter(!Node_FG %in% list_plants_FG, !position %in% c(1,2),
          !is.na(expected_freq_its_GF))

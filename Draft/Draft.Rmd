@@ -194,8 +194,9 @@ pollinator_means <- pollinator_position_percentiles_filtered %>% select(position
 pollinator_means$mean <- NA
 pollinator_means$SE <- NA
 pollinator_means_reordered <- NULL
+
 for(i.pos in 1:length(pollinator_codes)){
-  print(i.pos)
+  
   m <- lmer(percentil_its_GF ~ Node_FG + (1|study_id), #HERE WE NEED STUDY SYSTEM ONLY!! 
             data = pollinator_position_percentiles_filtered %>%
                           filter(position == pollinator_codes[i.pos]))

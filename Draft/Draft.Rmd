@@ -118,7 +118,7 @@ list_plants_FG <- as.character(1:10)
 
 plant_position_percentiles_filtered <- all_position_percentiles %>% 
   filter(Node_FG %in% list_plants_FG, !position %in% c(1,2),
-         !is.na(expected_freq_its_GF)) 
+         !is.na(expected_freq_its_GF)) #ME DA ERROR
 pollinator_position_percentiles_filtered <- all_position_percentiles %>% 
   filter(!Node_FG %in% list_plants_FG, !position %in% c(1,2),
          !is.na(expected_freq_its_GF))
@@ -135,112 +135,116 @@ ggplot(pollinator_position_percentiles_filtered, aes(percentil_its_GF))+
   theme_bw()+
   labs(x="Sizeclass percentile",title = "Histograms: Percentiles for pollinator positions")
 
+
+
 # estimated mean taking into account the random str is 0.XX +- 0.XX (look at the (Intercept) estimate)
+
 
 # Plants-------------
 
 # Mean percentile and SE taking into account the study system
-combinations <- paste(plant_position_percentiles_filtered$position,
-                           plant_position_percentiles_filtered$Node_FG, sep = "_")
-combinations_codes <- combinations %>% unique()
-plant_means <- tibble(position = combinations_codes)
 plant_codes <- plant_position_percentiles_filtered$position %>% unique()
-#plant_means <- tibble(position = plant_codes)
+plant_means <- plant_position_percentiles_filtered %>% select(position,Node_FG) %>% unique()
 plant_means$mean <- NA
 plant_means$SE <- NA
 
-j <-  1
+
 for(i.pos in 1:length(plant_codes)){
   
-  m <- lmer(percentil_its_GF ~ Node_FG + (1|study_id), 
-            data = subset(plant_position_percentiles_filtered,
-                          position == plant_codes[i.pos]))  
-  #summary(m)
+  m <- lmer(percentil_its_GF ~ Node_FG + (1|study_id),
+            data = plant_position_percentiles_filtered %>%
+                          filter(position == plant_codes[i.pos]))  
+  
   temp <- fixed.effects(m) %>% unname()
-  plant_means$mean[c(j:(j+4))] <- c(temp[1], #to get real means per FG
-                                    temp[1]+temp[2],
-                                    temp[1]+temp[3],
-                                    temp[1]+temp[4],
-                                    temp[1]+temp[5])
+  plant_means$mean[plant_means$position == plant_codes[i.pos]] <- c(temp[1],
+                                                                     temp[1]+temp[2],
+                                                                     temp[1]+temp[3],
+                                                                     temp[1]+temp[4],
+                                                                     temp[1]+temp[5]) ## to get real means per FG
   temp <- sqrt(diag(vcov(m)))
-  plant_means$SE[c(j:(j+4))] <- c(temp[1], 
-                                    temp[1]+temp[2],
-                                    temp[1]+temp[3],
-                                    temp[1]+temp[4],
-                                    temp[1]+temp[5]) #Alfonso, los errores se suman tambien??
-  j <- j+5 #esto puede que sea una guarrada
+  plant_means$SE[plant_means$position == plant_codes[i.pos]] <- c(temp[1], 
+                                                                  temp[1]+temp[2],
+                                                                  temp[1]+temp[3],
+                                                                  temp[1]+temp[4],
+                                                                  temp[1]+temp[5])
   
 }
 
-#NO SE PLOTEAR ESTO... 
-plant_means$true_position <- seq(1,220, 2)
-plant_means$FG <- seq(1,220, 2)
-plant_means$true_position <- unlist(strsplit(plant_means$position, "_", TRUE))[seq(1,220, 2)]
-plant_means$FG <- unlist(strsplit(plant_means$position, "_", TRUE))[seq(2,220, 2)]
-
 GF_plant_pos <- ggplot(NULL) + 
-  #geom_point(data = plant_means, #AQUI NO SE PONER LOS PUNTITOS :(
-             #aes(x=as.factor(position), y=percentil_its_GF, 
-              #   color = as.factor(position)),
-             #position = "jitter",alpha=0.5)+
-  facet_wrap(~FG)+
-  geom_errorbar(data = plant_means,aes(x = as.factor(true_position), ymin=mean-SE, ymax=mean+SE), 
+  geom_point(data = plant_position_percentiles_filtered,
+             aes(x=as.factor(position), y=percentil_its_GF, 
+                 color = as.factor(position)),
+             position = "jitter",alpha=0.5)+
+  geom_errorbar(data = plant_means,aes(x = as.factor(position), ymin=mean-SE, ymax=mean+SE), 
                 width=1.0,size=1)+
-  geom_point(data = plant_means,aes(x = as.factor(true_position), y=mean), 
+  facet_wrap(~Node_FG,ncol = 5)+
+  geom_point(data = plant_means,aes(x = as.factor(position), y=mean), 
              size=2)+
   labs(x="Position", y = "Percentile",title = "Plants")+
   theme_bw()+
-  #theme(legend.position = "none",axis.text.x=element_text(angle=90,vjust=0.5, hjust=1))+
   theme(legend.position = "none")+#,axis.text.x=element_text(angle=90,vjust=0.5, hjust=1))+
   coord_flip()
-  
-GF_plant_pos #vaya kk de plot
-
-#mejor para comparar por posiciones?
-GF_plant_pos2 <- ggplot(NULL) + 
-  facet_wrap(~true_position)+
-  geom_errorbar(data = plant_means,aes(x = as.factor(FG), ymin=mean-SE, ymax=mean+SE), 
-                width=1.0,size=1)+
-  geom_point(data = plant_means,aes(x = as.factor(FG), y=mean), 
-             size=2)+
-  labs(x="FG", y = "Percentile",title = "Plants")+
-  theme_bw()+
-  #theme(legend.position = "none",axis.text.x=element_text(angle=90,vjust=0.5, hjust=1))+
-  theme(legend.position = "none")+#,axis.text.x=element_text(angle=90,vjust=0.5, hjust=1))+
-  coord_flip() 
-  
-GF_plant_pos2 #creo que mejor... me sigue sorprendiendo el e.g. GF 4. que esta asociado con muchas posiciones... 
 
 
-# Pollinators-------- NOT UPDATED
+# Pollinators--------
 
 # Mean percentile and SE taking into account the study system
 pollinator_codes <- pollinator_position_percentiles_filtered$position %>% unique()
-pollinator_means <- tibble(position = pollinator_codes)
+pollinator_means <- pollinator_position_percentiles_filtered %>% select(position,Node_FG) %>% unique()
 pollinator_means$mean <- NA
 pollinator_means$SE <- NA
-
+pollinator_means_reordered <- NULL
 for(i.pos in 1:length(pollinator_codes)){
+  print(i.pos)
+  m <- lmer(percentil_its_GF ~ Node_FG + (1|study_id), #HERE WE NEED STUDY SYSTEM ONLY!! 
+            data = pollinator_position_percentiles_filtered %>%
+                          filter(position == pollinator_codes[i.pos]))
   
-  m <- lmer(percentil_its_GF ~ 1+(1|study_id), #HERE WE NEED STUDY SYSTEM ONLY!! 
-            data = subset(pollinator_position_percentiles_filtered,
-                          position == pollinator_codes[i.pos]))  
+  temp <- fixed.effects(m) %>% unname()
+  pollinator_means_aux <- pollinator_means[pollinator_means$position == pollinator_codes[i.pos],] %>% arrange(Node_FG)
   
-  pollinator_means$mean[i.pos] <- fixed.effects(m) %>% unname()
-  pollinator_means$SE[i.pos] <- sqrt(diag(vcov(m)))
+  pollinator_means_aux$mean <- c(temp[1],
+                                 temp[1]+temp[2],
+                                 temp[1]+temp[3],
+                                 temp[1]+temp[4],
+                                 temp[1]+temp[5],
+                                 temp[1]+temp[6],
+                                 temp[1]+temp[7],
+                                 temp[1]+temp[8],
+                                 temp[1]+temp[9]) ## to get real means per FG
+    
+                                                                    
+  temp <- sqrt(diag(vcov(m)))
+  pollinator_means_aux$SE <- c(temp[1],
+                               temp[1]+temp[2],
+                               temp[1]+temp[3],
+                               temp[1]+temp[4],
+                               temp[1]+temp[5],
+                               temp[1]+temp[6],
+                               temp[1]+temp[7],
+                               temp[1]+temp[8],
+                               temp[1]+temp[9])
   
+  pollinator_means_reordered <- bind_rows(pollinator_means_reordered,pollinator_means_aux)
+    
 }
 
+# There are lower limits (mean - SE) smaller than 0 (see Other insects)
+# We set the lower limit of those error bars to zero
+
+pollinator_means_reordered <- pollinator_means_reordered %>% mutate(lower = mean-SE)
+pollinator_means_reordered$lower[pollinator_means_reordered$lower < 0] <- 0
 
 GF_poll_pos <- ggplot(NULL) + 
   geom_point(data = pollinator_position_percentiles_filtered,
              aes(x=as.factor(position), y=percentil_its_GF, 
                  color = as.factor(position)),
              position = "jitter",alpha=0.5)+
-  facet_wrap(~Node_FG,ncol = 5)+
-  geom_errorbar(data = pollinator_means,aes(x = as.factor(position), ymin=mean-SE, ymax=mean+SE), 
+  geom_errorbar(data = pollinator_means_reordered, aes(x = as.factor(position), ymin=lower,
+                                                       ymax=mean+SE), 
                 width=1.0,size=1)+
-  geom_point(data = pollinator_means,aes(x = as.factor(position), y=mean), 
+  facet_wrap(~Node_FG,ncol = 5)+
+  geom_point(data = pollinator_means_reordered,aes(x = as.factor(position), y=mean), 
              size=2)+
   labs(x="Position", y = "Percentile", title = "Pollinators")+
   theme_bw()+
@@ -248,11 +252,10 @@ GF_poll_pos <- ggplot(NULL) +
   coord_flip()
 
 
-
 # Plant and Pollinators--------
 
 ggarrange(GF_plant_pos,GF_poll_pos,
-          ncol = 1, nrow = 2,heights = c(.9, 1.4))
+          ncol = 1, nrow = 2,heights = c(.90, 1.4))
 
 #Fig 2 may be the same, but for the each positions-FG combination? Maybe heatmap (but we lose the SE's)
 

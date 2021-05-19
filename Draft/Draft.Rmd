@@ -199,7 +199,8 @@ for(i.pos in 1:length(pollinator_codes)){
   
   m <- lmer(percentil_its_GF ~ Node_FG + (1|study_id), #HERE WE NEED STUDY SYSTEM ONLY!! 
             data = pollinator_position_percentiles_filtered %>%
-                          filter(position == pollinator_codes[i.pos]))
+                          filter(position == pollinator_codes[i.pos]),
+            control = lmerControl(optimizer ="Nelder_Mead")) # I changed the optimizer because motif 8 (i.pos = 3) caused convergence problems, max gradient = 0.0022 > 0.002.
   
   temp <- fixed.effects(m) %>% unname()
   pollinator_means_aux <- pollinator_means[pollinator_means$position == pollinator_codes[i.pos],] %>% arrange(Node_FG)

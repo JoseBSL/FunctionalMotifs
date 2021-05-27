@@ -32,9 +32,40 @@ Here, we used ... blah... and fined plant functional groups by using a comprehen
 
 ##METHODS
 
-We have compiled 60 plant-pollinator networks from 18 different studies (Table S1). All studies sampled plant-pollinator interactions in natural systems and were selected based on wide geographical coverage and the presence of interaction frequency as a measure of interaction strength. In total, there were 503 plant species, 1111 pollinator species and 6248 of plant-pollinator interactions counted. For ease of data manipulation plant and pollinator species names were standardize with the help of the package taxize version 0.9.99 [@chamberlain2020].
+**Plant-pollinator studies**
+
+We have compiled 60 plant-pollinator networks from 18 different studies (Table S1). All studies sampled plant-pollinator interactions in natural systems and were selected based on wide geographical coverage and the presence of interaction frequency as a measure of interaction strength. In total, there were 503 plant species, 1111 pollinator species and 6248 of pairwise interactions registered. For ease of data manipulation plant and pollinator species names were standardize with the help of the package taxize version 0.9.99 [@chamberlain2020].
+
+**Plant functional groups and pollinator guilds**
+
+First, we grouped plant species into five functional groups that summarized the main plant reproductive strategies. This was done with the help of the plant trait dataset built in Lanuza et al., (unpublished) that consisted of 16 plant functional traits (x floral, x reproductive and x vegetative; Table S2). 
+
+
+
+
+
+Second,...
+
+This dataset had 16 traits 
+
+
+
+The high number of plant orders in this dataset (38) makes difficult to summarize plants on functional groups 
+
+
+
+reproductive strategies with the help of hierarchical clustering analysis. This was done by using a dataset compiled on the same set of networks that had 16  
+
+
 
 Plants were grouped into reproductive strategies [justify and explain the process]
+
+
+
+
+Functional groups
+We calculated the distance of the different functional traits with the function gowdis from the package FD (Laliberté et al., 2014) with the method ward.D2 used for non-squared distances (Murtagh & Legendre, 2014). All the numerical traits were previously scaled. Then, we applied  a hierarchical cluster analysis with the function hclust from the R stats package and we found the optimal number of clusters with the function kgs that conducts the penalty function of Kelley et al., (1996) from the package maptree (White & Gramacy, 2009).
+
 
 Pollintors were grouped into guilds, because [justify and explain, it's important to convince the reader that Order level for pollinators and FG for plants makes sense].
 

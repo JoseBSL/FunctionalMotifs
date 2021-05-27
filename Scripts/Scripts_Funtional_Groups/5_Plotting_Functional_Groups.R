@@ -1,347 +1,6 @@
----
-title: Plant-pollintor networks worldwide are composed by the same specific building
-  blocks
-output:
-  html_document: default
-  pdf_document: default
-editor_options:
-  chunk_output_type: console
-bibliography: bibliography.bib
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-##Abstract
-
-Ecological processes leave distinct structural imprints on indirect interactions in mutualistic networks. Detecting those relationships is not trivial since they go beyond pair-wise interactions, but may get blurred when considering full network descriptors. However, recent work has shown the network meso-scale can capture this important information. The meso-scale describes network subgraphs representing patterns of interactions between a small number of species (i.e. motifs) and those constitute the building blocks of the whole network. Here we have compiled 60 networks from 18 different studies and show that some motifs are consitently over-represented worldwide, suggesting that the building blocks of plant-pollintor networks are not random and are associated to ... Second, we show that the position of pollinator guilds and plant reproductive strategies is not random with respect to the positions occupied within each motif. ... Hence, we show that species ecology is shaping the building blocks that conform the web of life.
-
-##INTRODUCTION
-
-The interaction between plants and pollinators can be studied at different scales, from species level interactions (micro-scale) to the full network structure (macro-scale). However, condensing to species level and the holistic view of the full network involves missing relevant information for the understanding of ecological processes. Intermediate levels to study plant-pollinator networks (meso-scale) have been little explored but can shed light of ecological processes not captured by the traditional approaches used in plant-pollinator network studies. 
-
-
-[Explain what macro-descriptors have found i.e. Bascompte, and what pairwise interactions descriptors have accomplished i.e. trait-matching. End explaining Benno simmons work]
-
-Exploring the different and most frequent motifs could help our understanding of species interactions due to motifs consider direct and indirect interactions not accounted in single species metrics. [Explain this: https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/1365-2435.13736 and say we don't know how motif distribution really looks like in the real world. Which is the expected pattern?]
-
-However, motifs are abstract representations often decoupled from species ecology. [explain here the importance of relating reproductive strategies and pollinators behaviours to their positions within a motif. This is interesting because bridges pairwise interactions to the emergent network via motifs] 
-
-Here, we used ... blah... and fined plant functional groups by using a comprehensive dataset with several reproductive traits and pollinator functional groups as the main differentiated guilds in life form and behaviour. Then, we explored the main motifs of these networks and we found [...]
-
-##METHODS
-
-**Plant-pollinator studies**
-
-We have compiled 60 plant-pollinator networks from 18 different studies (Table S1). All studies sampled plant-pollinator interactions in natural systems and were selected based on wide geographical coverage and the presence of interaction frequency as a measure of interaction strength. In total, there were 503 plant species, 1111 pollinator species and 6248 of pairwise interactions registered. For ease of data manipulation plant and pollinator species names were standardize with the help of the package taxize version 0.9.99 [@chamberlain2020].
-
-**Plant and pollinator functional groups**
-
-First, plant species were grouped into the optimal number of functional groups that summarized the main plant reproductive strategies. This was done with the help of hierarchical cluster analysis by using the trait dataset compiled in Lanuza et al., (unpublished). This dataset consisted on x floral, x reproductive and x vegetative traits (Table S2). For this, we calculated the distance of the different functional traits with the function gowdis from the package FD version 1.0-12 (Laliberté et al., 2014) with the method ward.D2 used for non-squared distances (Murtagh & Legendre, 2014). All the numerical traits were previously scaled. Finally, we applied a hierarchical cluster analysis with the function hclust from the R stats package version 4.0.5 and calculated the optimal number of clusters with the function kgs from the package maptree version 1.4-7 (White & Gramacy, 2009).
-
-Second, pollintors were grouped into x number of guilds. We opted to divide pollinators on the taxonomic rank level and not with functional traits because (i) they differ clearly in behaviour, form and resource consumption and (ii) their higher taxanomic rank had lower complexity than the plants, pollinators belonged to 6 main orders and plants to 38. The different guilds that we considered were: xxxx
-
-
-
-
-
-We follow Simmons et al. to decompose networks on their constituent motifs. We compare observed motif frecuancies to vaznull model, which constrains the number of plants, pollinators and the network connectance. For each network we compared the observed motif frequency with the expected frecuancies and ... . To summarize general patterns across networks we used a GLMM per motif with the percentile per network, ...
-
-Next, we calculated which functional groups were over or under-represented in different motif positions by comparing with ... . Again, we tested ...
-
-[potential additions: 
-Finally,for each motif, we recover the number of times a given combination of functional groups emerges ...
-Finally, we draw a network collapsing nodes per FG...]
-
-##RESULTS
-
-0) Description of guilds and FG. 
-
-1) over and under represented motifs
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE}
-library(lme4)
-library(nlme)
-library(tidyverse)
-source("../Scripts/Scripts_Alfonso/add_study_id.R")
-d <- read_csv("../Data/Csv/Motifs_frequencies_and_null_models/Motifs_frequency_percentile.csv")
-d <- add_study_id(d)
-str(d)
-head(d)
-
-ggplot(d %>% filter(motif != 1), aes(percentil_sizeclass))+
-  geom_histogram(color="black", fill="white")+
-  facet_wrap(~motif)+
-  theme_bw()+
-  labs(x="Sizeclass percentile")
-
-# Motifs tend to be over- and under-represensented in real networks
-
-# Mean percentile and SE taking into account the study system
-motif_codes <- d %>% filter(motif != 1) %>% # We remove links (motif code: 1)
-  select(motif) %>% unique() %>% pull()
-motif_means <- tibble(motif = motif_codes)
-motif_means$mean <- NA
-motif_means$SE <- NA
-
-for(i.motif in 1:length(motif_codes)){
-  
-  m <- lmer(percentil_sizeclass ~ 1+(1|study_id), #HERE WE NEED STUDY SYSTEM ONLY!! 
-            data = subset(d, motif == motif_codes[i.motif]))  
-  
-  motif_means$mean[i.motif] <- fixed.effects(m) %>% unname()
-  motif_means$SE[i.motif] <- sqrt(diag(vcov(m)))
-  
-}
-
-
-ggplot(NULL) + 
-  geom_point(data = d %>% filter(motif != 1),
-             aes(y=as.factor(motif), x=percentil_sizeclass, 
-                 color = as.factor(motif)),
-             position = "jitter",alpha=0.5)+
-  geom_errorbar(data = motif_means,aes(y = as.factor(motif), xmin=mean-SE, xmax=mean+SE), 
-                width=1.0,size=1)+
-  geom_point(data = motif_means,aes(y = as.factor(motif), x=mean), 
-                size=2)+
-  labs(y="Motif", x = "Percentile")+
-  theme_bw()+
-  theme(legend.position = "none")
-
-#Fig 1 Should be a dot plot (or forest plot) of the mean +- SE of the 15 motifs.
-#NICE! Can we put motifs in Y axes, and % in X?
-```
-2) FG-position associations.
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE}
-library(lme4)
-library(nlme)
-library(tidyverse)
-library(stringi)
-library(ggpubr)
-source("../Scripts/Scripts_Alfonso/add_study_id.R")
-
-all_position_percentiles <- read_csv("../Data/Csv/Motifs_positions_and_null_models/GF_positions_frequency_percentile.csv")
-
-all_position_percentiles$position <- stri_extract_first_regex(all_position_percentiles$position,
-                                                              "[0-9]+") %>% as.numeric()
-
-all_position_percentiles <- add_study_id(all_position_percentiles)
-str(all_position_percentiles)
-head(all_position_percentiles)
-
-list_plants_FG <- as.character(1:10)
-
-plant_position_percentiles_filtered <- all_position_percentiles %>% 
-  filter(Node_FG %in% list_plants_FG, !position %in% c(1,2),
-         !is.na(expected_freq_its_GF)) #ME DA ERROR
-pollinator_position_percentiles_filtered <- all_position_percentiles %>% 
-  filter(!Node_FG %in% list_plants_FG, !position %in% c(1,2),
-         !is.na(expected_freq_its_GF))
-
-ggplot(plant_position_percentiles_filtered, aes(percentil_its_GF))+
-  geom_histogram(color="black", fill="white")+
-  facet_wrap(~position)+
-  theme_bw()+
-  labs(x="Sizeclass percentile", title = "Histograms: Percentiles for plant positions")
-
-ggplot(pollinator_position_percentiles_filtered, aes(percentil_its_GF))+
-  geom_histogram(color="black", fill="white")+
-  facet_wrap(~position)+
-  theme_bw()+
-  labs(x="Sizeclass percentile",title = "Histograms: Percentiles for pollinator positions")
-
-
-
-# estimated mean taking into account the random str is 0.XX +- 0.XX (look at the (Intercept) estimate)
-
-
-# Plants-------------
-
-# Mean percentile and SE taking into account the study system
-plant_codes <- plant_position_percentiles_filtered$position %>% unique()
-plant_means <- plant_position_percentiles_filtered %>% select(position,Node_FG) %>% unique()
-plant_means$mean <- NA
-plant_means$SE <- NA
-
-
-for(i.pos in 1:length(plant_codes)){
-  
-  m <- lmer(percentil_its_GF ~ Node_FG + (1|study_id),
-            data = plant_position_percentiles_filtered %>%
-                          filter(position == plant_codes[i.pos]))  
-  
-  temp <- fixed.effects(m) %>% unname()
-  plant_means$mean[plant_means$position == plant_codes[i.pos]] <- c(temp[1],
-                                                                     temp[1]+temp[2],
-                                                                     temp[1]+temp[3],
-                                                                     temp[1]+temp[4],
-                                                                     temp[1]+temp[5]) ## to get real means per FG
-  temp <- sqrt(diag(vcov(m)))
-  plant_means$SE[plant_means$position == plant_codes[i.pos]] <- c(temp[1], 
-                                                                  temp[1]+temp[2],
-                                                                  temp[1]+temp[3],
-                                                                  temp[1]+temp[4],
-                                                                  temp[1]+temp[5])
-  
-}
-
-GF_plant_pos <- ggplot(NULL) + 
-  geom_point(data = plant_position_percentiles_filtered,
-             aes(x=as.factor(position), y=percentil_its_GF, 
-                 color = as.factor(position)),
-             position = "jitter",alpha=0.5)+
-  geom_errorbar(data = plant_means,aes(x = as.factor(position), ymin=mean-SE, ymax=mean+SE), 
-                width=1.0,size=1)+
-  facet_wrap(~Node_FG,ncol = 5)+
-  geom_point(data = plant_means,aes(x = as.factor(position), y=mean), 
-             size=2)+
-  labs(x="Position", y = "Percentile",title = "Plants")+
-  theme_bw()+
-  theme(legend.position = "none")+#,axis.text.x=element_text(angle=90,vjust=0.5, hjust=1))+
-  coord_flip()
-
-
-# Pollinators--------
-
-# Mean percentile and SE taking into account the study system
-pollinator_codes <- pollinator_position_percentiles_filtered$position %>% unique()
-pollinator_means <- pollinator_position_percentiles_filtered %>% select(position,Node_FG) %>% unique()
-pollinator_means$mean <- NA
-pollinator_means$SE <- NA
-pollinator_means_reordered <- NULL
-
-for(i.pos in 1:length(pollinator_codes)){
-  
-  m <- lmer(percentil_its_GF ~ Node_FG + (1|study_id), #HERE WE NEED STUDY SYSTEM ONLY!! 
-            data = pollinator_position_percentiles_filtered %>%
-                          filter(position == pollinator_codes[i.pos]),
-            control = lmerControl(optimizer ="Nelder_Mead")) # I changed the optimizer because motif 8 (i.pos = 3) caused convergence problems, max gradient = 0.0022 > 0.002.
-  
-  temp <- fixed.effects(m) %>% unname()
-  pollinator_means_aux <- pollinator_means[pollinator_means$position == pollinator_codes[i.pos],] %>% arrange(Node_FG)
-  
-  pollinator_means_aux$mean <- c(temp[1],
-                                 temp[1]+temp[2],
-                                 temp[1]+temp[3],
-                                 temp[1]+temp[4],
-                                 temp[1]+temp[5],
-                                 temp[1]+temp[6],
-                                 temp[1]+temp[7],
-                                 temp[1]+temp[8],
-                                 temp[1]+temp[9]) ## to get real means per FG
-    
-                                                                    
-  temp <- sqrt(diag(vcov(m)))
-  pollinator_means_aux$SE <- c(temp[1],
-                               temp[1]+temp[2],
-                               temp[1]+temp[3],
-                               temp[1]+temp[4],
-                               temp[1]+temp[5],
-                               temp[1]+temp[6],
-                               temp[1]+temp[7],
-                               temp[1]+temp[8],
-                               temp[1]+temp[9])
-  
-  pollinator_means_reordered <- bind_rows(pollinator_means_reordered,pollinator_means_aux)
-    
-}
-
-# There are lower limits (mean - SE) smaller than 0 (see Other insects)
-# We set the lower limit of those error bars to zero
-
-pollinator_means_reordered <- pollinator_means_reordered %>% mutate(lower = mean-SE)
-pollinator_means_reordered$lower[pollinator_means_reordered$lower < 0] <- 0
-
-GF_poll_pos <- ggplot(NULL) + 
-  geom_point(data = pollinator_position_percentiles_filtered,
-             aes(x=as.factor(position), y=percentil_its_GF, 
-                 color = as.factor(position)),
-             position = "jitter",alpha=0.5)+
-  geom_errorbar(data = pollinator_means_reordered, aes(x = as.factor(position), ymin=lower,
-                                                       ymax=mean+SE), 
-                width=1.0,size=1)+
-  facet_wrap(~Node_FG,ncol = 5)+
-  geom_point(data = pollinator_means_reordered,aes(x = as.factor(position), y=mean), 
-             size=2)+
-  labs(x="Position", y = "Percentile", title = "Pollinators")+
-  theme_bw()+
-  theme(legend.position = "none")+#,axis.text.x=element_text(angle=90,vjust=0.5, hjust=1))+
-  coord_flip()
-
-
-# Plant and Pollinators--------
-
-ggarrange(GF_plant_pos,GF_poll_pos,
-          ncol = 1, nrow = 2,heights = c(.90, 1.4))
-
-#Fig 2 may be the same, but for the each positions-FG combination? Maybe heatmap (but we lose the SE's)
-
-```
-
-##REFERENCES
-
-<div id ="refs"></div>
-
-
-##SUPPLEMENTARY MATERIAL
-
-
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE,fig.align = "left"}
-##############################
-#TABLE S1. List of studies
-##############################
-
-#Load libraries
-library(kableExtra)
-library(dplyr)
-
-#Create data.frame with references
-
-#vector with number of netw per study
-`Number of networks` <- c("6", "2", "3", "1", "1", "1", "1", "2", "1", "1", "8", "16", "6", "2", "4", "1", "3", "1")
-
-#`Network structure` <- c(rep("Web", 22), rep("Metaweb",6))
-
-`First author` <- c("Bartomeus", "Dicks", "Dupont", "Elberling", "Fang", "Inouye", "Lundgren", "Olesen", "Small", "Souza", "Kaiser-Bunbury", "Bartomeus", 
-                    "Kaiser-Bunbury", "Kaiser-Bunbury", "Peralta", "Burkle", "Arroyo-Correa", "Bundgaard")
-
-Year <- c(2008,2002,2003,1999,2008,1988, 2005,2002,1976,2017,2017,2008,2011,2010,2006,2013,2019,2003)
-
-#Country <- c("Spain", "England", "Denmark", "Sweden", "China", "Australia", "Greenland", "Mauritius and Azores", #"Canada", "Brasil", "Seychelles", "Spain", "Seychelles",
-#"Mauritius", "Argentina", "USA", "New Zealand", "Denmark",  "Denmark", "Japan", "Canada", "Venezuela", "Japan", #"Ecuador", "New Zealand", "Venezuela",
-#"USA", "Ecuador")
-
-DOI <- c("https://doi.org/10.1007/s00442-007-0946-1", "https://doi.org/10.1046/j.0021-8790.2001.00572.x", "https://doi.org/10.1111/j.1365-2656.2008.01501.x",
-         "https://doi.org/10.1111/j.1600-0587.1999.tb00507.x", "https://doi.org/10.1111/1749-4877.12190", "https://doi.org/10.1111/j.1442-9993.1988.tb00968.x",
-         "https://doi.org/10.1657/1523-0430(2005)037[0514:TDAHCW]2.0.CO;2", "https://doi.org/10.1046/j.1472-4642.2002.00148.x",
-         "/13960/t4km08d21", "https://doi.org/10.1111/1365-2745.12978", "https://doi.org/10.1038/nature21071", "https://github.com/ibartomeus/BeeFunData",
-         "https://doi.org/10.1111/j.1365-2745.2010.01732.x", "https://doi.org/10.1016/j.ppees.2009.04.001", "https://doi.org/10.1111/ele.13510",
-         "https://doi.org/10.1126/science.1232728", "https://doi.org/10.1111/1365-2745.13332", "Unpublished, Master thesis")
-
-
-references <- data.frame(`First author`, Year, `Number of networks`,   DOI)
-
-colnames(references) <- c("First author", "Year", "Number of networks",  "DOI")
-
-#Check number of studies
-#nrow(references) # 18 studies
-#check number of networks
-#sum(as.numeric(references$`Number of networks`)) #60
-
-references %>%
-  arrange(`First author`)%>%
-  kable( longtable = T, booktabs = T,linesep = "\\addlinespace",align = c("cccc"),caption = "Table S1. List of studies ordered by author with the year of publication, number of contributed networks and digital object identifier") %>%
-  kable_styling(latex_options = c("repeat_header","striped"), font_size = 12, full_width=F,position = c("left"))
-
-```
-
-
-```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE, fig.height=7, fig.width=13, fig.cap="Figure S1. Plant functional groups composition separated in qualitative and quantitative variables. Panel A) shows the percentage of the different categories within trait represented with different colours for each functional group. Plot B) shows the radar plot of the different quantitative variables standardize on the same scale also coloured with the same patterns of colours as qualitative variables per cluster."}
-
 
 #CODE TO PLOT FUNCTIONAL GROUPS
 #IT CAN BE PLOT WITH MUCH LESS CODE BUT NO TIME FOR CLEANING IT
-
 
 ##########################################
 #Visualization of plant functional groups#
@@ -354,12 +13,13 @@ library(dplyr)
 library(reshape2)
 library(data.table)
 library(patchwork)
-
+library(ggra)
+library(tidyverse)
 #LOAD DATA
 #read unscaled trait data in order to visualize better the clusters
-d <- read.csv("../Data/Csv/all_species_imputed_trait_data_forest_data.csv")
+d <- read.csv("Data/Csv/all_species_imputed_trait_data_forest_data.csv")
 
-dat_1 <- read.csv("../Data/Csv/imputed_trait_data_hclust_5_clusters_forest_data.csv", row.names = "X") 
+dat_1 <- read.csv("Data/Csv/imputed_trait_data_hclust_5_clusters_forest_data.csv", row.names = "X") 
 
 d$Clusters <- dat_1$Clusters
 
@@ -582,13 +242,13 @@ bind_rows(Breeding_system, Compatibility_system, Life_form, Life_span,Flower_mor
 Selfing <-  t %>% group_by(Clusters)%>% 
   select(Autonomous_selfing_level_fruit_set) %>% # select variables to summarise
   summarise_each(funs(min = min,
-                     # q25 = quantile(., 0.25), 
+                      # q25 = quantile(., 0.25), 
                       median = median, 
                       #q75 = quantile(., 0.75), 
                       max = max,
                       mean = mean, 
-                    sd = sd))
-  
+                      sd = sd))
+
 
 s1 <- as.data.frame(t(Selfing))
 #set colnames
@@ -823,7 +483,7 @@ Plant_height <- cbind(Trait, p_h_1)
 
 #Bind quantitative and qualitative variables
 Table_all_traits <- bind_rows(Breeding_system, Compatibility_system, Life_form, Life_span,Flower_morphology, Flower_symmetry,Selfing_1, Nectar,
-          Selfing, Flower_number, Flower_per_inflo, Inflo_width, Flower_width, Flower_length, Style_length, Ovule_number, Plant_height)
+                              Selfing, Flower_number, Flower_per_inflo, Inflo_width, Flower_width, Flower_length, Style_length, Ovule_number, Plant_height)
 
 #Select just two decimals
 is.num <- sapply(Table_all_traits, is.numeric)
@@ -839,7 +499,7 @@ colnames(Table_all_traits) <- c("Trait", "Category", "Cluster 1", "Cluster 2", "
 suppressPackageStartupMessages(library(dplyr))
 library(scales)
 library(tibble)
-library(ggradar)
+library(ggradar) #installed from github
 library(janitor)
 library(grid)
 library(dplyr)
@@ -878,9 +538,9 @@ final_df_3 <-final_df_2 %>% rownames_to_column( var = "group" ) %>%   mutate_at(
 
 #LOAD DATA
 #read unscaled trait data in order to visualize better the clusters
-d <- read.csv("../Data/Csv/all_species_imputed_trait_data_forest_data.csv")
+d <- read.csv("Data/Csv/all_species_imputed_trait_data_forest_data.csv")
 
-dat_1 <- read.csv("../Data/Csv/imputed_trait_data_hclust_5_clusters_forest_data.csv", row.names = "X") 
+dat_1 <- read.csv("Data/Csv/imputed_trait_data_hclust_5_clusters_forest_data.csv", row.names = "X") 
 
 d$Clusters <- dat_1$Clusters
 
@@ -1210,6 +870,6 @@ B <- ggradar(final_df_3, group.colours=c("#00AFBB", "#E69F00", "#FC4E07","#00000
 
 patch <- A | B 
 
-patch + plot_annotation(title = "Plant functional groups",theme = theme(plot.title = element_text(size = 20,face="bold")))
+patch + plot_annotation(title = "Functional groups",theme = theme(plot.title = element_text(size = 20,face="bold")))
 
-```
+

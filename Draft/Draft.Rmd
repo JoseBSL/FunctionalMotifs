@@ -19,10 +19,15 @@ Ecological processes leave distinct structural imprints on indirect interactions
 
 ##INTRODUCTION
 
-The interaction between plants and pollinators can be studied at different scales, from species level interactions (micro-scale) to the full network structure (macro-scale). However, condensing to species level and the holistic view of the full network involves missing relevant information for the understanding of ecological processes. Intermediate levels to study plant-pollinator networks (meso-scale) have been little explored but can shed light of ecological processes not captured by the traditional approaches used in plant-pollinator network studies. 
+The interaction between plants and pollinators can be studied at different scales, from species level interactions (micro-scale) to the full network structure (macro-scale). However, condensing to species level and the holistic view of the full network involves missing relevant information for the understanding of ecological processes [@delmas2019; @simmons2019]. Intermediate levels that investigate plant-pollinator networks (meso-scale) have been little explored but can shed light of ecological processes not captured by the traditional approaches used in plant-pollinator network studies. 
 
+Several studies have evaluated the structure of plant-pollinator interactions. These studies have found common structural properties across networks that can help the understanding of the determinats of biodiversity [@bastolla2009]. One of the major findings is the nested structure of mutualistic networks [@bascompte2003] which describes the topological structure where the specialist interact with subgroups of the interacting species of the generalist. Further, the degree distribution (number of links per species) of plant-pollinator networks have been shown to generally follow a power-law truncated distribution [@jordano2003]. Moreover, at the species level ...
+
+
+Trait matching
 
 [Explain what macro-descriptors have found i.e. Bascompte, and what pairwise interactions descriptors have accomplished i.e. trait-matching. End explaining Benno simmons work]
+
 
 Exploring the different and most frequent motifs could help our understanding of species interactions due to motifs consider direct and indirect interactions not accounted in single species metrics. [Explain this: https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/1365-2435.13736 and say we don't know how motif distribution really looks like in the real world. Which is the expected pattern?]
 
@@ -40,11 +45,10 @@ We have compiled 60 plant-pollinator networks from 18 different studies (Table S
 
 First, plant species were grouped into the optimal number of functional groups that summarized the main plant reproductive strategies. This was done with the help of hierarchical cluster analysis by using the trait dataset compiled in Lanuza et al., (unpublished). This dataset consisted on x floral, x reproductive and x vegetative traits (Table S2). For this, we calculated the distance of the different functional traits with the function gowdis from the package FD version 1.0-12 (Laliberté et al., 2014) with the method ward.D2 used for non-squared distances (Murtagh & Legendre, 2014). All the numerical traits were previously scaled. Finally, we applied a hierarchical cluster analysis with the function hclust from the R stats package version 4.0.5 and calculated the optimal number of clusters with the function kgs from the package maptree version 1.4-7 (White & Gramacy, 2009).
 
-Second, pollintors were grouped into x number of guilds. We opted to divide pollinators on the taxonomic rank level and not with functional traits because (i) they differ clearly in behaviour, form and resource consumption and (ii) their higher taxanomic rank had lower complexity than the plants, pollinators belonged to 6 main orders and plants to 38. The different guilds that we considered were: xxxx
+Second, pollinators were grouped into functional groups based on taxonomic rank. We opted to divide pollinators on the taxonomic rank level and not with functional traits because (i) they main taxonomic orders differ in form and behaviour and (ii) the lower complexity of higher taxonomic ranks (i.e., pollinators had 6 orders versus plants that had 38). Hence, we grouped pollinators into 6 functional groups: (i) Hymenoptera-Anthophila (bees), (ii) Hymenoptera-non-Anthophila (other non-bee Hymenoptera), (iii) Syrphidae-Diptera, (iv) non-Syrphidae-Diptera, (v) Lepidoptera and (vi) Coleoptera. 
 
 
-
-
+**Meso-scale analysis**
 
 We follow Simmons et al. to decompose networks on their constituent motifs. We compare observed motif frecuancies to vaznull model, which constrains the number of plants, pollinators and the network connectance. For each network we compared the observed motif frequency with the expected frecuancies and ... . To summarize general patterns across networks we used a GLMM per motif with the percentile per network, ...
 
@@ -59,22 +63,22 @@ Finally, we draw a network collapsing nodes per FG...]
 0) Description of guilds and FG. 
 
 1) over and under represented motifs
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE}
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.cap="Figure 1."}
 library(lme4)
 library(nlme)
 library(tidyverse)
 source("../Scripts/Scripts_Alfonso/add_study_id.R")
 d <- read_csv("../Data/Csv/Motifs_frequencies_and_null_models/Motifs_frequency_percentile.csv")
 d <- add_study_id(d)
-str(d)
-head(d)
+#str(d)
+#head(d)
 
-ggplot(d %>% filter(motif != 1), aes(percentil_sizeclass))+
-  geom_histogram(color="black", fill="white")+
-  facet_wrap(~motif)+
-  theme_bw()+
-  labs(x="Sizeclass percentile")
-
+#ggplot(d %>% filter(motif != 1), aes(percentil_sizeclass))+
+#  geom_histogram(color="black", fill="white")+
+#  facet_wrap(~motif)+
+#  theme_bw()+
+#  labs(x="Sizeclass percentile")
+#
 # Motifs tend to be over- and under-represensented in real networks
 
 # Mean percentile and SE taking into account the study system

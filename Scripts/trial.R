@@ -161,11 +161,13 @@ ggarrange(GF_plant_pos,GF_poll_pos,
 
 
 
-str(pollinator_position_percentiles_filtered)
 
+#Install package
+#devtools::install_github("jbengler/tidyheatmap")
 
-library(tidyHeatmap)
+library(tidyheatmap)
 
+#Example of the capability of the package
 tidy_heatmap(data_exprs,
              rows = external_gene_name,
              columns = sample,
@@ -175,5 +177,28 @@ tidy_heatmap(data_exprs,
              annotation_row = c(is_immune_gene, direction),
              gaps_row = direction,
              gaps_col = group
+)
+
+
+
+tidy_heatmap(pollinator_means_reordered,
+             rows = position,
+             columns = Node_FG,
+             values = mean,
+             gaps_col = Node_FG,
+             cluster_cols = TRUE,
+             cluster_rows = TRUE,
+             display_numbers = TRUE
+)
+
+
+tidy_heatmap(plant_means,
+             rows = position,
+             columns = Node_FG,
+             values = mean,
+             gaps_col = Node_FG,
+             cluster_cols = TRUE,
+             cluster_rows = TRUE,
+             display_numbers = TRUE
 )
 

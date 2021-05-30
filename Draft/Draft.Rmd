@@ -21,48 +21,8 @@ Ecological processes leave distinct structural imprints on indirect interactions
 
 The interaction between plants and pollinators can be studied at different scales, from species level interactions (micro-scale) to the full network structure (macro-scale). However, condensing to species level and the holistic view of the full network involves missing relevant information for the understanding of ecological processes [@delmas2019; @simmons2019]. Intermediate levels that investigate plant-pollinator networks (meso-scale) have been little explored but can shed light on ecological processes not captured by the traditional approaches used in plant-pollinator network studies. 
 
-Research on the network topology of plant-pollinator networks have proven common invariant structural properties across networks. Mutualistic networks tend to be nested [@bascompte2003] and the degree distribution (number of links per species) generally follows a truncated power law distribution [@jordano2003]. Thus, these different properties can be linked to function and help our understanding of the determinants of biodiversity [@bastolla2009]. At the species level, species phenology, abundances and morphological matching have progressed knowledge of our understanding of species interactions (REFs). However, these approaches does not account for indirect interactions (i.e., competitive or facilitative interactions for pollinators).
 
-
-
-both macro and micro scale approaches does not account for indirect interactions. The study 
-
-
-
-
-little is known about of indirect interactions 
-
-
-
-
-the ecological analysis of network structure or species interactions involves the use of indices that discard indirect interactions. For instance, considering indirect interactions can provide additional information of the competitive effects or facilittative that plants exert on others 
-
-
-
-
-
-
-
-
-
-[@simmons2019]. 
-
-
-
-
-
-
-
-
-
-In addition, at the species level we have progressed our understanding of pairwise interactions. Phenological mismacthes 
-
-
-
-the study of the microstructure of mutualistic networks have progressed the understanding of pairwise interactions (e.g., trait matching).
-
-
-
+Research of plant-pollinator networks have proven common invariant structural properties across networks. Mutualistic networks tend to be nested [@bascompte2003], the degree distribution (number of links per species) generally follows a truncated power law distribution [@jordano2003] and there is an imbalance with approximately four times more pollinator species than plant species [@vazquez2009]. In addition, phenological overlap, morphological matching and species abundances have been shown to be determinant for the understanding of plant-pollinator interactions and network structure [@stang2006; @peralta2020]. Despite progress in plant-pollinator interactions, indirect interactions such as the competitive and facilitative interactions between plants for pollinators have been rarely investigated [@simmons2020]. However, the recent advances in analytical tools [..To be continued..]
 
 
 

@@ -23,15 +23,13 @@ Ecological processes leave distinct structural imprints on indirect interactions
 The interaction between plants and pollinators can be studied at different scales, from species level interactions (micro-scale) to the full network structure (macro-scale). Research of the network structure have proven common invariant structural properties across them including nestedness [@jordano2003], the imbalance between plants and pollinators with approximately four times more pollinator species [@vazquez2009] and a degree distribution that decays as a power law [@jordano2003]. In addition, phenological overlap, morphological matching and species abundances have been shown to be determinant for the understanding of plant-pollinator interactions and network structure [@stang2006; @peralta2020]. However, condensing to species level and the holistic view of the full network involves missing relevant information for the understanding of ecological processes [@simmons2019]. 
 
 
+Indirect interactions are a widespread phenomenon in ecological communities [@strauss1991]. For instance, plant species can facilitate or compete for pollinator's visitation. Despite their relevance in ecological communities, plant-pollinator research fails to capture indirect interactions with the traditional analytical tools that condense the information in single indices (e.g., netedness or interaction frequency). Nonetheless, the emerging framework of network motifs in plant-pollinator research allows to consider both direct and indirect interactions [@simmons2019]. Motifs are cosidered the building blocks that depict subsets of interactions of the network. The work of @simmons2020 have shown that the different processes that govern species interactions (e.g., species abundances versus trait-matching) can lead to different patterns of indirect interactions However, we still ignore what are the general patterns of indirect interactions of plant-pollinator networks in natural systems.
 
-
-[Explain what macro-descriptors have found i.e. Bascompte, and what pairwise interactions descriptors have accomplished i.e. trait-matching. End explaining Benno simmons work]
-
-Exploring the different and most frequent motifs could help our understanding of species interactions due to motifs consider direct and indirect interactions not accounted in single species metrics. [Explain this: https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/1365-2435.13736 and say we don't know how motif distribution really looks like in the real world. Which is the expected pattern?]
+Motifs are abstract representations often decoupled from species ecology. 
 
 
 
-However, motifs are abstract representations often decoupled from species ecology. [explain here the importance of relating reproductive strategies and pollinators behaviours to their positions within a motif. This is interesting because bridges pairwise interactions to the emergent network via motifs] 
+[explain here the importance of relating reproductive strategies and pollinators behaviours to their positions within a motif. This is interesting because bridges pairwise interactions to the emergent network via motifs] 
 
 Here, we used ... blah... and fined plant functional groups by using a comprehensive dataset with several reproductive traits and pollinator functional groups as the main differentiated guilds in life form and behaviour. Then, we explored the main motifs of these networks and we found [...]
 
@@ -134,8 +132,8 @@ all_position_percentiles$position <- stri_extract_first_regex(all_position_perce
                                                               "[0-9]+") %>% as.numeric()
 
 all_position_percentiles <- add_study_id(all_position_percentiles)
-str(all_position_percentiles)
-head(all_position_percentiles)
+#str(all_position_percentiles)
+#head(all_position_percentiles)
 
 list_plants_FG <- as.character(1:10)
 
@@ -293,6 +291,7 @@ ggarrange(GF_plant_pos,GF_poll_pos,
 
 ##SUPPLEMENTARY MATERIAL
 
+**TABLES**
 
 ```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE,fig.align = "left"}
 ##############################
@@ -343,6 +342,7 @@ references %>%
 
 ```
 
+**FIGURES**
 
 ```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE, fig.height=7, fig.width=13, fig.cap="Figure S1. Plant functional groups composition separated in qualitative and quantitative variables. Panel A) shows the percentage of the different categories within trait represented with different colours for each functional group. Plot B) shows the radar plot of the different quantitative variables standardize on the same scale also coloured with the same patterns of colours as qualitative variables per cluster."}
 

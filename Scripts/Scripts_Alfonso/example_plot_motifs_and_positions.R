@@ -54,8 +54,9 @@ p16 <- plot_motif_positions(motif_number)
 motif_number <- 17
 p17 <- plot_motif_positions(motif_number)
 
+
 library(patchwork)
 
+(p1 & ylab("2 species")| p2 & ylab("3 species") | p3 )/ (p4 & ylab("4 species")| p5 | p6 | p7)/ (p8  & ylab("5 species")| p9 | p10 | p11 | p12) / (p13 & ylab("5 species")| p14 | p15 | p16 | p17)+
+ plot_annotation(tag_levels = '1') & theme(axis.title.y = element_text(color="black", size=14, face="bold"))
 
-(p1 + p2 + p3)/ (p4 | p5 | p6 | p7)/ (p8 | p9 | p10 | p11 | p12) / (p13 | p14 | p15 | p16 | p17)+
- plot_annotation(tag_levels = '1')

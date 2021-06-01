@@ -18,6 +18,10 @@ plot_motif_positions <- function(motif_number){
     
     xdown = c(0,1.5,3)
     
+  }else if(length(labdown)==4){
+    
+    xdown = c(0,1.5,3,4.5)
+    
   }else{
     
     xdown = c(1.5)
@@ -34,6 +38,10 @@ plot_motif_positions <- function(motif_number){
   }else if(length(labup)==3){
     
     xup = c(0,1.5,3)
+    
+  }else if(length(labup)==4){
+    
+    xup = c(0,1.5,3,4.5)
     
   }else{
     

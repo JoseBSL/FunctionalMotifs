@@ -20,7 +20,7 @@ plot_motif_positions <- function(motif_number){
     
   }else if(length(labdown)==4){
     
-    xdown = c(0,1.5,3,4.5)
+    xdown = c(-0.75,0.75,2.25,3.75)
     
   }else{
     
@@ -41,7 +41,7 @@ plot_motif_positions <- function(motif_number){
     
   }else if(length(labup)==4){
     
-    xup = c(0,1.5,3,4.5)
+    xup = c(-0.75,0.75,2.25,3.75)
     
   }else{
     
@@ -78,7 +78,7 @@ plot_motif_positions <- function(motif_number){
     geom_point(aes(color = as.factor(label)),size=20)+
     geom_text(aes(x, y , label = label),size=6)+
     scale_color_brewer(palette = "Set2")+
-    xlim(-1,4)+ ylim(-0.5,1.5)+
+    xlim(-1.5,4)+ ylim(-0.5,1.5)+
     theme(panel.background = element_blank(),
           axis.text.x=element_blank(),
           axis.ticks.x=element_blank(),

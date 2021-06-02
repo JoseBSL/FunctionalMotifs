@@ -162,19 +162,28 @@ for(i.motif in 1:length(motif_codes)){
   
 }
 
+#Add categories based on path length set by Simmons 2021 et al., Functional Ecology
+d$Broad_categories[d$motif==2 | d$motif==7 | d$motif==17 | d$motif==3|d$motif==4|d$motif==8] <- "Fan" 
+
+d$Broad_categories[d$motif==15 | d$motif==11] <- "Medium-weak" 
+
+d$Broad_categories[d$motif==6 | d$motif==16 |  d$motif==12] <- "Strong" 
+
+d$Broad_categories[d$motif==5 | d$motif==9 |  d$motif==14|  d$motif==13|  d$motif==10] <- "Weak" 
+
+
 
 ggplot(NULL) + 
   geom_point(data = d %>% filter(motif != 1),
              aes(y=as.factor(motif), x=percentil_sizeclass, 
-                 color = as.factor(motif)),
+                 color = as.factor(Broad_categories)),
              position = "jitter",alpha=0.5)+
   geom_errorbar(data = motif_means,aes(y = as.factor(motif), xmin=mean-SE, xmax=mean+SE), 
                 width=1.0,size=1)+
   geom_point(data = motif_means,aes(y = as.factor(motif), x=mean), 
                 size=2)+
-  labs(y="Motif", x = "Percentile")+
-  theme_bw()+
-  theme(legend.position = "none")
+  labs(y="Motif", x = "Percentile",colour="Motif classification")+
+  theme_bw()
 
 #Fig 1 Should be a dot plot (or forest plot) of the mean +- SE of the 15 motifs.
 #NICE! Can we put motifs in Y axes, and % in X?

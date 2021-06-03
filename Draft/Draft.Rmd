@@ -21,9 +21,9 @@ Ecological processes leave distinct structural imprints on indirect interactions
 
 The interaction between plants and pollinators can be studied at different scales, from species level interactions (micro-scale) to the full network structure (macro-scale). Research of the network structure have proven common invariant structural properties across them including nestedness [@jordano2003], the imbalance between plants and pollinators with approximately four times more pollinator species [@vazquez2009] and a degree distribution that decays as a power law [@jordano2003]. In addition, phenological overlap, morphological matching and species abundances have been shown to be determinant for the understanding of plant-pollinator interactions and network structure [@stang2006; @peralta2020]. However, condensing to species level and the holistic view of the full network involves missing relevant information for the understanding of ecological processes [@simmons2019]. 
 
-Indirect interactions are a widespread phenomenon in ecological communities [@strauss1991]. For instance, plant species can facilitate or compete for pollinator's visitation. Despite their relevance in ecological communities, plant-pollinator research fails to capture indirect interactions with the traditional analytical tools that condense the information in single indices (e.g., netedness or interaction frequency). Nonetheless, the emerging framework of network motifs in plant-pollinator research allows to consider both direct and indirect interactions [@simmons2019]. Motifs are commonly referred as the building blocks that depict subsets of interactions of the network [@milo2002]. The work of @simmons2020 have shown that the different processes that govern species interactions (e.g., species abundances versus trait-matching) can lead to different patterns of indirect interactions. However, we still ignore what are the general patterns of indirect interactions in plant-pollinator networks.
+Indirect interactions (i.e., motifs) commonly referred as the building blocks that depict subsets of interactions of the network [@milo2002] are a widespread phenomenon in ecological communities [@strauss1991]. For instance, plant species can facilitate or compete for pollinator's visitation. Despite their relevance in ecological communities, plant-pollinator research fails to capture indirect interactions with the traditional analytical tools that condense the information in single indices (e.g., netedness or interaction frequency). Nonetheless, the emerging framework of network motifs in plant-pollinator research allows to consider both direct and indirect interactions [@simmons2019]. The study of @simmons2020 have shown that the different processes that govern species interactions (e.g., species abundances versus trait-matching) can lead to different patterns of indirect interactions. However, we still ignore what are the general patterns of indirect interactions in plant-pollinator networks.
 
-Linking the structural porperties of the meso-scale with the species ecology can help the understanding of ecological processes. For instance, different motifs can have different ecological meanings [@simmons2019] and the position within a motif can determine the species functional role [@stouffer2012; @baker2015]. However, motifs are abstract representations often decoupled from species ecology. Remarkably, recent empirical findings indicate that the meso-scale is the best descriptor of plant reproductive success [@allen2021]. Further, although some studies have evaluated plant reproductive strategies in plant-pollinator networks [tur2013; @lazaro2020], they are often overlooked [@devaux2014]. Hence, exploring how the main species reproductive groups integrate with the emergent motif framework can shed light of key aspects of ecosystem functioning.
+Linking the structural porperties of the meso-scale with the species ecology can help the understanding of ecological processes. For instance, different motifs can have different ecological meanings [@simmons2019] and the position within a motif can determine the species functional role [@stouffer2012; @baker2015]. However, motifs are abstract representations often decoupled from species ecology. Remarkably, recent empirical findings indicate that the meso-scale is the best descriptor of plant reproductive success [@allen2021]. Further, although some studies have evaluated plant reproductive strategies in plant-pollinator networks [tur2013; @lazaro2020], they are often overlooked [@devaux2014]. Hence, exploring how the main reproductive groups integrate with the emergent motif framework can shed light of key aspects of ecosystem functioning.
 
 Here, we used 60 plant-pollinator networks from 18 different studies and grouped the different plant and pollinator species into functional groups that summarized the main reproductive strategies. Plants were grouped based on a comprehensive dataset that included floral, reproductive and vegetative traits compiled in Lanuza et al., (unpublished) on a larger set of plant-pollinator networks. Pollinators were grouped into the main taxonomical groups that differed in life form and behaviour. Then, we explored the frequency of motifs up to five nodes in these set of plant-pollinator networks. Finally, we explore if the different plants and pollinators functional groups are over- or under-represented by comparing their frequencies with simulated networks.
 
@@ -47,7 +47,7 @@ Following Simmons et al. [@simmons2019; @simmons2020], we broke down the plant-p
 We calculated the frequency of all motifs up to five nodes (see Figure 1) for each empirical network, by using the ‘bmotif’ package [@bmotifsimmons2019]. To control for variation in network size and for the fact that smaller motifs can be nested within larger motifs, the frequencies were normalised as a proportion of the total number of motifs within each motif class (i.e., the number of nodes a motif contains). Like [@simmons2020], we just used five-node motifs in our analyses for visualisation, interpretation and computational reasons. In addition, we also excluded two-node motifs (or links) from our analyses because their normalised frequencies would always equal one.
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.cap="Figure 1. Adapted figure of Simmons et al., 2019 with all the possible motifs from two to five species in bipartite networks", fig.width=10,fig.height=8}
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.cap="Figure 1. Adapted figure of Simmons et al., 2019 with all the possible motifs from two to five species in bipartite networks. There is a total of 17 possible motifs with 46 different positions denoted within each node.", fig.width=10,fig.height=8}
 library(tidyverse)
 library(RColorBrewer)
 source("../Scripts/Scripts_Alfonso/plot_motif_positionsV2.R")
@@ -127,7 +127,7 @@ Finally, we draw a network collapsing nodes per FG...]
 Figure S1
 
 1) over and under represented motifs
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.cap="Figure 1."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.cap="Figure 2. Comparison of the motif frequencies between empirical and simulated networks. Average percentages of motifs close to 0 and 100 indicate under- and over- representation in empirical networks. The different motifs are coloured by the mean path length as done in @simmons2020.", fig.width=8,fig.height=5}
 library(lme4)
 library(nlme)
 library(tidyverse)
@@ -172,18 +172,19 @@ d$Broad_categories[d$motif==6 | d$motif==16 |  d$motif==12] <- "Strong"
 d$Broad_categories[d$motif==5 | d$motif==9 |  d$motif==14|  d$motif==13|  d$motif==10] <- "Weak" 
 
 
-
 ggplot(NULL) + 
   geom_point(data = d %>% filter(motif != 1),
              aes(y=as.factor(motif), x=percentil_sizeclass, 
                  color = as.factor(Broad_categories)),
-             position = "jitter",alpha=0.5)+
+             position = "jitter",alpha=0.55)+
   geom_errorbar(data = motif_means,aes(y = as.factor(motif), xmin=mean-SE, xmax=mean+SE), 
                 width=1.0,size=1)+
   geom_point(data = motif_means,aes(y = as.factor(motif), x=mean), 
                 size=2)+
-  labs(y="Motif", x = "Percentile",colour="Motif classification")+
-  theme_bw()
+  labs(y="Motif", x = "Percentile",colour="Path length classification")+
+  theme_bw() + scale_color_manual(labels = c('Fan' = expression(paste("Fan (", bar(x), " = 1.48)")), 'Medium-weak' = expression(paste("Asymmetric complete (", bar(x), " = 1.60)")),
+    'Strong' = expression(paste("Complete (", bar(x), " = 1.38)")), "Weak" =expression(paste("Core-peripheral (", bar(x), " = 1.85)"))), name = "Path length classification",values = c("deepskyblue3","maroon","darkgoldenrod2","grey25")) +
+theme(legend.text.align = 0)
 
 #Fig 1 Should be a dot plot (or forest plot) of the mean +- SE of the 15 motifs.
 #NICE! Can we put motifs in Y axes, and % in X?

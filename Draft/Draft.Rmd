@@ -171,20 +171,23 @@ d$Broad_categories[d$motif==6 | d$motif==16 |  d$motif==12] <- "Strong"
 
 d$Broad_categories[d$motif==5 | d$motif==9 |  d$motif==14|  d$motif==13|  d$motif==10] <- "Weak" 
 
+#order the categories from short to long path length
+d$Broad_categories <- factor(d$Broad_categories, levels = c("Strong", "Fan", "Medium-weak", "Weak"))
 
 ggplot(NULL) + 
   geom_point(data = d %>% filter(motif != 1),
              aes(y=as.factor(motif), x=percentil_sizeclass, 
                  color = as.factor(Broad_categories)),
-             position = "jitter",alpha=0.55)+
+             position = "jitter",alpha=0.5)+
   geom_errorbar(data = motif_means,aes(y = as.factor(motif), xmin=mean-SE, xmax=mean+SE), 
                 width=1.0,size=1)+
   geom_point(data = motif_means,aes(y = as.factor(motif), x=mean), 
                 size=2)+
   labs(y="Motif", x = "Percentile",colour="Path length classification")+
-  theme_bw() + scale_color_manual(labels = c('Fan' = expression(paste("Fan (", bar(x), " = 1.48)")), 'Medium-weak' = expression(paste("Asymmetric complete (", bar(x), " = 1.60)")),
-    'Strong' = expression(paste("Complete (", bar(x), " = 1.38)")), "Weak" =expression(paste("Core-peripheral (", bar(x), " = 1.85)"))), name = "Path length classification",values = c("deepskyblue3","maroon","darkgoldenrod2","grey25")) +
+  theme_bw() + scale_color_manual(labels = c('Strong' = expression(paste("Complete (", bar(x), " = 1.38)")),'Fan' = expression(paste("Fan (", bar(x), " = 1.48)")), 'Medium-weak' = expression(paste("Asymmetric complete (", bar(x), " = 1.60)")), "Weak" =expression(paste("Core-peripheral (", bar(x), " = 1.85)"))), name = "Path length classification",values = c("grey25","springgreen4","sienna2","goldenrod2")) +
 theme(legend.text.align = 0)
+
+#Trying to maintain a gradient from low to high in colors
 
 #Fig 1 Should be a dot plot (or forest plot) of the mean +- SE of the 15 motifs.
 #NICE! Can we put motifs in Y axes, and % in X?

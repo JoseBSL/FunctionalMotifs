@@ -130,7 +130,7 @@ Figure S1
 
 **Overall meso-scale patterns**
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.cap="Figure 2. Comparison of the motif frequencies between empirical and simulated networks. Average percentages of motifs close to 0 and 100 indicate under- and over- representation in empirical networks. The different motifs are coloured by the mean path length as done in @simmons2020.", fig.width=8,fig.height=5}
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.cap="Figure 2. Comparison of the motif frequencies between empirical and simulated networks. Average percentages of motifs close to 0 and 100 indicate under- and over- representation in empirical networks. The different motifs are coloured by the mean path length as done in @simmons2020.", fig.width=9,fig.height=5}
 library(lme4)
 library(nlme)
 library(tidyverse)
@@ -198,7 +198,6 @@ theme(legend.text.align = 0)
 
 **Meso-scale functional groups position**
 
-2) FG-position associations.
 ```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE}
 library(lme4)
 library(nlme)
@@ -357,16 +356,16 @@ GF_poll_pos <- ggplot(NULL) +
 
 
 # Plant and Pollinators--------
-
-ggarrange(GF_plant_pos,GF_poll_pos,
-          ncol = 1, nrow = 2,heights = c(.90, 1.4))
-
+#
+#ggarrange(GF_plant_pos,GF_poll_pos,
+#          ncol = 1, nrow = 2,heights = c(.90, 1.4))
+#
 #Fig 2 may be the same, but for the each positions-FG combination? Maybe heatmap (but we lose the SE's)
 
 ```
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.height=8,fig.width=8}
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.height=8,fig.width=8, fig.cap="Figure 3. . Comparison of the motif frequencies between empirical and simulated networks collapsing the networks nodes by functional plant and pollinator functional groups. Mean percentiles close to 0 and 1 indicate under- and over- representation respectively."}
 
 library(lme4)
 library(nlme)
@@ -687,7 +686,7 @@ h_pol+h_plan
 
 ```
 
-
+Heatmap indicating under- and over- representation of pollinator and plant functional groups in the different motif positions. The different motif positions are dividied by the average path length clasification by @simmons2020
 
 
 ##REFERENCES

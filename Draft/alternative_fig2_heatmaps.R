@@ -359,16 +359,29 @@ Heatmap(long_m, name = "mean\npercentile", row_split=r_split,cluster_row_slices 
 library(circlize)
 col_fun = colorRamp2(c(0.05644663,0.25, 0.4673256,0.75, 0.8782047), c("blue","cadetblue3", "azure2", "gold","red"))
 
-h_pol <- Heatmap(long_m, name = "mean\npercentile", row_split=r_split,cluster_row_slices = FALSE, 
+h_pol <- Heatmap(long_m, name = "Mean\npercentile", row_split=r_split,cluster_row_slices = FALSE, 
         column_title = "Pollinator functional\ Groups",row_names_gp = gpar(fontsize = 12),col = col_fun)
 
  #Prepare plants
 
-long_plants <- melt(setDT(heat_plants), id.vars = c("position","Broad_categories"), variable.name = "Functiona_groups")
+long_plants <- melt(setDT(heat_plants), id.vars = c("position","Broad_categories"), variable.name = "Functional_groups")
 
 long_plants_1 <- long_plants %>% select(-Broad_categories)  
 
-long_plants_m <- acast(long_plants_1, position~Functiona_groups, value.var="value")
+str(long_plants_1)
+
+long_plants_1$Functional_groups <- as.character(long_plants_1$Functional_groups)
+
+long_plants_1$Functional_groups[long_plants_1$Functional_groups==1] <- "Cluster 1" 
+long_plants_1$Functional_groups[long_plants_1$Functional_groups==2] <- "Cluster 2" 
+long_plants_1$Functional_groups[long_plants_1$Functional_groups==3] <- "Cluster 3" 
+long_plants_1$Functional_groups[long_plants_1$Functional_groups==4] <- "Cluster 4" 
+long_plants_1$Functional_groups[long_plants_1$Functional_groups==5] <- "Cluster 5" 
+
+long_plants_1$Functional_groups <- factor(long_plants_1$Functional_groups, levels=c("Cluster 1",
+"Cluster 2" ,"Cluster 3","Cluster 4" ,"Cluster 5" ))
+
+long_plants_m <- acast(long_plants_1, position~Functional_groups, value.var="value")
 
 r_split_plants <- c(rep(c("Fan"), 3),rep(c("Core-peripheral"), 2),"Complete",rep(c("Fan"),2),rep(c("Core-peripheral"), 3),
              rep(c("Asymmetric complete"), 2), "Complete", rep(c("Core-peripheral"), 4),rep(c("Asymmetric complete"), 2),
@@ -376,17 +389,9 @@ r_split_plants <- c(rep(c("Fan"), 3),rep(c("Core-peripheral"), 2),"Complete",rep
 
 r_split_plants <- factor(r_split, levels=c("Core-peripheral","Complete","Fan","Asymmetric complete"))
 
-min(long_plants_m)
-max(long_plants_m)
 
-h_plan <- Heatmap(long_plants_m, name = "mean\npercentile", row_split=r_split_plants,cluster_row_slices = FALSE, 
+h_plan <- Heatmap(long_plants_m, name = "Mean\npercentile", row_split=r_split_plants,cluster_row_slices = FALSE, 
         column_title = "Plant functional\ Groups",row_names_gp = gpar(fontsize = 12),col = col_fun)
 
-
-# code only for demonstration
-ht = Heatmap(small_mat)
-ht = draw(ht)
-row_order(ht)
-column_order(ht)
 
 h_pol+h_plan

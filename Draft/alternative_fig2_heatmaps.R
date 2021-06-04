@@ -3,14 +3,14 @@ library(lme4)
 library(nlme)
 library(tidyverse)
 library(stringi)
-source("../Scripts/Scripts_Alfonso/add_study_id.R")
+source("Scripts/Scripts_Alfonso/add_study_id.R")
 
 #############################################
 # EXTRACT MEAN VALUES
 #############################################
 
 
-all_position_percentiles <- read_csv("../Data/Csv/Motifs_positions_and_null_models/GF_positions_frequency_percentile.csv")
+all_position_percentiles <- read_csv("Data/Csv/Motifs_positions_and_null_models/GF_positions_frequency_percentile.csv")
 
 all_position_percentiles$position <- stri_extract_first_regex(all_position_percentiles$position,
                                                               "[0-9]+") %>% as.numeric()
@@ -115,7 +115,7 @@ pollinator_means_reordered$lower[pollinator_means_reordered$lower < 0] <- 0
 # ADDING BROAD MOTIF CATEGORIES TO POSITIONS
 #############################################
 
-motifs_raw_data <- read_csv("../Data/Data_processing/Motifs_connections/motif_pattern_connections.csv")
+motifs_raw_data <- read_csv("Data/Data_processing/Motifs_connections/motif_pattern_connections.csv")
 
 motifs_raw_data$Broad_categories <- NA
 
@@ -244,7 +244,7 @@ hp4 <- Heatmap(heat_plants_Medium_weak[,c(2:ncol(heat_plants_Medium_weak))],
         row_names_gp = gpar(fontsize = 12) # Text size for row names
 )
 
-hp1 %v% hp2 %v% hp3 %v% hp4
+ hp1 %v% hp2 %v% hp3 %v% hp4
 
 # POLLINATORS-----------     
 
@@ -317,4 +317,76 @@ h4 <- Heatmap(heat_pollinators_Medium_weak[,c(2:ncol(heat_pollinators_Medium_wea
               row_names_gp = gpar(fontsize = 12) # Text size for row names
 )
 
-h1 %v% h2 %v% h3 %v% h4
+ h1 %v% h2 %v% h3 %v% h4
+
+
+
+##################
+
+#Do not know how to handle this multiplot for creating a panel 
+ 
+# I'm going to create the 4 plots in one, 
+# I'm not sure that the grouping of the functional group is correct
+# when is done separately
+ 
+#sorry for the mess of libraries that I do below 
+
+ #Prepare first pollinators
+
+library(tidyr)
+library(data.table)
+long <- melt(setDT(heat_pollinators), id.vars = c("position","Broad_categories"), variable.name = "guilds")
+
+long_1 <- long %>% select(-Broad_categories)  
+
+library(reshape2)
+long_m <- acast(long_1, position~guilds, value.var="value")
+
+#set manually the divisions, so far this is the best way I have seen to split the rows by categories
+
+r_split <- c(rep(c("Fan"), 3),rep(c("Core-peripheral"), 2),"Complete",rep(c("Fan"),2),rep(c("Core-peripheral"), 4),
+             rep(c("Asymmetric complete"), 2), "Complete", rep(c("Core-peripheral"), 3),rep(c("Asymmetric complete"), 2),
+             "Complete", "Fan")
+
+#set order of labels that avoids overlapping
+r_split <- factor(r_split, levels=c("Core-peripheral","Complete","Fan","Asymmetric complete"))
+
+
+Heatmap(long_m, name = "mean\npercentile", row_split=r_split,cluster_row_slices = FALSE, 
+        column_title = "Functional\ Groups",row_names_gp = gpar(fontsize = 12))
+
+#plat a bit with colors, a bit of a more complex set but looks nicer
+library(circlize)
+col_fun = colorRamp2(c(0.05644663,0.25, 0.4673256,0.75, 0.8782047), c("blue","cadetblue3", "azure2", "gold","red"))
+
+h_pol <- Heatmap(long_m, name = "mean\npercentile", row_split=r_split,cluster_row_slices = FALSE, 
+        column_title = "Pollinator functional\ Groups",row_names_gp = gpar(fontsize = 12),col = col_fun)
+
+ #Prepare plants
+
+long_plants <- melt(setDT(heat_plants), id.vars = c("position","Broad_categories"), variable.name = "Functiona_groups")
+
+long_plants_1 <- long_plants %>% select(-Broad_categories)  
+
+long_plants_m <- acast(long_plants_1, position~Functiona_groups, value.var="value")
+
+r_split_plants <- c(rep(c("Fan"), 3),rep(c("Core-peripheral"), 2),"Complete",rep(c("Fan"),2),rep(c("Core-peripheral"), 3),
+             rep(c("Asymmetric complete"), 2), "Complete", rep(c("Core-peripheral"), 4),rep(c("Asymmetric complete"), 2),
+             "Complete", "Fan")
+
+r_split_plants <- factor(r_split, levels=c("Core-peripheral","Complete","Fan","Asymmetric complete"))
+
+min(long_plants_m)
+max(long_plants_m)
+
+h_plan <- Heatmap(long_plants_m, name = "mean\npercentile", row_split=r_split_plants,cluster_row_slices = FALSE, 
+        column_title = "Plant functional\ Groups",row_names_gp = gpar(fontsize = 12),col = col_fun)
+
+
+# code only for demonstration
+ht = Heatmap(small_mat)
+ht = draw(ht)
+row_order(ht)
+column_order(ht)
+
+h_pol+h_plan

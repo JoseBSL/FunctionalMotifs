@@ -122,11 +122,14 @@ Finally, we draw a network collapsing nodes per FG...]
 
 ##RESULTS
 
-0) Description of guilds and FG. 
+**Functional groups**
+
+The hierarchical cluster analysis divided the 1506 species in 5 different groups (Figure S1) with different and overlapping characteristics (Figure 1, Table S1). The first and largest cluster, Cluster A, was constituted by 710 species. The species of this cluster had the shortest plant heights (Median = 0.5m, Mean = 0.84m), were mostly herbs (89.58%) with short lived life span (68.23%) and the lowest number of flowers per plant (Median = 30, Mean = 197.15); the flowers were mostly hermaphrodite (97.40%) with actinomorphic symmetry (99.48%), the morphology was variant but the predominant shapes were ‘open’ (51.56%) and ‘capitulum’ (23.44%); most of the species were self compatible (96.35%) and had the higher levels of autonomous selfing of all clusters from low-medium selfing (47.92%) to high selfing (52.08%) with nectar production for 83.85% of the species. Cluster B, had 588 species and was the the second in plant height (Median = 0.8m, Mean = 1.98m), number of flowers per plant (Median = 75; Mean = 1559) and flowers per inflorescence (Median = 15; Mean = 58), it had diverse life forms (herbs 52.89%, shrubs 34.52% and trees 12.59%) and the species were mostly perennial (97.96%); the flowers were the second largest (flower length Median = 10mm, Mean = 10.08mm; flower width Median = 5.10mm, Mean = 16.88mm) and it had mostly hermaphroditic breeding system (95.41%), actinomorphic symmetry (99.15%) and a predominant flower morphology of ‘open’ (50.17%) and ‘tube’ shapes (20.07); the majority of species were self compatible (70.24%) and partially self compatible (20.24%) and had low selfing levels (88.95%) with nectar production for 78.40%. Cluster C was constituted by 323 species, had similar plant heights to cluster B (Median = 0.75, Mean = 1.85) with also diverse life forms (61.61% herbs, 28.79% shrubs, 9.60% trees) with mostly perennial species (95.36%) with the largest flower size (flower length Median =9.10mm , Mean =13.95mm; flower width Median =15mm, Mean =20.18mm) and number of ovules per flower of all clusters (Median = 30, Mean  = 527.87); flowers were mostly hermaphroditic (97.83%) with actinomorphic flowers (78.95%) and predominant ‘open’ (28.48%) ‘capitulum’ (27.55%) and ‘tube’ (26.01%) flower morphology; this was the cluster with greater proportion of self incompatible species (76.47%) and it had negligible autonomous selfing level (Median = 0,  Mean = 0.30) with the highest proportion of nectar secreting species (92.26%). Cluster D had 164 species, they were the tallest plants (Median =2.88m, Mean =5.19m) and had the largest proportion of shrubs (41.46%) and trees (31.71%) of all clusters, the species were mainly perennial (92.07%) and differentiated from the rest of the clusters by having principally dioecious (63.41%) and monoecious (35.98%) breeding system; this cluster had the largest number of flower per plant (Median = 1000, Mean = 6803) and per inflorescence (Median = 30 , Mean = 258) but the smaller flower size of all clusters (flower length Median =2.71, Mean =6.53; flower width Median = 3.62; Mean = 8.23) with ‘open’ (53.66%) and ‘brush’ (21.34%) morphology as the most representative flower shapes of this group; in addition, this cluster had the shortest styles (Median = 1mm; Mean = 3.05mm) and lower number of ovules (Median = 4.50, Mean = 110.47) along with cluster A; thus, the flowers were unisexual (98.78%), actinomorphic (95.12%), had no selfing (98.17%) and had the lowest proportion of nectar secreting species (69.51%) of all clusters. Finally, 239 species integrated Cluster E which had the second shortest species of all clusters (Median = 0.55m; Mean = 1.23m), the species were mainly herbs (83.26%) and perennial (70.29%) but also had a representative proportion of short lived species (29.71%); this cluster was the only one with mainly zygomorphic flowers (97.07%) with tubular (55.65%) and papilionaceous (24.69%) flower shapes, the species had mostly hermaphroditic breeding system (96.65%) and the flowers had the longest styles of all clusters (Median = 5mm; Mean = 8.74mm); species were mostly self compatible (88.28%) and nectar secreting (88.28%) with low autonomous selfing levels (61.92%) but also had species with high (18.41%) medium (15.06%) and lack of autonomous selfing (4.60%).
 
 Figure S1
 
-1) over and under represented motifs
+**Overall meso-scale patterns**
+
 ```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.cap="Figure 2. Comparison of the motif frequencies between empirical and simulated networks. Average percentages of motifs close to 0 and 100 indicate under- and over- representation in empirical networks. The different motifs are coloured by the mean path length as done in @simmons2020.", fig.width=8,fig.height=5}
 library(lme4)
 library(nlme)
@@ -192,6 +195,9 @@ theme(legend.text.align = 0)
 #Fig 1 Should be a dot plot (or forest plot) of the mean +- SE of the 15 motifs.
 #NICE! Can we put motifs in Y axes, and % in X?
 ```
+
+**Meso-scale functional groups position**
+
 2) FG-position associations.
 ```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE}
 library(lme4)
@@ -358,6 +364,331 @@ ggarrange(GF_plant_pos,GF_poll_pos,
 #Fig 2 may be the same, but for the each positions-FG combination? Maybe heatmap (but we lose the SE's)
 
 ```
+
+
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.height=8,fig.width=8}
+
+library(lme4)
+library(nlme)
+library(tidyverse)
+library(stringi)
+source("../Scripts/Scripts_Alfonso/add_study_id.R")
+
+#############################################
+# EXTRACT MEAN VALUES
+#############################################
+
+
+all_position_percentiles <- read_csv("../Data/Csv/Motifs_positions_and_null_models/GF_positions_frequency_percentile.csv")
+
+all_position_percentiles$position <- stri_extract_first_regex(all_position_percentiles$position,
+                                                              "[0-9]+") %>% as.numeric()
+
+all_position_percentiles <- add_study_id(all_position_percentiles)
+#str(all_position_percentiles)
+#head(all_position_percentiles)
+
+list_plants_FG <- as.character(1:10)
+
+plant_position_percentiles_filtered <- all_position_percentiles %>% 
+  filter(Node_FG %in% list_plants_FG, !position %in% c(1,2),
+         !is.na(expected_freq_its_GF)) #ME DA ERROR
+pollinator_position_percentiles_filtered <- all_position_percentiles %>% 
+  filter(!Node_FG %in% list_plants_FG, !position %in% c(1,2),
+         !is.na(expected_freq_its_GF))
+
+
+# Plants-------------
+
+# Mean percentile and SE taking into account the study system
+plant_codes <- plant_position_percentiles_filtered$position %>% unique()
+plant_means <- plant_position_percentiles_filtered %>% select(position,Node_FG) %>% unique()
+plant_means$mean <- NA
+plant_means$SE <- NA
+
+
+for(i.pos in 1:length(plant_codes)){
+  
+  m <- lmer(percentil_its_GF ~ Node_FG + (1|study_id),
+            data = plant_position_percentiles_filtered %>%
+              filter(position == plant_codes[i.pos]))  
+  
+  temp <- fixed.effects(m) %>% unname()
+  plant_means$mean[plant_means$position == plant_codes[i.pos]] <- c(temp[1],
+                                                                    temp[1]+temp[2],
+                                                                    temp[1]+temp[3],
+                                                                    temp[1]+temp[4],
+                                                                    temp[1]+temp[5]) ## to get real means per FG
+  temp <- sqrt(diag(vcov(m)))
+  plant_means$SE[plant_means$position == plant_codes[i.pos]] <- c(temp[1], 
+                                                                  temp[1]+temp[2],
+                                                                  temp[1]+temp[3],
+                                                                  temp[1]+temp[4],
+                                                                  temp[1]+temp[5])
+  
+}
+
+
+# Pollinators--------
+
+# Mean percentile and SE taking into account the study system
+pollinator_codes <- pollinator_position_percentiles_filtered$position %>% unique()
+pollinator_means <- pollinator_position_percentiles_filtered %>% select(position,Node_FG) %>% unique()
+pollinator_means$mean <- NA
+pollinator_means$SE <- NA
+pollinator_means_reordered <- NULL
+
+for(i.pos in 1:length(pollinator_codes)){
+  
+  m <- lmer(percentil_its_GF ~ Node_FG + (1|study_id), #HERE WE NEED STUDY SYSTEM ONLY!! 
+            data = pollinator_position_percentiles_filtered %>%
+              filter(position == pollinator_codes[i.pos]),
+            control = lmerControl(optimizer ="Nelder_Mead")) # I changed the optimizer because motif 8 (i.pos = 3) caused convergence problems, max gradient = 0.0022 > 0.002.
+  
+  temp <- fixed.effects(m) %>% unname()
+  pollinator_means_aux <- pollinator_means[pollinator_means$position == pollinator_codes[i.pos],] %>% arrange(Node_FG)
+  
+  pollinator_means_aux$mean <- c(temp[1],
+                                 temp[1]+temp[2],
+                                 temp[1]+temp[3],
+                                 temp[1]+temp[4],
+                                 temp[1]+temp[5],
+                                 temp[1]+temp[6],
+                                 temp[1]+temp[7],
+                                 temp[1]+temp[8],
+                                 temp[1]+temp[9]) ## to get real means per FG
+  
+  
+  temp <- sqrt(diag(vcov(m)))
+  pollinator_means_aux$SE <- c(temp[1],
+                               temp[1]+temp[2],
+                               temp[1]+temp[3],
+                               temp[1]+temp[4],
+                               temp[1]+temp[5],
+                               temp[1]+temp[6],
+                               temp[1]+temp[7],
+                               temp[1]+temp[8],
+                               temp[1]+temp[9])
+  
+  pollinator_means_reordered <- bind_rows(pollinator_means_reordered,pollinator_means_aux)
+  
+}
+
+# There are lower limits (mean - SE) smaller than 0 (see Other insects)
+# We set the lower limit of those error bars to zero
+
+pollinator_means_reordered <- pollinator_means_reordered %>% mutate(lower = mean-SE)
+pollinator_means_reordered$lower[pollinator_means_reordered$lower < 0] <- 0
+
+#############################################
+# ADDING BROAD MOTIF CATEGORIES TO POSITIONS
+#############################################
+
+motifs_raw_data <- read_csv("../Data/Data_processing/Motifs_connections/motif_pattern_connections.csv")
+
+motifs_raw_data$Broad_categories <- NA
+
+motifs_raw_data$Broad_categories[motifs_raw_data$motif_id %in% c(5,9,14,13,10)] <- "Core-peripherical"
+motifs_raw_data$Broad_categories[motifs_raw_data$motif_id %in% c(6,16,12)] <- "Complete"
+motifs_raw_data$Broad_categories[motifs_raw_data$motif_id %in% c(2,3,7,4,17,8)] <- "Fan"
+motifs_raw_data$Broad_categories[motifs_raw_data$motif_id %in% c(15,11)] <- "Asymmetric complete"
+
+motifs_raw_data$plant <- gsub("[^0-9.-]", "", motifs_raw_data$plant)
+motifs_raw_data$pollinator <- gsub("[^0-9.-]", "", motifs_raw_data$pollinator)
+motifs_raw_data$plant <- as.numeric(motifs_raw_data$plant)
+motifs_raw_data$pollinator <- as.numeric(motifs_raw_data$pollinator)
+motifs_raw_data <- motifs_raw_data %>% filter(!is.na(Broad_categories))
+
+fan_pollinator <- motifs_raw_data$pollinator[motifs_raw_data$Broad_categories == "Fan"] %>% unique()
+core_per_pollinator <- motifs_raw_data$pollinator[motifs_raw_data$Broad_categories == "Core-peripherical"] %>% unique()
+complete_pollinator <- motifs_raw_data$pollinator[motifs_raw_data$Broad_categories == "Complete"] %>% unique()
+asymm_pollinator <- motifs_raw_data$pollinator[motifs_raw_data$Broad_categories == "Asymmetric complete"] %>% unique()
+
+pollinator_means_reordered$Broad_categories <- NA
+
+pollinator_means_reordered$Broad_categories[pollinator_means_reordered$position %in% fan_pollinator] <- "Fan" 
+pollinator_means_reordered$Broad_categories[pollinator_means_reordered$position %in% asymm_pollinator] <- "Medium-weak" 
+pollinator_means_reordered$Broad_categories[pollinator_means_reordered$position %in% complete_pollinator] <- "Strong" 
+pollinator_means_reordered$Broad_categories[pollinator_means_reordered$position %in% core_per_pollinator] <- "Weak" 
+
+
+fan_plant <- motifs_raw_data$plant[motifs_raw_data$Broad_categories == "Fan"] %>% unique()
+core_per_plant <- motifs_raw_data$plant[motifs_raw_data$Broad_categories == "Core-peripherical"] %>% unique()
+complete_plant <- motifs_raw_data$plant[motifs_raw_data$Broad_categories == "Complete"] %>% unique()
+asymm_plant <- motifs_raw_data$plant[motifs_raw_data$Broad_categories == "Asymmetric complete"] %>% unique()
+
+plant_means$Broad_categories <- NA
+
+plant_means$Broad_categories[plant_means$position %in% fan_plant] <- "Fan" 
+plant_means$Broad_categories[plant_means$position %in% asymm_plant] <- "Medium-weak" 
+plant_means$Broad_categories[plant_means$position %in% complete_plant] <- "Strong" 
+plant_means$Broad_categories[plant_means$position %in% core_per_plant] <- "Weak" 
+
+
+
+########################################
+# CREATE HEATMAPS
+########################################
+
+library(ComplexHeatmap)
+
+# PLANTS-----
+
+# Prepare data for heatmap
+heat_plants_aux <- plant_means %>% spread(Node_FG,mean) %>% select(-SE) 
+
+heat_plants <- heat_plants_aux %>%
+  group_by(position,Broad_categories) %>% 
+  summarise_all(sum,na.rm = T)
+
+heat_plants_fan <- heat_plants %>% filter(Broad_categories == "Fan") %>% select(-Broad_categories) %>% 
+  as.matrix()
+
+rownames(heat_plants_fan) <- heat_plants_fan[,1]
+
+heat_plants_Weak <- heat_plants %>% filter(Broad_categories == "Weak") %>% select(-Broad_categories) %>% 
+  as.matrix()
+
+rownames(heat_plants_Weak) <- heat_plants_Weak[,1]
+
+heat_plants_Strong <- heat_plants %>% filter(Broad_categories == "Strong") %>% select(-Broad_categories) %>% 
+  as.matrix()
+
+rownames(heat_plants_Strong) <- heat_plants_Strong[,1]
+
+heat_plants_Medium_weak <- heat_plants %>% filter(Broad_categories == "Medium-weak") %>% select(-Broad_categories) %>% 
+  as.matrix()
+
+rownames(heat_plants_Medium_weak) <- heat_plants_Medium_weak[,1]
+
+
+# POLLINATORS-----------     
+
+filter_rare_groups <- T
+
+if(filter_rare_groups == T){
+  heat_pollinators_aux <- pollinator_means_reordered %>% filter(!Node_FG %in% c("Birds",
+                                                                                "Lizards",
+                                                                                "Other_insects")) %>% 
+    spread(Node_FG,mean) %>% select(-SE,-lower)
+  
+  colnames(heat_pollinators_aux) <- c("position","Broad_categories","Bee",            
+                                      "Coleoptera","Lepidoptera","Non-bee\nHymenoptera", 
+                                      "Non-syrphids\ndiptera","Syrphids")
+}else{
+  heat_pollinators_aux <- pollinator_means_reordered %>% spread(Node_FG,mean) %>% select(-SE,-lower)
+  
+  colnames(heat_pollinators_aux) <- c("position","Broad_categories","Bee","Birds",            
+                                      "Coleoptera","Lepidoptera","Lizards","Non-bee\nHymenoptera", 
+                                      "Non-syrphids\ndiptera","Other insects","Syrphids")
+}
+
+
+heat_pollinators <- heat_pollinators_aux %>%
+  group_by(position,Broad_categories) %>% 
+  summarise_all(sum,na.rm = T)
+
+heat_pollinators_fan <- heat_pollinators %>% filter(Broad_categories == "Fan") %>% select(-Broad_categories) %>% 
+  as.matrix()
+
+rownames(heat_pollinators_fan) <- heat_pollinators_fan[,1]
+
+heat_pollinators_Weak <- heat_pollinators %>% filter(Broad_categories == "Weak") %>% select(-Broad_categories) %>% 
+  as.matrix()
+
+rownames(heat_pollinators_Weak) <- heat_pollinators_Weak[,1]
+
+heat_pollinators_Strong <- heat_pollinators %>% filter(Broad_categories == "Strong") %>% select(-Broad_categories) %>% 
+  as.matrix()
+
+rownames(heat_pollinators_Strong) <- heat_pollinators_Strong[,1]
+
+heat_pollinators_Medium_weak <- heat_pollinators %>% filter(Broad_categories == "Medium-weak") %>% select(-Broad_categories) %>% 
+  as.matrix()
+
+rownames(heat_pollinators_Medium_weak) <- heat_pollinators_Medium_weak[,1]
+
+
+
+##################
+
+#Do not know how to handle this multiplot for creating a panel 
+ 
+# I'm going to create the 4 plots in one, 
+# I'm not sure that the grouping of the functional group is correct
+# when is done separately
+ 
+#sorry for the mess of libraries that I do below 
+
+ #Prepare first pollinators
+
+library(tidyr)
+library(data.table)
+long <- melt(setDT(heat_pollinators), id.vars = c("position","Broad_categories"), variable.name = "guilds")
+
+long_1 <- long %>% select(-Broad_categories)  
+
+library(reshape2)
+long_m <- acast(long_1, position~guilds, value.var="value")
+
+#set manually the divisions, so far this is the best way I have seen to split the rows by categories
+
+r_split <- c(rep(c("Fan"), 3),rep(c("Core-peripheral"), 2),"Complete",rep(c("Fan"),2),rep(c("Core-peripheral"), 4),
+             rep(c("Asymmetric complete"), 2), "Complete", rep(c("Core-peripheral"), 3),rep(c("Asymmetric complete"), 2),
+             "Complete", "Fan")
+
+#set order of labels that avoids overlapping
+r_split <- factor(r_split, levels=c("Core-peripheral","Complete","Fan","Asymmetric complete"))
+
+#plat a bit with colors, a bit of a more complex set but looks nicer
+library(circlize)
+col_fun = colorRamp2(c(0.05644663,0.25, 0.4673256,0.75, 0.8782047), c("blue","cadetblue3", "azure2", "gold","red"))
+
+h_pol <- Heatmap(long_m, name = "Mean\npercentile", row_split=r_split,cluster_row_slices = FALSE, 
+        column_title = "Pollinator functional\ Groups",row_names_gp = gpar(fontsize = 12),col = col_fun)
+
+ #Prepare plants
+
+#long format
+long_plants <- melt(setDT(heat_plants), id.vars = c("position","Broad_categories"), variable.name = "Functional_groups")
+
+#filter for creating matrix
+long_plants_1 <- long_plants %>% select(-Broad_categories)  
+
+
+#set better colnames
+long_plants_1$Functional_groups <- as.character(long_plants_1$Functional_groups)
+
+long_plants_1$Functional_groups[long_plants_1$Functional_groups==1] <- "Cluster 1" 
+long_plants_1$Functional_groups[long_plants_1$Functional_groups==2] <- "Cluster 2" 
+long_plants_1$Functional_groups[long_plants_1$Functional_groups==3] <- "Cluster 3" 
+long_plants_1$Functional_groups[long_plants_1$Functional_groups==4] <- "Cluster 4" 
+long_plants_1$Functional_groups[long_plants_1$Functional_groups==5] <- "Cluster 5" 
+
+long_plants_1$Functional_groups <- factor(long_plants_1$Functional_groups, levels=c("Cluster 1",
+"Cluster 2" ,"Cluster 3","Cluster 4" ,"Cluster 5" ))
+
+#create matrix with reshape
+long_plants_m <- acast(long_plants_1, position~Functional_groups, value.var="value")
+
+r_split_plants <- c(rep(c("Fan"), 3),rep(c("Core-peripheral"), 2),"Complete",rep(c("Fan"),2),rep(c("Core-peripheral"), 3),
+             rep(c("Asymmetric complete"), 2), "Complete", rep(c("Core-peripheral"), 4),rep(c("Asymmetric complete"), 2),
+             "Complete", "Fan")
+
+r_split_plants <- factor(r_split, levels=c("Core-peripheral","Complete","Fan","Asymmetric complete"))
+
+
+h_plan <- Heatmap(long_plants_m, name = "Mean\npercentile", row_split=r_split_plants,cluster_row_slices = FALSE, 
+        column_title = "Plant functional\ Groups",row_names_gp = gpar(fontsize = 12),col = col_fun)
+
+library(patchwork)
+h_pol+h_plan
+
+
+```
+
+
+
 
 ##REFERENCES
 

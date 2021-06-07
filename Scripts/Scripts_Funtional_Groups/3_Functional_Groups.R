@@ -133,9 +133,11 @@ dendro.col <- dendro %>%
 labels_colors(dendro.col) <- get_leaves_branches_col(dendro.col)
 
 # We use "darkgrey" to color some species
-list_species_out <- names(labels_colors(dendro.col)[c(1:100,200:250,1000:1100)])
+final_d_1 <- read.csv("Data/Csv/data_for_motifs_analysis_1.csv")
 
-index_species_out <- which(names(labels_colors(dendro.col)) %in% list_species_out)
+plant_species <- unique(final_d_1$Plant_species)
+
+index_species_out <- which(names(labels_colors(dendro.col)) %in% plant_species)
 
 labels_colors(dendro.col)[index_species_out] <- "darkslategray"
 

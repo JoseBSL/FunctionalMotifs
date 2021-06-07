@@ -57,7 +57,7 @@ Second, pollinators were grouped into functional groups based on taxonomic rank.
 
 **Meso-scale analysis**
 
-Following Simmons et al. [@simmons2019; @simmons2020], we broke down the plant-pollinator networks into their constituent motifs. Prior to analyses, we selected only robust links, that is, interactions whose frequency was greater than one (64.94 % interactions); and, then, we turned the quantitative networks into qualitative (or binary) ones, where interactions are present or absent. 
+Following Simmons et al. [@simmons2019; @simmons2020], we broke down the plant-pollinator networks into their constituent motifs. Prior to analyses, we selected only robust links, that is, interactions whose frequency was greater than one (64.98 % interactions); and, then, we turned the quantitative networks into qualitative (or binary) ones, where interactions are present or absent. 
 
 We calculated the frequency of all motifs up to five nodes (see Figure 1) for each empirical network, by using the ‘bmotif’ package [@bmotifsimmons2019]. To control for variation in network size and for the fact that smaller motifs can be nested within larger motifs, the frequencies were normalised as a proportion of the total number of motifs within each motif class (i.e., the number of nodes a motif contains). Like [@simmons2020], we just used five-node motifs in our analyses for visualisation, interpretation and computational reasons. In addition, we also excluded two-node motifs (or links) from our analyses because their normalised frequencies would always equal one.
 

@@ -98,37 +98,23 @@ tsne_obj <- Rtsne(g.dist, is_distance = TRUE)
 tsne_data <- tsne_obj$Y %>%data.frame() %>%setNames(c("X", "Y")) %>%mutate(cluster = as.factor(e.gr_5))
 ggplot(aes(x = X, y = Y), data = tsne_data) + geom_point(aes(color = cluster))
 
-
-
-#
-##
-###
-####
-#A PARTIR DE AQUI ALFONSO
-####
-###
-##
-#
-
 ########################################################################################################################################################
 #Plot dendrogram
 ########################################################################################################################################################
 
+#saveRDS(e.clust_5, "Data/RData/e.clust_5.rds")
 
-#Plot dendro
-library("ggplot2")
-library("reshape2")
-library("purrr")
-library("dplyr")
-# let's start with a dendrogram
-library("dendextend")
+
+e.clust_5 <- readRDS("Data/RData/e.clust_5.rds")
+
 dendro <- as.dendrogram(e.clust_5)
 dendro.col <- dendro %>%
-  set("branches_k_color", k = 5, value =   c("black", "grey", "brown4", "orange", "gold2")) %>%
-  set("branches_lwd", 0.6) %>%
+  set("branches_k_color", k = 5, value =   c("lightsteelblue2", "thistle", "lightsalmon2", "#7BB0A3", "#CDB533")) %>%
+  set("branches_lwd", 0.7) %>%
   set("labels_colors", 
       value = c("darkslategray")) %>% 
-  set("labels_cex", 0.1)
+  set("labels_cex", 0.105) 
+
 
 labels_colors(dendro.col) <- get_leaves_branches_col(dendro.col)
 
@@ -139,69 +125,50 @@ plant_species <- unique(final_d_1$Plant_species)
 
 index_species_out <- which(names(labels_colors(dendro.col)) %in% plant_species)
 
-labels_colors(dendro.col)[index_species_out] <- "darkslategray"
+'%ni%' <- Negate('%in%')
+
+index_species_in <- which(names(labels_colors(dendro.col)) %ni% plant_species)
+
+labels_colors(dendro.col)[index_species_out] <- "black"
+labels_colors(dendro.col)[index_species_in] <- "lavender"
 
 ggd1 <- as.ggdend(dendro.col)
 
+ggd1$labels$angle <- seq(90, -270, length = nrow(ggd1$labels))
+ggd1$labels$vjust <- cos(ggd1$labels$angle * pi) / (180)
+ggd1$labels$hjust <- sin(ggd1$labels$angle * pi) / (180)
 
 
-ggplot(ggd1, theme = theme_minimal()) +
-  labs(x = "Num. observations", y = "Height", title = "Dendrogram, k = 5")
-
-
-
-
-#notas que quizás sirvan para algo o no:
-# en e.clust_5$labels podemos acceder a las especies, e.clust_5$order indican el orden
-# todas estas son 1506 especies
-
-#tenemos 500 algo especies que quizás podemos marcar en las labels 
-#las obtengo de los datos finales que has usado para los motifs
-final_d_1 <- read.csv("Data/Csv/data_for_motifs_analysis_1.csv")
-
-plant_species <- unique(final_d_1$Plant_species)
-#son 524 especies
-
-#Ahora he estado intentando colorear cuando las labels del dendrograma son iguales
-#a plant_species pero de momento no lo he conseguido
-
-
-dendro <- as.dendrogram(e.clust_5)
-
-
-gdend <- dendextend::as.ggdend(dendro %>%
-                                 set('branches_k_color', k = 5) %>%
-                                 set('branches_lwd', 0.25) %>%
-                              #   set('labels_colors', k = 5) %>%
-                                 set('labels_cex', 0.037),
-                               theme = theme_minimal(),
-                               horiz = TRUE)
-
-labels_colors(gdend) <- get_leaves_branches_col(gdend)
-
-gdend$labels$angle <- seq(90, -270, length = nrow(gdend$labels))
-gdend$labels$vjust <- cos(gdend$labels$angle * pi) / (180)
-gdend$labels$hjust <- sin(gdend$labels$angle * pi) / (180)
-
-
-ggplot(gdend,offset_labels=-0.05) + theme(panel.grid.major = element_blank(),
-                      axis.text = element_blank(),
-                      axis.title = element_blank())+ coord_polar(theta = 'x') +  scale_y_reverse(expand = c(0.025, 0)) +
+ggplot(ggd1,offset_labels=-0.05) + theme(panel.grid.major = element_blank(),
+                                          axis.text = element_blank(),
+  axis.title = element_blank())+ coord_polar(theta = 'x') +  scale_y_reverse(expand = c(0.025, 0)) +
   ggtitle("Plant functional groups")+
   theme(plot.title = element_text(hjust = 0.5, vjust = -2))
 
 
+ggd1$labels$angle <- 90
+ggd1$labels$vjust <- 1
+ggd1$labels$hjust <- 1
 
-#
-##
-###
-####
-# HASTA AQUI
-####
-###
-##
-#
 
+
+ggplot(ggd1,offset_labels=-0.05) + theme(panel.grid.major = element_blank(),
+ axis.text = element_blank(),axis.title = element_blank()) +
+  ggtitle("Plant functional groups")+
+  theme(plot.title = element_text(hjust = 0.5, vjust = -2))
+
+
+## Check number of species by color to indentify the cluster id
+check_groups <- data.frame(labels_colors(dendro.col))
+str(check_groups)
+colnames(check_groups)[1] <- "colores" 
+check_groups %>% group_by(colores) %>%summarise(no_rows = length(colores))
+
+#order colors based on the plant functional group composition plot
+#("lightsteelblue2", "thistle", "lightsalmon2", "#7BB0A3", "navajowhite"))
+
+gradient("viridis",9) %>% dichromat %>% swatch
+saturation("gold3",0.75)
 ########################################################################################################################################################
 #6)SAVE DATA
 ########################################################################################################################################################

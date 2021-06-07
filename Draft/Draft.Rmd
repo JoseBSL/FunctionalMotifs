@@ -50,7 +50,7 @@ We have compiled 60 plant-pollinator networks from 18 different studies (Table S
 
 **Plant and pollinator functional groups**
 
-First, plant species were grouped into the optimal number of functional groups that summarized the main plant reproductive strategies. This was done with the help of hierarchical cluster analysis by using the trait dataset collated in Lanuza et al., (unpublished) that comprised 1,506 plant species. This dataset consisted on 8 floral, 4 reproductive and 3 vegetative traits (Table S2). For this, we calculated the distance of the different functional traits with the function gowdis from the package FD version 1.0-12 [@laliberte2014] with the method ward.D2 used for non-squared distances [@murtagh2014]. All the numerical traits were previously scaled. Finally, we applied a hierarchical cluster analysis with the function hclust from the R stats package version 4.0.5 and calculated the optimal number of clusters with the function kgs from the package maptree version 1.4-7 [@white2009].
+First, plant species were grouped into the optimal number of functional groups that summarized the main plant reproductive strategies. This was done with the help of hierarchical cluster analysis by using the trait dataset collated in Lanuza et al., (unpublished) that comprised 1,506 plant species and contained the same 60 plant-pollinator networks used in this study plus some non-weighted and weighted metawebs (see Table S1 Lanuza et al., unpublished). This dataset consisted on 8 floral, 4 reproductive and 3 vegetative traits (Table S2). We opted to calculate the plant functional groups on this larger set of species because of the higher accuracy when delimiting the functional groups with that many variables @dolnicar2014. For this, we calculated the distance of the different functional traits with the function gowdis from the package FD version 1.0-12 [@laliberte2014] with the method ward.D2 used for non-squared distances [@murtagh2014]. All the numerical traits were previously scaled. Finally, we applied a hierarchical cluster analysis with the function hclust from the R stats package version 4.0.5 and calculated the optimal number of clusters with the function kgs from the package maptree version 1.4-7 [@white2009].
 
 Second, pollinators were grouped into functional groups based on taxonomic rank. We opted to divide pollinators on the taxonomic rank level and not with functional traits because (i) they main taxonomic orders differ in form and behaviour and (ii) the lower complexity of higher taxonomic ranks (i.e., pollinators had 6 orders versus plants that had 38). Hence, we grouped pollinators into 6 functional groups: (i) Hymenoptera-Anthophila (bees), (ii) Hymenoptera-non-Anthophila (other non-bee Hymenoptera), (iii) Syrphidae-Diptera, (iv) non-Syrphidae-Diptera, (v) Lepidoptera and (vi) Coleoptera. 
 
@@ -139,9 +139,12 @@ Finally, we draw a network collapsing nodes per FG...]
 
 **Functional groups**
 
-Condense and summarize information
+The hierarchical cluster analysis divided the dataset with 1506 species and 15 traits into five different clusters with different and overlapping characteristics (Figure S1). The subset of plant species used in this study were distributed evenly across these different five groups (see Figure S1). The first cluster [...]
 
-The hierarchical cluster analysis divided the 1506 species in 5 different groups (Figure S1) with different and overlapping characteristics (Figure 1, Table S1). The first and largest cluster, Cluster A, was constituted by 710 species. The species of this cluster had the shortest plant heights (Median = 0.5m, Mean = 0.84m), were mostly herbs (89.58%) with short lived life span (68.23%) and the lowest number of flowers per plant (Median = 30, Mean = 197.15); the flowers were mostly hermaphrodite (97.40%) with actinomorphic symmetry (99.48%), the morphology was variant but the predominant shapes were ‘open’ (51.56%) and ‘capitulum’ (23.44%); most of the species were self compatible (96.35%) and had the higher levels of autonomous selfing of all clusters from low-medium selfing (47.92%) to high selfing (52.08%) with nectar production for 83.85% of the species. Cluster B, had 588 species and was the the second in plant height (Median = 0.8m, Mean = 1.98m), number of flowers per plant (Median = 75; Mean = 1559) and flowers per inflorescence (Median = 15; Mean = 58), it had diverse life forms (herbs 52.89%, shrubs 34.52% and trees 12.59%) and the species were mostly perennial (97.96%); the flowers were the second largest (flower length Median = 10mm, Mean = 10.08mm; flower width Median = 5.10mm, Mean = 16.88mm) and it had mostly hermaphroditic breeding system (95.41%), actinomorphic symmetry (99.15%) and a predominant flower morphology of ‘open’ (50.17%) and ‘tube’ shapes (20.07); the majority of species were self compatible (70.24%) and partially self compatible (20.24%) and had low selfing levels (88.95%) with nectar production for 78.40%. Cluster C was constituted by 323 species, had similar plant heights to cluster B (Median = 0.75, Mean = 1.85) with also diverse life forms (61.61% herbs, 28.79% shrubs, 9.60% trees) with mostly perennial species (95.36%) with the largest flower size (flower length Median =9.10mm , Mean =13.95mm; flower width Median =15mm, Mean =20.18mm) and number of ovules per flower of all clusters (Median = 30, Mean  = 527.87); flowers were mostly hermaphroditic (97.83%) with actinomorphic flowers (78.95%) and predominant ‘open’ (28.48%) ‘capitulum’ (27.55%) and ‘tube’ (26.01%) flower morphology; this was the cluster with greater proportion of self incompatible species (76.47%) and it had negligible autonomous selfing level (Median = 0,  Mean = 0.30) with the highest proportion of nectar secreting species (92.26%). Cluster D had 164 species, they were the tallest plants (Median =2.88m, Mean =5.19m) and had the largest proportion of shrubs (41.46%) and trees (31.71%) of all clusters, the species were mainly perennial (92.07%) and differentiated from the rest of the clusters by having principally dioecious (63.41%) and monoecious (35.98%) breeding system; this cluster had the largest number of flower per plant (Median = 1000, Mean = 6803) and per inflorescence (Median = 30 , Mean = 258) but the smaller flower size of all clusters (flower length Median =2.71, Mean =6.53; flower width Median = 3.62; Mean = 8.23) with ‘open’ (53.66%) and ‘brush’ (21.34%) morphology as the most representative flower shapes of this group; in addition, this cluster had the shortest styles (Median = 1mm; Mean = 3.05mm) and lower number of ovules (Median = 4.50, Mean = 110.47) along with cluster A; thus, the flowers were unisexual (98.78%), actinomorphic (95.12%), had no selfing (98.17%) and had the lowest proportion of nectar secreting species (69.51%) of all clusters. Finally, 239 species integrated Cluster E which had the second shortest species of all clusters (Median = 0.55m; Mean = 1.23m), the species were mainly herbs (83.26%) and perennial (70.29%) but also had a representative proportion of short lived species (29.71%); this cluster was the only one with mainly zygomorphic flowers (97.07%) with tubular (55.65%) and papilionaceous (24.69%) flower shapes, the species had mostly hermaphroditic breeding system (96.65%) and the flowers had the longest styles of all clusters (Median = 5mm; Mean = 8.74mm); species were mostly self compatible (88.28%) and nectar secreting (88.28%) with low autonomous selfing levels (61.92%) but also had species with high (18.41%) medium (15.06%) and lack of autonomous selfing (4.60%).
+
+
+
+The first and largest cluster, Cluster A, was constituted by 710 species. The species of this cluster had the shortest plant heights (Median = 0.5m, Mean = 0.84m), were mostly herbs (89.58%) with short lived life span (68.23%) and the lowest number of flowers per plant (Median = 30, Mean = 197.15); the flowers were mostly hermaphrodite (97.40%) with actinomorphic symmetry (99.48%), the morphology was variant but the predominant shapes were ‘open’ (51.56%) and ‘capitulum’ (23.44%); most of the species were self compatible (96.35%) and had the higher levels of autonomous selfing of all clusters from low-medium selfing (47.92%) to high selfing (52.08%) with nectar production for 83.85% of the species. Cluster B, had 588 species and was the the second in plant height (Median = 0.8m, Mean = 1.98m), number of flowers per plant (Median = 75; Mean = 1559) and flowers per inflorescence (Median = 15; Mean = 58), it had diverse life forms (herbs 52.89%, shrubs 34.52% and trees 12.59%) and the species were mostly perennial (97.96%); the flowers were the second largest (flower length Median = 10mm, Mean = 10.08mm; flower width Median = 5.10mm, Mean = 16.88mm) and it had mostly hermaphroditic breeding system (95.41%), actinomorphic symmetry (99.15%) and a predominant flower morphology of ‘open’ (50.17%) and ‘tube’ shapes (20.07); the majority of species were self compatible (70.24%) and partially self compatible (20.24%) and had low selfing levels (88.95%) with nectar production for 78.40%. Cluster C was constituted by 323 species, had similar plant heights to cluster B (Median = 0.75, Mean = 1.85) with also diverse life forms (61.61% herbs, 28.79% shrubs, 9.60% trees) with mostly perennial species (95.36%) with the largest flower size (flower length Median =9.10mm , Mean =13.95mm; flower width Median =15mm, Mean =20.18mm) and number of ovules per flower of all clusters (Median = 30, Mean  = 527.87); flowers were mostly hermaphroditic (97.83%) with actinomorphic flowers (78.95%) and predominant ‘open’ (28.48%) ‘capitulum’ (27.55%) and ‘tube’ (26.01%) flower morphology; this was the cluster with greater proportion of self incompatible species (76.47%) and it had negligible autonomous selfing level (Median = 0,  Mean = 0.30) with the highest proportion of nectar secreting species (92.26%). Cluster D had 164 species, they were the tallest plants (Median =2.88m, Mean =5.19m) and had the largest proportion of shrubs (41.46%) and trees (31.71%) of all clusters, the species were mainly perennial (92.07%) and differentiated from the rest of the clusters by having principally dioecious (63.41%) and monoecious (35.98%) breeding system; this cluster had the largest number of flower per plant (Median = 1000, Mean = 6803) and per inflorescence (Median = 30 , Mean = 258) but the smaller flower size of all clusters (flower length Median =2.71, Mean =6.53; flower width Median = 3.62; Mean = 8.23) with ‘open’ (53.66%) and ‘brush’ (21.34%) morphology as the most representative flower shapes of this group; in addition, this cluster had the shortest styles (Median = 1mm; Mean = 3.05mm) and lower number of ovules (Median = 4.50, Mean = 110.47) along with cluster A; thus, the flowers were unisexual (98.78%), actinomorphic (95.12%), had no selfing (98.17%) and had the lowest proportion of nectar secreting species (69.51%) of all clusters. Finally, 239 species integrated Cluster E which had the second shortest species of all clusters (Median = 0.55m; Mean = 1.23m), the species were mainly herbs (83.26%) and perennial (70.29%) but also had a representative proportion of short lived species (29.71%); this cluster was the only one with mainly zygomorphic flowers (97.07%) with tubular (55.65%) and papilionaceous (24.69%) flower shapes, the species had mostly hermaphroditic breeding system (96.65%) and the flowers had the longest styles of all clusters (Median = 5mm; Mean = 8.74mm); species were mostly self compatible (88.28%) and nectar secreting (88.28%) with low autonomous selfing levels (61.92%) but also had species with high (18.41%) medium (15.06%) and lack of autonomous selfing (4.60%).
 
 Figure S1
 
@@ -827,6 +830,7 @@ library(dplyr)
 library(reshape2)
 library(data.table)
 library(patchwork)
+library(shades)
 
 #LOAD DATA
 #read unscaled trait data in order to visualize better the clusters
@@ -1603,7 +1607,7 @@ cluster1$traits <- c(rep("Breeding system",3), rep("Compatibility",3), rep("Life
 
 c1 <- cluster1 %>% 
   ggplot(aes(x = variable,  y = value, fill = group))  +  
-  geom_col(position = "dodge") +   scale_fill_manual(name = NULL,values="#00AFBB")+
+  geom_col(position = "dodge") +   scale_fill_manual(name = NULL,values=c("sandybrown"))+
   facet_grid(~traits, scales = "free_x", space = "free_x")+theme_bw()+
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
@@ -1619,7 +1623,7 @@ cluster2$traits <- c(rep("Breeding system",3), rep("Compatibility",3), rep("Life
 
 c2 <- cluster2 %>% 
   ggplot(aes(x = variable,  y = value, fill = group))  +  
-  geom_col(position = "dodge") +   scale_fill_manual(name = NULL,values="#E69F00")+
+  geom_col(position = "dodge") +   scale_fill_manual(name = NULL,values=c("#7BB0A3"))+
   facet_grid(~traits, scales = "free_x", space = "free_x")+theme_bw()+
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
@@ -1634,9 +1638,11 @@ cluster3 <- subset(data_6, group=="Cluster 3")
 cluster3$traits <- c(rep("Breeding system",3), rep("Compatibility",3), rep("Life form",3),
                      rep("Life span",2), rep("Flower symmetry",2), rep("Nectar",2))
 
+
+
 c3 <- cluster3 %>% 
   ggplot(aes(x = variable,  y = value, fill = group))  +  
-  geom_col(position = "dodge") +   scale_fill_manual(name = NULL,values="#FC4E07")+
+  geom_col(position = "dodge") +   scale_fill_manual(name = NULL,values=c("lightsteelblue2"))+
   facet_grid(~traits, scales = "free_x", space = "free_x")+theme_bw()+
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
@@ -1652,7 +1658,7 @@ cluster4$traits <- c(rep("Breeding system",3), rep("Compatibility",3), rep("Life
 
 c4 <- cluster4 %>% 
   ggplot(aes(x = variable,  y = value, fill = group))  +  
-  geom_col(position = "dodge") +   scale_fill_manual(name = NULL,values="#000000")+
+  geom_col(position = "dodge") +   scale_fill_manual(name = NULL,values=c("thistle"))+
   facet_grid(~traits, scales = "free_x", space = "free_x")+theme_bw()+
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
@@ -1669,20 +1675,73 @@ cluster5$traits <- c(rep("Breeding system",3), rep("Compatibility",3), rep("Life
                      rep("Life span",2), rep("Flower symmetry",2), rep("Nectar",2))
 c5 <- cluster5 %>% 
   ggplot(aes(x = variable,  y = value, fill = group))  +  
-  geom_col(position = "dodge") +   scale_fill_manual(name = NULL,values="darkgreen")+
+  geom_col(position = "dodge") +   scale_fill_manual(name = NULL,values=c("lightgoldenrod2"))+
   facet_grid(~traits, scales = "free_x", space = "free_x")+theme_bw()+
   scale_y_continuous(expand = c(0,0)) +
   theme(axis.text.x = element_text(angle = 45,vjust = 1, hjust=1))+
   theme(strip.background = element_blank(), strip.text = element_blank())+ylab("")+xlab("")
 
 A <- c1 + c2 + c3 + c4 + c5 + plot_layout(ncol = 1)
-B <- ggradar(final_df_3, group.colours=c("#00AFBB", "#E69F00", "#FC4E07","#000000", "darkgreen"),
+B <- ggradar(final_df_3, group.colours=c("sandybrown", "#7BB0A3","lightsteelblue2", "thistle", "lightgoldenrod2"),
              legend.text.size=5, grid.label.size = 0,legend.position = "none",axis.label.size=3)+ 
-  guides(shape = guide_legend(override.aes = list(size = 0.5)))+ ggtitle("B) Quantitative variables")+
+  guides(shape = guide_legend(override.aes = list(size = 0.75)))+ ggtitle("B) Quantitative variables")+
   theme(plot.title = element_text(size = 18))
 
 patch <- A | B 
 
-patch + plot_annotation(title = "Plant functional groups",theme = theme(plot.title = element_text(size = 20,face="bold")))
+patch + plot_annotation(title = "Plant functional group composition",theme = theme(plot.title = element_text(size = 20,face="bold")))
 
 ```
+
+
+
+```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE, fig.height=7, fig.width=13, fig.cap="Figure S2. Hierarchical clustering dendrogram with the branches coloured by the optimal number of clusters (5). The labels of the subgroup of species (N = 524) used in this study are coloured in black in order to show the evenness of the distribution of the species across clusters. The rest of species labels are omitted for visualization purposes (N = 982)."}
+
+library(ggplot2)
+library(dendextend)
+library(dplyr)
+
+e.clust_5 <- readRDS("../Data/RData/e.clust_5.rds")
+
+dendro <- as.dendrogram(e.clust_5)
+dendro.col <- dendro %>%
+  set("branches_k_color", k = 5, value =   c("lightsteelblue2", "thistle", "sandybrown", "#7BB0A3", "lightgoldenrod2")) %>%
+  set("branches_lwd", 0.7) %>%
+  set("labels_colors", 
+      value = c("darkslategray")) %>% 
+  set("labels_cex", 0.075) 
+
+
+labels_colors(dendro.col) <- get_leaves_branches_col(dendro.col)
+
+# We use "darkgrey" to color some species
+final_d_1 <- read.csv("../Data/Csv/data_for_motifs_analysis_1.csv")
+
+plant_species <- unique(final_d_1$Plant_species)
+
+index_species_out <- which(names(labels_colors(dendro.col)) %in% plant_species)
+
+'%ni%' <- Negate('%in%')
+
+index_species_in <- which(names(labels_colors(dendro.col)) %ni% plant_species)
+
+labels_colors(dendro.col)[index_species_out] <- "black"
+labels_colors(dendro.col)[index_species_in] <- "white"
+
+
+ggd1 <- as.ggdend(dendro.col)
+
+ggd1$labels$angle <- 90
+ggd1$labels$vjust <- 1
+ggd1$labels$hjust <- 1
+
+
+
+ggplot(ggd1,offset_labels=-0.05) + theme(panel.grid.major = element_blank(),
+ axis.text = element_blank(),axis.title = element_blank()) +
+  ggtitle("Plant functional groups")+
+  theme(plot.title = element_text(hjust = 0.5, vjust = -2,size = 20,face="bold"))
+
+
+```
+

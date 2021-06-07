@@ -26,6 +26,14 @@ library(missMDA)
 library(Rtsne)
 library(dplyr)
 library(ggplot2)
+#Plot dendro
+library("ggplot2")
+library("reshape2")
+library("purrr")
+library("dplyr")
+# let's start with a dendrogram
+library("dendextend")
+
 ########################################################################################################################################################
 #1)READ TRAIT DATA
 ########################################################################################################################################################
@@ -76,7 +84,7 @@ plot(names (b), b, xlab="Number of Clusters", ylab="Penalty score")
 # HCLUST 5 clusters 
 #########
 e.clust_5 <- hclust(g.dist, method="ward.D2")
-plot(e.clust_5, main = "Cluster dengrogram based on effect traits",cex = 0.08)
+plot(e.clust_5, main = "Cluster dengrogram based on effect traits",cex = 0.08,labels =  row.names(e.clust_5))
 cut.g_5 <- readline("5")
 cut.g_5 <- as.integer(cut.g_5)
 e.gr_5 <- cutree(e.clust_5, k = 5)
@@ -92,86 +100,41 @@ ggplot(aes(x = X, y = Y), data = tsne_data) + geom_point(aes(color = cluster))
 
 
 
-
-#Plot dendro
-library("ggplot2")
-library("reshape2")
-library("purrr")
-library("dplyr")
-# let's start with a dendrogram
-library("dendextend")
-dendro <- as.dendrogram(e.clust_5)
-dendro.col <- dendro %>%
-  set("branches_k_color", k = 5, value =   c("black", "grey", "brown4", "orange", "gold2")) %>%
-  set("branches_lwd", 0.6) %>%
-  set("labels_colors", 
-      value = c("darkslategray")) %>% 
-  set("labels_cex", 0.1)
-ggd1 <- as.ggdend(dendro.col)
-
-
-
-ggplot(ggd1, theme = theme_minimal()) +
-  labs(x = "Num. observations", y = "Height", title = "Dendrogram, k = 5")
-
-
-# Radial plot looks less cluttered (and cooler)
-ggplot(ggd1, labels = T) + 
-  scale_y_reverse(expand = c(0.1, 0)) +
-  coord_polar(theta="x")+theme(axis.text.x = element_text(
-    angle= -90 - 360 / length(x) * seq_along(x)))
-
-str(e.clust_5)
-ggd1 <- as.ggdend(e.clust_5)
-
-
-ggplot(e.clust_5, aes(x=labels, y=height)) +
-  geom_point() + 
-  coord_polar() +
-  theme(axis.text.x = element_text(
-    angle= -90 - 360 / length(unique(data$labels)) * seq_along(data$labels)))
+#
+##
+###
+####
+#A PARTIR DE AQUI ALFONSO
+####
+###
+##
+#
 
 ########################################################################################################################################################
 #Plot dendrogram
 ########################################################################################################################################################
-newggplot.ggdend <- function (data, segments = TRUE, labels = TRUE, nodes = TRUE, 
-                              horiz = FALSE, theme = theme_dendro(), offset_labels = 0, ...) {
-  data <- prepare.ggdend(data)
-  #angle <- ifelse(horiz, 0, 90)
-  #hjust <- ifelse(horiz, 0, 1)
-  p <- ggplot()
-  if (segments) {
-    p <- p + geom_segment(data = data$segments, aes_string(x = "x", y = "y", xend = "xend", yend = "yend", colour = "col", linetype = "lty", size = "lwd"), lineend = "square") + 
-      guides(linetype = FALSE, col = FALSE) + scale_colour_identity() + 
-      scale_size_identity() + scale_linetype_identity()
-  }
-  if (nodes) {
-    p <- p + geom_point(data = data$nodes, aes_string(x = "x", y = "y", colour = "col", shape = "pch", size = "cex")) + 
-      guides(shape = FALSE, col = FALSE, size = FALSE) + 
-      scale_shape_identity()
-  }
-  if (labels) {
-    data$labels$cex <- 5 * data$labels$cex
-    data$labels$y <- data$labels$y + offset_labels
-    p <- p + geom_text(data = data$labels, aes_string(x = "x", y = "y", label = "label", colour = "col", size = "cex", angle = "angle", hjust = "hjust", vjust = "vjust"))#edited
-  }
-  if (horiz) {
-    p <- p + coord_flip() + scale_y_reverse(expand = c(0.2, 0))
-  }
-  if (!is.null(theme)) {
-    p <- p + theme
-  }
-  p
-}
 
-assignInNamespace(x = "ggplot.ggdend", ns = "dendextend", value = newggplot.ggdend)
+#notas que quizás sirvan para algo o no:
+# en e.clust_5$labels podemos acceder a las especies, e.clust_5$order indican el orden
+# todas estas son 1506 especies
+
+#tenemos 500 algo especies que quizás podemos marcar en las labels 
+#las obtengo de los datos finales que has usado para los motifs
+final_d_1 <- read.csv("Data/Csv/data_for_motifs_analysis_1.csv")
+
+plant_species <- unique(final_d_1$Plant_species)
+#son 524 especies
+
+#Ahora he estado intentando colorear cuando las labels del dendrograma son iguales
+#a plant_species pero de momento no lo he conseguido
+
 
 dendro <- as.dendrogram(e.clust_5)
 
 gdend <- dendextend::as.ggdend(dendro %>%
                                  set('branches_k_color', k = 5) %>%
                                  set('branches_lwd', 0.25) %>%
-                                 set('labels_colors', k = 5) %>%
+                              #   set('labels_colors', k = 5) %>%
                                  set('labels_cex', 0.037),
                                theme = theme_minimal(),
                                horiz = TRUE)
@@ -180,10 +143,23 @@ gdend$labels$vjust <- cos(gdend$labels$angle * pi) / (180)
 gdend$labels$hjust <- sin(gdend$labels$angle * pi) / (180)
 
 
-
 ggplot(gdend,offset_labels=-0.05) + theme(panel.grid.major = element_blank(),
                       axis.text = element_blank(),
-                      axis.title = element_blank())+ coord_polar(theta = 'x') +  scale_y_reverse(expand = c(0.025, 0)) 
+                      axis.title = element_blank())+ coord_polar(theta = 'x') +  scale_y_reverse(expand = c(0.025, 0)) +
+  ggtitle("Plant functional groups")+
+  theme(plot.title = element_text(hjust = 0.5, vjust = -2))
+
+
+
+#
+##
+###
+####
+# HASTA AQUI
+####
+###
+##
+#
 
 ########################################################################################################################################################
 #6)SAVE DATA

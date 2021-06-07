@@ -114,6 +114,33 @@ ggplot(aes(x = X, y = Y), data = tsne_data) + geom_point(aes(color = cluster))
 #Plot dendrogram
 ########################################################################################################################################################
 
+
+#Plot dendro
+library("ggplot2")
+library("reshape2")
+library("purrr")
+library("dplyr")
+# let's start with a dendrogram
+library("dendextend")
+dendro <- as.dendrogram(e.clust_5)
+dendro.col <- dendro %>%
+  set("branches_k_color", k = 5, value =   c("black", "grey", "brown4", "orange", "gold2")) %>%
+  set("branches_lwd", 0.6) %>%
+  set("labels_colors", 
+      value = c("darkslategray")) %>% 
+  set("labels_cex", 0.1)
+
+labels_colors(dendro.col) <- get_leaves_branches_col(dendro.col)
+ggd1 <- as.ggdend(dendro.col)
+
+
+
+ggplot(ggd1, theme = theme_minimal()) +
+  labs(x = "Num. observations", y = "Height", title = "Dendrogram, k = 5")
+
+
+
+
 #notas que quizás sirvan para algo o no:
 # en e.clust_5$labels podemos acceder a las especies, e.clust_5$order indican el orden
 # todas estas son 1506 especies
@@ -131,6 +158,7 @@ plant_species <- unique(final_d_1$Plant_species)
 
 dendro <- as.dendrogram(e.clust_5)
 
+
 gdend <- dendextend::as.ggdend(dendro %>%
                                  set('branches_k_color', k = 5) %>%
                                  set('branches_lwd', 0.25) %>%
@@ -138,6 +166,9 @@ gdend <- dendextend::as.ggdend(dendro %>%
                                  set('labels_cex', 0.037),
                                theme = theme_minimal(),
                                horiz = TRUE)
+
+labels_colors(gdend) <- get_leaves_branches_col(gdend)
+
 gdend$labels$angle <- seq(90, -270, length = nrow(gdend$labels))
 gdend$labels$vjust <- cos(gdend$labels$angle * pi) / (180)
 gdend$labels$hjust <- sin(gdend$labels$angle * pi) / (180)

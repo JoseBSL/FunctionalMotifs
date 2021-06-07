@@ -131,6 +131,14 @@ dendro.col <- dendro %>%
   set("labels_cex", 0.1)
 
 labels_colors(dendro.col) <- get_leaves_branches_col(dendro.col)
+
+# We use "darkgrey" to color some species
+list_species_out <- names(labels_colors(dendro.col)[c(1:100,200:250,1000:1100)])
+
+index_species_out <- which(names(labels_colors(dendro.col)) %in% list_species_out)
+
+labels_colors(dendro.col)[index_species_out] <- "darkslategray"
+
 ggd1 <- as.ggdend(dendro.col)
 
 

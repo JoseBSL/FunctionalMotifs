@@ -1739,7 +1739,7 @@ ggplot(ggd1,offset_labels=-0.05) + theme(panel.grid.major = element_blank(),
 ```
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.cap="Figure 2. Comparison of the motif frequencies between empirical and simulated networks. Average percentages of motifs close to 0 and 100 indicate under- and over- representation in empirical networks. The different motifs are coloured by the mean path length as done in @simmons2020.", fig.width=9,fig.height=5}
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.cap="Figure S3. Comparison of the motif frequencies between empirical and simulated networks. Average percentages of motifs close to 0 and 100 indicate under- and over- representation in empirical networks, after removing non-robust links, that is, interactions whose frequency was equal to one. The different motifs are coloured by the mean path length as done in @simmons2020.", fig.width=9,fig.height=5}
 library(lme4)
 library(nlme)
 library(tidyverse)
@@ -1807,7 +1807,7 @@ theme(legend.text.align = 0)+
 ```
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.height=8,fig.width=8,fig.align = 'center', fig.cap="Figure 3. Heatmap indicating under- and over- representation of pollinator and plant functional groups in the different motif positions. The different motif positions are dividied by the average path length clasification by @simmons2020."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.height=8,fig.width=8,fig.align = 'center', fig.cap="Figure S4. Heatmap indicating under- and over- representation of pollinator and plant functional groups in the different motif positions, after removing non-robust links, that is, interactions whose frequency was equal to one. The different motif positions are dividied by the average path length clasification by @simmons2020."}
 
 library(lme4)
 library(nlme)

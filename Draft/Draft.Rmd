@@ -769,8 +769,6 @@ references %>%
 
 
 ```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, fig.height=12, fig.width=12}
-setwd("~/R_Projects/Reproductive Traits")
-
 
 library(kableExtra)
 
@@ -830,7 +828,6 @@ library(dplyr)
 library(reshape2)
 library(data.table)
 library(patchwork)
-library(shades)
 
 #LOAD DATA
 #read unscaled trait data in order to visualize better the clusters

@@ -1,8 +1,6 @@
 # Load libraries
 library(tidyverse)
 library(stringi)
-library(lme4)
-library(nlme)
 library(glmmTMB)
 source("Scripts/Scripts_Alfonso/add_study_id.R")
 
@@ -140,11 +138,64 @@ for(i.pos in 1:length(pollinator_codes)){
 pollinator_means_reordered$mean_natural_units <- exp(pollinator_means_reordered$mean)
 
 
+# Pollinators--------
+
+# Mean percentile and SE taking into account the study system
+plant_codes <- plant_absolut_frequencies$position %>% unique()
+plant_means <- plant_absolut_frequencies %>% select(position,Node_FG) %>% unique()
+plant_means$mean <- NA
+plant_means$SE <- NA
+plant_means_reordered <- NULL
+
+for(i.pos in 1:length(plant_codes)){
+  
+  plant_absolut_frequencies_aux <- plant_absolut_frequencies %>%
+    filter(position == plant_codes[i.pos])
+  plant_absolut_frequencies_aux$study_id <- as.factor(plant_absolut_frequencies_aux$study_id)
+  plant_absolut_frequencies_aux$Node_FG <- as.factor(plant_absolut_frequencies_aux$Node_FG)
+  plant_absolut_frequencies_aux$Network_id <- as.factor(plant_absolut_frequencies_aux$Network_id)
+  
+  m <- glmmTMB(frequency ~ Node_FG + (1|study_id),
+               family = nbinom2(),
+               data = plant_absolut_frequencies_aux)
+  
+  #summary(m)
+  
+  m_fixef <- fixef(m)
+  
+  temp <- m_fixef$cond %>% unname()
+  
+  plant_means_aux <- plant_means[plant_means$position == plant_codes[i.pos],] %>% arrange(Node_FG)
+  
+  plant_means_aux$mean <- c(temp[1],
+                                 temp[1]+temp[2],
+                                 temp[1]+temp[3],
+                                 temp[1]+temp[4],
+                                 temp[1]+temp[5])
+  
+  
+  temp <- sqrt(diag(vcov(m)$cond)) %>% unname()
+  plant_means_aux$SE <- c(temp[1],
+                               temp[1]+temp[2],
+                               temp[1]+temp[3],
+                               temp[1]+temp[4],
+                               temp[1]+temp[5])
+  
+  plant_means_reordered <- bind_rows(plant_means_reordered,plant_means_aux)
+  
+}
+
+plant_means_reordered$mean_natural_units <- exp(plant_means_reordered$mean)
+
+############################
+# PIE CHARTS
+############################
+
 library(ggplot2)
 library(scatterpie)
 library(RColorBrewer)
 
-
+# Pollinator--------
 pollinator_pies <- pollinator_means_reordered %>% select(-mean, -SE) %>% 
   spread(Node_FG,mean_natural_units)
 
@@ -169,4 +220,27 @@ ggplot() + geom_scatterpie(aes(x=x, y=y, group=position,r=5),
           legend.position="bottom")+
   labs(title = "Pollinator positions",fill=NULL)
     
+# plant--------
+plant_pies <- plant_means_reordered %>% select(-mean, -SE) %>% 
+  spread(Node_FG,mean_natural_units)
+
+plant_pies$x <- 0
+plant_pies$y <- 0
+
+ggplot() + geom_scatterpie(aes(x=x, y=y, group=position,r=5), 
+                           data = plant_pies,
+                           cols=as.character(c("1","2","3","4","5")))+
+  coord_equal()+
+  scale_fill_brewer(palette = "Dark2")+
+  facet_wrap(~position,nrow = 3)+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(),
+        axis.title.x=element_blank(),axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),axis.title.y=element_blank(),
+        axis.text.y=element_blank(),axis.ticks.y=element_blank(),
+        legend.position="bottom")+
+  labs(title = "Plant positions",fill=NULL)
+
+
 

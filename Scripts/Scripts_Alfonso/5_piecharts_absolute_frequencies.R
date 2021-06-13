@@ -188,6 +188,13 @@ for(i.pos in 1:length(plant_codes)){
 plant_means_reordered$mean_natural_units <- exp(plant_means_reordered$mean)
 
 ############################
+# SAVE MEAN FREQUENCIES
+############################
+
+write_csv(plant_means_reordered,"Data/Csv/plant_abs_freq_means.csv")
+write_csv(pollinator_means_reordered,"Data/Csv/pollinator_abs_freq_means.csv")
+
+############################
 # PIE CHARTS
 ############################
 

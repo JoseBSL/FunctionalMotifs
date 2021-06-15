@@ -44,6 +44,8 @@ Here, we used 60 plant-pollinator networks from 18 different studies distributed
 
 ##METHODS
 
+cite complexheatmap https://doi.org/10.1093/bioinformatics/btw313
+
 **Plant-pollinator studies**
 
 We have compiled 60 plant-pollinator networks from 18 different studies (Table S1). All studies sampled plant-pollinator interactions in natural systems and were selected based on wide geographical coverage and the presence of interaction frequency as a measure of interaction strength. In total, there were 503 plant species, 1,111 pollinator species and 6248 of pairwise interactions registered. For ease of data manipulation plant and pollinator species names were standardize with the help of the package taxize version 0.9.99 [@chamberlain2020].
@@ -633,14 +635,14 @@ rownames(heat_pollinators_Medium_weak) <- heat_pollinators_Medium_weak[,1]
 ##################
 
 #Do not know how to handle this multiplot for creating a panel 
- 
+
 # I'm going to create the 4 plots in one, 
 # I'm not sure that the grouping of the functional group is correct
 # when is done separately
- 
+
 #sorry for the mess of libraries that I do below 
 
- #Prepare first pollinators
+#Prepare first pollinators
 
 library(tidyr)
 library(data.table)
@@ -665,9 +667,12 @@ library(circlize)
 col_fun = colorRamp2(c(0.05644663,0.25, 0.4673256,0.75, 0.8782047), c("blue","cadetblue3", "azure2", "gold","red"))
 
 h_pol <- Heatmap(long_m, name = "Mean\npercentile", row_split=r_split,cluster_row_slices = FALSE, 
-        column_title = "Pollinator functional\ Groups",row_names_gp = gpar(fontsize = 12),col = col_fun)
+                 column_title = "Pollinator functional groups",row_names_gp = gpar(fontsize = 10),
+                 col = col_fun,column_names_rot = 45,  column_names_gp = grid::gpar(fontsize = 10),
+                 column_title_gp = gpar(fontsize = 15, fontface = "bold"),
+                 row_title_gp = gpar(fontsize = 10, fontface = "bold"))
 
- #Prepare plants
+#Prepare plants
 
 #long format
 long_plants <- melt(setDT(heat_plants), id.vars = c("position","Broad_categories"), variable.name = "Functional_groups")
@@ -679,30 +684,38 @@ long_plants_1 <- long_plants %>% select(-Broad_categories)
 #set better colnames
 long_plants_1$Functional_groups <- as.character(long_plants_1$Functional_groups)
 
-long_plants_1$Functional_groups[long_plants_1$Functional_groups==1] <- "Cluster 1" 
-long_plants_1$Functional_groups[long_plants_1$Functional_groups==2] <- "Cluster 2" 
-long_plants_1$Functional_groups[long_plants_1$Functional_groups==3] <- "Cluster 3" 
-long_plants_1$Functional_groups[long_plants_1$Functional_groups==4] <- "Cluster 4" 
-long_plants_1$Functional_groups[long_plants_1$Functional_groups==5] <- "Cluster 5" 
+long_plants_1$Functional_groups[long_plants_1$Functional_groups==1] <- "Short-lived selfers" 
+long_plants_1$Functional_groups[long_plants_1$Functional_groups==2] <- "Small outcrossing\nperennials" 
+long_plants_1$Functional_groups[long_plants_1$Functional_groups==3] <- "Self-incomp. perennials\nwith large flowers" 
+long_plants_1$Functional_groups[long_plants_1$Functional_groups==4] <- "Tall plants with small\nunisexual flowers" 
+long_plants_1$Functional_groups[long_plants_1$Functional_groups==5] <- "Short-lived outcrossers with\nlong zygomorphic flowers" 
 
-long_plants_1$Functional_groups <- factor(long_plants_1$Functional_groups, levels=c("Cluster 1",
-"Cluster 2" ,"Cluster 3","Cluster 4" ,"Cluster 5" ))
+long_plants_1$Functional_groups <- factor(long_plants_1$Functional_groups, levels=c("Short-lived selfers",
+"Small outcrossing\nperennials" ,"Self-incomp. perennials\nwith large flowers",
+"Tall plants with small\nunisexual flowers" ,"Short-lived outcrossers with\nlong zygomorphic flowers" ))
 
 #create matrix with reshape
 long_plants_m <- acast(long_plants_1, position~Functional_groups, value.var="value")
 
 r_split_plants <- c(rep(c("Fan"), 3),rep(c("Core-peripheral"), 2),"Complete",rep(c("Fan"),2),rep(c("Core-peripheral"), 3),
-             rep(c("Asymmetric complete"), 2), "Complete", rep(c("Core-peripheral"), 4),rep(c("Asymmetric complete"), 2),
-             "Complete", "Fan")
+                    rep(c("Asymmetric complete"), 2), "Complete", rep(c("Core-peripheral"), 4),rep(c("Asymmetric complete"), 2),
+                    "Complete", "Fan")
 
 r_split_plants <- factor(r_split, levels=c("Core-peripheral","Complete","Fan","Asymmetric complete"))
 
 
-h_plan <- Heatmap(long_plants_m, name = "Mean\npercentile", row_split=r_split_plants,cluster_row_slices = FALSE, 
-        column_title = "Plant functional\ Groups",row_names_gp = gpar(fontsize = 12),col = col_fun)
+
+h_plan <- Heatmap(long_plants_m, name = "Mean\npercentile", row_split=r_split_plants,cluster_row_slices = F, 
+                  column_title = "Plant functional groups",row_names_gp = gpar(fontsize = 10),col = col_fun,column_names_rot = 45,  
+                  column_names_gp = grid::gpar(fontsize = 10),column_title_gp = gpar(fontsize = 15, fontface = "bold"),
+                  row_title_gp = gpar(fontsize = 10, fontface = "bold"))
 
 library(patchwork)
-h_pol+h_plan
+ht_list <- h_pol+h_plan
+
+draw(ht_list, auto_adjust = FALSE, cluster_rows = F)
+
+
 
 
 ```
@@ -1738,10 +1751,10 @@ ggplot(ggd1,offset_labels=-0.05) + theme(panel.grid.major = element_blank(),
  axis.text = element_blank(),axis.title = element_blank()) +
   ggtitle("Plant functional groups")+
   theme(plot.title = element_text(hjust = 0.5, vjust = -2,size = 20,face="bold"))+
-  annotate("text", x=140, y=1.65, label= "Perennials self-incompatible large flowers ", size=2.5)+
-  annotate("text", x=380, y=2.15, label= "Tall plants small unisexual flowers", size=2.5) +
+  annotate("text", x=140, y=1.65, label= "Self-incomp. perennials with large flowers ", size=2.5)+
+  annotate("text", x=380, y=2.15, label= "Tall plants with small unisexual flowers", size=2.5) +
   annotate("text", x=600, y=3.85, label= "Short-lived selfers", size=2.5) +
-  annotate("text", x=1400, y=2.05, label= "Short-lived non-selfers \n long zygomorphic flowers", size=2.5) +annotate("text", x=950, y=2.05, label= "Small non-selfers perennials", size=2.5) 
+  annotate("text", x=1400, y=2.05, label= "Short-lived outcrossers with \n long zygomorphic flowers", size=2.5) +annotate("text", x=950, y=2.05, label= "Small outcrossing perennials", size=2.5) 
 
 
 
@@ -2095,7 +2108,10 @@ library(circlize)
 col_fun = colorRamp2(c(0.05644663,0.25, 0.4673256,0.75, 0.8782047), c("blue","cadetblue3", "azure2", "gold","red"))
 
 h_pol <- Heatmap(long_m, name = "Mean\npercentile", row_split=r_split,cluster_row_slices = FALSE, 
-        column_title = "Pollinator functional\ Groups",row_names_gp = gpar(fontsize = 12),col = col_fun)
+                 column_title = "Pollinator functional groups",row_names_gp = gpar(fontsize = 10),
+                 col = col_fun,column_names_rot = 45,  column_names_gp = grid::gpar(fontsize = 10),
+                 column_title_gp = gpar(fontsize = 15, fontface = "bold"),
+                 row_title_gp = gpar(fontsize = 10, fontface = "bold"))
 
  #Prepare plants
 
@@ -2109,30 +2125,35 @@ long_plants_1 <- long_plants %>% select(-Broad_categories)
 #set better colnames
 long_plants_1$Functional_groups <- as.character(long_plants_1$Functional_groups)
 
-long_plants_1$Functional_groups[long_plants_1$Functional_groups==1] <- "Cluster 1" 
-long_plants_1$Functional_groups[long_plants_1$Functional_groups==2] <- "Cluster 2" 
-long_plants_1$Functional_groups[long_plants_1$Functional_groups==3] <- "Cluster 3" 
-long_plants_1$Functional_groups[long_plants_1$Functional_groups==4] <- "Cluster 4" 
-long_plants_1$Functional_groups[long_plants_1$Functional_groups==5] <- "Cluster 5" 
+long_plants_1$Functional_groups[long_plants_1$Functional_groups==1] <- "Short-lived selfers" 
+long_plants_1$Functional_groups[long_plants_1$Functional_groups==2] <- "Small outcrossing\nperennials" 
+long_plants_1$Functional_groups[long_plants_1$Functional_groups==3] <- "Self-incomp. perennials\nwith large flowers" 
+long_plants_1$Functional_groups[long_plants_1$Functional_groups==4] <- "Tall plants with small\nunisexual flowers" 
+long_plants_1$Functional_groups[long_plants_1$Functional_groups==5] <- "Short-lived outcrossers with\nlong zygomorphic flowers" 
 
-long_plants_1$Functional_groups <- factor(long_plants_1$Functional_groups, levels=c("Cluster 1",
-"Cluster 2" ,"Cluster 3","Cluster 4" ,"Cluster 5" ))
+long_plants_1$Functional_groups <- factor(long_plants_1$Functional_groups, levels=c("Short-lived selfers",
+"Small outcrossing\nperennials" ,"Self-incomp. perennials\nwith large flowers",
+"Tall plants with small\nunisexual flowers" ,"Short-lived outcrossers with\nlong zygomorphic flowers" ))
 
 #create matrix with reshape
 long_plants_m <- acast(long_plants_1, position~Functional_groups, value.var="value")
 
 r_split_plants <- c(rep(c("Fan"), 3),rep(c("Core-peripheral"), 2),"Complete",rep(c("Fan"),2),rep(c("Core-peripheral"), 3),
-             rep(c("Asymmetric complete"), 2), "Complete", rep(c("Core-peripheral"), 4),rep(c("Asymmetric complete"), 2),
-             "Complete", "Fan")
+                    rep(c("Asymmetric complete"), 2), "Complete", rep(c("Core-peripheral"), 4),rep(c("Asymmetric complete"), 2),
+                    "Complete", "Fan")
 
 r_split_plants <- factor(r_split, levels=c("Core-peripheral","Complete","Fan","Asymmetric complete"))
 
 
-h_plan <- Heatmap(long_plants_m, name = "Mean\npercentile", row_split=r_split_plants,cluster_row_slices = FALSE, 
-        column_title = "Plant functional\ Groups",row_names_gp = gpar(fontsize = 12),col = col_fun)
+h_plan <- Heatmap(long_plants_m, name = "Mean\npercentile", row_split=r_split_plants,cluster_row_slices = F, 
+                  column_title = "Plant functional groups",row_names_gp = gpar(fontsize = 10),col = col_fun,column_names_rot = 45,  
+                  column_names_gp = grid::gpar(fontsize = 10),column_title_gp = gpar(fontsize = 15, fontface = "bold"),
+                  row_title_gp = gpar(fontsize = 10, fontface = "bold"))
 
 library(patchwork)
-h_pol+h_plan
+ht_list <- h_pol+h_plan
+
+draw(ht_list, auto_adjust = FALSE, cluster_rows = F)
 
 
 ```

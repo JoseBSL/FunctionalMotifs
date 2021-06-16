@@ -326,23 +326,27 @@ plot_pie_motif_positions <- function(motif_number){
   
   # Define the number of colors you want
   nb.cols <- 5
-  mycolors <- c(brewer.pal(5, "Dark2"),brewer.pal(9, "Paired"))
+  mycolors <- c(brewer.pal(9, "Paired"),brewer.pal(5, "Dark2"))
   
   ggplot() +
     scale_shape_identity() +
     geom_segment(data = link_df, aes(x=xdown, y=ydown, xend = xup, yend = yup), 
-                 size = 1, color = "grey20")+
+                 size = 1, color = "grey20")+  geom_scatterpie(aes(x=x, y=y, group=position,r=.3), 
+    data = d_nodes_pollinator, cols=as.character(c("Bee","Birds","Coleoptera","Lepidoptera",
+     "Lizards","Non-bee-Hymenoptera", "Non-syrphids-diptera","Other_insects",
+     "Syrphids"))) +
     geom_scatterpie(aes(x=x, y=y, group=position,r=0.3), 
                     data = d_nodes_plant,
                     cols=as.character(c("1","2","3","4","5")))+
-    geom_scatterpie(aes(x=x, y=y, group=position,r=.3), 
-                    data = d_nodes_pollinator,
-                    cols=as.character(c("Bee","Birds","Coleoptera","Lepidoptera",
-                                        "Lizards","Non-bee-Hymenoptera",
-                                        "Non-syrphids-diptera","Other_insects",
-                                        "Syrphids")))+
-    coord_equal()+
-    scale_fill_manual(values = mycolors)+
+    coord_fixed()+
+    scale_fill_manual(values = mycolors,"test",
+      breaks=c("Bee","Birds","Coleoptera","Lepidoptera",
+               "Lizards","Non-bee-Hymenoptera", "Non-syrphids-diptera","Other_insects",
+               "Syrphids","1","2","3","4","5"), labels=c("Bee","Birds","Coleoptera","Lepidoptera",
+                                                        "Lizards","Non-bee-Hymenoptera", "Non-syrphids-diptera","Other_insects",
+                                                        "Syrphids", 
+          "Selfing herbs","Small outcrossing perennials","Self-incomp. perennials\nwith large flowers",
+          "Tall plants with small\nunisexual flowers","Short-lived outcrossers with\nlong zygomorphic flowers"))+
     xlim(-1.5,4)+ ylim(-0.5,1.5)+
     theme(panel.background = element_blank(),
           axis.text.x=element_blank(),
@@ -350,11 +354,11 @@ plot_pie_motif_positions <- function(motif_number){
           axis.text.y=element_blank(),
           axis.ticks.y=element_blank())+
     labs(x=NULL,y=NULL)+
-    guides(color = FALSE)+
+    guides(color = FALSE,fill=guide_legend(title="Functional groups"))+
     ggtitle(paste0("Motif ",motif_number))+
-    theme(plot.title = element_text(hjust = 0.5),
-          legend.position = "none")
+    theme(plot.title = element_text(hjust = 0.5),legend.key.size = unit(0.5, 'cm'))
 }
+
 
 motif_number <- 1
 p1 <- plot_pie_motif_positions(motif_number)
@@ -410,6 +414,9 @@ p17 <- plot_pie_motif_positions(motif_number)
 
 library(patchwork)
 
-(p1 & ylab("2 species")| p2 & ylab("3 species") | p3 )/ (p4 & ylab("4 species")| p5 | p6 | p7)/ (p8  & ylab("5 species")| p9 | p10 | p11 | p12) / (p13 & ylab("5 species")| p14 | p15 | p16 | p17) & theme(axis.title.y = element_text(color="black", size=14, face="bold")) #+
-#plot_annotation(tag_levels = '1') 
+(p1 & ylab("2 species")| p2 & ylab("3 species") | p3  |plot_spacer()|plot_spacer())/ 
+  (p4 & ylab("4 species")| p5 | p6 | p7|plot_spacer())/ 
+  (p8  & ylab("5 species")| p9 | p10 | p11 | p12) / 
+  (p13 & ylab("5 species")| p14 | p15 | p16 | p17) + plot_layout(guides = 'collect') &
+  theme(axis.title.y = element_text(color="black", size=14, face="bold"),legend.position = "bottom")
 

@@ -1,6 +1,7 @@
 
-# This script cleans the raw data file for motif analyses. Then, we extract the following
-# information for a given networks:
+# This script cleans the raw data file for motif analyses. Then, it replaces the species nodes
+# by the corresponding functional groups, and extracts the following
+# information for the resulting networks networks:
 # 1) The frequency each motif types
 # 2) The frequency of motif positions for each node in each network
 
@@ -15,7 +16,7 @@ library(igraph)
 
 int.threshold <- 1
 
-networks <- read_csv("Data/Csv/data_for_motifs_analysis.csv") %>% select(-X1) %>%
+networks <- read_csv("Data/Csv/data_for_motifs_analysis_1.csv") %>% select(-X1) %>%
   filter(Interaction >= int.threshold)
 
 

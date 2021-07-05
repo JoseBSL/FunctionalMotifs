@@ -13,7 +13,7 @@ source("Scripts/Scripts_Motifs_Extraction/aux_functions.R")
 
 int.threshold <- 1
 
-networks <- read_csv("Data/Csv/data_for_motifs_analysis.csv") %>% select(-X1) %>%
+networks <- read_csv("Data/Csv/data_for_motifs_analysis_1.csv") %>% select(-X1) %>%
   filter(Interaction >= int.threshold)
 
 patterns <- read_csv("Data/Data_processing/Motifs_connections/motif_pattern_connections.csv")
@@ -26,19 +26,27 @@ list_parterns <- patterns$motif_id %>% unique()
 
 # Select networks with fewer motifs
 
-min_num_motifs <- 1#110001
-max_num_motifs <- 5300#600000
+min_num_motifs <- 1
+max_num_motifs <- 600001
 
 small_network_motifs <- read_csv("Data/Csv/network_frequency_motifs.csv") %>% filter(nodes<=5) %>%
   group_by(Network_id) %>% count(wt = frequency) %>% filter(n >= min_num_motifs,
                                                             n <= max_num_motifs) %>%
   dplyr::select(Network_id) %>% pull()
 
+small_network_motifs <- c(        
+                          #"14_2_kaiser-bunbury_2010_mauritius_restored",
+                          #"14_1_kaiser-bunbury_2010_mauritius_control",
+                          "5_1_fang_2008_china")
+
+
 small_network_index <- which(list_Network_id %in% small_network_motifs)
+
+list_Network_id[small_network_index[1:length(small_network_index)]]
 
 # Extract motifs' links for selected networks
 
-for (i.network in small_network_index){#1:length(list_Network_id)){
+for (i.network in small_network_index[c(1)]){#1:length(list_Network_id)){
   
   start_time <- Sys.time()
   print(list_Network_id[i.network])
@@ -54,7 +62,8 @@ for (i.network in small_network_index){#1:length(list_Network_id)){
   
   # Create a graph for the i-th network
   networks_i <- networks %>% filter(Network_id == list_Network_id[i.network])
-  edge_list_i <- networks_i[,c("Pollinator_species","Plant_species")]
+  edge_list_i <- networks_i[,c("Pollinator_species","Plant_species")] %>% 
+    group_by( Pollinator_species,Plant_species ) %>% count() %>% select(Pollinator_species,Plant_species)
   
   g_i <- igraph::graph_from_edgelist(as.matrix(edge_list_i), directed = F)
   
@@ -155,6 +164,7 @@ for (i.network in small_network_index){#1:length(list_Network_id)){
   end_time <- Sys.time()
   print(end_time-start_time)
 }
+
 
 read_csv("Data/Csv/Motifs links/Motifs_links_12_6_bartomeus_spain_2008_Elpozo_unp.csv") %>%
   dplyr::select(Motif_pattern_id,Motif_number) %>% unique() %>% 

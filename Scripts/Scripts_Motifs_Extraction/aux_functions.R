@@ -92,7 +92,7 @@ connections_pattern_i <- function(g_i,motifs_connections,patterns,
           nodes_i <- V(motifs[[i.motifs]])$name
           
           edge_list_motif_i <- get.edges(motifs[[i.motifs]],es = E(motifs[[i.motifs]])) %>%
-            as.tibble() %>%
+            as_tibble() %>%
             mutate(Plant_species = nodes_i[V1],Pollinator_species = nodes_i[V2]) %>% select(-V1,-V2)
           
           # Check and correct node roles: plant/pollinator
@@ -220,7 +220,7 @@ connections_pattern_i <- function(g_i,motifs_connections,patterns,
           nodes_i <- V(motifs[[i.motifs]])$name
           
           edge_list_motif_i <- get.edges(motifs[[i.motifs]],es = E(motifs[[i.motifs]])) %>%
-            as.tibble() %>%
+            as_tibble() %>%
             mutate(Plant_species = nodes_i[V1],Pollinator_species = nodes_i[V2]) %>% select(-V1,-V2)
           
           # Check and correct node roles: plant/pollinator
@@ -348,7 +348,7 @@ connections_pattern_i <- function(g_i,motifs_connections,patterns,
           nodes_i <- V(motifs[[i.motifs]])$name
           
           edge_list_motif_i <- get.edges(motifs[[i.motifs]],es = E(motifs[[i.motifs]])) %>%
-            as.tibble() %>%
+            as_tibble() %>%
             mutate(Plant_species = nodes_i[V1],Pollinator_species = nodes_i[V2]) %>% select(-V1,-V2)
           
           # Check and correct node roles: plant/pollinator
@@ -476,7 +476,7 @@ connections_pattern_i <- function(g_i,motifs_connections,patterns,
           nodes_i <- V(motifs[[i.motifs]])$name
           
           edge_list_motif_i <- get.edges(motifs[[i.motifs]],es = E(motifs[[i.motifs]])) %>%
-            as.tibble() %>%
+            as_tibble() %>%
             mutate(Plant_species = nodes_i[V1],Pollinator_species = nodes_i[V2]) %>% select(-V1,-V2)
           
           # Check and correct node roles: plant/pollinator
@@ -604,7 +604,7 @@ connections_pattern_i <- function(g_i,motifs_connections,patterns,
           nodes_i <- V(motifs[[i.motifs]])$name
           
           edge_list_motif_i <- get.edges(motifs[[i.motifs]],es = E(motifs[[i.motifs]])) %>%
-            as.tibble() %>%
+            as_tibble() %>%
             mutate(Plant_species = nodes_i[V1],Pollinator_species = nodes_i[V2]) %>% select(-V1,-V2)
           
           # Check and correct node roles: plant/pollinator
@@ -732,7 +732,7 @@ connections_pattern_i <- function(g_i,motifs_connections,patterns,
           nodes_i <- V(motifs[[i.motifs]])$name
           
           edge_list_motif_i <- get.edges(motifs[[i.motifs]],es = E(motifs[[i.motifs]])) %>%
-            as.tibble() %>%
+            as_tibble() %>%
             mutate(Plant_species = nodes_i[V1],Pollinator_species = nodes_i[V2]) %>% select(-V1,-V2)
           
           # Check and correct node roles: plant/pollinator
@@ -825,7 +825,7 @@ connections_pattern_i <- function(g_i,motifs_connections,patterns,
           nodes_i <- V(motifs[[i.motifs]])$name
           
           edge_list_motif_i <- get.edges(motifs[[i.motifs]],es = E(motifs[[i.motifs]])) %>%
-            as.tibble() %>%
+            as_tibble() %>%
             mutate(Plant_species = nodes_i[V1],Pollinator_species = nodes_i[V2]) %>% select(-V1,-V2)
           
           # Check and correct node roles: plant/pollinator
@@ -918,7 +918,7 @@ connections_pattern_i <- function(g_i,motifs_connections,patterns,
           nodes_i <- V(motifs[[i.motifs]])$name
           
           edge_list_motif_i <- get.edges(motifs[[i.motifs]],es = E(motifs[[i.motifs]])) %>%
-            as.tibble() %>%
+            as_tibble() %>%
             mutate(Plant_species = nodes_i[V1],Pollinator_species = nodes_i[V2]) %>% select(-V1,-V2)
           
           # Check and correct node roles: plant/pollinator
@@ -1011,7 +1011,7 @@ connections_pattern_i <- function(g_i,motifs_connections,patterns,
           nodes_i <- V(motifs[[i.motifs]])$name
           
           edge_list_motif_i <- get.edges(motifs[[i.motifs]],es = E(motifs[[i.motifs]])) %>%
-            as.tibble() %>%
+            as_tibble() %>%
             mutate(Plant_species = nodes_i[V1],Pollinator_species = nodes_i[V2]) %>% select(-V1,-V2)
           
           # Check and correct node roles: plant/pollinator
@@ -1104,7 +1104,7 @@ connections_pattern_i <- function(g_i,motifs_connections,patterns,
           nodes_i <- V(motifs[[i.motifs]])$name
           
           edge_list_motif_i <- get.edges(motifs[[i.motifs]],es = E(motifs[[i.motifs]])) %>%
-            as.tibble() %>%
+            as_tibble() %>%
             mutate(Plant_species = nodes_i[V1],Pollinator_species = nodes_i[V2]) %>% select(-V1,-V2)
           
           # Check and correct node roles: plant/pollinator
@@ -1197,7 +1197,7 @@ connections_pattern_i <- function(g_i,motifs_connections,patterns,
           nodes_i <- V(motifs[[i.motifs]])$name
           
           edge_list_motif_i <- get.edges(motifs[[i.motifs]],es = E(motifs[[i.motifs]])) %>%
-            as.tibble() %>%
+            as_tibble() %>%
             mutate(Plant_species = nodes_i[V1],Pollinator_species = nodes_i[V2]) %>% select(-V1,-V2)
           
           # Check and correct node roles: plant/pollinator

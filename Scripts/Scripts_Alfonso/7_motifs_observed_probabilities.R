@@ -262,6 +262,7 @@ for (i in 1:length(motif_link_files)){
 # MOTIF OBSERVED PROBABILITIES
 ################################
 
+motif_files <- list.files(folder_motif_data) 
 motif_summary_files <-  motif_files[grep("Summary_functional_motifs_",motif_files)]
 
 motifs_observed_probability <- NULL

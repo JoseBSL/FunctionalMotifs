@@ -7,8 +7,24 @@ source("Scripts/Scripts_Alfonso/add_study_id.R")
 # List the files with information about the positions
 folder_motif_data <- "Data/Csv/Motifs_positions_and_null_models"
 
-motif_files <- list.files(folder_motif_data) 
-motif_link_files <-  motif_files[grep("Binary_Mat_Sp_Motifs_positions_null_Conn_FiX_",motif_files)]
+motif_files <- list.files(folder_motif_data)
+motif_link_files <-  motif_files[grep("Binary_Mat_Sp_Motifs_positions_null_Conn_FiX_",
+                                      motif_files)]
+
+# We remove the following networks from our network sample because we were no able to obtain
+# the links of their motifs
+
+still_unbreakable_network_motifs <- c(        
+  "14_2_kaiser-bunbury_2010_mauritius_restored",
+  "14_1_kaiser-bunbury_2010_mauritius_control",
+  "5_1_fang_2008_china")
+
+excluded_link_files <- paste0("Binary_Mat_Sp_Motifs_positions_null_Conn_FiX_",
+                              still_unbreakable_network_motifs,".csv")
+
+motif_link_files <- motif_link_files[!motif_link_files %in% excluded_link_files]
+
+
 pollinator_positions_codes <- c("np2","np4","np6","np8","np11","np12","np14","np16",
                                 "np18","np21","np22","np24","np25","np28","np29","np31",
                                 "np34","np35","np38","np41","np42","np44","np46")
@@ -97,7 +113,7 @@ for(i.pos in 1:length(pollinator_codes)){
   pollinator_absolut_frequencies_aux$Node_FG <- as.factor(pollinator_absolut_frequencies_aux$Node_FG)
   pollinator_absolut_frequencies_aux$Network_id <- as.factor(pollinator_absolut_frequencies_aux$Network_id)
   
-  m <- glmmTMB(frequency ~ Node_FG + (1|study_id),
+  m <- glmmTMB(frequency ~ Node_FG + (1|study_id/Network_id),
                family = nbinom2(),
                data = pollinator_absolut_frequencies_aux)
   
@@ -155,7 +171,7 @@ for(i.pos in 1:length(plant_codes)){
   plant_absolut_frequencies_aux$Node_FG <- as.factor(plant_absolut_frequencies_aux$Node_FG)
   plant_absolut_frequencies_aux$Network_id <- as.factor(plant_absolut_frequencies_aux$Network_id)
   
-  m <- glmmTMB(frequency ~ Node_FG + (1|study_id),
+  m <- glmmTMB(frequency ~ Node_FG + (1|study_id/Network_id),
                family = nbinom2(),
                data = plant_absolut_frequencies_aux)
   

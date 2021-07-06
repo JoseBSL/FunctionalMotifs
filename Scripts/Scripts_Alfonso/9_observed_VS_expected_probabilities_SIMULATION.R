@@ -35,14 +35,23 @@ for(i in 1:round(simulations,0)){
   samples_random_probability <- bind_rows(samples_random_probability,random_i)
 }
 
-# Variable to storage CI 95%
+write_csv(samples_random_probability,"Data/Csv/motifs_samples_random_probability_SIMU.csv")
 
+#################################################
+# EXTRACT CIs FROM SIMULATED PROBABILITIES
+#################################################
+
+# Variable to storage CI 95%
 motifs_observed_probability_CI <- motifs_probability
+motifs_observed_probability_CI$round_motif_observed_probability <- 
+  round(motifs_observed_probability_CI$motif_observed_probability, 7) #1e-7 is the maximum resolution we can observe
 motifs_observed_probability_CI$percentil_observed <- NA
 motifs_observed_probability_CI$lower_CI <- NA
 motifs_observed_probability_CI$upper_CI <- NA
 
 motifs_ID_list <- motifs_probability$motif_functional_ID
+
+# CI bounds from simulated probabilities and percentile of observed probabilities
 
 for(i.motif in 1:length(motifs_ID_list)){
   
@@ -60,7 +69,7 @@ for(i.motif in 1:length(motifs_ID_list)){
   CI <- quantile(random_samples_motif, prob=c(0.025,0.975)) %>% unname()
   
   motifs_observed_probability_CI$percentil_observed[i.motif] <- 
-    sum(random_samples_motif < motifs_observed_probability_CI$motif_observed_probability[i.motif])/length(random_samples_motif)
+    sum(random_samples_motif < motifs_observed_probability_CI$round_motif_observed_probability[i.motif])/length(random_samples_motif)
   motifs_observed_probability_CI$lower_CI[i.motif] <- CI[1]
   motifs_observed_probability_CI$upper_CI[i.motif] <- CI[2]
   

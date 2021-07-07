@@ -47,7 +47,7 @@ exp <- motifs_probability$motif_expected_probability
 
 chi_test <- chi_pref(obs, exp, alpha = 0.05)
 
-res <- chisq.test(obs, p = exp, rescale.p = TRUE, simulate.p.value = T, B = 2000)
+res <- chisq.test(x = obs, p = exp, rescale.p = TRUE, simulate.p.value = T, B = 900)
 res 
 res$expected %>% as.vector()
 res$observed %>% as.vector()

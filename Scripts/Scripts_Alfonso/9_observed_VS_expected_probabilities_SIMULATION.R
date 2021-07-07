@@ -76,3 +76,7 @@ for(i.motif in 1:length(motifs_ID_list)){
 }
 
 write_csv(motifs_observed_probability_CI,"Data/Csv/motifs_observed_probability_SIMUL_CI.csv")
+
+underrepresented_motifs <-  motifs_observed_probability_CI %>% filter(round_motif_observed_probability<lower_CI)
+overrepresented_motifs <-  motifs_observed_probability_CI %>% filter(round_motif_observed_probability>upper_CI)
+

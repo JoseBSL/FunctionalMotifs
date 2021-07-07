@@ -80,3 +80,5 @@ write_csv(motifs_observed_probability_CI,"Data/Csv/motifs_observed_probability_S
 underrepresented_motifs <-  motifs_observed_probability_CI %>% filter(round_motif_observed_probability<lower_CI)
 overrepresented_motifs <-  motifs_observed_probability_CI %>% filter(round_motif_observed_probability>upper_CI)
 
+write_csv(underrepresented_motifs,"Data/Csv/underrepresented_motifs.csv")
+write_csv(overrepresented_motifs,"Data/Csv/overrepresented_motifs.csv")

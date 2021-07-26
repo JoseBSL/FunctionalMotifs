@@ -41,6 +41,8 @@ write_csv(samples_random_probability,"Data/Csv/motifs_samples_random_probability
 # EXTRACT CIs FROM SIMULATED PROBABILITIES
 #################################################
 
+samples_random_probability <- read_csv("Data/Csv/motifs_samples_random_probability_SIMU.csv")
+
 # Variable to storage CI 95%
 motifs_observed_probability_CI <- motifs_probability
 motifs_observed_probability_CI$round_motif_observed_probability <- 
@@ -48,6 +50,9 @@ motifs_observed_probability_CI$round_motif_observed_probability <-
 motifs_observed_probability_CI$percentil_observed <- NA
 motifs_observed_probability_CI$lower_CI <- NA
 motifs_observed_probability_CI$upper_CI <- NA
+motifs_observed_probability_CI$mean_sim <- NA
+motifs_observed_probability_CI$sd_sim <- NA
+motifs_observed_probability_CI$z_score <- NA
 
 motifs_ID_list <- motifs_probability$motif_functional_ID
 
@@ -58,6 +63,12 @@ for(i.motif in 1:length(motifs_ID_list)){
   random_samples_motif <- samples_random_probability %>% ungroup() %>%
     filter(motif_functional_ID == motifs_ID_list[i.motif]) %>% 
     dplyr::select(random_probability) %>% pull()
+  
+  motifs_observed_probability_CI$mean_sim[i.motif] <- mean(random_samples_motif)
+  motifs_observed_probability_CI$sd_sim[i.motif] <- sd(random_samples_motif)
+  motifs_observed_probability_CI$z_score[i.motif] <- 
+    (motifs_observed_probability_CI$round_motif_observed_probability[i.motif]-
+       motifs_observed_probability_CI$mean_sim[i.motif])/motifs_observed_probability_CI$sd_sim[i.motif]
   
   if(length(random_samples_motif) < simulations){
     
@@ -77,8 +88,14 @@ for(i.motif in 1:length(motifs_ID_list)){
 
 write_csv(motifs_observed_probability_CI,"Data/Csv/motifs_observed_probability_SIMUL_CI.csv")
 
+# percentage of entries with sd = 0
+motifs_observed_probability_CI %>% filter(sd_sim == 0) %>% nrow()*100/nrow(motifs_observed_probability_CI)
+
 underrepresented_motifs <-  motifs_observed_probability_CI %>% filter(round_motif_observed_probability<lower_CI)
 overrepresented_motifs <-  motifs_observed_probability_CI %>% filter(round_motif_observed_probability>upper_CI)
 
 write_csv(underrepresented_motifs,"Data/Csv/underrepresented_motifs.csv")
 write_csv(overrepresented_motifs,"Data/Csv/overrepresented_motifs.csv")
+
+ranking_overrepresented <- overrepresented_motifs %>% mutate(ratio = round_motif_observed_probability/upper_CI) %>%
+  arrange(desc(ratio)) %>% select(motif_functional_ID,round_motif_observed_probability,ratio,upper_CI)

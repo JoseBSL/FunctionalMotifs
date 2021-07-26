@@ -38,9 +38,9 @@ Ecological processes leave distinct structural imprints on species interactions 
 
 The interaction between plants and pollinators can be studied at different scales, from species level interactions (micro-scale) to the full network structure (macro-scale). Research of the plant-pollinator network structure have proven common invariant structural properties across them including a degree distribution that decays as a power law [@jordano1987], nestedness [@bascompte2003], or modularity in large networks [@olesen2007]. In addition, species phenological overlap, morphological matching and species abundances have been shown to be determinant for the understanding of pairwise plant-pollinator interactions [@bartomeus2016; @stang2006; @peralta2020]. However, both species level information and the holistic view of the full network involves missing relevant information for the understanding of ecological processes [@cirtwill2018; @simmons2019]. 
 
-Traditionally, plant-pollinator research has focused on direct interactions and overlooked indirect interactions such as facilitative or competitive interactions between plants for pollinators [@moeller2004; @sargent2008]. Despite the widespread nature of indirect interactions in ecological communities [@strauss1991], plant-pollinator research often fails to finely capture those indirect interactions with the traditional analytical tools that condense the information either by species (e.g. interaction frequency) or in single topological indices (e.g. nestedness). Nonetheless, the emerging framework of network motifs in plant-pollinator research, the building blocks of a network that depict subsets of interactions [@milo2002], allows to consider both direct and indirect interactions [@simmons2019]. The analysis of the meso-scale in plant-pollinator networks have revealed that the different ecological processes that govern species interactions (e.g., species abundances versus trait-matching) can lead to different patterns of indirect interactions [@simmons2020]. However, the global patterns of indirect interactions in plant-pollinator networks (over- and under- representation of motifs) are still unknown.
+Traditionally, plant-pollinator research has focused on direct interactions and overlooked indirect interactions such as facilitative or competitive interactions between plants for pollinators [@moeller2004; @sargent2008]. Despite the widespread nature of indirect interactions in ecological communities [@strauss1991], plant-pollinator research often fails to finely capture those indirect interactions with the conventional analytical tools that condense the information either by species (e.g. interaction frequency) or in single topological indices (e.g. nestedness). Nonetheless, the emerging framework of network motifs in plant-pollinator research, the building blocks of a network that depict subsets of interactions [@milo2002], allows to consider both direct and indirect interactions [@simmons2019]. The analysis of motifs (meso-scale) in plant-pollinator networks have revealed that the different ecological processes that govern species interactions (e.g., species abundances versus trait-matching) can lead to different patterns of indirect interactions [@simmons2020]. However, the global patterns of indirect interactions in plant-pollinator networks (over- and under- representation of motifs) are still unknown.
 
-Motifs are abstract representations often decoupled from species ecology. Hence, linking the structural properties of the meso-scale with the species ecology can help the understanding of ecological processes. For instance, different motifs can have different ecological meanings [@simmons2019] and the position within a motif can determine the species functional role [@stouffer2012; @baker2015]. However, it is unclear if species ecological and life history traits strongly determines its role within the network of interactions [@coux2016]. For example, large pollinators can forage larger distances [@greenleaf2007], deposit greater pollen quantities [@foldesi2021] and handle complex zygomorphic flowers in comparison with small pollinators that are restricted to lower floral complexity [@gong2009]. How this different pollinator behaviors translate into their interaction topology is unknown. Similarly, recent empirical findings indicate that the meso-scale is the best descriptor of plant reproductive success [@allen2021], but little is known on how plants reproductive strategies shape their position within the network of interactions. Although some studies have evaluated plant reproductive strategies in plant-pollinator networks [@tur2013; @lazaro2020], they are often overlooked in a community context [@devaux2014] and rarely incorporated into plant-pollinator network studies. Hence, exploring how the main plant reproductive strategies integrate with the emergent motif framework can shed light on key aspects of ecosystem functioning. 
+Motifs are abstract representations often decoupled from species ecology. Hence, linking the structural properties of the meso-scale with the species ecology can help the understanding of ecological processes. For instance, different motifs can have different ecological meanings [@simmons2019] and the position within a motif can determine the species functional role [@stouffer2012; @baker2015]. However, it is unclear how the species ecology and life history traits determines the species functional role within the network of interactions [@coux2016]. For example, large pollinators can forage larger distances [@greenleaf2007], deposit greater pollen quantities [@foldesi2021] and handle complex zygomorphic flowers in comparison with small pollinators that are restricted to lower floral complexity [@gong2009]. How this different pollinator behaviors translate into their interaction topology is unknown. Similarly, recent empirical findings indicate that the meso-scale is the best descriptor of plant reproductive success [@allen2021], but little is known on how plants reproductive strategies shape their position within the network of interactions. Although some studies have evaluated plant reproductive strategies in plant-pollinator networks [@tur2013; @lazaro2020], they are often overlooked in a community context [@devaux2014] and rarely incorporated into plant-pollinator network studies. Hence, exploring how the main plant reproductive strategies integrate with the emergent motif framework can shed light on key aspects of ecosystem functioning. 
 
 Here, we used 60 plant-pollinator networks from 18 different studies distributed worldwide, alongside a detailed grouping of plants into reproductive strategies and pollinator species into functional groups. Plants were grouped based on a comprehensive dataset that included floral, reproductive and vegetative traits compiled in Lanuza et al., (unpublished) on a larger set of plant-pollinator networks. Pollinators were grouped into the main taxonomical groups that differed in life form and behaviour. Then, we explored which motifs up to five nodes in these set of plant-pollinator networks were over and under-represented. Finally, we explore if the different plants and pollinators functional groups are over- or under-represented in certain positions.
 
@@ -736,30 +736,109 @@ library(dplyr)
 #Create data.frame with references
 
 #vector with number of netw per study
-`Number of networks` <- c("6", "2", "3", "1", "1", "1", "1", "2", "1", "1", "8", "16", "6", "2", "4", "1", "3", "1")
+`Number of networks` <- c("6", #1
+                          "2", #2
+                          "3",#3
+                          "1",#4
+                          "1",#5
+                          "1",#6
+                          "1",#7
+                          "2",#8
+                          "1",#9
+                          "1",#10
+                          "8",#11
+                          "16",#12
+                          "6",#13
+                          "2",#14
+                          "4",#15
+                          "1",#16
+                          "3",#17
+                          "1"#18
+                          )
 
-#`Network structure` <- c(rep("Web", 22), rep("Metaweb",6))
+`First author` <- c("Bartomeus", #1
+                    "Dicks",#2
+                    "Dupont",#3
+                    "Elberling",#4
+                    "Fang",#5
+                    "Inouye",#6
+                    "Lundgren",#7
+                    "Olesen",#8
+                    "Small",#9
+                    "Souza",#10
+                    "Kaiser-Bunbury",#11
+                    "Bartomeus",#12
+                    "Kaiser-Bunbury",#13
+                    "Kaiser-Bunbury",#14
+                    "Peralta",#15
+                    "Burkle",#16
+                    "Arroyo-Correa",#17
+                    "Bundgaard"#18
+                    )
 
-`First author` <- c("Bartomeus", "Dicks", "Dupont", "Elberling", "Fang", "Inouye", "Lundgren", "Olesen", "Small", "Souza", "Kaiser-Bunbury", "Bartomeus", 
-                    "Kaiser-Bunbury", "Kaiser-Bunbury", "Peralta", "Burkle", "Arroyo-Correa", "Bundgaard")
+Year <- c(2008,#1
+          2002,#2
+          2003,#3
+          1999,#4
+          2008,#5
+          1988,#6
+          2005,#7
+          2002,#8
+          1976,#9
+          2017,#10
+          2017,#11
+          2015,#12
+          2011,#13
+          2010,#14
+          2006,#15
+          2013,#16
+          2019,#17
+          2003#18
+          ) 
 
-Year <- c(2008,2002,2003,1999,2008,1988, 2005,2002,1976,2017,2017,2008,2011,2010,2006,2013,2019,2003) ###JOSE! This method is prone to error, My Beefun dataset is 2015 and not 2008. ###
+Country <- c("Spain", #1
+               "England", #2
+               "Denmark", #3
+               "Sweden", #4
+               "China", #5
+               "United States", #6
+               "Denmark (Greenland)", #7
+               "Mauritius and Portugal (Azores)", #8
+               "Japan", #9
+               "Brazil", #10
+               "Seychelles", #11
+               "Spain", #12
+               "Seychelles", #13
+               "Mauritius", #14
+               "Argentina", # 15
+               "United States", #16
+               "New Zealand", #17
+               "Denmark" #18
+               )
 
-#Country <- c("Spain", "England", "Denmark", "Sweden", "China", "Australia", "Greenland", "Mauritius and Azores", #"Canada", "Brasil", "Seychelles", "Spain", "Seychelles",
-#"Mauritius", "Argentina", "USA", "New Zealand", "Denmark",  "Denmark", "Japan", "Canada", "Venezuela", "Japan", #"Ecuador", "New Zealand", "Venezuela",
-#"USA", "Ecuador")
+DOI <- c("https://doi.org/10.1007/s00442-007-0946-1", #1
+         "https://doi.org/10.1046/j.0021-8790.2001.00572.x", #2
+         "https://doi.org/10.1111/j.1365-2656.2008.01501.x", #3
+         "https://doi.org/10.1111/j.1600-0587.1999.tb00507.x", #4
+         "https://doi.org/10.1111/1749-4877.12190", #5
+         "https://doi.org/10.1111/j.1442-9993.1988.tb00968.x", #6
+         "https://doi.org/10.1657/1523-0430(2005)037[0514:TDAHCW]2.0.CO;2", #7
+         "https://doi.org/10.1046/j.1472-4642.2002.00148.x", #8
+         "/13960/t4km08d21", #9
+         "https://doi.org/10.1111/1365-2745.12978", #10
+         "https://doi.org/10.1038/nature21071", #11
+         "https://github.com/ibartomeus/BeeFunData", #12
+         "https://doi.org/10.1111/j.1365-2745.2010.01732.x", #13
+         "https://doi.org/10.1016/j.ppees.2009.04.001", #14
+         "https://doi.org/10.1111/ele.13510", #15
+         "https://doi.org/10.1126/science.1232728", #16
+         "https://doi.org/10.1111/1365-2745.13332", #17
+         "Unpublished, Master thesis" #18
+         )
 
-DOI <- c("https://doi.org/10.1007/s00442-007-0946-1", "https://doi.org/10.1046/j.0021-8790.2001.00572.x", "https://doi.org/10.1111/j.1365-2656.2008.01501.x",
-         "https://doi.org/10.1111/j.1600-0587.1999.tb00507.x", "https://doi.org/10.1111/1749-4877.12190", "https://doi.org/10.1111/j.1442-9993.1988.tb00968.x",
-         "https://doi.org/10.1657/1523-0430(2005)037[0514:TDAHCW]2.0.CO;2", "https://doi.org/10.1046/j.1472-4642.2002.00148.x",
-         "/13960/t4km08d21", "https://doi.org/10.1111/1365-2745.12978", "https://doi.org/10.1038/nature21071", "https://github.com/ibartomeus/BeeFunData",
-         "https://doi.org/10.1111/j.1365-2745.2010.01732.x", "https://doi.org/10.1016/j.ppees.2009.04.001", "https://doi.org/10.1111/ele.13510",
-         "https://doi.org/10.1126/science.1232728", "https://doi.org/10.1111/1365-2745.13332", "Unpublished, Master thesis")
+references <- data.frame(`First author`, Year, `Number of networks`, Country,   DOI)
 
-
-references <- data.frame(`First author`, Year, `Number of networks`,   DOI)
-
-colnames(references) <- c("First author", "Year", "Number of networks",  "DOI")
+colnames(references) <- c("First author", "Year", "Number of networks", "Country",  "DOI")
 
 #Check number of studies
 #nrow(references) # 18 studies

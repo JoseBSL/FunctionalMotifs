@@ -29,7 +29,12 @@ data_1 %>%
 
 data_2 <- filter(data_1, abs(z_score)<2000) 
 str(data_2)
-#Plot histogram of Z-scores
+#Plot histogram of Z-scores of those motifs with observed probability > 0
+
+# Justificación: si son observados 0 (o incluso 1 vez) no es muy interesante lo que les pase.
+# Podrian estar underrepresented, pero como con la Chi, si el expected es super bajo, 
+# diferenciar si esta under-represented sera dificil de detectar .
+
 ggplot(data_2 %>% filter(round_motif_observed_probability>0), aes(x=z_score, color=infra_over_represented, fill=infra_over_represented)) + 
   geom_histogram(bins = 51, alpha = 0.5, position = "identity",lwd = 0.25)+
   geom_vline(xintercept = -2)+

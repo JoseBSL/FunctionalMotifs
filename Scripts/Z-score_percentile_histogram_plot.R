@@ -2,6 +2,7 @@
 #load library
 library(dplyr)
 library(ggplot2)
+library(tidyverse)
 #Read data
 data <- read.csv("Data/Csv/motifs_observed_probability_SIMUL_CI.csv")
 
@@ -27,13 +28,17 @@ data_1 %>%
   mutate(proportion = no_rows / sum(no_rows))
 
 data_2 <- filter(data_1, z_score<3000) 
-
+str(data_2)
 #Plot histogram of Z-scores
-ggplot(data_2, aes(x=z_score)) + 
-  geom_histogram(color="black", fill="white",bins = 28)+
+ggplot(data_2, aes(x=z_score, color=infra_over_represented, fill=infra_over_represented)) + 
+  geom_histogram(bins = 50, alpha = 0.5, position = "identity",lwd = 0.25)+
   geom_vline(xintercept = -2)+
   geom_vline(xintercept = 2)+
-  xlim(-50,50)
+  xlim(-20,20) + ylab("Frequency")+  theme_bw() +
+  scale_fill_manual(name="Motif frequencies" ,values=c("coral2", "palegreen3", "cyan3"), labels=c("Under-represented",
+                    "No statistical difference", "Over-represented")) +
+  scale_color_manual(name="Motif frequencies" ,values=c("coral2", "palegreen3", "cyan3"), labels=c("Under-represented",
+                     "No statistical difference", "Over-represented"))
 
 
 ###############
@@ -69,3 +74,5 @@ ggplot(data, aes(x=percentil_observed)) +
   geom_histogram(color="black", fill="white",bins = 100)+
   geom_vline(xintercept = 0.025)+
   geom_vline(xintercept = 0.975)
+
+str(data)

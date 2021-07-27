@@ -88,6 +88,8 @@ for(i.motif in 1:length(motifs_ID_list)){
 
 write_csv(motifs_observed_probability_CI,"Data/Csv/motifs_observed_probability_SIMUL_CI.csv")
 
+motifs_observed_probability_CI <- read_csv("Data/Csv/motifs_observed_probability_SIMUL_CI.csv")
+
 # percentage of entries with sd = 0
 motifs_observed_probability_CI %>% filter(sd_sim == 0) %>% nrow()*100/nrow(motifs_observed_probability_CI)
 

@@ -39,10 +39,10 @@ str(data_2)
 # diferenciar si esta under-represented sera dificil de detectar .
 
 ggplot(data_2 %>% filter(round_motif_observed_probability>0), aes(x=z_score, color=infra_over_represented, fill=infra_over_represented)) + 
-  geom_histogram(bins = 51, alpha = 0.5, position = "identity",lwd = 0.25)+
+  geom_histogram(bins = 100, alpha = 0.5, position = "identity",lwd = 0.25)+
   geom_vline(xintercept = -abs(critical_value))+
   geom_vline(xintercept = abs(critical_value))+
-  xlim(-20,20) + ylab("Frequency")+  theme_bw() +
+  xlim(-60,60) + ylab("Frequency")+  theme_bw() +
   scale_fill_manual(name="Motif frequencies" ,values=c("coral2", "palegreen3", "cyan3"), labels=c("Under-represented",
                     "No statistical difference", "Over-represented")) +
   scale_color_manual(name="Motif frequencies" ,values=c("coral2", "palegreen3", "cyan3"), labels=c("Under-represented",

@@ -11,11 +11,15 @@ data %>%
   summarise_all(funs(sum(is.na(.))))
 
 # At the moment this is just -2 and 2 but check how to find critical value of z-score
+
+p <- 0.05 #cutoff probability 95% confidence
+critical_value <- qnorm(p/2) #double tail probability divide by 2
+
 data_1 <- data %>%
   mutate(infra_over_represented = case_when(
-    z_score < -2 ~ "infra",
-    between(z_score, -2, 2) ~ "no_diff",
-    z_score > 2 ~ "over"
+    z_score < -abs(critical_value) ~ "infra",
+    between(z_score, -abs(critical_value), abs(critical_value)) ~ "no_diff",
+    z_score > abs(critical_value) ~ "over"
   ))
      
 #check levels
@@ -37,8 +41,8 @@ str(data_2)
 
 ggplot(data_2 %>% filter(round_motif_observed_probability>0), aes(x=z_score, color=infra_over_represented, fill=infra_over_represented)) + 
   geom_histogram(bins = 51, alpha = 0.5, position = "identity",lwd = 0.25)+
-  geom_vline(xintercept = -2)+
-  geom_vline(xintercept = 2)+
+  geom_vline(xintercept = -abs(critical_value))+
+  geom_vline(xintercept = abs(critical_value))+
   xlim(-20,20) + ylab("Frequency")+  theme_bw() +
   scale_fill_manual(name="Motif frequencies" ,values=c("coral2", "palegreen3", "cyan3"), labels=c("Under-represented",
                     "No statistical difference", "Over-represented")) +

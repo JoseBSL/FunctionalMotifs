@@ -10,8 +10,7 @@ data <- read.csv("Data/Csv/motifs_observed_probability_SIMUL_CI.csv")
 data %>%
   summarise_all(funs(sum(is.na(.))))
 
-# At the moment this is just -2 and 2 but check how to find critical value of z-score
-
+#Find critical value of Z-score
 p <- 0.05 #cutoff probability 95% confidence
 critical_value <- qnorm(p/2) #double tail probability divide by 2
 

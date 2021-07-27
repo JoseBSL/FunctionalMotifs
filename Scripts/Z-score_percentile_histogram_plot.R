@@ -46,5 +46,5 @@ ggplot(data_2 %>% filter(round_motif_observed_probability>0), aes(x=z_score, col
   scale_fill_manual(name="Motif frequencies" ,values=c("coral2", "palegreen3", "cyan3"), labels=c("Under-represented",
                     "No statistical difference", "Over-represented")) +
   scale_color_manual(name="Motif frequencies" ,values=c("coral2", "palegreen3", "cyan3"), labels=c("Under-represented",
-                     "No statistical difference", "Over-represented"))
+                     "No statistical difference", "Over-represented")) + xlab("Z-score")
 

@@ -814,7 +814,7 @@ plot_pie_motif_positions <- function(motif_number){
   
   xup = equidistribution(length(labup))
   
-  yup = rep(1,length(labup))
+  yup = rep(2,length(labup))
   
   d_nodes=data.frame(x=c(xdown,xup),
                      y=c(ydown,yup),
@@ -856,11 +856,11 @@ plot_pie_motif_positions <- function(motif_number){
   ggplot() +
     scale_shape_identity() +
     geom_segment(data = link_df, aes(x=xdown, y=ydown, xend = xup, yend = yup), 
-                 size = 1, color = "grey20")+  geom_scatterpie(aes(x=x, y=y, group=position,r=.4), 
+                 size = 1, color = "grey20")+  geom_scatterpie(aes(x=x, y=y, group=position,r=.45), 
     data = d_nodes_pollinator, cols=as.character(c("Bee","Birds","Coleoptera","Lepidoptera",
      "Lizards","Non-bee-Hymenoptera", "Non-syrphids-diptera","Other_insects",
      "Syrphids"))) +
-    geom_scatterpie(aes(x=x, y=y, group=position,r=0.4), 
+    geom_scatterpie(aes(x=x, y=y, group=position,r=0.45), 
                     data = d_nodes_plant,
                     cols=as.character(c("1","2","3","4","5")))+
     coord_fixed()+
@@ -872,7 +872,7 @@ plot_pie_motif_positions <- function(motif_number){
                                                         "Syrphids", 
           "Selfing herbs","Small outcrossing perennials","Self-incomp. perennials\nwith large flowers",
           "Tall plants with small\nunisexual flowers","Short-lived outcrossers with\nlong zygomorphic flowers"))+
-    xlim(-1.5,4)+ ylim(-0.5,1.5)+
+    xlim(-1.5,4)+ ylim(-0.5,2.5)+
     theme(panel.background = element_blank(),
           axis.text.x=element_blank(),
           axis.ticks.x=element_blank(),

@@ -118,6 +118,12 @@ plot_motif_label <- function(label){
   
 }
 
+# Data with pollinator/plant labels
+
+plant_means_reordered <- read_csv("Data/Csv/plant_abs_freq_means.csv")
+pollinator_means_reordered <- read_csv("Data/Csv/pollinator_abs_freq_means.csv")
+
+
 
 # Examples
 

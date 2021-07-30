@@ -209,7 +209,7 @@ for (i in 1:5){
 source("Scripts/Z-score_percentile_histogram_plot.R")  
 
 hist <- ggplot(data_2 %>% filter(round_motif_observed_probability>0), aes(x=z_score, color=infra_over_represented, fill=infra_over_represented)) + 
-  geom_histogram(bins = 100, alpha = 0.5, position = "identity",lwd = 0.25)+
+  geom_histogram(bins = 93, alpha = 0.5, position = "identity",lwd = 0.25)+
   geom_vline(xintercept = -abs(critical_value))+
   geom_vline(xintercept = abs(critical_value))+
   xlim(-60,60) + ylab("Frequency")+  theme_bw() +

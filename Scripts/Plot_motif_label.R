@@ -91,7 +91,7 @@ plot_motif_label <- function(label){
   ggplot(data=d_nodes_FG, aes(x, y)) +
     scale_shape_identity() +
     geom_segment(data = link_df, aes(x=xdown, y=ydown, xend = xup, yend = yup), size = 1, color = "grey20")+
-    geom_point(aes(color = FG), size=10)+
+    geom_point(aes(color = FG), size=7.5)+
     geom_text(aes(x, y , label = label), size=3)+
     scale_color_manual(drop = FALSE, values = mycolors,
                        breaks=c("Bee","Birds","Coleoptera","Lepidoptera",
@@ -111,8 +111,8 @@ plot_motif_label <- function(label){
           axis.text.y=element_blank(),
           axis.ticks.y=element_blank())+
     labs(x=NULL,y=NULL)+
-    ggtitle(paste0(label))+
-    theme(plot.title = element_text(hjust = 0.5))+
+    ggtitle(paste0("Motif ",motif_number))+
+    theme(plot.title = element_text(hjust = 0.5,size=10))+
     guides(color=guide_legend(title="Functional groups"))
   
   
@@ -125,20 +125,11 @@ pollinator_means_reordered <- read_csv("Data/Csv/pollinator_abs_freq_means.csv")
 
 
 
-# Examples
+####################################################################################################
+#Read data to check top 5 motif of each category of observed propabilities
 
-label <- "9_2_4_Coleoptera_Non-syrphids-diptera_Bee"
-p1 <- plot_motif_label(label)
-label <- "17_2_2_2_4_Bee"
-p2 <- plot_motif_label(label)
-label <- "3_5_Bee_Birds"
-p3 <- plot_motif_label(label)
-
-library(patchwork)
-(p1|p2|p3) + plot_layout(guides = 'collect') &
-  theme(legend.position = "bottom")
-
-
+#Under, No signi, Over-rep
+####################################################################################################
 # Check top Z-scores of each group (Under, No diff, Over)
 
 #Read data
@@ -163,28 +154,95 @@ data_1 <- data %>%
 under_data <- filter(data_1, infra_over_represented=="infra") 
 str(under_data)
 
-under_top_10 <- filter(under_data, row_number(desc(abs(motif_observed_probability)))<= 10) %>%
+under_top_5 <- filter(under_data, row_number(desc(abs(motif_observed_probability)))<= 5) %>%
   select(motif_functional_ID,motif_observed_probability,counts_observed,z_score)
 
-#Select no statistical difference by the ones with highest porbability of being observed (top10)
+#Select no statistical difference by the ones with highest porbability of being observed (top5)
 no_diff_data <- filter(data_1, infra_over_represented=="no_diff") 
 str(no_diff_data)
 
-no_diff_top_10 <- filter(no_diff_data, row_number(desc(abs(motif_observed_probability)))<= 10) %>%
+no_diff_top_5 <- filter(no_diff_data, row_number(desc(abs(motif_observed_probability)))<= 5) %>%
   select(motif_functional_ID,motif_observed_probability,counts_observed,z_score)
 
-#Select over-represenetd by the ones with highest porbability of being observed (top10)
+#Select over-represenetd by the ones with highest porbability of being observed (top5)
 over_data <- filter(data_1, infra_over_represented=="over") 
 str(over_data)
 
-over_top_10 <- filter(over_data, row_number(desc(abs(motif_observed_probability)))<= 20) %>%
+over_top_5 <- filter(over_data, row_number(desc(abs(motif_observed_probability)))<= 5) %>%
   select(motif_functional_ID,motif_observed_probability,counts_observed,z_score)
+####################################################################################################
+#Now plot it 
+####################################################################################################
+
+library(patchwork)
+
+#Prepare list of 5 plots for each group
+#Under
+labels_under <- under_top_5$motif_functional_ID
+p_under <- list()
+
+for (i in 1:5){
+  
+  p_under[[i]] <- plot_motif_label(labels_under[[i]])
+}
+
+#No signficance
+labels_nodiff <- no_diff_top_5$motif_functional_ID
+p_nodiff <- list()
+
+for (i in 1:5){
+  
+  p_nodiff[[i]] <- plot_motif_label(labels_nodiff[[i]])
+}
+
+#Over
+labels_over <- over_top_5$motif_functional_ID
+p_over <- list()
+
+for (i in 1:5){
+  
+  p_over[[i]] <- plot_motif_label(labels_over[[i]])
+}
+
+
+#Run Script with histogram plot
+source("Scripts/Z-score_percentile_histogram_plot.R")  
+
+hist <- ggplot(data_2 %>% filter(round_motif_observed_probability>0), aes(x=z_score, color=infra_over_represented, fill=infra_over_represented)) + 
+  geom_histogram(bins = 100, alpha = 0.5, position = "identity",lwd = 0.25)+
+  geom_vline(xintercept = -abs(critical_value))+
+  geom_vline(xintercept = abs(critical_value))+
+  xlim(-60,60) + ylab("Frequency")+  theme_bw() +
+  scale_fill_manual(name="Motif frequencies" ,values=c("coral2", "palegreen3", "cyan3"), labels=c("Under-represented",
+                                                                                                  "No statistical difference", "Over-represented")) +
+  scale_color_manual(name="Motif frequencies" ,values=c("coral2", "palegreen3", "cyan3"), labels=c("Under-represented",
+                                                                                                   "No statistical difference", "Over-represented")) + xlab("Z-score")
+
+t_col <- function(color, percent = 50, name = NULL) {
+  #      color = color name
+  #    percent = % transparency
+  #       name = an optional name for the color
+  
+  ## Get RGB values for named color
+  rgb.val <- col2rgb(color)
+  
+  ## Make new color using input color as base and alpha set by transparency
+  t.col <- rgb(rgb.val[1], rgb.val[2], rgb.val[3],
+               max = 255,
+               alpha = (100 - percent) * 255 / 100,
+               names = name)
+  
+  ## Save the color
+  invisible(t.col)
+}
+## END
+
+#Prepare panel of plots
+hist / ((p_under[[1]]/p_under[[2]]/p_under[[3]]/p_under[[4]] & theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.background = element_rect(fill=t_col("coral2")))) | 
+          (p_nodiff[[1]]/p_nodiff[[2]]/p_nodiff[[3]]/p_nodiff[[4]]& theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.background = element_rect(fill=t_col("palegreen3")))) | 
+          (p_over[[1]]/p_over[[2]]/p_over[[3]]/p_over[[4]] & theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.background = element_rect(fill=t_col("cyan3"))))) + plot_layout(guides = 'collect')
 
 
 
-#Trying a random plot// Aggregate of motifs and counts observed
 
-sum_counts <- aggregate(counts_observed ~ motif, data=data, sum)
-
-ggplot(data, aes(x = motif, y = counts_observed)) +
-  geom_jitter()+ scale_x_continuous("motif", labels = as.character(motif), breaks = motif)
+                     

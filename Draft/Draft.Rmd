@@ -719,7 +719,7 @@ draw(ht_list, auto_adjust = FALSE, cluster_rows = F)
 
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, fig.height=8, fig.width=12, fig.cap="Figure 4. Graphical representation of the probability of finding a given functional group $x$ in the position $\alpha$ of motif $i$, $p_i(x,\alpha)$, for all the possible motifs from two to five species in bipartite networks. The slices in the nodes for a given functional group $x$ are proportional to the corresponding value of $p_i(x,\alpha)$."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, fig.height=8, fig.width=12, fig.cap="Figure 4. Graphical representation of the probability of finding a given functional group $x$ in the position $\\alpha$ of motif $i$, $p_i(x,\\alpha)$, for all the possible motifs from two to five species in bipartite networks. The slices in the nodes for a given functional group $x$ are proportional to the corresponding value of $p_i(x,\\alpha)$."}
 
 plant_means_reordered <- read_csv("../Data/Csv/plant_abs_freq_means.csv")
 pollinator_means_reordered <- read_csv("../Data/Csv/pollinator_abs_freq_means.csv")

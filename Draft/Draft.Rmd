@@ -38,9 +38,9 @@ Ecological processes leave distinct structural imprints on species interactions 
 
 The interaction between plants and pollinators can be studied at different scales, from species level interactions (micro-scale) to the full network structure (macro-scale). Research of the plant-pollinator network structure have proven common invariant structural properties across them including a degree distribution that decays as a power law [@jordano1987], nestedness [@bascompte2003], or modularity in large networks [@olesen2007]. In addition, species phenological overlap, morphological matching and species abundances have been shown to be determinant for the understanding of pairwise plant-pollinator interactions [@bartomeus2016; @stang2006; @peralta2020]. However, both species level information and the holistic view of the full network involves missing relevant information for the understanding of ecological processes [@cirtwill2018; @simmons2019]. 
 
-Traditionally, plant-pollinator research has focused on direct interactions and overlooked indirect interactions such as facilitative or competitive interactions between plants for pollinators [@moeller2004; @sargent2008]. Despite the widespread nature of indirect interactions in ecological communities [@strauss1991], plant-pollinator research often fails to finely capture those indirect interactions with the conventional analytical tools that condense the information either by species (e.g. interaction frequency) or in single topological indices (e.g. nestedness). Nonetheless, the emerging framework of network motifs in plant-pollinator research, the building blocks of a network that depict subsets of interactions [@milo2002], allows to consider both direct and indirect interactions [@simmons2019]. The analysis of motifs (meso-scale) in plant-pollinator networks have revealed that the different ecological processes that govern species interactions (e.g., species abundances versus trait-matching) can lead to different patterns of indirect interactions [@simmons2020]. However, the global patterns of indirect interactions in plant-pollinator networks (over- and under- representation of motifs) are still unknown.
+Traditionally, plant-pollinator research has focused on direct interactions and overlooked indirect interactions such as facilitative or competitive interactions between plants for pollinators [@moeller2004; @sargent2008]. Despite the widespread nature of indirect interactions in ecological communities [@strauss1991], plant-pollinator research often fails to finely capture those indirect interactions with the conventional analytical tools that condense the information either by species (e.g. interaction frequency) or in single topological indices (e.g. nestedness). Nonetheless, the emerging framework of network motifs in plant-pollinator research, the building blocks of a network that depict subsets of interactions [@milo2002], allows to consider both direct and indirect interactions [@simmons2019]. The analysis of motifs (meso-scale) in plant-pollinator networks have revealed that the different ecological processes that govern species interactions (e.g., species abundances versus trait-matching) can lead to different patterns of indirect interactions [@simmons2020]. Yet, the global patterns of indirect interactions in plant-pollinator networks (over- and under- representation of motifs) are still unknown.
 
-Motifs are abstract representations often decoupled from species ecology. Hence, linking the structural properties of the meso-scale with the species ecology can help the understanding of ecological processes. For instance, different motifs can have different ecological meanings [@simmons2019] and the position within a motif can determine the species functional role [@stouffer2012; @baker2015]. However, it is unclear how the species ecology and life history traits determines the species functional role within the network of interactions [@coux2016]. For example, large pollinators can forage larger distances [@greenleaf2007], deposit greater pollen quantities [@foldesi2021] and handle complex zygomorphic flowers in comparison with small pollinators that are restricted to lower floral complexity [@gong2009]. How this different pollinator behaviors translate into their interaction topology is unknown. Similarly, recent empirical findings indicate that the meso-scale is the best descriptor of plant reproductive success [@allen2021], but little is known on how plants reproductive strategies shape their position within the network of interactions. Although some studies have evaluated plant reproductive strategies in plant-pollinator networks [@tur2013; @lazaro2020], they are often overlooked in a community context [@devaux2014] and rarely incorporated into plant-pollinator network studies. Hence, exploring how the main plant reproductive strategies integrate with the emergent motif framework can shed light on key aspects of ecosystem functioning. 
+Motifs are abstract representations often decoupled from species ecology. Thus, linking the structural properties of the meso-scale with the species ecology can help the understanding of ecological processes. For instance, different motifs can have different ecological meanings [@simmons2019] and the position within a motif can determine the species functional role [@stouffer2012; @baker2015]. However, it is unclear how the species ecology and life history traits determines the species functional role within the network of interactions [@coux2016]. For example, large pollinators can forage larger distances [@greenleaf2007], deposit greater pollen quantities [@foldesi2021] and handle complex zygomorphic flowers in comparison with small pollinators that are restricted to lower floral complexity [@gong2009]. How this different pollinator behaviors translate into their interaction topology is unknown. Similarly, recent empirical findings indicate that the meso-scale is the best descriptor of plant reproductive success [@allen2021], but little is known on how plants reproductive strategies shape their position within the network of interactions. Although some studies have evaluated plant reproductive strategies in plant-pollinator networks [@tur2013; @lazaro2020], they are often overlooked in a community context [@devaux2014] and rarely incorporated into plant-pollinator network studies. Hence, exploring how the main plant reproductive strategies integrate with the emergent motif framework can shed light on key aspects of ecosystem functioning. 
 
 Here, we used 60 plant-pollinator networks from 18 different studies and 14 countries, alongside a detailed grouping of plants into reproductive strategies and pollinator species into functional groups. Plants were grouped based on a comprehensive dataset that included floral, reproductive and vegetative traits compiled in Lanuza et al., (unpublished) on a larger set of plant-pollinator networks. Pollinators were grouped into the main taxonomical groups that differed in life form and behaviour. Then, we explored which motifs up to five nodes in these set of plant-pollinator networks were over and under-represented. Finally, we explored if the different plants and pollinators functional groups were over- or under-represented in certain positions.
 
@@ -48,20 +48,20 @@ Here, we used 60 plant-pollinator networks from 18 different studies and 14 coun
 
 **Plant-pollinator studies**
 
-We have compiled 60 plant-pollinator networks from 18 different studies (Table S1). All studies sampled plant-pollinator interactions in natural systems and were selected based on wide geographical coverage and the presence of interaction frequency as a measure of interaction strength. In total, there were 503 plant species, 1,111 pollinator species and 6248 of pairwise interactions registered. For ease of data manipulation plant and pollinator species names were standardize with the help of the package taxize version 0.9.99 [@chamberlain2020].
+We have compiled 60 plant-pollinator networks from 18 different studies (Table S1). All studies sampled plant-pollinator interactions in natural systems and were selected based on wide geographical coverage and the presence of interaction frequency as a measure of interaction strength. In total, there were 503 plant species, 1,111 pollinator species and 6248 of pairwise interactions registered. For ease of data manipulation plant and pollinator species names were standardize with the help of the package _taxize_ version 0.9.99 [@chamberlain2020].
 
 **Plant and pollinator functional groups**
 
-First, plant species were grouped into the optimal number of functional groups that summarized the main plant reproductive strategies. This was done with the help of hierarchical cluster analysis by using the trait dataset collated in Lanuza et al., (unpublished) that comprised 1,506 plant species and contained the same 60 plant-pollinator networks used in this study plus some non-weighted and weighted metawebs (see Table S1 Lanuza et al., unpublished). This dataset consisted on 8 floral, 4 reproductive and 3 vegetative traits (Table S2). We opted to calculate the plant functional groups on this larger set of species because of the higher accuracy when delimiting the functional groups with that many variables @dolnicar2014. For this, we calculated the distance of the different functional traits with the function gowdis from the package FD version 1.0-12 [@laliberte2014] with the method ward.D2 used for non-squared distances [@murtagh2014]. All the numerical traits were previously scaled. Finally, we applied a hierarchical cluster analysis with the function hclust from the R stats package version 4.0.5 and calculated the optimal number of clusters with the function kgs from the package maptree version 1.4-7 [@white2009].
+First, plant species were grouped into the optimal number of functional groups that summarized the main plant reproductive strategies. This was done with the help of hierarchical cluster analysis by using the trait dataset collated in Lanuza et al., (unpublished) that comprised 1,506 plant species and contained the same 60 plant-pollinator networks used in this study plus some non-weighted and weighted metawebs (see Table S1 Lanuza et al., unpublished). This dataset consisted on 8 floral, 4 reproductive and 3 vegetative traits (Table S2). We opted to calculate the plant functional groups on this larger set of species because of the higher accuracy when delimiting the functional groups with that many variables @dolnicar2014. For this, we calculated the distance of the different functional traits with the function _gowdis_ from the package _FD_ version 1.0-12 [@laliberte2014] with the method ward.D2 used for non-squared distances [@murtagh2014]. All the numerical traits were previously scaled. Finally, we applied a hierarchical cluster analysis with the function _hclust_ from the _R_ stats package version 4.0.5 and calculated the optimal number of clusters with the function _kgs_ from the package _maptree_ version 1.4-7 [@white2009].
 
-Second, pollinators were grouped into functional groups based on taxonomic rank. We opted to divide pollinators on the taxonomic rank level and not with functional traits because (i) they main taxonomic orders differ in form and behaviour and (ii) the lower complexity of higher taxonomic ranks (i.e., pollinators had 6 orders versus plants that had 38). Hence, we grouped pollinators into 6 functional groups: (i) Hymenoptera-Anthophila (bees), (ii) Hymenoptera-non-Anthophila (other non-bee Hymenoptera), (iii) Syrphidae-Diptera, (iv) non-Syrphidae-Diptera, (v) Lepidoptera and (vi) Coleoptera. 
+Second, pollinators were grouped into functional groups based on taxonomic rank. We opted to divide pollinators on the taxonomic rank level and not with functional traits because (i) the main taxonomic orders differ in form and behaviour and (ii) the lower complexity of higher taxonomic ranks (i.e., pollinators had 6 orders versus plants that had 38). Hence, we grouped pollinators into 6 functional groups: (i) Hymenoptera-Anthophila (bees), (ii) Hymenoptera-non-Anthophila (other non-bee Hymenoptera), (iii) Syrphidae-Diptera, (iv) non-Syrphidae-Diptera, (v) Lepidoptera and (vi) Coleoptera. 
 
 
 **Meso-scale analysis**
 
 Following Simmons et al. [@simmons2019; @simmons2020], we broke down the plant-pollinator networks into their constituent motifs. Prior to analyses, we turned the quantitative networks into qualitative (or binary) ones, where interactions are present or absent.
 
-We calculated the frequency of all motifs up to five nodes (see Figure 1) for each empirical network, by using the ‘bmotif’ package [@bmotifsimmons2019]. To control for variation in network size and for the fact that smaller motifs can be nested within larger motifs, the frequencies were normalised as a proportion of the total number of motifs within each motif class (i.e., the number of nodes a motif contains). Like [@simmons2020], we just used five-node motifs in our analyses for visualisation, interpretation and computational reasons. In addition, we also excluded two-node motifs (or links) from our analyses because their normalised frequencies would always equal one.
+We calculated the frequency of all motifs up to five nodes (see Figure 1) for each empirical network, by using the _bmotif_ package [@bmotifsimmons2019]. To control for variation in network size and for the fact that smaller motifs can be nested within larger motifs, the frequencies were normalised as a proportion of the total number of motifs within each motif class (i.e., the number of nodes a motif contains). Like [@simmons2020], we just used five-node motifs in our analyses for visualisation, interpretation and computational reasons. In addition, we also excluded two-node motifs (or links) from our analyses because their normalised frequencies would always equal one.
 
 
 ```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.cap="Figure 1. Adapted figure of Simmons et al., 2019 with all the possible motifs from two to five species in bipartite networks. There is a total of 17 possible motifs with 46 different positions denoted within each node.", fig.width=10,fig.height=8}
@@ -129,13 +129,13 @@ library(patchwork)
 ```
 
 
-To assess the significance of the observed frequencies, we created 1,000 simulated networks for each binary network using the ‘nullmodel’ function and the ‘vaznull’ model in the bipartite package [@dormann2009]. Generated networks had the same number of plants and pollinators, as well as the same connectance of their corresponding empirical networks. After extracting the motif frequencies from the simulated networks, for each motif type and empirical network, we calculated the percentage of simulated networks whose frequencies were smaller than the ones observed, that is, we estimated the percentile of the observed motif frequencies. Motifs whose percentile is close to zero or 100 are under- or over-represented in the empirical networks, respectively, and, thus, they cannot be predicted by connectance and the number of species alone. To summarize general patterns across networks, we used an intercept-only linear mixed model (LMM) per motif, where the response variable was the observed motif percentile per network. In these models, we used the study identifiers in Table S1 as a random intercept. By doing so, we obtained estimates of the average motif frequency, in which we controlled the variation at the study level. 
+To assess the significance of the observed frequencies, we created 1,000 simulated networks for each binary network using the _nullmodel_ function and the _vaznull_ model in the _bipartite_ package [@dormann2009]. Generated networks had the same number of plants and pollinators, as well as the same connectance of their corresponding empirical networks. After extracting the motif frequencies from the simulated networks, for each motif type and empirical network, we calculated the percentage of simulated networks whose frequencies were smaller than the ones observed, that is, we estimated the percentile of the observed motif frequencies. Motifs whose percentile is close to zero or 100 are under- or over-represented in the empirical networks, respectively, and, thus, they cannot be predicted by connectance and the number of species alone. To summarize general patterns across networks, we used an intercept-only linear mixed model (LMM) per motif, where the response variable was the observed motif percentile per network. In these models, we used the study identifiers in Table S1 as a random intercept. By doing so, we obtained estimates of the average motif frequency, in which we controlled the variation at the study level. 
 
-Next, we calculated which functional groups were over or under-represented in different motif positions by comparing position frequencies of empirical networks with those of their corresponding simulated counterparts. We extracted the position frequencies of all motifs from three to five nodes for each network and species by using the ‘bmotif’ package [@bmotifsimmons2019]. To estimate the position frequencies of each functional group in a given network, we added the frequencies of those species that belong to the group, and then, we normalised the resulting frequencies by dividing the position measure for each group by the total number of times that a group appears in any position within the same motif size class. Then, we calculated the percentile of the observed position frequencies for each group and network, just like we did motif frequencies. To outline the general patterns of position frequencies across networks and functional groups, we fit a LMM per motif position, where the response variable was the observed position percentile per network. We used the functional group identifier as an explanatory variable and the study identifiers as a random intercept. By adding the functional group estimates to the model intercept, we assessed the average motif frequency, after controlling the variation at the study level. Finally, we visualized with the help of the package ComplexHeatmap version 2.6.2 [@gu2016] over- and under- representation of plant and pollinator functional groups on the different motif positions.
+Next, we calculated which functional groups were over or under-represented in different motif positions by comparing position frequencies of empirical networks with those of their corresponding simulated counterparts. We extracted the position frequencies of all motifs from three to five nodes for each network and species by using the _bmotif_ package [@bmotifsimmons2019]. To estimate the position frequencies of each functional group in a given network, we added the frequencies of those species that belong to the group, and then, we normalised the resulting frequencies by dividing the position measure for each group by the total number of times that a group appears in any position within the same motif size class. Then, we calculated the percentile of the observed position frequencies for each group and network, just like we did motif frequencies. To outline the general patterns of position frequencies across networks and functional groups, we fit a LMM per motif position, where the response variable was the observed position percentile per network. We used the functional group identifier as an explanatory variable and the study identifiers as a random intercept. By adding the functional group estimates to the model intercept, we assessed the average motif frequency, after controlling the variation at the study level. Finally, we visualized with the help of the package ComplexHeatmap version 2.6.2 [@gu2016] over- and under- representation of plant and pollinator functional groups on the different motif positions.
 
-To test the effect of singletones on the frequencies of motif and those of functional groups' positions, in Appendices XXX, we applied the previous analyzes to the robust versions of the networks in table S1, namely: networks that, prior to binarization, only contained interactions whose frequency was greater than one (64.98 % interactions).
+To test the effect of singletones on the frequencies of motif and those of functional groups' positions, in Appendices XXX, we applied the previous analyzes to the robust versions of the networks in table S1, namely: networks that, prior to binarization, only contained interactions whose frequency was greater than one (64.98% of interactions).
 
-Finally, we studied which motif combinations of functional groups (up to five nodes) are over or under-represented in 95% of our empirical networks (57 out of 60 arrangements, due to computational limitations to identify all the nodes in the motifs of the three networks with the highest number of links). To do so, for each of the 53,250 possible motif combinations, we estimated the observed and the expected probability of finding that combination in empirical networks, respectively. Then, we determined whether the observed probabilities are likely to come from the expected probabilities or not. To calculate the observed probability of a given combination $i$, $p_i^O$, we divided the number of times that $i$ appears in our set of empirical networks ($n_i^O$) by the sum of the number of times that each possible combination appeared: $p_i^O = n_i^O / \sum_{k=1}^{53,250} n_k^O$, and, consequently, $\sum_{k=1}^{53,250} p_k^O = 1$. To estimate the expected probability of a given motif combination $i$, $p_i^E$, firstly, we calculated the probability of finding a given functional group $x$ in the position $\alpha$ of $i$, $p_i(x,\alpha)$. Then, by assuming the independency of $p_i(x,\alpha)$, we computed the expected probability of the combination $i$ as the product of the probability of its pairs $(x,\alpha)$, that is, $p_i^E = \prod _{(x,\alpha )\in i} p_i(x,\alpha)$. To obtain $p_i(x,\alpha)$, we proceeded as follows. First, we used the ‘bmotif’ package [@bmotifsimmons2019] to calculate the number of times (or absolute frequency) that the functional group $x$ appears in the position $\alpha$ in each empirical network $\eta$, denoted as $n_i^{\eta}(x,\alpha)$. Then, by controlling the variation at the network level, we assessed the average value of the absolute frequency of functional group $x$ appears in the position $\alpha$, $n_i(x,\alpha) = E\left [ n_i^{\eta}(x,\alpha) \right ]$, and estimated $p_i(x,\alpha)$ as $p_i(x,\alpha) = n_i(x,\alpha)/\sum_{k}n_i(k,\alpha)$. To obtain $n_i(x,\alpha)$, we fitted a LMM per motif position, where the response variable was the number of times that a given position was observed per network, the explanatory variable was functional group identifier, and the random intercept was given by network identifiers nested within the study identifiers. We used the ‘lmer’ package [@bates2015] to fit the LMMs models in our analyses. 
+Finally, we studied which motif combinations of functional groups (up to five nodes) are over or under-represented in 95% of our empirical networks (57 out of 60 arrangements, due to computational limitations to identify all the nodes in the motifs of the three networks with the highest number of links). To do so, for each of the 53,250 possible motif combinations, we estimated the observed and the expected probability of finding that combination in empirical networks, respectively. Then, we determined whether the observed probabilities are likely to come from the expected probabilities or not. To calculate the observed probability of a given combination $i$, $p_i^O$, we divided the number of times that $i$ appears in our set of empirical networks ($n_i^O$) by the sum of the number of times that each possible combination appeared: $p_i^O = n_i^O / \sum_{k=1}^{53,250} n_k^O$, and, consequently, $\sum_{k=1}^{53,250} p_k^O = 1$. To estimate the expected probability of a given motif combination $i$, $p_i^E$, firstly, we calculated the probability of finding a given functional group $x$ in the position $\alpha$ of $i$, $p_i(x,\alpha)$. Then, by assuming the independency of $p_i(x,\alpha)$, we computed the expected probability of the combination $i$ as the product of the probability of its pairs $(x,\alpha)$, that is, $p_i^E = \prod _{(x,\alpha )\in i} p_i(x,\alpha)$. To obtain $p_i(x,\alpha)$, we proceeded as follows. First, we used the _bmotif_ package [@bmotifsimmons2019] to calculate the number of times (or absolute frequency) that the functional group $x$ appears in the position $\alpha$ in each empirical network $\eta$, denoted as $n_i^{\eta}(x,\alpha)$. Then, by controlling the variation at the network level, we assessed the average value of the absolute frequency of functional group $x$ appears in the position $\alpha$, $n_i(x,\alpha) = E\left [ n_i^{\eta}(x,\alpha) \right ]$, and estimated $p_i(x,\alpha)$ as $p_i(x,\alpha) = n_i(x,\alpha)/\sum_{k}n_i(k,\alpha)$. To obtain $n_i(x,\alpha)$, we fitted a LMM per motif position, where the response variable was the number of times that a given position was observed per network, the explanatory variable was functional group identifier, and the random intercept was given by network identifiers nested within the study identifiers. We used the ‘lmer’ package [@bates2015] to fit the LMMs models in our analyses. 
 
 Once we obtained $p_i^O$ and $p_i^E$, we used simulation to determine whether the former is likely to come from the latter or not, since the large number of possible motif combinations and the small probabilities for some of them advise against using an Exact test of goodness-of-fit or a Chi-square one. Specifically, we created 1,000 random samples with repetition of possible motif combinations, where each sample contained 10 million elements and, for each combination, the probability of being selected was equal to its expected probability. From those random samples, we extracted the mean and the standard deviation of the expected probability of $i$, $E\left [ p_i^E \right ]$ and $\sigma\left [ p_i^E \right ]$, respectively, and calculated the z-scores of $p_i^O$ as $z_i^O = \left ( p_i^O - E\left [ p_i^E \right ] \right )/\sigma \left [ p_i^E \right ]$, for those motif combinations with $p_i^O > 0$. Following the usual interpretation for z-scores, combinations with $z_i^O > 1.96$ are over-represented, whereas those with $z_i^O < -1.96$ are under-represented, at the 95%  confidence level. Notice that we focused on combinations with $p_i^O > 10^{-7}$ because, beyond the interest that can arouse the combinations that appear at most once, we do not have enough numerical resolution to accurately detect whether or not those combinations are under-represented (due to the limited size of our random samples).
 
@@ -948,6 +948,255 @@ library(patchwork)
   (p8  & ylab("5 species")| p9 | p10 | p11 | p12) / 
   (p13 & ylab("5 species")| p14 | p15 | p16 | p17) + plot_layout(guides = 'collect') &
   theme(axis.title.y = element_text(color="black", size=14, face="bold"),legend.position = "bottom")
+
+
+```
+
+
+```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, fig.height=8, fig.width=12, fig.cap="Figure 5."}
+
+
+
+library(tidyverse)
+library(RColorBrewer)
+
+equidistribution <- function(number_nodes){
+  
+  x_width <- 5.5/(number_nodes+1)
+  
+  x_result <- rep(-1.5,number_nodes)
+  
+  for(i in 1:number_nodes){
+    
+    x_result[i] <- x_result[i] + i*x_width
+    
+  }
+  
+  return(x_result)
+  
+}
+
+plot_motif_label <- function(label){
+  
+  label_split <- str_split(label,"_")[[1]]
+  motif_number <- as.numeric(label_split[1])
+  nodes <- label_split[2:length(label_split)]
+  plant_nodes <- nodes[nodes %in% plant_means_reordered$Node_FG]
+  pollinator_nodes <- nodes[nodes %in% pollinator_means_reordered$Node_FG]
+  
+  motifs_raw_data <- read_csv("../Data/Data_processing/Motifs_connections/motif_pattern_connections.csv")
+  
+  motif_data <- motifs_raw_data %>% filter(motif_id == motif_number)
+  
+  
+  # Create dataframe with node positions
+  
+  labdown = motif_data$plant %>% unique()
+  
+  
+  xdown = equidistribution(length(labdown))
+  
+  ydown = rep(0,length(labdown))
+  
+  labup = motif_data$pollinator %>% unique()
+  
+  xup = equidistribution(length(labup))
+  
+  yup = rep(1,length(labup))
+  
+  d_nodes=data.frame(x=c(xdown,xup),
+                     y=c(ydown,yup),
+                     label = c(labdown,labup))
+  
+  
+  # Create a dataframe with links
+  
+  plant_positions <- data.frame(plant = labdown,
+                                xdown = xdown,
+                                ydown = ydown)
+  
+  pollinator_positions <- data.frame(pollinator = labup,
+                                     xup = xup,
+                                     yup = yup)
+  
+  link_df <- motif_data %>% left_join(plant_positions, by = "plant") %>% 
+    left_join(pollinator_positions, by = "pollinator")
+  
+  
+  # Add FG IDs to nodes
+  FG_IDs <- tibble(label = c(sort(labdown),sort(labup)),
+                   FG = c(plant_nodes,pollinator_nodes))
+  
+  d_nodes_FG <- d_nodes %>% left_join(FG_IDs, by = "label")
+  levels_FG <- c("Bee","Birds","Coleoptera","Lepidoptera",
+                 "Lizards","Non-bee-Hymenoptera", "Non-syrphids-diptera","Other_insects",
+                 "Syrphids","1","2","3","4","5")
+  
+  d_nodes_FG$FG <- factor(d_nodes_FG$FG, levels = levels_FG)
+  
+  
+  levels(d_nodes_FG$FG) <- c("Bee","Birds","Coleoptera","Lepidoptera",
+                             "Lizards","Non-bee-Hymenoptera", "Non-syrphids-diptera","Other_insects",
+                             "Syrphids","1","2","3","4","5")
+  
+  # Before plotting the motif, we remove letters from the node position id
+  
+  d_nodes_FG$label <- gsub("[^0-9.-]", "", d_nodes_FG$label)
+  
+  
+  # Define the number of colors you want
+  mycolors <- c(brewer.pal(9, "Paired"),brewer.pal(5, "Dark2"))
+  
+  ggplot(data=d_nodes_FG, aes(x, y)) +
+    scale_shape_identity() +
+    geom_segment(data = link_df, aes(x=xdown, y=ydown, xend = xup, yend = yup), size = 1, color = "grey20")+
+    geom_point(aes(color = FG), size=7.5)+
+    geom_text(aes(x, y , label = label), size=3)+
+    scale_color_manual(drop = FALSE, values = mycolors,
+                       breaks=c("Bee","Birds","Coleoptera","Lepidoptera",
+                                "Lizards","Non-bee-Hymenoptera", "Non-syrphids-diptera","Other_insects",
+                                "Syrphids","1","2","3","4","5"), 
+                       labels=c("Bee","Birds","Coleoptera","Lepidoptera",
+                                "Lizards","Non-bee-Hymenoptera", "Non-syrphids-diptera",
+                                "Other insects", "Syrphids", 
+                                "Selfing herbs","Small outcrossing perennials",
+                                "Self-incomp. perennials\nwith large flowers",
+                                "Tall plants with small\nunisexual flowers",
+                                "Short-lived outcrossers with\nlong zygomorphic flowers"))+
+    xlim(-1.5,4)+ ylim(-0.5,1.5)+
+    theme(panel.background = element_blank(),
+          axis.text.x=element_blank(),
+          axis.ticks.x=element_blank(),
+          axis.text.y=element_blank(),
+          axis.ticks.y=element_blank())+
+    labs(x=NULL,y=NULL)+
+    ggtitle(paste0("Motif ",motif_number))+
+    theme(plot.title = element_text(hjust = 0.5,size=10))+
+    guides(color=guide_legend(title="Functional groups"))
+  
+  
+}
+
+# Data with pollinator/plant labels
+
+plant_means_reordered <- read_csv("../Data/Csv/plant_abs_freq_means.csv")
+pollinator_means_reordered <- read_csv("../Data/Csv/pollinator_abs_freq_means.csv")
+
+
+
+####################################################################################################
+#Read data to check top 5 motif of each category of observed propabilities
+
+#Under, No signi, Over-rep
+####################################################################################################
+# Check top Z-scores of each group (Under, No diff, Over)
+
+#Read data
+data <- read.csv("../Data/Csv/motifs_observed_probability_SIMUL_CI.csv")
+
+#Find critical value of Z-score
+p <- 0.05 #cutoff probability 95% confidence
+critical_value <- qnorm(p/2) #double tail probability divide by 2
+
+data_1 <- data %>%
+  mutate(infra_over_represented = case_when(
+    z_score < -abs(critical_value) ~ "infra",
+    between(z_score, -abs(critical_value), abs(critical_value)) ~ "no_diff",
+    z_score > abs(critical_value) ~ "over"
+  ))
+
+
+#data_2 <- filter(data_1, abs(z_score)<2000) 
+#str(data_2)
+
+#Select under-represented by the ones with highest porbability of being observed (top10)
+under_data <- filter(data_1, infra_over_represented=="infra") 
+
+under_top_5 <- filter(under_data, row_number(desc(abs(motif_observed_probability)))<= 5) %>%
+  select(motif_functional_ID,motif_observed_probability,counts_observed,z_score)
+
+#Select no statistical difference by the ones with highest porbability of being observed (top5)
+no_diff_data <- filter(data_1, infra_over_represented=="no_diff") 
+
+no_diff_top_5 <- filter(no_diff_data, row_number(desc(abs(motif_observed_probability)))<= 5) %>%
+  select(motif_functional_ID,motif_observed_probability,counts_observed,z_score)
+
+#Select over-represenetd by the ones with highest porbability of being observed (top5)
+over_data <- filter(data_1, infra_over_represented=="over") 
+
+over_top_5 <- filter(over_data, row_number(desc(abs(motif_observed_probability)))<= 5) %>%
+  select(motif_functional_ID,motif_observed_probability,counts_observed,z_score)
+####################################################################################################
+#Now plot it 
+####################################################################################################
+
+library(patchwork)
+
+#Prepare list of 5 plots for each group
+#Under
+labels_under <- under_top_5$motif_functional_ID
+p_under <- list()
+
+for (i in 1:5){
+  
+  p_under[[i]] <- plot_motif_label(labels_under[[i]])
+}
+
+#No signficance
+labels_nodiff <- no_diff_top_5$motif_functional_ID
+p_nodiff <- list()
+
+for (i in 1:5){
+  
+  p_nodiff[[i]] <- plot_motif_label(labels_nodiff[[i]])
+}
+
+#Over
+labels_over <- over_top_5$motif_functional_ID
+p_over <- list()
+
+for (i in 1:5){
+  
+  p_over[[i]] <- plot_motif_label(labels_over[[i]])
+}
+
+
+#Run Script with histogram plot
+source("../Scripts/Z-score_percentile_histogram_plot.R")  
+
+hist <- ggplot(data_2 %>% filter(round_motif_observed_probability>0), aes(x=z_score, color=infra_over_represented, fill=infra_over_represented)) + 
+  geom_histogram(bins = 93, alpha = 0.5, position = "identity",lwd = 0.25)+
+  geom_vline(xintercept = -abs(critical_value))+
+  geom_vline(xintercept = abs(critical_value))+
+  xlim(-60,60) + ylab("Frequency")+  theme_bw() +
+  scale_fill_manual(name="Motif frequencies" ,values=c("coral2", "palegreen3", "cyan3"), labels=c("Under-represented",
+                                                                                                  "No statistical difference", "Over-represented")) +
+  scale_color_manual(name="Motif frequencies" ,values=c("coral2", "palegreen3", "cyan3"), labels=c("Under-represented",
+                                                                                                   "No statistical difference", "Over-represented")) + xlab("Z-score")
+
+t_col <- function(color, percent = 50, name = NULL) {
+  #      color = color name
+  #    percent = % transparency
+  #       name = an optional name for the color
+  
+  ## Get RGB values for named color
+  rgb.val <- col2rgb(color)
+  
+  ## Make new color using input color as base and alpha set by transparency
+  t.col <- rgb(rgb.val[1], rgb.val[2], rgb.val[3],
+               max = 255,
+               alpha = (100 - percent) * 255 / 100,
+               names = name)
+  
+  ## Save the color
+  invisible(t.col)
+}
+## END
+
+#Prepare panel of plots
+hist / ((p_under[[1]]/p_under[[2]]/p_under[[3]]/p_under[[4]] & theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.background = element_rect(fill=t_col("coral2")))) | 
+          (p_nodiff[[1]]/p_nodiff[[2]]/p_nodiff[[3]]/p_nodiff[[4]]& theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.background = element_rect(fill=t_col("palegreen3")))) | 
+          (p_over[[1]]/p_over[[2]]/p_over[[3]]/p_over[[4]] & theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),panel.background = element_rect(fill=t_col("cyan3"))))) + plot_layout(guides = 'collect')
 
 
 ```

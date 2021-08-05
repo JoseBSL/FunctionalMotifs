@@ -7,8 +7,8 @@ library(tidyverse)
 data <- read.csv("../Data/Csv/motifs_observed_probability_SIMUL_CI.csv")
 
 #Check NA's per column
-data %>%
-  summarise_all(funs(sum(is.na(.))))
+#data %>%
+ # summarise_all(funs(sum(is.na(.))))
 
 #Find critical value of Z-score
 p <- 0.05 #cutoff probability 95% confidence
@@ -22,7 +22,7 @@ data_1 <- data %>%
   ))
      
 #check levels
-levels(factor(data_1$infra_over_represented))
+#levels(factor(data_1$infra_over_represented))
 
 #Check proportion of infra/over and no statistical difference
 data_1 %>% 
@@ -31,7 +31,7 @@ data_1 %>%
   mutate(proportion = no_rows / sum(no_rows))
 
 data_2 <- filter(data_1, abs(z_score)<2000) 
-str(data_2)
+#str(data_2)
 #Plot histogram of Z-scores of those motifs with observed probability > 0
 
 # Justificación: si son observados 0 (o incluso 1 vez) no es muy interesante lo que les pase.

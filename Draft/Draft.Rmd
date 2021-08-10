@@ -52,7 +52,7 @@ We have compiled 60 plant-pollinator networks from 18 different studies (**Table
 
 **Plant and floral visitors functional groups**
 
-First, plant species were grouped thorugh hierarchical clustering into the optimal number of functional groups that summarized the main plant reproductive strategies. For this, we used the trait dataset collated in Lanuza et al., (unpublished) that comprised 1,506 plant species and contained the same 60 plant-pollinator networks used in this study plus some non-weighted and weighted metawebs (see **Table S1** Lanuza et al., unpublished). This dataset consisted on 8 floral, 4 reproductive and 3 vegetative traits excluding traits with high percentage of missing values (over 30%; **Table S2**). We opted to calculate the plant functional groups on this larger set of species because of the higher accuracy when delimiting functional groups with that many variables and species @dolnicar2014. Previous to the clustering analysis, we calculated on the qualitative and scaled quantitative variables the distance between the different functional traits with the function _gowdis_ with the method _ward.D2_ from the package _FD_ version 1.0-12 [@laliberte2014]. Finally, we conducted hierarchical clustering with the function _hclust_ from the _R_ stats package version 4.0.5 and calculated the optimal number of clusters with the function _kgs_ from the package _maptree_ version 1.4-7 [@white2009].
+First, plant species were grouped thorugh hierarchical clustering into the optimal number of functional groups that summarized the main plant reproductive strategies. We used the trait dataset collated in Lanuza et al., (unpublished) that comprised 1,506 plant species and contained the same 60 plant-pollinator networks used in this study plus some non-weighted and weighted metawebs (see **Table S1** Lanuza et al., unpublished). This dataset consisted on 8 floral, 4 reproductive and 3 vegetative traits excluding traits with high percentage of missing values (over 30%; **Table S2**). We opted to calculate the plant functional groups on this larger set of species because of the higher accuracy when delimiting functional groups with that many variables and species @dolnicar2014. Previous to the clustering analysis, we calculated the distance between the different qualitative and scaled quantitative variables with Gower distance wich can handle mixed data [@gower1971]. For this, we used the function _gowdis_ with method _ward.D2_ from the package _FD_ version 1.0-12 [@laliberte2014]. Finally, we conducted hierarchical clustering with the function _hclust_ from the _R_ stats package version 4.0.5 and calculated the optimal number of clusters with the function _kgs_ from the package _maptree_ version 1.4-7 [@white2009].
 
 Second, floral visitors were grouped into functional groups based on taxonomic rank. We opted to divide floral visitors on the taxonomic rank level and not with functional traits because (i) the main taxonomic orders differ in form and behaviour and (ii) have lower complexity of higher taxonomic ranks (i.e., floral visitors had 6 orders versus plants that had 38). Hence, we grouped floral visitors into 6 functional groups that represented the main life strategies: (i) Hymenoptera-Anthophila (bees), (ii) Hymenoptera-non-Anthophila (other non-bee Hymenoptera), (iii) Syrphidae-Diptera, (iv) non-Syrphidae-Diptera, (v) Lepidoptera and (vi) Coleoptera. 
 
@@ -152,11 +152,22 @@ Once we obtained $p_i^O$ and $p_i^E$, we used simulation to determine whether th
 
 **Functional groups**
 
+_Plants_
+
 The hierarchical cluster analysis divided the dataset with 1506 species and 15 traits into five different clusters with different and overlapping characteristics (**Figure S3** and **Figure S4**). The subset of plant species used in this study (N = 503) were distributed evenly across these different larger five groups (see subset of the 503 species labels within cluster for all species in **Figure S3**). The first cluster was dominated by herbs with hermaphrodite flowers with high levels of autonomous selfing and we we refer to this group as "selfing herbs". The second cluster was characterized by small perennial species with a mixed of life forms (trees shrubs and herbs) with outcrossing hermaphroditic flowers and we refer to this group of species as "small outcrossing perennials". The third cluster was dominated by also perennial species with a mixed of life forms too and had large self-incompatible hermaphroditic flowers with high number of ovules and we named this group "self-incompatible perennials with large flowers". The fourth cluster had the tallest species, highest proportion of shrub and tree life forms, dioecious and monoecious breeding system with small flowers but the highest number of flowers per plant and inflorescences, and, we refer to this set of species as "tall plants with small unisexual flowers". Finally, the last cluster of species was dominated by small perennial and shot-lived herbs with long self-compatible zygomorphic flowers unable to self-pollinate and we refer to this group as "short-lived outcrossers with long zygomorphic flowers".
+
+_Floral visitors_
+
+[Describe poll funcional groups?](Jose)
+
+[I'm calling them functional groups because is easier to refer as FG to both but maybe is more accurate to refer them as guilds?](Jose)
+
 
 **Overall motif patterns**
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.cap="Figure 2. Comparison of the motif frequencies between empirical and simulated networks. Average percentages of motifs close to 0 and 100 indicate under- and over- representation in empirical networks. The different motifs are coloured by the mean path length as done in @simmons2020.", fig.width=9,fig.height=5}
+Most motifs were under and over-represented (close to the 1st and 99th percentile, respectively) in the comparison between empirical and simulated networks (**Figure 2**). Motifs 3, 5, 9, 10 and 14 were under-represented in empirical networks, that is, all under the 25th percentile and the closest motifs to the 1st percentile. Remarkably, four out of five of these motifs belonged to the largest path length classification (i.e., core-peripheral). In addition, motifs 2, 6, 7, 16 and 17 were over-represented, all over the 75th percentile and thus the closest to the 99th percentile. In contrast to the under-represented motifs, over-represented motifs belonged to the two shortest path length groups (i.e., complete and fan). The remaining motifs (i.e., 4, 8, 11, 12, 13, and 15) were between the 25th and 75th percentile with a tendency for most motifs to be over-represented (closest to the 75th percentile).
+
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.cap="Figure 2. Comparison of the motif frequencies between empirical and simulated networks. Average percentages of motifs close to 0 and 100 indicate under- and over- representation in empirical networks. The different motifs are coloured by the mean motif path length as done in @simmons2020.", fig.width=9,fig.height=5}
 library(lme4)
 library(nlme)
 library(tidyverse)
@@ -212,10 +223,10 @@ ggplot(NULL) +
                 width=1.0,size=1)+
   geom_point(data = motif_means,aes(y = as.factor(motif), x=100*mean), 
                 size=2)+
-  labs(y="Motif", x = "Percentile (%)",colour="Path length classification")+
-  theme_bw() + scale_color_manual(labels = c('Strong' = expression(paste("Complete (", bar(x), " = 1.38)")),'Fan' = expression(paste("Fan (", bar(x), " = 1.48)")), 'Medium-weak' = expression(paste("Asymmetric complete (", bar(x), " = 1.60)")), "Weak" =expression(paste("Core-peripheral (", bar(x), " = 1.85)"))), name = "Path length classification",values = c("grey25","springgreen4","sienna2","goldenrod2"),guide = guide_legend(title.position = "top",nrow = 2)) +
+  labs(y="Two to five node motifs", x = "Percentile",colour="Path length classification")+
+  theme_bw() + scale_color_manual(labels = c('Strong' = expression(paste("Complete (", bar(x), " = 1.38)")),'Fan' = expression(paste("Fan (", bar(x), " = 1.48)")), 'Medium-weak' = expression(paste("Asymmetric complete (", bar(x), " = 1.60)")), "Weak" =expression(paste("Core-peripheral (", bar(x), " = 1.85)"))), name = "Path length classification",values = c("grey25","springgreen4","sienna2","goldenrod2"),guide = guide_legend(title.position = "top",ncol = 1)) +
 theme(legend.text.align = 0)+
-  theme(legend.position="bottom")
+  theme(legend.position="right")
 
 #Trying to maintain a gradient from low to high in colors
 

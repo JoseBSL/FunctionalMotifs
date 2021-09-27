@@ -18,13 +18,22 @@ header-includes:
 - \usepackage[normalem]{ulem}
 - \usepackage{makecell}
 - \usepackage{xcolor}
+- \usepackage{caption,setspace}
+- \captionsetup[figure]{labelformat=empty}
+- \floatplacement{figure}{H}
+- \usepackage[skip=3pt]{caption}
+- \captionsetup[figure]{labelformat=empty}
+
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
   word_document: default
 always_allow_html: true
 bibliography: bibliography.bib
 ---
+
+
+\captionsetup[table]{labelformat=empty}
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -38,7 +47,7 @@ Ecological processes leave distinct structural imprints on species interactions 
 
 The interaction between plants and pollinators can be studied at different scales, from species level interactions (micro-scale) to the full network structure (macro-scale). Research of the plant-pollinator network structure have proven common invariant structural properties across them including a degree distribution that decays as a power law [@jordano1987], nestedness [@bascompte2003], or modularity in large networks [@olesen2007]. In addition, species phenological overlap, morphological matching and species abundances have been shown to be determinant for the understanding of pairwise plant-pollinator interactions [@bartomeus2016; @stang2006; @peralta2020]. However, both species level information and the holistic view of the full network involves missing relevant information for the understanding of ecological processes [@cirtwill2018; @simmons2019]. 
 
-Traditionally, plant-pollinator research has focused on direct interactions and overlooked indirect interactions such as facilitative or competitive interactions between plants for pollinators [@moeller2004; @sargent2008]. Despite the widespread nature of indirect interactions in ecological communities [@strauss1991], plant-pollinator research often fails to finely capture those indirect interactions with the conventional analytical tools that condense the information either by species (e.g. interaction frequency) or in single topological indices (e.g. nestedness). Nonetheless, the emerging framework of network motifs in plant-pollinator research, the building blocks of a network that depict subsets of interactions [@milo2002], allows to consider both direct and indirect interactions [@simmons2019]. The analysis of motifs (meso-scale) in plant-pollinator networks have revealed that the different ecological processes that govern species interactions (e.g., species abundances versus trait-matching) can lead to different patterns of indirect interactions [@simmons2020]. Yet, the global patterns of indirect interactions in plant-pollinator networks (over- and under- representation of motifs) are still unknown.
+Traditionally, plant-pollinator research has focused on direct interactions but overlooked indirect interactions (the mediated effect between two species by a third species), such as facilitative or competitive interactions between plants for pollinators [@moeller2004; @sargent2008]. Despite the widespread nature of indirect interactions in ecological communities [@strauss1991], plant-pollinator research often fails to finely capture those indirect interactions with the conventional analytical tools that condense the information either by species (e.g. interaction frequency) or in single topological indices (e.g. nestedness). Nonetheless, the emerging framework of network motifs in plant-pollinator research, the building blocks of a network that depict subsets of interactions [@milo2002], allows to consider both direct and indirect interactions [@simmons2019]. The analysis of motifs (meso-scale) in plant-pollinator networks have revealed that the different ecological processes that govern species interactions (e.g., species abundances versus trait-matching) can lead to different patterns of indirect interactions [@simmons2020]. Yet, the global patterns of indirect interactions in plant-pollinator networks (over- and under- represented motifs) are still unknown.
 
 Motifs are abstract representations often decoupled from species ecology. Thus, linking the structural properties of the meso-scale with the species ecology can help the understanding of ecological processes. For instance, different motifs can have different ecological meanings [@simmons2019] and the position within a motif can determine the species functional role [@stouffer2012; @baker2015]. However, it is unclear how the species ecology and life history traits determines the species functional role within the network of interactions [@coux2016]. For example, large pollinators can forage larger distances [@greenleaf2007], deposit greater pollen quantities [@foldesi2021] and handle complex zygomorphic flowers in comparison with small pollinators that are restricted to lower floral complexity [@gong2009]. How this different pollinator behaviors translate into their interaction topology is unknown. Similarly, recent empirical findings indicate that the meso-scale is the best descriptor of plant reproductive success [@allen2021], but little is known on how plants reproductive strategies shape their position within the network of interactions. Although some studies have evaluated plant reproductive strategies in plant-pollinator networks [@tur2013; @lazaro2020], they are often overlooked in a community context [@devaux2014] and rarely incorporated into plant-pollinator network studies. Hence, exploring how the main plant reproductive strategies integrate with the emergent motif framework can shed light on key aspects of ecosystem functioning. 
 
@@ -49,23 +58,22 @@ Here, we used 60 plant-pollinator networks from 18 different studies and 14 coun
 
 **Plant-pollinator studies**
 
-We have compiled 60 plant-pollinator networks from 18 different studies (**Table S1**). All studies sampled plant-pollinator interactions in natural systems and were selected based on wide geographical coverage and presence of interaction frequency as a measure of interaction strength. In total, there were 503 plant species, 1,111 floral visitors species and 6248 pairwise interactions registered. For ease of data manipulation plant and floral visitors species names were standardize with the help of the package _taxize_ version 0.9.99 [@chamberlain2020].
+We have compiled 60 plant-pollinator networks from 18 different studies (**Table S1**). All studies sampled plant-pollinator interactions in natural systems and were selected based on wide geographical coverage and presence of interaction frequency as a measure of interaction strength. In total, there were 503 plant species, 1,111 floral visitors species and 6248 pairwise interactions registered. For ease of data manipulation, plant and floral visitors species names were standardize with the help of the package _taxize_ version 0.9.99 [@chamberlain2020].
 
 **Plant and floral visitors functional groups**
 
-First, plant species were grouped thorugh hierarchical clustering into the optimal number of functional groups that summarized the main plant reproductive strategies. We used the trait dataset collated in Lanuza et al., (unpublished) that comprised 1,506 plant species and contained the same 60 plant-pollinator networks used in this study plus some non-weighted and weighted metawebs (see **Table S1** Lanuza et al., unpublished). This dataset consisted on 8 floral, 4 reproductive and 3 vegetative traits excluding traits with high percentage of missing values (over 30%; **Table S2**). We opted to calculate the plant functional groups on this larger set of species because of the higher accuracy when delimiting functional groups with that many variables and species @dolnicar2014. Previous to the clustering analysis, we calculated the distance between the different qualitative and scaled quantitative variables with Gower distance wich can handle mixed data [@gower1971]. For this, we used the function _gowdis_ with method _ward.D2_ from the package _FD_ version _1.0-12_ [@laliberte2014]. Finally, we conducted hierarchical clustering with the function _hclust_ from the _R_ stats package version _4.0.5_ and calculated the optimal number of clusters with the function _kgs_ from the package _maptree_ version _1.4-7_ [@white2009].
+First, plant species were grouped thorugh hierarchical clustering into the optimal number of functional groups that summarized the main plant reproductive strategies. We used the trait dataset collated in Lanuza et al., (unpublished) that comprised 1,506 plant species and contained the same 60 plant-pollinator networks used in this study plus some non-weighted and weighted metawebs (see **Table S1** Lanuza et al., unpublished). This dataset consisted on 8 floral, 4 reproductive and 3 vegetative traits excluding traits with high percentage of missing values (over 30%; **Table S2**). We opted to calculate the plant functional groups on this larger set of species because of the higher accuracy when delimiting functional groups with that many variables and species [@dolnicar2014]. Previous to the clustering analysis, we calculated the distance between the different qualitative and scaled quantitative variables with Gower distance [@gower1971]. For this, we used the function _gowdis_ with method _ward.D2_ from the package _FD_ version _1.0-12_ [@laliberte2014]. Finally, we conducted hierarchical clustering with the function _hclust_ from the _R_ stats package version _4.0.5_ and calculated the optimal number of clusters with the function _kgs_ from the package _maptree_ version _1.4-7_ [@white2009].
 
-Second, floral visitors were grouped into functional groups based on taxonomic rank. We opted to divide floral visitors on the taxonomic rank level and not with functional traits because (i) the main taxonomic orders differ in form and behaviour and (ii) have lower complexity of higher taxonomic ranks (i.e., floral visitors had 6 orders versus plants that had 38). Hence, we grouped floral visitors into 6 functional groups, as done similarly in past studies [@fenster2004; @ollerton2009], that represented the main life strategies: (i) Hymenoptera-Anthophila (bees), (ii) Hymenoptera-non-Anthophila (other non-bee Hymenoptera), (iii) Syrphidae-Diptera, (iv) non-Syrphidae-Diptera, (v) Lepidoptera and (vi) Coleoptera. 
-
+Second, floral visitors were grouped into functional groups based on taxonomic rank as done similarly in past plant-pollinator studies [@fenster2004; @ollerton2009]. We opted to divide floral visitors on the taxonmoic rank level and not with functional traits because the main orders of floral visitors differed clearly in form and behaviour and had lower lower complexity of higher taxnomic ranks than plants (i.e., floral visitors had 6 orders versus plants that had 38). Thus, this allowed us to group floral visitors into functional groups that represented adequately the main life strategies: (i) Hymenoptera-Anthophila (bees), (ii) Hymenoptera-non-Anthophila (other non-bee Hymenoptera), (iii) Syrphidae-Diptera, (iv) non-Syrphidae-Diptera, (v) Lepidoptera, (vi) Coleoptera, (vii). Further, other 3 functional groups (i.e., lizards, birds and other insects) were considered for analysis but excluded from results because of their low representation in the set of networks.  
 
 **Overall motif patterns**
 
-Following Simmons et al. [@simmons2019; @simmons2020], we broke down the plant-pollinator networks into their constituent motifs. Prior to analyses, we turned the quantitative networks into qualitative (or binary) ones, where interactions are present or absent.
+Following previous work [@simmons2019; @simmons2020], we broke down the plant-pollinator networks into their constituent motifs. Prior to analyses, we turned the quantitative networks into qualitative (or binary) ones, where interactions are present or absent.
 
 We calculated the frequency of all motifs up to five nodes (see **Figure 1**) for each empirical network, by using the _bmotif_ package [@bmotifsimmons2019]. To control for variation in network size, motif frequencies were normalised as a proportion of the total number of motifs within each motif class (i.e., the number of nodes a motif contains). Like @simmons2020, we just used five-node motifs in our analyses for visualisation, interpretation and computational reasons. In addition, we also excluded two-node motifs (or links) from our analyses because their normalised frequencies would always equal one.
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.cap="Figure 1. Adapted figure of Simmons et al., 2019 with all the possible motifs from two to five species in bipartite networks. There is a total of 17 possible motifs with 46 different positions denoted within each node.", fig.width=10,fig.height=8}
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.cap="**Figure 1.** Adapted figure of Simmons et al., 2019 with all the possible motifs from two to five species in bipartite networks. There is a total of 17 possible motifs with 46 different positions denoted within each node.", fig.width=10,fig.height=8}
 library(tidyverse)
 library(RColorBrewer)
 source("../Scripts/Scripts_Alfonso/plot_motif_positionsV2.R")
@@ -150,15 +158,15 @@ Once we obtained $p_i^O$ and $p_i^E$, we used simulation to determine whether th
 
 **Plant and floral visitor functional groups**
 
-The hierarchical cluster analysis divided the dataset into five different clusters with different and overlapping characteristics (**Figure S3** and **Figure S4**): cluster 1 referred to as 'selfing herbs' consisted on herbs with hermaphroditic flowers with high levels of autonomous selfing; cluster 2 or 'small outcrossing perennials' had small perennial species with a mixed of life forms (trees shrubs and herbs) with outcrossing hermaphroditic flowers; cluster 3 referred to as 'self-incompatible perennials with large flowers' comprised perennial species with a mixed of life forms and large self-incompatible hermaphroditic flowers with high number of ovules; cluster 4 or 'tall plants with small unisexual flowers' had the tallest species, highest proportion of shrub and tree life forms, dioecious and monoecious breeding systems with small flowers but the highest numbers of flowers and inflorescences per plant; finally, cluster 5  referred to as 'short-lived outcrossers with long zygomorphic flowers' consisted on small perennial and short-lived herbs with long self-compatible zygomorphic flowers that were unable to self-pollinate.
+The hierarchical cluster analysis divided the dataset into five different clusters with different and overlapping characteristics (**Figure S3** and **Figure S4**). Cluster 1 referred to as 'selfing herbs' consisted on herbs with hermaphroditic flowers with high levels of autonomous selfing. Cluster 2 or 'small outcrossing perennials' had small perennial species with a mixed of life forms (i.e., trees shrubs and herbs) with outcrossing hermaphroditic flowers. Cluster 3 referred to as 'self-incompatible perennials with large flowers' comprised perennial species with a mixed of life forms and large self-incompatible hermaphroditic flowers with high number of ovules. Cluster 4 or 'tall plants with small unisexual flowers' had the tallest species, highest proportion of shrub and tree life forms, dioecious and monoecious breeding systems with small flowers but the highest numbers of flowers and inflorescences per plant. Finally, cluster 5 or 'short-lived outcrossers with long zygomorphic flowers' consisted on small perennial and short-lived herbs with long self-compatible zygomorphic flowers that were unable to self-pollinate.
 
-In total, there were 1126 species of floral visitor with 6325 interactions recorded with plants. We divided them into 9 different taxonomical groups: bees with 2256 interactions with plants, non-syrphid Diptera with 1768 interactions, syrphids with 845 interactions, Lepidoptera with 437 interactions, Coleoptera with 432 interactions, non-bee Hymenoptera with 362 interactions and lizards, birds and other insects with a total of 225 interactions.
+In total, there were 1126 species of floral visitor with 6325 interactions recorded with plants. We divided them into 6 main different taxonomical groups: bees with 2256 interactions with plants, non-syrphid Diptera with 1768 interactions, syrphids with 845 interactions, Lepidoptera with 437 interactions, Coleoptera with 432 interactions and non-bee Hymenoptera with 362 interactions.
 
 **Overall motif patterns**
 
-Most motifs were under and over-represented (close to the 1st and 99th percentile, respectively) in the comparison between empirical and simulated networks (**Figure 2**). Motifs 3, 5, 9, 10 and 14 were under-represented in empirical networks, that is, all under the 25th percentile and the closest motifs to the 1st percentile. Remarkably, four out of five of these motifs belonged to the largest path length classification (i.e., core-peripheral). In addition, motifs 2, 6, 7, 16 and 17 were over-represented, all over the 75th percentile and thus the closest to the 99th percentile. In contrast to the under-represented motifs, over-represented motifs belonged to the two shortest path length groups (i.e., complete and fan). The remaining motifs (i.e., 4, 8, 11, 12, 13, and 15) were between the 25th and 75th percentile with a tendency for most motifs to be over-represented (closest to the 75th percentile).
+Most motifs were under- and over-represented (close to the 1st and 99th percentile, respectively) in the comparison between empirical and simulated networks (**Figure 2**). Further, the exclusion of singletones did not change these results (**Figure S1**). Motifs 3, 5, 9, 10 and 14 were under-represented in empirical networks, that is, all under the 25th percentile and the closest motifs to the 1st percentile. Remarkably, four out of five of these motifs belonged to the largest path length classification (i.e., core-peripheral). In addition, motifs 2, 6, 7, 16 and 17 were over-represented, all over the 75th percentile and thus the closest to the 99th percentile. In contrast to the under-represented motifs, over-represented motifs belonged to the two shortest path length groups (i.e., complete and fan). The remaining motifs (i.e., 4, 8, 11, 12, 13, and 15) were between the 25th and 75th percentile but closest to over-representation. 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.cap="Figure 2. Comparison of the motif frequencies between empirical and simulated networks. Average percentages of motifs close to 0 and 100 indicate under- and over- representation in empirical networks. The different motifs are coloured by the mean motif path length as done in @simmons2020.", fig.width=9,fig.height=5}
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.width=9,fig.height=5, fig.cap="**Figure 2.** Comparison of the motif frequencies between empirical and simulated networks. Average percentages of motifs close to 0 and 100 indicate under- and over- representation in empirical networks. The different motifs are coloured by the mean motif path length as done in Simmons et al. (2020)."}
 library(lme4)
 library(nlme)
 library(tidyverse)
@@ -228,174 +236,10 @@ theme(legend.text.align = 0)+
 **Motif functional groups position**
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE,fig.align = 'center',fig.width=6,fig.height=3.5}
-library(lme4)
-library(nlme)
-library(tidyverse)
-library(stringi)
-library(ggpubr)
-source("../Scripts/Scripts_Alfonso/add_study_id.R")
-
-all_position_percentiles <- read_csv("../Data/Csv/Motifs_positions_and_null_models/GF_positions_frequency_percentile.csv")
-
-all_position_percentiles$position <- stri_extract_first_regex(all_position_percentiles$position,
-                                                              "[0-9]+") %>% as.numeric()
-
-all_position_percentiles <- add_study_id(all_position_percentiles)
-#str(all_position_percentiles)
-#head(all_position_percentiles)
-
-list_plants_FG <- as.character(1:10)
-
-plant_position_percentiles_filtered <- all_position_percentiles %>% 
-  filter(Node_FG %in% list_plants_FG, !position %in% c(1,2),
-         !is.na(expected_freq_its_GF)) #ME DA ERROR
-pollinator_position_percentiles_filtered <- all_position_percentiles %>% 
-  filter(!Node_FG %in% list_plants_FG, !position %in% c(1,2),
-         !is.na(expected_freq_its_GF))
-
-#ggplot(plant_position_percentiles_filtered, aes(percentil_its_GF))+
-#  geom_histogram(color="black", fill="white")+
-#  facet_wrap(~position)+
-#  theme_bw()+
-#  labs(x="Sizeclass percentile", title = "Histograms: Percentiles for plant positions")
-#
-#ggplot(pollinator_position_percentiles_filtered, aes(percentil_its_GF))+
-#  geom_histogram(color="black", fill="white")+
-#  facet_wrap(~position)+
-#  theme_bw()+
-#  labs(x="Sizeclass percentile",title = "Histograms: Percentiles for pollinator positions")
-#
+Although motifs positions determined over- and under- representation independently of the identity of functional groups for most cases (rows in **Figure 3**), we found differences in the average percentile within floral visitors and pollinators functional groups (columns in **Figure 3**). Remarkably, the same patterns were observed but with lower average percentiles when singletones were exluded (**Figure S2**). Thus, 
 
 
-# estimated mean taking into account the random str is 0.XX +- 0.XX (look at the (Intercept) estimate)
-
-
-# Plants-------------
-
-# Mean percentile and SE taking into account the study system
-plant_codes <- plant_position_percentiles_filtered$position %>% unique()
-plant_means <- plant_position_percentiles_filtered %>% select(position,Node_FG) %>% unique()
-plant_means$mean <- NA
-plant_means$SE <- NA
-
-
-for(i.pos in 1:length(plant_codes)){
-  
-  m <- lmer(percentil_its_GF ~ Node_FG + (1|study_id),
-            data = plant_position_percentiles_filtered %>%
-                          filter(position == plant_codes[i.pos]))  
-  
-  temp <- fixed.effects(m) %>% unname()
-  plant_means$mean[plant_means$position == plant_codes[i.pos]] <- c(temp[1],
-                                                                     temp[1]+temp[2],
-                                                                     temp[1]+temp[3],
-                                                                     temp[1]+temp[4],
-                                                                     temp[1]+temp[5]) ## to get real means per FG
-  temp <- sqrt(diag(vcov(m)))
-  plant_means$SE[plant_means$position == plant_codes[i.pos]] <- c(temp[1], 
-                                                                  temp[1]+temp[2],
-                                                                  temp[1]+temp[3],
-                                                                  temp[1]+temp[4],
-                                                                  temp[1]+temp[5])
-  
-}
-
-GF_plant_pos <- ggplot(NULL) + 
-  geom_point(data = plant_position_percentiles_filtered,
-             aes(x=as.factor(position), y=percentil_its_GF, 
-                 color = as.factor(position)),
-             position = "jitter",alpha=0.5)+
-  geom_errorbar(data = plant_means,aes(x = as.factor(position), ymin=mean-SE, ymax=mean+SE), 
-                width=1.0,size=1)+
-  facet_wrap(~Node_FG,ncol = 5)+
-  geom_point(data = plant_means,aes(x = as.factor(position), y=mean), 
-             size=2)+
-  labs(x="Position", y = "Percentile",title = "Plants")+
-  theme_bw()+
-  theme(legend.position = "none")+#,axis.text.x=element_text(angle=90,vjust=0.5, hjust=1))+
-  coord_flip()
-
-
-# Pollinators--------
-
-# Mean percentile and SE taking into account the study system
-pollinator_codes <- pollinator_position_percentiles_filtered$position %>% unique()
-pollinator_means <- pollinator_position_percentiles_filtered %>% select(position,Node_FG) %>% unique()
-pollinator_means$mean <- NA
-pollinator_means$SE <- NA
-pollinator_means_reordered <- NULL
-
-for(i.pos in 1:length(pollinator_codes)){
-  
-  m <- lmer(percentil_its_GF ~ Node_FG + (1|study_id), #HERE WE NEED STUDY SYSTEM ONLY!! 
-            data = pollinator_position_percentiles_filtered %>%
-                          filter(position == pollinator_codes[i.pos]),
-            control = lmerControl(optimizer ="Nelder_Mead")) # I changed the optimizer because motif 8 (i.pos = 3) caused convergence problems, max gradient = 0.0022 > 0.002.
-  
-  temp <- fixed.effects(m) %>% unname()
-  pollinator_means_aux <- pollinator_means[pollinator_means$position == pollinator_codes[i.pos],] %>% arrange(Node_FG)
-  
-  pollinator_means_aux$mean <- c(temp[1],
-                                 temp[1]+temp[2],
-                                 temp[1]+temp[3],
-                                 temp[1]+temp[4],
-                                 temp[1]+temp[5],
-                                 temp[1]+temp[6],
-                                 temp[1]+temp[7],
-                                 temp[1]+temp[8],
-                                 temp[1]+temp[9]) ## to get real means per FG
-    
-                                                                    
-  temp <- sqrt(diag(vcov(m)))
-  pollinator_means_aux$SE <- c(temp[1],
-                               temp[1]+temp[2],
-                               temp[1]+temp[3],
-                               temp[1]+temp[4],
-                               temp[1]+temp[5],
-                               temp[1]+temp[6],
-                               temp[1]+temp[7],
-                               temp[1]+temp[8],
-                               temp[1]+temp[9])
-  
-  pollinator_means_reordered <- bind_rows(pollinator_means_reordered,pollinator_means_aux)
-    
-}
-
-# There are lower limits (mean - SE) smaller than 0 (see Other insects)
-# We set the lower limit of those error bars to zero
-
-pollinator_means_reordered <- pollinator_means_reordered %>% mutate(lower = mean-SE)
-pollinator_means_reordered$lower[pollinator_means_reordered$lower < 0] <- 0
-
-GF_poll_pos <- ggplot(NULL) + 
-  geom_point(data = pollinator_position_percentiles_filtered,
-             aes(x=as.factor(position), y=percentil_its_GF, 
-                 color = as.factor(position)),
-             position = "jitter",alpha=0.5)+
-  geom_errorbar(data = pollinator_means_reordered, aes(x = as.factor(position), ymin=lower,
-                                                       ymax=mean+SE), 
-                width=1.0,size=1)+
-  facet_wrap(~Node_FG,ncol = 5)+
-  geom_point(data = pollinator_means_reordered,aes(x = as.factor(position), y=mean), 
-             size=2)+
-  labs(x="Position", y = "Percentile", title = "Pollinators")+
-  theme_bw()+
-  theme(legend.position = "none")+#,axis.text.x=element_text(angle=90,vjust=0.5, hjust=1))+
-  coord_flip()
-
-
-# Plant and Pollinators--------
-#
-#ggarrange(GF_plant_pos,GF_poll_pos,
-#          ncol = 1, nrow = 2,heights = c(.90, 1.4))
-#
-#Fig 2 may be the same, but for the each positions-FG combination? Maybe heatmap (but we lose the SE's)
-
-```
-
-
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.height=8,fig.width=8,fig.align = 'center', fig.cap="Figure 3. Heatmap indicating under- and over- representation of pollinator and plant functional groups in the different motif positions. The different motif positions are dividied by the average path length clasification by @simmons2020."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.height=8,fig.width=8,fig.align = 'center', fig.cap="\\textbf{Figure 3.} Heatmap indicating under- and over- representation of pollinator and plant functional groups in the different motif positions. The different motif positions are dividied by the average path length clasification by @simmons2020."}
 
 library(lme4)
 library(nlme)
@@ -729,16 +573,18 @@ draw(ht_list, auto_adjust = FALSE, cluster_rows = F)
 
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, fig.height=8, fig.width=12, fig.cap="Figure 4. Graphical representation of the probability of finding a given functional group $x$ in the position $\\alpha$ of motif $i$, $p_i(x,\\alpha)$, for all the possible motifs from two to five species in bipartite networks. The slices in the nodes for a given functional group $x$ are proportional to the corresponding value of $p_i(x,\\alpha)$."}
-
-plant_means_reordered <- read_csv("../Data/Csv/plant_abs_freq_means.csv")
-pollinator_means_reordered <- read_csv("../Data/Csv/pollinator_abs_freq_means.csv")
-
-
+```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, fig.height=8, fig.width=12, fig.cap="**Figure 4.** Graphical representation of the probability of finding a given functional group $x$ in the position $\\alpha$ of motif $i$, $p_i(x,\\alpha)$, for all the possible motifs from two to five species in bipartite networks. The slices in the nodes for a given functional group $x$ are proportional to the corresponding value of $p_i(x,\\alpha)$."}
 
 library(ggplot2)
 library(scatterpie)
 library(RColorBrewer)
+library(tidyverse)
+
+plant_means_reordered <- read_csv("../Data/Csv/plant_abs_freq_means.csv")
+pollinator_means_reordered <- read_csv("../Data/Csv/pollinator_abs_freq_means.csv")
+#Filter out in order to have just 6 FG'S
+pollinator_means_reordered <- pollinator_means_reordered %>% filter(!Node_FG %in% c("Birds", "Lizards", "Other_insects"))
+
 
 # Pollinator--------
 pollinator_pies <- pollinator_means_reordered %>% select(-mean, -SE) %>% 
@@ -864,25 +710,22 @@ plot_pie_motif_positions <- function(motif_number){
   
   # Define the number of colors you want
   nb.cols <- 5
-  mycolors <- c(brewer.pal(9, "Paired"),brewer.pal(5, "Dark2"))
+  mycolors <- c(brewer.pal(6, "Paired"),brewer.pal(5, "Dark2"))
   
   ggplot() +
     scale_shape_identity() +
     geom_segment(data = link_df, aes(x=xdown, y=ydown, xend = xup, yend = yup), 
                  size = 1, color = "grey20")+  geom_scatterpie(aes(x=x, y=y, group=position,r=.45), 
-    data = d_nodes_pollinator, cols=as.character(c("Bee","Birds","Coleoptera","Lepidoptera",
-     "Lizards","Non-bee-Hymenoptera", "Non-syrphids-diptera","Other_insects",
-     "Syrphids"))) +
+    data = d_nodes_pollinator, cols=as.character(c("Bee","Coleoptera","Lepidoptera","Non-bee-Hymenoptera", "Non-syrphids-diptera","Syrphids"))) +
     geom_scatterpie(aes(x=x, y=y, group=position,r=0.45), 
                     data = d_nodes_plant,
                     cols=as.character(c("1","2","3","4","5")))+
     coord_fixed()+
     scale_fill_manual(values = mycolors,"test",
-      breaks=c("Bee","Birds","Coleoptera","Lepidoptera",
-               "Lizards","Non-bee-Hymenoptera", "Non-syrphids-diptera","Other_insects",
-               "Syrphids","1","2","3","4","5"), labels=c("Bee","Birds","Coleoptera","Lepidoptera",
-                                                        "Lizards","Non-bee-Hymenoptera", "Non-syrphids-diptera","Other_insects",
-                                                        "Syrphids", 
+      breaks=c("Bee","Coleoptera","Lepidoptera",
+               "Non-bee-Hymenoptera", "Non-syrphids-diptera",
+               "Syrphids","1","2","3","4","5"), labels=c("Bee","Coleoptera","Lepidoptera",
+"Non-bee-Hymenoptera", "Non-syrphids-diptera","Syrphids", 
           "Selfing herbs","Small outcrossing perennials","Self-incomp. perennials\nwith large flowers",
           "Tall plants with small\nunisexual flowers","Short-lived outcrossers with\nlong zygomorphic flowers"))+
     xlim(-1.5,4)+ ylim(-0.5,2.5)+
@@ -963,7 +806,7 @@ library(patchwork)
 ```
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, fig.height=8, fig.width=12, fig.cap="Figure 5."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, fig.height=8, fig.width=12, fig.cap="**Figure 5.**"}
 
 
 
@@ -1038,15 +881,15 @@ plot_motif_label <- function(label){
                    FG = c(plant_nodes,pollinator_nodes))
   
   d_nodes_FG <- d_nodes %>% left_join(FG_IDs, by = "label")
-  levels_FG <- c("Bee","Birds","Coleoptera","Lepidoptera",
-                 "Lizards","Non-bee-Hymenoptera", "Non-syrphids-diptera","Other_insects",
+  levels_FG <- c("Bee","Coleoptera","Lepidoptera",
+                 "Non-bee-Hymenoptera", "Non-syrphids-diptera",
                  "Syrphids","1","2","3","4","5")
   
   d_nodes_FG$FG <- factor(d_nodes_FG$FG, levels = levels_FG)
   
   
-  levels(d_nodes_FG$FG) <- c("Bee","Birds","Coleoptera","Lepidoptera",
-                             "Lizards","Non-bee-Hymenoptera", "Non-syrphids-diptera","Other_insects",
+  levels(d_nodes_FG$FG) <- c("Bee","Coleoptera","Lepidoptera",
+                             "Non-bee-Hymenoptera", "Non-syrphids-diptera",
                              "Syrphids","1","2","3","4","5")
   
   # Before plotting the motif, we remove letters from the node position id
@@ -1055,7 +898,7 @@ plot_motif_label <- function(label){
   
   
   # Define the number of colors you want
-  mycolors <- c(brewer.pal(9, "Paired"),brewer.pal(5, "Dark2"))
+  mycolors <- c(brewer.pal(6, "Paired"),brewer.pal(5, "Dark2"))
   
   ggplot(data=d_nodes_FG, aes(x, y)) +
     scale_shape_identity() +
@@ -1063,12 +906,12 @@ plot_motif_label <- function(label){
     geom_point(aes(color = FG), size=7.5)+
     geom_text(aes(x, y , label = label), size=3)+
     scale_color_manual(drop = FALSE, values = mycolors,
-                       breaks=c("Bee","Birds","Coleoptera","Lepidoptera",
-                                "Lizards","Non-bee-Hymenoptera", "Non-syrphids-diptera","Other_insects",
+                       breaks=c("Bee","Coleoptera","Lepidoptera",
+                                "Non-bee-Hymenoptera", "Non-syrphids-diptera",
                                 "Syrphids","1","2","3","4","5"), 
-                       labels=c("Bee","Birds","Coleoptera","Lepidoptera",
-                                "Lizards","Non-bee-Hymenoptera", "Non-syrphids-diptera",
-                                "Other insects", "Syrphids", 
+                       labels=c("Bee","Coleoptera","Lepidoptera",
+                                "Non-bee-Hymenoptera", "Non-syrphids-diptera",
+                                "Syrphids", 
                                 "Selfing herbs","Small outcrossing perennials",
                                 "Self-incomp. perennials\nwith large flowers",
                                 "Tall plants with small\nunisexual flowers",
@@ -1091,7 +934,8 @@ plot_motif_label <- function(label){
 
 plant_means_reordered <- read_csv("../Data/Csv/plant_abs_freq_means.csv")
 pollinator_means_reordered <- read_csv("../Data/Csv/pollinator_abs_freq_means.csv")
-
+#Filter out in order to have just 6 FG'S
+pollinator_means_reordered <- pollinator_means_reordered %>% filter(!Node_FG %in% c("Birds", "Lizards", "Other_insects"))
 
 
 ####################################################################################################
@@ -1216,6 +1060,7 @@ hist / ((p_under[[1]]/p_under[[2]]/p_under[[3]]/p_under[[4]] & theme(panel.grid.
 
 <div id ="refs"></div>
 
+\newpage
 
 ##SUPPLEMENTARY MATERIAL
 
@@ -1344,12 +1189,12 @@ colnames(references) <- c("First author", "Year", "Number of networks", "Country
 
 references %>%
   arrange(`First author`)%>%
-  kable( longtable = T, booktabs = T,linesep = "\\addlinespace",align = c("cccc"),caption = "Table S1. List of studies ordered by author with the year of publication, number of contributed networks and digital object identifier") %>%
-  kable_styling(latex_options = c("repeat_header","striped"), font_size = 12, full_width=F,position = c("center"))
+  kable( longtable = T, booktabs = T,linesep = "\\addlinespace",align = c("cccc"),escape = FALSE, caption= "\\textbf{Table S1.} List of studies ordered by author with the year of publication, number of contributed networks and digital object identifier") %>%
+  kable_styling(latex_options = c("repeat_header","striped"), font_size = 12, full_width=T,position = c("center"))
 
 ```
 
-
+\newpage
 
 ```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, fig.height=12, fig.width=12}
 
@@ -1381,8 +1226,8 @@ dat <- data.frame(Type, Trait,Type_1, Trait1)
 
 colnames(dat) <- c("Type","Traits","Type", "Traits")
 
-kbl(dat, booktabs = T, linesep = "\\addlinespace", escape = FALSE, align = c("c","l","c","c","l","l","c"),caption = "Table S2. Traits used to delimit the different plant functional groups divided in quantitative and categorical traits.") %>%
-kable_styling(full_width = F) %>%
+kbl(dat, booktabs = T, linesep = "\\addlinespace", escape = FALSE, align = c("c","l","c","c","l","l","c"),caption = "\\textbf{Table S2.} Traits used to delimit the different plant functional groups divided in quantitative and categorical traits.") %>%
+kable_styling(full_width = T) %>%
 add_header_above(c("Quantitative traits" = 2,"Categorical traits" = 2),bold=T)  %>%
     column_spec(c(1,4), bold = T) %>% row_spec(0, bold=T)
 
@@ -1395,8 +1240,7 @@ add_header_above(c("Quantitative traits" = 2,"Categorical traits" = 2),bold=T)  
 **FIGURES**
 
 
-
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.cap="Figure S1. Comparison of the motif frequencies between empirical and simulated networks. Average percentages of motifs close to 0 and 100 indicate under- and over- representation in empirical networks, after removing non-robust links, that is, interactions whose frequency was equal to one. The different motifs are coloured by the mean path length as done in @simmons2020.", fig.width=9,fig.height=5}
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.cap="**Figure S1.** Comparison of the motif frequencies between empirical and simulated networks excluding singletones. Average percentages of motifs close to 0 and 100 indicate under- and over- representation in empirical networks, after removing non-robust links, that is, interactions whose frequency was equal to one. The different motifs are coloured by the mean path length as done in @simmons2020.", fig.width=9,fig.height=5}
 library(lme4)
 library(nlme)
 library(tidyverse)
@@ -1464,7 +1308,7 @@ theme(legend.text.align = 0)+
 ```
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.height=8,fig.width=8,fig.align = 'center', fig.cap="Figure S2. Heatmap indicating under- and over- representation of pollinator and plant functional groups in the different motif positions, after removing non-robust links, that is, interactions whose frequency was equal to one. The different motif positions are dividied by the average path length clasification by @simmons2020."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.height=8,fig.width=8,fig.align = 'center', fig.cap="\\textbf{Figure S2.} Heatmap indicating under- and over- representation of pollinator and plant functional groups in the different motif positions excluding singletones, after removing non-robust links, that is, interactions whose frequency was equal to one. The different motif positions are dividied by the average path length clasification by @simmons2020."}
 
 library(lme4)
 library(nlme)
@@ -1795,7 +1639,7 @@ draw(ht_list, auto_adjust = FALSE, cluster_rows = F)
 
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE, fig.height=7, fig.width=13, fig.cap="Figure S3. Plant functional group composition separated in qualitative and quantitative variables. Panel A) shows the percentage of the different categories within trait represented with different colours for each functional group. Plot B) shows the radar plot of the different quantitative variables standardize on the same scale also coloured with the same patterns of colours as qualitative variables per cluster."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE, fig.height=7, fig.width=13, fig.cap="**Figure S3.** Plant functional group composition separated in qualitative and quantitative variables. Panel A) shows the percentage of the different categories within trait represented with different colours for each functional group. Plot B) shows the radar plot of the different quantitative variables standardize on the same scale also coloured with the same patterns of colours as qualitative variables per cluster."}
 
 
 #CODE TO PLOT FUNCTIONAL GROUPS
@@ -2677,7 +2521,7 @@ patch + plot_annotation(title = "Plant functional group composition",theme = the
 
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE, fig.height=7, fig.width=13, fig.cap="Figure S4. Hierarchical clustering dendrogram with the branches coloured by the optimal number of clusters (5). The labels of the subgroup of species (N = 524) used in this study are coloured in black in order to show the evenness of the distribution of the species across clusters. The rest of species labels are omitted for visualization purposes (N = 982)."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE, fig.height=7, fig.width=13, fig.cap="**Figure S4.** Hierarchical clustering dendrogram with the branches coloured by the optimal number of clusters (5). The labels of the subgroup of species (N = 524) used in this study are coloured in black in order to show the evenness of the distribution of the species across clusters. The rest of species labels are omitted for visualization purposes (N = 982)."}
 
 library(ggplot2)
 library(dendextend)

@@ -242,11 +242,10 @@ p + ggforce::facet_col(vars(Broad_categories), scales = 'free', space = 'free',l
 #NICE! Can we put motifs in Y axes, and % in X?
 ```
 
-**Motif functional groups position**
+**Over and under-represented functional groups on motif positions**
 
 
-Although motifs positions determined over- and under- representation independently of the identity of functional groups for most cases (rows in **Figure 3**), we found differences in the average percentile within floral visitors and pollinators functional groups (columns in **Figure 3**). These differences were more marked for floral visitors functional groups. Bees had a tendency to be over-represented in the different motif positions. This was also observed in lower degree for non-syrphids Diptera. In contrast, Lepidoptera were generally under-represented in the different motif positions and non-bee hymenoptera showed also the same tendency but with lower average percentiles. For plants, these differences across functional groups were less marked. 
-
+Although motifs positions determined over- and under- representation independently of the identity of functional groups for most cases (rows in **Figure 3**), we found differences in the average percentile within floral visitors and pollinators functional groups (columns in **Figure 3**). These differences were more marked for floral visitors functional groups. The group of Bees was the most over-represented, followed by non-syrphids Diptera, syrphids, Coleoptera, non-bee hymenoptera and finally Lepidoptera which was the most under-represent functional group on the different motif positions. Although for plants the differences across groups were less pronounced, from most represented to lowest we found self incompatible perennials with large flowers, small outcrossing perennials, tall plants with unisexual flowers, selfing herbs and short lived outcrossers with long zygomorphic flowers.
 
 
 ```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.height=8,fig.width=8,fig.align = 'center', fig.cap="\\textbf{Figure 3.} Heatmap indicating under- and over- representation of pollinator and plant functional groups in the different motif positions. The different motif positions are dividied by the average path length clasification determined by Simmons et al. (2020)."}
@@ -581,7 +580,7 @@ draw(ht_list, auto_adjust = FALSE, cluster_rows = F)
 
 ```
 
-
+**Over- and under-represented funtional group combinations of motifs**
 
 ```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, fig.height=8, fig.width=12, fig.cap="**Figure 4.** Graphical representation of the probability of finding a given functional group $x$ in the position $\\alpha$ of motif $i$, $p_i(x,\\alpha)$, for all the possible motifs from two to five species in bipartite networks. The slices in the nodes for a given functional group $x$ are proportional to the corresponding value of $p_i(x,\\alpha)$."}
 

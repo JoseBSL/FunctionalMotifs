@@ -165,7 +165,7 @@ In total, there were 1126 species of floral visitor with 6325 interactions recor
 
 Most motifs were under- and over-represented (close to the 1st and 99th percentile, respectively) in the comparison between empirical and simulated networks (**Figure 2**). Motifs 3, 5, 9, 10 and 14 were under-represented in empirical networks, that is, all were close to the 1st percentile and under the 25th percentile. Remarkably, four out of five of these motifs belonged to the largest path length classification (i.e., core-peripheral). In addition, motifs 2, 6, 7, 16 and 17 were over-represented, all over the 75th percentile and thus the closest to the 99th percentile. In contrast to the under-represented motifs, over-represented motifs belonged to the two shortest path length groups (i.e., complete and fan). The remaining motifs (i.e., 4, 8, 11, 12, 13, and 15) were between the 25th and 75th percentile but closest to over-representation. Remarkably, the exclusion of singletones from this analysis did not change the observed results (**Figure S1**). 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.width=9,fig.height=5, fig.cap="**Figure 2.** Comparison of motif frequencies between empirical and simulated networks. This is shown with the mean percentage of motif frequencies in empirical networks that were over the motif frequencies of the simulated ones (percentiles). This was done by network (coloured dots) and then averaged for all networks (black dots with error bars that correspond to the standard deviation). The different motifs are coloured by the four categories of path length determined in Simmons et al. (2020)."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.width=4.5,fig.height=6.5, fig.cap="**Figure 2.** Comparison of motif frequencies between empirical and simulated networks divided by average path length (plots a, b, c and d) as determined in Simmons et al. (2020). This is shown with the mean percentage of motif frequencies in empirical networks that were over the motif frequencies of the simulated ones (percentiles). This was done by network (light blue dots) and then averaged for all networks (black dots with error bars that correspond to the standard deviation)."}
 library(lme4)
 library(nlme)
 library(tidyverse)
@@ -212,20 +212,30 @@ d$Broad_categories[d$motif==5 | d$motif==9 |  d$motif==14|  d$motif==13|  d$moti
 #order the categories from short to long path length
 d$Broad_categories <- factor(d$Broad_categories, levels = c("Strong", "Fan", "Medium-weak", "Weak"))
 
+#Ffilter out two node motifs
+d_1 <- d %>% filter(motif != 1)
+#Merge dataframes to bl able to create facets
+d_2 <- merge(d_1, motif_means, by="motif")
 
-ggplot(NULL) + 
-  geom_point(data = d %>% filter(motif != 1),
-             aes(y=as.factor(motif), x=100*percentil_sizeclass, 
-                 color = as.factor(Broad_categories)),
-             position = "jitter",alpha=0.8)+
-  geom_errorbar(data = motif_means,aes(y = as.factor(motif), xmin=100*(mean-SE), xmax=100*(mean+SE)), 
-                width=1.0,size=1)+
-  geom_point(data = motif_means,aes(y = as.factor(motif), x=100*mean), 
-                size=2)+
-  labs(y="Two to five node motifs", x = "Percentile",colour="Path length classification")+
-  theme_bw() + scale_color_manual(labels = c('Strong' = expression(paste("Complete (", bar(x), " = 1.38)")),'Fan' = expression(paste("Fan (", bar(x), " = 1.48)")), 'Medium-weak' = expression(paste("Asymmetric complete (", bar(x), " = 1.60)")), "Weak" =expression(paste("Core-peripheral (", bar(x), " = 1.85)"))), name = "Path length classification",values = c("grey36","lightblue3","navajowhite2","darkorange4"),guide = guide_legend(title.position = "top",ncol = 1)) +
-theme(legend.text.align = 0)+
-  theme(legend.position="right")
+arr <- list('Strong' = expression(bold(paste("(a) Complete (strong, ", bar(x), " = 1.38)"))),
+             'Fan' = expression(bold(paste("(b) Fan (medium-strong, ", bar(x), " = 1.48)"))), 
+             'Medium-weak' = expression(bold(paste("(c) Asymmetric complete (medium-weak, ", bar(x), " = 1.60)"))), 
+             "Weak" =expression(bold(paste("(d) Core-peripheral (weak, ", bar(x), " = 1.85)"))))
+mylabel <- function(val) { return(lapply(val, function(x) arr[x])) }
+
+library(ggforce) #workaround with ggforce to have facets with same sizes 
+
+p <- ggplot()+geom_point(data = d_2, aes(y=factor(motif), 100*percentil_sizeclass), shape=21,color="black",fill="azure2",size=1.75, alpha=1)+
+  geom_errorbar(data = d_2,aes(y = factor(motif), xmin=100*(mean-SE), xmax=100*(mean+SE)), 
+                width=0.8,size=0.8,color="black") +theme_bw()+
+  geom_point(data = d_2,aes(y = as.factor(motif), x=100*mean), 
+             size=2,color="black")+labs(y="Two to five node motifs", x = "Percentile")+
+  theme( strip.background = element_blank())+
+  theme(strip.text = element_text(face="bold", size=10, hjust=0),
+        panel.border=element_rect(color="black",size=1.2))
+  
+p + ggforce::facet_col(vars(Broad_categories), scales = 'free', space = 'free',labeller=mylabel)
+
 #Trying to maintain a gradient from low to high in colors
 
 #Fig 1 Should be a dot plot (or forest plot) of the mean +- SE of the 15 motifs.
@@ -235,7 +245,8 @@ theme(legend.text.align = 0)+
 **Motif functional groups position**
 
 
-Although motifs positions determined over- and under- representation independently of the identity of functional groups for most cases (rows in **Figure 3**), we found differences in the average percentile within floral visitors and pollinators functional groups (columns in **Figure 3**). Remarkably, the same patterns were observed but with lower average percentiles when singletones were exluded (**Figure S2**). Thus, 
+Although motifs positions determined over- and under- representation independently of the identity of functional groups for most cases (rows in **Figure 3**), we found differences in the average percentile within floral visitors and pollinators functional groups (columns in **Figure 3**). These differences were more marked for floral visitors functional groups. Bees had a tendency to be over-represented in the different motif positions. This was also observed in lower degree for non-syrphids Diptera. In contrast, Lepidoptera were generally under-represented in the different motif positions and non-bee hymenoptera showed also the same tendency but with lower average percentiles. For plants, these differences across functional groups were less marked. 
+
 
 
 ```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.height=8,fig.width=8,fig.align = 'center', fig.cap="\\textbf{Figure 3.} Heatmap indicating under- and over- representation of pollinator and plant functional groups in the different motif positions. The different motif positions are dividied by the average path length clasification determined by Simmons et al. (2020)."}
@@ -446,7 +457,7 @@ if(filter_rare_groups == T){
   
   colnames(heat_pollinators_aux) <- c("position","Broad_categories","Bee",            
                                       "Coleoptera","Lepidoptera","Non-bee\nHymenoptera", 
-                                      "Non-syrphids\ndiptera","Syrphids")
+                                      "Non-syrphids\nDiptera","Syrphids")
 }else{
   heat_pollinators_aux <- pollinator_means_reordered %>% spread(Node_FG,mean) %>% select(-SE,-lower)
   
@@ -1239,7 +1250,7 @@ add_header_above(c("Quantitative traits" = 2,"Categorical traits" = 2),bold=T)  
 **FIGURES**
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.cap="**Figure S1.** Comparison of the motif frequencies between empirical and simulated networks excluding singletones. Average percentages of motifs close to 0 and 100 indicate under- and over- representation in empirical networks, after removing non-robust links, that is, interactions whose frequency was equal to one. The different motifs are coloured by the mean path length as done in @simmons2020.", fig.width=9,fig.height=5}
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.cap="**Figure S1.** Comparison of the motif frequencies between empirical and simulated networks excluding singletones. Average percentages of motifs close to 0 and 100 indicate under- and over- representation in empirical networks, after removing non-robust links, that is, interactions whose frequency was equal to one. The different motifs are coloured by the mean path length as done in @simmons2020.", fig.width=4.5,fig.height=6.5}
 library(lme4)
 library(nlme)
 library(tidyverse)
@@ -1286,19 +1297,30 @@ d$Broad_categories[d$motif==5 | d$motif==9 |  d$motif==14|  d$motif==13|  d$moti
 #order the categories from short to long path length
 d$Broad_categories <- factor(d$Broad_categories, levels = c("Strong", "Fan", "Medium-weak", "Weak"))
 
-ggplot(NULL) + 
-  geom_point(data = d %>% filter(motif != 1),
-             aes(y=as.factor(motif), x=100*percentil_sizeclass, 
-                 color = as.factor(Broad_categories)),
-             position = "jitter",alpha=0.8)+
-  geom_errorbar(data = motif_means,aes(y = as.factor(motif), xmin=100*(mean-SE), xmax=100*(mean+SE)), 
-                width=1.0,size=1)+
-  geom_point(data = motif_means,aes(y = as.factor(motif), x=100*mean), 
-                size=2)+
-  labs(y="Two to five node motifs", x = "Percentile",colour="Path length classification")+
-  theme_bw() + scale_color_manual(labels = c('Strong' = expression(paste("Complete (", bar(x), " = 1.38)")),'Fan' = expression(paste("Fan (", bar(x), " = 1.48)")), 'Medium-weak' = expression(paste("Asymmetric complete (", bar(x), " = 1.60)")), "Weak" =expression(paste("Core-peripheral (", bar(x), " = 1.85)"))), name = "Path length classification",values = c("grey36","lightblue3","navajowhite2","darkorange4"),guide = guide_legend(title.position = "top",ncol = 1)) +
-theme(legend.text.align = 0)+
-  theme(legend.position="right")
+#Ffilter out two node motifs
+d_1 <- d %>% filter(motif != 1)
+#Merge dataframes to bl able to create facets
+d_2 <- merge(d_1, motif_means, by="motif")
+
+arr <- list('Strong' = expression(bold(paste("Complete (strong, ", bar(x), " = 1.38)"))),
+             'Fan' = expression(bold(paste("Fan (medium-strong, ", bar(x), " = 1.48)"))), 
+             'Medium-weak' = expression(bold(paste("Asymmetric complete (medium-weak, ", bar(x), " = 1.60)"))), 
+             "Weak" =expression(bold(paste("Core-peripheral (weak, ", bar(x), " = 1.85)"))))
+mylabel <- function(val) { return(lapply(val, function(x) arr[x])) }
+
+library(ggforce) #workaround with ggforce to have facets with same sizes 
+
+p <- ggplot()+geom_point(data = d_2, aes(y=factor(motif), 100*percentil_sizeclass), shape=21,color="black",fill="azure2",size=2, alpha=1)+
+  geom_errorbar(data = d_2,aes(y = factor(motif), xmin=100*(mean-SE), xmax=100*(mean+SE)), 
+                width=1.0,size=1,color="grey20") +theme_bw()+
+  geom_point(data = d_2,aes(y = as.factor(motif), x=100*mean), 
+             size=2,color="grey20")+labs(y="Two to five node motifs", x = "Percentile")+
+  theme( strip.background = element_blank())+
+  theme(strip.text = element_text(face="bold", size=10, hjust=0),
+        panel.border=element_rect(color="black",size=1.2))
+  
+p + ggforce::facet_col(vars(Broad_categories), scales = 'free', space = 'free',labeller=mylabel)
+
 
 #Trying to maintain a gradient from low to high in colors
 

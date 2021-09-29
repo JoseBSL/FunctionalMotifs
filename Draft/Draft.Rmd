@@ -24,6 +24,7 @@ header-includes:
 - \usepackage[skip=3pt]{caption}
 - \captionsetup[figure]{labelformat=empty}
 
+
 output:
   pdf_document: default
   html_document: default
@@ -31,6 +32,14 @@ output:
 always_allow_html: true
 bibliography: bibliography.bib
 ---
+
+__Jose B. Lanuza^1,2^__  | __Alfonso Allen-Perkins^2,3^__ |  __Romina Rader^1^__ | __Ignasi Bartomeus^2^__
+
+1 School of Environmental and Rural Science, University of New England, Armidale, New South Wales 2350, Australia.
+
+2 Estación Biológica de Doñana (EBD-CSIC), E-41092 Seville, Spain.
+
+3 Departamento de Ingeniería Eléctrica, Electrónica, Automática y Física Aplicada, ETSIDI, Universidad Politécnica de Madrid, 28040 Madrid, Spain.
 
 
 \captionsetup[table]{labelformat=empty}
@@ -43,16 +52,28 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Ecological processes leave distinct structural imprints on species interactions shaping the topology of mutualistic networks. Detecting those relationships is not trivial since they go beyond pair-wise interactions, but may get blurred when considering full network descriptors. However, recent work has shown the network meso-scale can capture this important information. The meso-scale describes network subgraphs representing patterns of interactions between a small number of species (i.e. motifs) and those constitute the building blocks of the whole network. Here, we have compiled 60 networks from 18 different studies and show that some motifs are consitently over-represented worldwide, suggesting that the building blocks of plant-pollintor networks are not random and are associated to ... Second, we show that the position of pollinator guilds and plant reproductive strategies is not random with respect to the positions occupied within each motif. ... Hence, we show that species ecology is shaping the building blocks that conform the web of life.
 
+
+\doublespacing
+
 ##INTRODUCTION
 
 The interaction between plants and pollinators can be studied at different scales, from species level interactions (micro-scale) to the full network structure (macro-scale). Research of the plant-pollinator network structure have proven common invariant structural properties across them including a degree distribution that decays as a power law [@jordano1987], nestedness [@bascompte2003], or modularity in large networks [@olesen2007]. In addition, species phenological overlap, morphological matching and species abundances have been shown to be determinant for the understanding of pairwise plant-pollinator interactions [@bartomeus2016; @stang2006; @peralta2020]. However, both species level information and the holistic view of the full network involves missing relevant information for the understanding of ecological processes [@cirtwill2018; @simmons2019]. 
 
-Traditionally, plant-pollinator research has focused on direct interactions but overlooked indirect interactions (the mediated effect between two species by a third species), such as facilitative or competitive interactions between plants for pollinators [@moeller2004; @sargent2008]. Despite the widespread nature of indirect interactions in ecological communities [@strauss1991], plant-pollinator research often fails to finely capture those indirect interactions with the conventional analytical tools that condense the information either by species (e.g. interaction frequency) or in single topological indices (e.g. nestedness). Nonetheless, the emerging framework of network motifs in plant-pollinator research, the building blocks of a network that depict subsets of interactions [@milo2002], allows to consider both direct and indirect interactions [@simmons2019]. The analysis of motifs (meso-scale) in plant-pollinator networks have revealed that the different ecological processes that govern species interactions (e.g., species abundances versus trait-matching) can lead to different patterns of indirect interactions [@simmons2020]. Yet, the global patterns of indirect interactions in plant-pollinator networks (over- and under- represented motifs) are still unknown.
+Traditionally, plant-pollinator research has focused on direct interactions but overlooked indirect interactions (i.e., the mediated effect between two species by a third species), such as facilitative or competitive interactions between plants for pollinators [@moeller2004; @sargent2008]. Despite the widespread nature of indirect interactions in ecological communities [@strauss1991], plant-pollinator research often fails to finely capture those indirect interactions with the conventional analytical tools that condense the information either by species (e.g., interaction frequency) or in single topological indices (e.g., nestedness). Nonetheless, the emerging framework of network motifs in plant-pollinator research, the building blocks of a network that depict subsets of interactions [@milo2002], allows to consider both direct and indirect interactions [@simmons2019]. The analysis of motifs (meso-scale) in plant-pollinator networks have revealed that the different ecological processes that govern species interactions (e.g., species abundances versus trait-matching) can lead to different patterns of indirect interactions [@simmons2020]. Yet, the global patterns of indirect interactions in plant-pollinator networks (over- and under- represented motifs) are still unknown.
 
 Motifs are abstract representations often decoupled from species ecology. Thus, linking the structural properties of the meso-scale with the species ecology can help the understanding of ecological processes. For instance, different motifs can have different ecological meanings [@simmons2019] and the position within a motif can determine the species functional role [@stouffer2012; @baker2015]. However, it is unclear how the species ecology and life history traits determines the species functional role within the network of interactions [@coux2016]. For example, large pollinators can forage larger distances [@greenleaf2007], deposit greater pollen quantities [@foldesi2021] and handle complex zygomorphic flowers in comparison with small pollinators that are restricted to lower floral complexity [@gong2009]. How this different pollinator behaviors translate into their interaction topology is unknown. Similarly, recent empirical findings indicate that the meso-scale is the best descriptor of plant reproductive success [@allen2021], but little is known on how plants reproductive strategies shape their position within the network of interactions. Although some studies have evaluated plant reproductive strategies in plant-pollinator networks [@tur2013; @lazaro2020], they are often overlooked in a community context [@devaux2014] and rarely incorporated into plant-pollinator network studies. Hence, exploring how the main plant reproductive strategies integrate with the emergent motif framework can shed light on key aspects of ecosystem functioning. 
 
-Here, we used 60 plant-pollinator networks from 18 different studies and 14 countries, alongside functional groups of plants and floral visitors based on functional traits and taxonomic rank, respectively. To obtain plant functional groups, we used a comprehensive dataset that included floral, reproductive and vegetative traits compiled on a larger set of networks. Floral visitor functional groups were divided by the main taxonomical groups that differed in life form and behaviour. Once we split the different plant-pollinator networks into their motif elements, we explored: (i) over and under-represented motifs; (ii) over and under-represented functional groups in the different motif positions; (iii) the probability of finding plant and floral visitor functional groups in the different motif positions; and, (iv) over- and under- represented functional group combinations within the different motifs. 
+Here, we used 60 plant-pollinator networks from 18 different studies and 14 countries, alongside functional groups of plants and floral visitors based on functional traits and taxonomic rank, respectively. To obtain plant functional groups, we used a comprehensive dataset that included floral, reproductive and vegetative traits compiled on a larger set of networks. Floral visitor functional groups were divided by the main taxonomical groups that differed in life form and behaviour. Once we split the different plant-pollinator networks into their motif elements, we explored: (i) the overall motif patterns (over and under-represented motifs); (ii) over and under-represented functional groups in the different motif positions; (iii) the probability of finding plant and floral visitor functional groups in the different motif positions; and, (iv) over- and under- represented functional group combinations within the different motifs. 
 
+---
+# THIS IS A COMMENT
+# Each os this points (i to iv) corresponds to a figure
+# I think that ideally we can have that structure on methods and results (excluding functional groups)
+# so far we have (i), (ii) and (iv) on methods
+# we lack an explicit mention to (iii) 
+# maybe merge it with another research question and just have 3?
+# What do you think? 
+---
 
 ##METHODS
 
@@ -62,9 +83,9 @@ We have compiled 60 plant-pollinator networks from 18 different studies (**Table
 
 **Plant and floral visitors functional groups**
 
-First, plant species were grouped thorugh hierarchical clustering into the optimal number of functional groups that summarized the main plant reproductive strategies. We used the trait dataset collated in Lanuza et al., (unpublished) that comprised 1,506 plant species and contained the same 60 plant-pollinator networks used in this study plus some non-weighted and weighted metawebs (see **Table S1** Lanuza et al., unpublished). This dataset consisted on 8 floral, 4 reproductive and 3 vegetative traits excluding traits with high percentage of missing values (over 30%; **Table S2**). We opted to calculate the plant functional groups on this larger set of species because of the higher accuracy when delimiting functional groups with that many variables and species [@dolnicar2014]. Previous to the clustering analysis, we calculated the distance between the different qualitative and scaled quantitative variables with Gower distance [@gower1971]. For this, we used the function _gowdis_ with method _ward.D2_ from the package _FD_ version _1.0-12_ [@laliberte2014]. Finally, we conducted hierarchical clustering with the function _hclust_ from the _R_ stats package version _4.0.5_ and calculated the optimal number of clusters with the function _kgs_ from the package _maptree_ version _1.4-7_ [@white2009].
+First, plant species were grouped through hierarchical clustering into the optimal number of functional groups that summarized the main plant reproductive strategies. We used the trait dataset collated in Lanuza et al., (unpublished) that comprised 1,506 plant species and contained the same 60 weighted plant-pollinator networks used in this study plus 4 additional large unweighted metawebs (see **Table S1** Lanuza et al., unpublished). This dataset consisted on 8 floral, 4 reproductive and 3 vegetative traits excluding traits with high percentage of missing values (over 30%; **Table S2**). We opted to calculate the plant functional groups on this larger set of species because of the higher accuracy when delimiting functional groups with that many variables and species [@dolnicar2014]. Previous to the clustering analysis, we calculated the distance between the different qualitative and scaled quantitative variables with Gower distance [@gower1971]. For this, we used the function _gowdis_ with method _ward.D2_ from the package _FD_ version _1.0-12_ [@laliberte2014]. Finally, we conducted hierarchical clustering with the function _hclust_ from the _R_ stats package version _4.0.5_ and calculated the optimal number of clusters with the function _kgs_ from the package _maptree_ version _1.4-7_ [@white2009].
 
-Second, floral visitors were grouped into functional groups based on taxonomic rank as done similarly in past plant-pollinator studies [@fenster2004; @ollerton2009]. We opted to divide floral visitors on the taxonomic rank level and not with functional traits because the main orders of floral visitors differed in form and behaviour and had lower superior taxonomical complexity (i.e., floral visitors had 6 orders versus plants that had 38). Thus, this allowed us to group floral visitors into functional groups that represented adequately the main life strategies of the possible pollinators: (i) Hymenoptera-Anthophila (bees), (ii) Hymenoptera-non-Anthophila (other non-bee Hymenoptera), (iii) Syrphidae-Diptera, (iv) non-Syrphidae-Diptera, (v) Lepidoptera, (vi) Coleoptera, (vii). However, a minor set of species belonged to other functional groups that were considered in the analysis as lizards, birds and other insects but not discussed further because of their low representation in the set of analysed networks.
+Second, floral visitors were grouped into functional groups based on taxonomic rank as done similarly in past plant-pollinator studies [@fenster2004; @ollerton2009]. We opted to divide floral visitors on the taxonomic rank level and not with functional traits because the main orders of floral visitors differed in form and behaviour and had lower superior taxonomical complexity (i.e., floral visitors had 6 orders versus plants that had 38). Thus, this allowed us to group floral visitors into functional groups that represented adequately the main life strategies of the possible pollinators: (i) Hymenoptera-Anthophila (bees), (ii) Hymenoptera-non-Anthophila (other non-bee Hymenoptera), (iii) Syrphidae-Diptera, (iv) non-Syrphidae-Diptera, (v) Lepidoptera and (vi) Coleoptera. However, a minor set of species belonged to other functional groups that were considered in analyses but not discussed further because of their low representation (3.55% of the total interactions recorded in the full set of networks). These functional groups were 'lizards', 'birds' and 'other insects'. This last group was formed by a mix of uncommon insect taxa on the full set of networks. 
 
 **Overall motif patterns**
 
@@ -73,7 +94,7 @@ Following previous work [@simmons2019; @simmons2020], we broke down the plant-po
 We calculated the frequency of all motifs up to five nodes (see **Figure 1**) for each empirical network, by using the _bmotif_ package [@bmotifsimmons2019]. To control for variation in network size, motif frequencies were normalised as a proportion of the total number of motifs within each motif class (i.e., the number of nodes a motif contains). Like @simmons2020, we just used five-node motifs in our analyses for visualisation, interpretation and computational reasons. In addition, we also excluded two-node motifs (or links) from our analyses because their normalised frequencies would always equal one.
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.cap="**Figure 1.** Adapted figure of Simmons et al., 2019 with all the possible motifs from two to five species in bipartite networks. There is a total of 17 possible motifs with 46 different positions denoted within each node.", fig.width=10,fig.height=8}
+```{r, echo=FALSE, message=FALSE, cache=FALSE, fig.pos="t", warning=FALSE,out.width="75%",fig.align="center", fig.cap="\\textbf{Figure 1.} Adapted figure of Simmons et al., 2019 with all the possible motifs from two to five species in bipartite networks. There is a total of 17 possible motifs with 46 different positions denoted within each node.", fig.width=10,fig.height=8}
 library(tidyverse)
 library(RColorBrewer)
 source("../Scripts/Scripts_Alfonso/plot_motif_positionsV2.R")
@@ -145,7 +166,7 @@ To assess the significance of the observed frequencies, we created 1,000 simulat
 
 We calculated which functional groups were over or under-represented in different motif positions by comparing position frequencies of empirical networks with those of their corresponding simulated counterparts. We extracted the position frequencies of all motifs from three to five nodes for each network and species by using the _bmotif_ package [@bmotifsimmons2019]. To estimate the position frequencies of each functional group in a given network, we added the frequencies of those species that belong to the group, and then, we normalised the resulting frequencies by dividing the position measure for each group by the total number of times that a group appears in any position within the same motif size class. Then, we calculated the percentile of the observed position frequencies for each group and network, just like we did with motif frequencies. To outline the general patterns of position frequencies across networks and functional groups, we fit a LMM per motif position, where the response variable was the observed position percentile per network. We used the functional group identifier as an explanatory variable and the study identifiers as a random intercept. By adding the functional group estimates to the model intercept, we assessed the average motif frequency, after controlling the variation at the study level. Finally, we visualized with the help of the package ComplexHeatmap version 2.6.2 [@gu2016] over- and under- representation of plant and pollinator functional groups on the different motif positions.
 
-To test the effect of singletones on the motif frequencies and motif functional groups' positions, we applied the previous analyses to the same set of networks (**Table S1**) but considering only interactions whose frequency was greater than one (64.98% of interactions; see **Figures S3 and S4**). 
+To test the effect of singletones on the motif frequencies and motif functional groups' positions, we applied the previous analyses to the same set of networks (**Table S1**) but considering only interactions whose frequency was greater than one (64.98% of interactions; see **Figures S1 and S2**). 
 
 **Over- and under-represented funtional group combinations of motifs**
 
@@ -159,11 +180,11 @@ Once we obtained $p_i^O$ and $p_i^E$, we used simulation to determine whether th
 
 The hierarchical cluster analysis divided the dataset into five different clusters with different and overlapping characteristics (**Figure S3** and **Figure S4**). Cluster 1 referred to as 'selfing herbs' consisted on herbs with hermaphroditic flowers with high levels of autonomous selfing. Cluster 2 or 'small outcrossing perennials' had small perennial species with a mixed of life forms (i.e., trees shrubs and herbs) with outcrossing hermaphroditic flowers. Cluster 3 referred to as 'self-incompatible perennials with large flowers' comprised perennial species with a mixed of life forms and large self-incompatible hermaphroditic flowers with high number of ovules. Cluster 4 or 'tall plants with small unisexual flowers' had the tallest species, highest proportion of shrub and tree life forms, dioecious and monoecious breeding systems, small flowers and the highest numbers of flowers and inflorescences per plant. Finally, cluster 5 or 'short-lived outcrossers with long zygomorphic flowers' consisted on small perennial and short-lived herbs with long self-compatible zygomorphic flowers that were unable to self-pollinate.
 
-In total, there were 1126 species of floral visitor with 6325 interactions recorded with plants. From highest to lowest records of interactions of floral visitors with plants we found: bees with 2256 interactions, non-syrphid Diptera with 1768 interactions, syrphids with 845 interactions, Lepidoptera with 437 interactions, Coleoptera with 432 interactions and non-bee Hymenoptera with 362 interactions.
+In total, there were 1126 species of floral visitor with 6325 interactions recorded with plants. There were 2256 bee interactions with plants, 1768 non-syrphid Diptera interactions, 845  syrphids interactions, 437 Lepidoptera interactions, 432 Coleoptera interactions and 362 non-bee Hymenoptera interactions.
 
 **Overall motif patterns**
 
-Most motifs were under- and over-represented (close to the 1st and 99th percentile, respectively) in the comparison between empirical and simulated networks (**Figure 2**). Motifs 3, 5, 9, 10 and 14 were under-represented in empirical networks, that is, all were close to the 1st percentile and under the 25th percentile. Remarkably, four out of five of these motifs belonged to the largest path length classification (i.e., core-peripheral). In addition, motifs 2, 6, 7, 16 and 17 were over-represented, all over the 75th percentile and thus the closest to the 99th percentile. In contrast to the under-represented motifs, over-represented motifs belonged to the two shortest path length groups (i.e., complete and fan). The remaining motifs (i.e., 4, 8, 11, 12, 13, and 15) were between the 25th and 75th percentile but closest to over-representation. Remarkably, the exclusion of singletones from this analysis did not change the observed results (**Figure S1**). 
+Most motifs were under- and over-represented (close to the 1st and 99th percentile, respectively) in the comparison between empirical and simulated networks (**Figure 2**). Motifs 3, 5, 9, 10 and 14 were under-represented in empirical networks, that is, all were close to the 1st percentile and under the 25th percentile. Further, four out of five of these motifs belonged to the largest path length classification (i.e., core-peripheral). In addition, motifs 2, 6, 7, 16 and 17 were over-represented, all over the 75th percentile and thus the closest to the 99th percentile. In contrast to the under-represented motifs, over-represented motifs belonged to the two shortest path length groups (i.e., complete and fan). The remaining motifs (i.e., 4, 8, 11, 12, 13, and 15) were between the 25th and 75th percentile but closest to over-representation. Notably, the exclusion of singletones from this analysis did not change the observed results (**Figure S1**). 
 
 ```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.width=4.5,fig.height=6.5, fig.cap="**Figure 2.** Comparison of motif frequencies between empirical and simulated networks divided by average path length (plots a, b, c and d) as determined in Simmons et al. (2020). This is shown with the mean percentage of motif frequencies in empirical networks that were over the motif frequencies of the simulated ones (percentiles). This was done by network (light blue dots) and then averaged for all networks (black dots with error bars that correspond to the standard deviation)."}
 library(lme4)
@@ -225,7 +246,7 @@ mylabel <- function(val) { return(lapply(val, function(x) arr[x])) }
 
 library(ggforce) #workaround with ggforce to have facets with same sizes 
 
-p <- ggplot()+geom_point(data = d_2, aes(y=factor(motif), 100*percentil_sizeclass), shape=21,color="black",fill="azure2",size=1.75, alpha=1)+
+p <- ggplot()+geom_point(data = d_2, aes(y=factor(motif), 100*percentil_sizeclass), shape=21,color="black",fill="azure2",size=1.75, alpha=0.3)+
   geom_errorbar(data = d_2,aes(y = factor(motif), xmin=100*(mean-SE), xmax=100*(mean+SE)), 
                 width=0.8,size=0.8,color="black") +theme_bw()+
   geom_point(data = d_2,aes(y = as.factor(motif), x=100*mean), 
@@ -245,7 +266,7 @@ p + ggforce::facet_col(vars(Broad_categories), scales = 'free', space = 'free',l
 **Over and under-represented functional groups on motif positions**
 
 
-Although motifs positions determined over- and under- representation independently of the identity of functional groups for most cases (rows in **Figure 3**), we found differences in the average percentile within floral visitors and pollinators functional groups (columns in **Figure 3**). These differences were more marked for floral visitors functional groups. The group of Bees was the most over-represented, followed by non-syrphids Diptera, syrphids, Coleoptera, non-bee hymenoptera and finally Lepidoptera which was the most under-represent functional group on the different motif positions. Although for plants the differences across groups were less pronounced, from most represented to lowest we found self incompatible perennials with large flowers, small outcrossing perennials, tall plants with unisexual flowers, selfing herbs and short lived outcrossers with long zygomorphic flowers.
+Although motifs positions determined over- and under- representation independently of the identity of functional groups for most cases (rows in **Figure 3**), we found differences in the average percentile within floral visitors and pollinators functional groups (columns in **Figure 3**). These differences were more marked for floral visitors functional groups. The group of Bees was the most over-represented, followed by non-syrphids Diptera, syrphids, Coleoptera, non-bee hymenoptera and finally Lepidoptera which was the most under-represent functional group on the different motif positions. Although for plants the differences across groups were less pronounced, from most represented functional group on the different motif positions to lowest we found self incompatible perennials with large flowers, small outcrossing perennials, tall plants with unisexual flowers, selfing herbs and short lived outcrossers with long zygomorphic flowers.
 
 
 ```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.height=8,fig.width=8,fig.align = 'center', fig.cap="\\textbf{Figure 3.} Heatmap indicating under- and over- representation of pollinator and plant functional groups in the different motif positions. The different motif positions are dividied by the average path length clasification determined by Simmons et al. (2020)."}
@@ -580,7 +601,9 @@ draw(ht_list, auto_adjust = FALSE, cluster_rows = F)
 
 ```
 
-**Over- and under-represented funtional group combinations of motifs**
+
+The different observed frequencies on the different motif positions showed a hirarchical order of probabilities for floral visitors (**Figure 4**). That is, the functional group of 'bees' was the most abundant one on all motif positions followed by non-syrphid Diptera which was after bees, the second most frequent functional group on all positions. Then, the group of syrphids was the most abundant in all positions but two (positions 28 and 31 from motifs 11 and 12, respectively). After syrphids, Coleoptera was the most frequent group on the different positions followed by non-bee Hymenoptera and finally, Lepidoptera which was the less frequent group on all positions but two (positions 12 and 22 from motifs 5 and 9, respectively). Remarkably, plant functional groups were more variable on the different motif positions. However, there were also predominant functional groups found across the different motif positions. The three most frequent groups were 'tall plants with small unisexual flowers', 'self-incompatible perennials with large flowers' and 'small outcrossing perennials'. On the contrary, the groups of 'selfing herbs' and 'short lived outcxrossers with long zygomorphic flowers' had the lowest probability to be present on the different motifs plant positions. 
+
 
 ```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, fig.height=8, fig.width=12, fig.cap="**Figure 4.** Graphical representation of the probability of finding a given functional group $x$ in the position $\\alpha$ of motif $i$, $p_i(x,\\alpha)$, for all the possible motifs from two to five species in bipartite networks. The slices in the nodes for a given functional group $x$ are proportional to the corresponding value of $p_i(x,\\alpha)$."}
 
@@ -718,8 +741,8 @@ plot_pie_motif_positions <- function(motif_number){
     filter(!is.na(Bee))
   
   # Define the number of colors you want
-  nb.cols <- 5
-  mycolors <- c(brewer.pal(6, "Paired"),brewer.pal(5, "Dark2"))
+ mycolors <- c("#A6CEE3", "chocolate2",  "gold2", "#1F78B4","#B2DF8A",
+                     "gray58", "lightgoldenrod2","thistle2", "burlywood","lightcoral", "olivedrab3")
   
   ggplot() +
     scale_shape_identity() +
@@ -742,7 +765,8 @@ plot_pie_motif_positions <- function(motif_number){
           axis.text.x=element_blank(),
           axis.ticks.x=element_blank(),
           axis.text.y=element_blank(),
-          axis.ticks.y=element_blank())+
+          axis.ticks.y=element_blank(),
+          legend.title = element_text(size=12, face="bold"),legend.background = element_rect(size=0.5, linetype="solid",colour ="black"))+
     labs(x=NULL,y=NULL)+
     guides(color = FALSE,fill=guide_legend(title="Functional groups"))+
     ggtitle(paste0("Motif ",motif_number))+
@@ -813,6 +837,8 @@ library(patchwork)
 
 
 ```
+
+**Over- and under-represented funtional group combinations of motifs**
 
 
 ```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, fig.height=8, fig.width=12, fig.cap="**Figure 5.**"}
@@ -907,8 +933,9 @@ plot_motif_label <- function(label){
   
   
   # Define the number of colors you want
-  mycolors <- c(brewer.pal(6, "Paired"),brewer.pal(5, "Dark2"))
-  
+ mycolors <- c("#A6CEE3", "chocolate2",  "gold2", "#1F78B4","#B2DF8A",
+                     "gray58", "lightgoldenrod2","thistle2", "burlywood","lightcoral", "olivedrab3")
+    
   ggplot(data=d_nodes_FG, aes(x, y)) +
     scale_shape_identity() +
     geom_segment(data = link_df, aes(x=xdown, y=ydown, xend = xup, yend = yup), size = 1, color = "grey20")+
@@ -1063,6 +1090,8 @@ hist / ((p_under[[1]]/p_under[[2]]/p_under[[3]]/p_under[[4]] & theme(panel.grid.
 
 
 ```
+
+##DISCUSSION
 
 
 ##REFERENCES

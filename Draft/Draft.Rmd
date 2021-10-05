@@ -52,8 +52,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ##Abstract
 
-Ecological processes leave distinct structural imprints on species interactions shaping the topology of mutualistic networks. Detecting those relationships is not trivial since they go beyond pair-wise interactions, but may get blurred when considering full network descriptors. However, recent work has shown the network meso-scale can capture this important information. The meso-scale describes network subgraphs representing patterns of interactions between a small number of species (i.e. motifs) and those constitute the building blocks of the whole network. Here, we have compiled 60 networks from 18 different studies and show that some motifs are consitently over-represented worldwide, suggesting that the building blocks of plant-pollintor networks are not random and are associated to ... Second, we show that the position of pollinator guilds and plant reproductive strategies is not random with respect to the positions occupied within each motif. ... Hence, we show that species ecology is shaping the building blocks that conform the web of life.
-
+Ecological processes leave distinct structural imprints on species interactions shaping the topology of mutualistic networks. Detecting those relationships is not trivial since they go beyond pair-wise interactions, but may get blurred when considering full network descriptors. However, recent work has shown the network meso-scale can capture this important information. The meso-scale describes network subgraphs representing patterns of interactions between a small number of species (i.e. motifs) and those constitute the building blocks of the whole network. Here, we have compiled 60 networks from 18 different studies and show that some motifs are consitently under- and over-represented worldwide, suggesting that the building blocks of plant-pollintor networks are not random and are associated depending on the motif position and trophic level to specific fucntional groups. For instance, bees are the predominant group found on all motif positions but for plants there are three functional groups associated with corss-pollination that are similarly found on all motif positions. Hence, the distribution of funtional groups on the different positions is not random either which determine in last instance different probabilities of the overall functional group combinations of motifs. 
 
 \doublespacing
 
@@ -271,7 +270,7 @@ p + ggforce::facet_col(vars(Broad_categories), scales = 'free', space = 'free',l
 The comparison of the frequencies between the positions of motifs of empirical and simulated networks showed that motifs positions determined over- and under- representation independently of the identity of functional groups for most cases (rows in **Figure 3**). However, we also found differences in the average percentile within floral visitors and plant functional groups on the different motif positions (columns in **Figure 3**). These differences were more marked for floral visitors functional groups, and thus the groupings by average path length were less informative for floral visitors than for plants. In other words, for plants motifs by themselves were more descriptive than for floral visitors. From most over- to under-represented floral visitors functional groups, we found: bees, non-syrphids Diptera, syrphids, Coleoptera, non-bee hymenoptera and Lepidoptera. Although plant functional groups showed less differences between them, there were also more represented functional groups than others, thus from most over- to under-represented groups on the different motif positions we found: self incompatible perennials with large flowers, small outcrossing perennials, tall plants with unisexual flowers, selfing herbs and short lived outcrossers with long zygomorphic flowers.
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.height=8,fig.width=8,fig.align = 'center', out.width="95%",fig.cap="\\textbf{Figure 3.} Heatmap indicating under- and over- representation of pollinator and plant functional groups in the different motif positions. The different motif positions are dividied by the average path length clasification determined by Simmons et al. (2020)."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.height=8,fig.width=8,fig.align = 'center', out.width="90%",fig.cap="\\textbf{Figure 3.} Heatmap indicating under- and over- representation of pollinator and plant functional groups in the different motif positions. The different motif positions are dividied by the average path length clasification determined by Simmons et al. (2020)."}
 
 library(lme4)
 library(nlme)
@@ -840,12 +839,14 @@ library(patchwork)
 
 ```
 
+\newpage
+
 **Over- and under-represented funtional group combinations of motifs**
 
-The statistical comparison with z-scores between the observed functional group combinations and the expected ones showed a Gausian distribution with 65% of under-represented group combinations, 20% of no statistical difference and 15% of under-represented ones (**Figure 5**). Remarkably, motifs with small node combinations (i.e., 2 and 3 nodes) only appeared as under-represented. Motifs with 4 and 5 node combinations appeared in the three statistical categories but 4 node motifs had a higher porportion in the under-represented category (10% in comparison with the 1% and the 3% of the no statiscal difference and over-represented categories, respectively). Finally, 5 node motifs were in similar prportions in the no statistical difference and over-represented categories (99% and 97%, respectively) but they appeared in lower porportion in the under-represented category (89%). When, we explore the identity on the different positions of the most probable motif combinations we find as expected that the most common functional groups rule these positions on the most probable motif combiantions (lower panel **Figure 5**).
+The statistical comparison with z-scores between the observed functional group combinations and the expected ones showed a modified Gaussian distribution (Johnson's $S_U$) with 65% of under-represented group combinations, 20% of no statistical difference and 15% of under-represented ones (**Figure 5**). Remarkably, motifs with small node combinations (i.e., 2 and 3 nodes) only appeared as under-represented. Motifs with 4 and 5 node combinations appeared in the three statistical categories but 4 node motifs had a higher porportion in the under-represented category (10% in comparison with the 1% and the 3% of the no statiscal difference and over-represented categories, respectively). Finally, 5 node motifs were in similar prportions in the no statistical difference and over-represented categories (99% and 97%, respectively) but they appeared in lower porportion in the under-represented category (89%). When, we explore the identity on the different positions of the most probable motif combinations we find as expected that the most common functional groups rule these positions on the most probable motif combiantions (lower panel **Figure 5**).
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, fig.height=8, fig.width=12, fig.cap="**Figure 5.** Z-score comparison (95% confidence level) of the observed and expected frequencies motif combinations with four specific graphical examples of the most probable motifs of being observed for each category delimitid by the z-score critical values: under-represented, no statistical difference and over-represented."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, fig.height=8, fig.width=12, fig.cap="**Figure 5.** Z-score comparison (95% confidence level) of the observed and expected frequencies motif combinations with four specific graphical examples of the most probable motifs of being observed for each category delimited by the z-score critical values: under-represented, no statistical difference and over-represented."}
 
 
 
@@ -1108,6 +1109,23 @@ hist / ((p_under[[1]]/p_under[[2]]/p_under[[3]]/p_under[[4]] & theme(panel.grid.
 
 **TABLES**
 
+**Table S1** List of plant-pollinator network studies.
+
+**Table S2** Type of plant traits used in this study.
+
+**FIGURES**
+
+**Figure S1** Over and under-estimated motif frequencies.
+
+**Figure S2** Over and under-estimated functional groups on motif positions.
+
+**Figure S3** Plant trait composition of functional groups.
+
+**Figure S4** Plant dendrogram with functional groups.
+
+
+\blandscape
+
 ```{r, echo=FALSE, message=FALSE, cache=FALSE,fig.width=12,  warning=FALSE}
 ##############################
 #TABLE S1. List of studies
@@ -1236,6 +1254,8 @@ references %>%
 
 ```
 
+\elandscape
+
 \newpage
 
 ```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, fig.height=16, fig.width=12}
@@ -1278,10 +1298,8 @@ add_header_above(c("Quantitative traits" = 2,"Categorical traits" = 2),bold=T)  
 ```
 
 
-\newpage
+\clearpage
 
-
-**FIGURES**
 
 ```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.width=4.5,fig.height=6.5, fig.cap="**Figure S1.** Comparison of motif frequencies between empirical and simulated networks grouped by average path length (plots a, b, c and d) as determined in Simmons et al. (2020) without considering singletones. This is shown with the mean percentage of motif frequencies in empirical networks that were over the motif frequencies of the simulated ones (percentiles). This was done by network (light blue dots) and then averaged for all networks (black dots with error bars that correspond to the standard deviation)."}
 library(lme4)

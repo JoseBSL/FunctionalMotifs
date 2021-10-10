@@ -555,10 +555,14 @@ over <- specify_decimal((as.numeric(poll_over_75) + as.numeric(plant_over_75))/2
 
 ```
 
-The comparison of the functional group frequencies per motif position between empirical and simulated networks showed a `r over`% and `r under`% of over- (>75$^{th}$) and under- (<25th) represented functional groups in the different positions, respectively (**Figure 3**). Floral visitors showed a total of `r poll_over_75`% and `r poll_under_25`% of over- and under-represented functional groups in the different positions and plants `r plant_over_75`% and `r plant_under_25`% of over and under-represented, respectively. Notably, the differences across functional groups were more marked for floral visitors than for plant functional groups (the differences between min and max percentiles per position were generally two-three times larger for floral visitors). From most over- to under-represented floral visitors functional groups on the different motif positions (indicated with the dendrogram order in **Figure 3**), we found: bees, non-syrphids Diptera, syrphids, Coleoptera, non-bee Hymenoptera and Lepidoptera. Although plant functional groups showed less differences between them, there were also more represented functional groups than others, thus from most over- to under-represented groups on the different motif positions we found: self incompatible perennials with large flowers, small outcrossing perennials, tall plants with unisexual flowers, selfing herbs and short lived outcrossers with long zygomorphic flowers.
+The comparison of the functional group frequencies per motif position between empirical and simulated networks showed a `r over`% and `r under`% of over- (>75$^{th}$) and under- (<25th) represented functional groups in the different positions, respectively (**Figure 3**). Floral visitors showed a total of `r poll_over_75`% and `r poll_under_25`% of over- and under-represented functional groups in the different positions and plants `r plant_over_75`% and `r plant_under_25`% of over and under-represented groups, respectively. Notably, the differences across functional groups were more marked for floral visitors than for plant functional groups (the differences between min and max percentiles per position were generally two-three times larger for floral visitors). From most over- to under-represented floral visitors functional groups on the different motif positions (indicated with the dendrogram order in **Figure 3**), we found: bees, non-syrphids Diptera, syrphids, Coleoptera, non-bee Hymenoptera and Lepidoptera. Although plant functional groups showed less differences between them, there were also more represented functional groups than others, thus from most over- to under-represented groups on the different motif positions we found: self incompatible perennials with large flowers, small outcrossing perennials, tall plants with unisexual flowers, selfing herbs and short lived outcrossers with long zygomorphic flowers.
 
-[IB: De aqui hay que sacar un ejemplo para el abstract. No hace falta que este en los resultados, pero sí podemos usarlo en la discusión. Por ejemplo. Bees and self icop. perenials are over repsented in fan positions, while ...]()
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.height=8,fig.width=8,fig.align = 'center', out.width="90%",fig.cap="\\textbf{Figure 3.} Heatmap indicating under- and over- representation of pollinator and plant functional groups in the different motif positions. The different motif positions are dividied by the average path length clasification determined by Simmons et al. (2020). The superior dendrogram indicates the differences across groups with the more separated groups showing larger differences."}
+---
+THIS IS A COMMENT
+IB: De aqui hay que sacar un ejemplo para el abstract. No hace falta que este en los resultados, pero sí podemos usarlo en la discusión. Por ejemplo. Bees and self icop. perenials are over repsented in fan positions, while ...
+---
+
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.height=8,fig.width=8,fig.align = 'center', out.width="80%",fig.cap="\\textbf{Figure 3.} Heatmap indicating under- and over- representation of pollinator and plant functional groups in the different motif positions. The different motif positions are dividied by the average path length clasification determined by Simmons et al. (2020). The superior dendrogram indicates the differences across groups with the more separated groups showing larger differences."}
 
 library(lme4)
 library(nlme)
@@ -934,6 +938,9 @@ draw(ht_list, auto_adjust = FALSE, cluster_rows = F)
 
 ```
 
+\newpage
+
+**Over- and under-represented funtional group combinations of motifs**
 
 The different observed frequencies on the different motif positions showed a hirarchical order of probabilities for floral visitors (**Figure 4**). That is, the functional group of 'bees' was the most abundant one on all motif positions followed by non-syrphid Diptera which was after bees, the second most frequent functional group on all positions. Then, the group of syrphids was the most abundant in all positions but two (positions 28 and 31 from motifs 11 and 12, respectively). After syrphids, Coleoptera was the most frequent group on the different positions followed by non-bee Hymenoptera and finally, Lepidoptera which was the less frequent group on all positions but two (positions 12 and 22 from motifs 5 and 9, respectively). Remarkably, plant functional groups were more variable on the different motif positions. However, there were also predominant functional groups found across the different motif positions. The three most frequent groups were 'tall plants with small unisexual flowers', 'self-incompatible perennials with large flowers' and 'small outcrossing perennials'. On the contrary, the groups of 'selfing herbs' and 'short lived outcrossers with long zygomorphic flowers' had the lowest probability to be present on the different motifs plant positions. 
 
@@ -1171,20 +1178,16 @@ library(patchwork)
 
 ```
 
-\newpage
-
-**Over- and under-represented funtional group combinations of motifs**
-
-[IB: Me pregunto si el ultimo parrafo es mejor meterlo aquí, por que de hecho, la figura 4 son las expected probabilities, no? Se podria empezar diciendo eso, y meter la figura de expected probabilities]()
-
 The statistical comparison with z-scores between the observed and expected functional group combinations showed that we can not recover the observed combinations from its probability of ocurrence. In fact, most combinations are under- or over- representedm and follow a modified Gaussian distribution (Johnson's $S_U$) with 65% of under-represented group combinations, 20% of no statistical difference and 15% of under-represented ones (**Figure 5**). In addition, motifs with small node combinations (i.e., 2 and 3 nodes) only appeared as under-represented. Motifs with 4 and 5-node combinations appeared in the three statistical categories but 4 node motifs had a higher porportion in the under-represented category (10% in comparison with the 1% and the 3% of the no statiscal difference and over-represented categories, respectively). Finally, 5-node motifs were in similar prportions in the no statistical difference and over-represented categories (99% and 97%, respectively) but they appeared in lower porportion in the under-represented category (89%). When, we explore the identity on the different positions of the most probable motif combinations we find as expected that the most common functional groups rule these positions on the most probable motif combiantions (lower panel **Figure 5**).
 
-[IB: Me falta un take home message. Yo creo que es que no podemos predecir las combinciones por sus probabilidades y eso es muy bestia! Lo he añadido ya al inicio de este parrafo, pero dejo el comentario por que es un paper complejo y hay que guiar mucho. Cada sección deberia tener un mensage claro ( y ese it a abstract) 1) Los motifs no son al azar. 2) hay posiciones usadas principalmente por ciertos FG. 3) Hay combinaciones de FG que van más alla de pura probabilidad. Fin.]()
+
 
 ---
 THIS IS A COMMENT
 
 Alfonso (comentario después de fig 5 donde tenía remarkably y ahora un in addition): Yo creo que todo esto es expected. Sin embargo, las explicaciones de por qué lo es probablemente van en la discusión. Lo mismo que el ajuste de la Johnson's SU: la cola larga de la derecha la producen la sobreabundancia de motifs de 4 y 5 nodos, en comparación con los de 3.
+
+IB: Me falta un take home message. Yo creo que es que no podemos predecir las combinciones por sus probabilidades y eso es muy bestia! Lo he añadido ya al inicio de este parrafo, pero dejo el comentario por que es un paper complejo y hay que guiar mucho. Cada sección deberia tener un mensage claro ( y ese it a abstract) 1) Los motifs no son al azar. 2) hay posiciones usadas principalmente por ciertos FG. 3) Hay combinaciones de FG que van más alla de pura probabilidad. Fin.
 ---
 
 
@@ -1439,6 +1442,10 @@ hist / ((p_under[[1]]/p_under[[2]]/p_under[[3]]/p_under[[4]] & theme(panel.grid.
 ```
 
 ##DISCUSSION
+
+Understanding the global patterns of network structure is key to unravel the processes that govern community dynamics [@bascompte2007; @bastolla2009; @guimaraes2020]. However, common analytical approaches are unable to capture the full complexity of ecological systems. By analysing over- and under-representation of network motifs with a comprehensive dataset of real plant-pollinator networks we have shown that motifs are consistently over- and under-represented indicating the lack of randomness of the patterns of interactions at the meso-scale. This has direct implications with 
+
+
 
 1) Emphasis on Global commonalities in ntw patterns, Our main contribution is showing which motifs are under or over repsented. Link this to simmons imprints of which processes are opperating. End with a generality about those process en nature (e.g. niche or neutral process in other systems).
 

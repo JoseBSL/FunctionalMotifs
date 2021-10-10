@@ -1443,17 +1443,33 @@ hist / ((p_under[[1]]/p_under[[2]]/p_under[[3]]/p_under[[4]] & theme(panel.grid.
 
 ##DISCUSSION
 
-Understanding the global patterns of network structure is key to unravel the processes that govern community dynamics [@bascompte2007; @bastolla2009; @guimaraes2020]. However, common analytical approaches are unable to capture the full complexity of ecological systems. By analysing over- and under-representation of network motifs with a comprehensive dataset of real plant-pollinator networks we have shown that motifs are consistently over- and under-represented indicating the lack of randomness of the patterns of interactions at the meso-scale. This has direct implications with 
+Understanding the global patterns of network structure is key to unravel the processes that govern community dynamics [@bascompte2007; @bastolla2009; @guimaraes2020]. However, common analytical approaches are unable to capture the full complexity of ecological systems [@simmons2019]. Because network motifs can capture both direct and indirect interactions, by analysing over- and under-representation of motifs we are able to explore in greater detail ecological interactions. We have explored for the first time the overall structure and representation of network motifs in real plant-pollinator networks and shown that the different motifs up to five nodes are consistently over- and under-represented in comparison with simulated networks indicating the presence of ecological processes shaping their structure. Despite the presence of multiple ecological processes likely operating at the same time (e.g., neutral effects, morphological matching or phenological overlap), we found a tendency for over-represented structures with more dense connected motifs (i.e., complete, fan and asymmetric complete) suggesting that neutral effects are likely the predominant process governing the structure of these network motifs [@simmons2020] in real plant-pollinator networks.
+
+
+---
+THIS IS A COMMENT
+IB: End with a generality about those process en nature (e.g. niche or neutral process in other systems).
+
+---
+
+Floral visitor appeared consistently in motifs that implied a generalist role. For instance, the comparison between motifs and their mirror image (the inverted version of the motif) always showed higher representation of motifs that were related with a generalist role for pollinators (e.g., Figure 1 and Figure 2 motifs 17 versus 8, 7 versus 4 and 3 versus 2). This is in good agreement with the previous evidences at the species level that highlight the generalist nature of pollinators [@waser1996; @olesen2002]. In accordance with the overall motif structure, we found higher representation of plant and pollinator functional groups in complete, fan and asymmetric complete motifs in contrast to core-peripheral motifs that were under-represented. The functional group of bees was the most frequent in the different positions, as expected because of their high [].
+
+As expected, bees, the most abundant group of floral visitors in the different plant-pollinator networks,  was also the most represented in the different motif positions
 
 
 
-1) Emphasis on Global commonalities in ntw patterns, Our main contribution is showing which motifs are under or over repsented. Link this to simmons imprints of which processes are opperating. End with a generality about those process en nature (e.g. niche or neutral process in other systems).
+
+
 
 2) Role of FG . Emphasis on fan positions, dig a bit on explaining what this positions imply. Comment that bees are, as expected, prevalent, …
 
 3) Ecology is complex, combinations not recovered by positions. This is a very cool result, because imply that knowing the probabilities of each position is not enough to predict network realizations.
 
 4) Limitations (but keep it short and simple): FG are hard to describe, bias in sampling worldwide, …
+
+- FG hard to describe: https://doi.org/10.1093/aob/mcp031 and the fenster one
+
+- Paper of Poisot 2020
 
 5) Future direction and conclusions (also short). This opens the door to help predicting novel interactions beyond pairwise interactions. We not only know now how the building blocks are structures, but also that who conform this building blocks is not random.
 

@@ -99,13 +99,23 @@ motif_means_s <- motif_means %>% rename(motif_id = motif) %>%
   left_join(mean_pollinator_motif_s, by = "motif_id") %>%
   rename(mean_frequency = mean)
 
-library(plotly)
-plot_ly(x=motif_means_s$mean_s_plant, 
-        y=motif_means_s$mean_s_pollinator, 
-        z=motif_means_s$mean_frequency, type="scatter3d", mode="markers")
+# library(plotly)
+# plot_ly(x=motif_means_s$mean_s_plant, 
+#         y=motif_means_s$mean_s_pollinator, 
+#         z=motif_means_s$mean_frequency, type="scatter3d", mode="markers")
 
 m_lm <- lm(mean_frequency~mean_s_plant*mean_s_pollinator,motif_means_s)
 summary(m_lm)
 
 library(visreg)
 visreg2d(m_lm, "mean_s_plant", "mean_s_pollinator")
+
+motif_means_s$predicted_freq <- predict(m_lm,motif_means_s)
+
+ggplot(motif_means_s,aes(x=mean_frequency, 
+                        y = predicted_freq))+
+  #geom_point()+
+  geom_abline(slope=1,intercept = 0)+
+  geom_text(label=motif_means_s$motif_id)+
+  theme_bw()+
+  xlim(0,1)+ylim(0,1)

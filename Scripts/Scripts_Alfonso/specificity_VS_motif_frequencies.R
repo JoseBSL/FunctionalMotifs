@@ -104,13 +104,18 @@ motif_means_s <- motif_means %>% rename(motif_id = motif) %>%
 #         y=motif_means_s$mean_s_pollinator, 
 #         z=motif_means_s$mean_frequency, type="scatter3d", mode="markers")
 
-m_lm <- lm(mean_frequency~mean_s_plant*mean_s_pollinator,motif_means_s)
+library(glmmTMB)
+m_lm <- glmmTMB(mean_frequency~mean_s_plant*mean_s_pollinator, data = motif_means_s, family=beta_family())
+#m_lm <- lm(mean_frequency~mean_s_plant*mean_s_pollinator,motif_means_s)
 summary(m_lm)
 
-library(visreg)
-visreg2d(m_lm, "mean_s_plant", "mean_s_pollinator")
+# library(performance)
+# r2(m_lm)
 
-motif_means_s$predicted_freq <- predict(m_lm,motif_means_s)
+library(visreg)
+visreg2d(m_lm, "mean_s_plant", "mean_s_pollinator",scale ="response")
+
+motif_means_s$predicted_freq <- predict(m_lm,motif_means_s,type ="response")
 
 ggplot(motif_means_s,aes(x=mean_frequency, 
                         y = predicted_freq))+

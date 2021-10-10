@@ -164,7 +164,11 @@ plant_means$Broad_categories[plant_means$position %in% asymm_plant] <- "Medium-w
 plant_means$Broad_categories[plant_means$position %in% complete_plant] <- "Strong" 
 plant_means$Broad_categories[plant_means$position %in% core_per_plant] <- "Weak" 
 
-######
+###########################
+# ESTIMATING SPECIFICITY
+###########################
+# Reference: 10.1371/journal.pone.0114674
+
 motif_pattern_connections <- read_csv("Data/Data_processing/Motifs_connections/motif_pattern_connections.csv")
 
 number_plant <- motif_pattern_connections %>% group_by(motif_id,plant) %>% 
@@ -193,6 +197,7 @@ specificity_pollinator_aux2 <- specificity_pollinator_aux %>%
 specificity_plant <- specificity_plant_aux2 %>% ungroup %>%
   mutate(s=(number_pollinators-n)/(number_pollinators-1)) %>%
   select(position,s) %>% unique()
+
 specificity_pollinator <- specificity_pollinator_aux2 %>% ungroup %>%
   mutate(s=(number_plants-n)/(number_plants-1)) %>%
   select(position,s) %>% unique()
@@ -202,6 +207,11 @@ plant_means_s <- plant_means %>% left_join(specificity_plant, by = "position")
 
 pollinator_means_reordered_s <- pollinator_means_reordered %>% 
   left_join(specificity_pollinator, by = "position")
+
+
+# We replace NaN of some specialist positions by one
+plant_means_s$s[is.nan(plant_means_s$s)] <- 1.0
+pollinator_means_reordered_s$s[is.nan(pollinator_means_reordered_s$s)] <- 1.0
 
 
 p1 <- ggplot(pollinator_means_reordered_s,aes(x=s,y=mean))+

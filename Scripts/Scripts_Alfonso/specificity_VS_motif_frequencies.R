@@ -109,8 +109,16 @@ m_lm <- glmmTMB(mean_frequency~mean_s_plant*mean_s_pollinator, data = motif_mean
 #m_lm <- lm(mean_frequency~mean_s_plant*mean_s_pollinator,motif_means_s)
 summary(m_lm)
 
-# library(performance)
-# r2(m_lm)
+library(betareg)
+m_lm2 <- betareg(mean_frequency~mean_s_plant*mean_s_pollinator, data = motif_means_s, link = "logit")
+#m_lm <- lm(mean_frequency~mean_s_plant*mean_s_pollinator,motif_means_s)
+summary(m_lm2)
+
+library(performance)
+r2_efron(m_lm)
+r2(m_lm2)
+
+#0.67
 
 library(visreg)
 visreg2d(m_lm, "mean_s_plant", "mean_s_pollinator",scale ="response")

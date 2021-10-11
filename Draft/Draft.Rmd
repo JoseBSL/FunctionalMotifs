@@ -1443,25 +1443,14 @@ hist / ((p_under[[1]]/p_under[[2]]/p_under[[3]]/p_under[[4]] & theme(panel.grid.
 
 ##DISCUSSION
 
-Understanding the global patterns of network structure is key to unravel the processes that govern community dynamics [@bascompte2007; @bastolla2009; @guimaraes2020]. However, common analytical approaches are unable to capture the full complexity of ecological systems [@simmons2019]. Because network motifs can capture both direct and indirect interactions, by analysing over- and under-representation of motifs we are able to explore in greater detail ecological interactions. We have explored for the first time the overall structure and representation of network motifs in real plant-pollinator networks and shown that the different motifs up to five nodes are consistently over- and under-represented in comparison with simulated networks indicating the presence of ecological processes shaping their structure. Despite the presence of multiple ecological processes likely operating at the same time (e.g., neutral effects, morphological matching or phenological overlap), we found a tendency for over-represented structures with more dense connected motifs (i.e., complete, fan and asymmetric complete) suggesting that neutral effects are likely the predominant process governing the structure of these network motifs [@simmons2020] in real plant-pollinator networks.
+Understanding the global patterns of network structure is key to unravel the processes that govern community dynamics [@bascompte2007; @bastolla2009; @guimaraes2020]. However, common analytical approaches are unable to capture the full complexity of ecological systems [@simmons2019]. Because network motifs can capture both direct and indirect interactions, by analysing over- and under-representation of motifs we are able to explore in greater detail ecological interactions. We have explored for the first time the overall structure and representation of network motifs in real plant-pollinator networks and shown that the different motifs up to five nodes are consistently over- and under-represented in comparison with simulated networks indicating the presence of ecological processes shaping their structure. Despite the presence of multiple ecological processes likely operating at the same time (e.g., neutral effects, morphological matching or phenological overlap), we found a tendency for over-represented structures with more densenly connected motifs (i.e., complete, fan and asymmetric complete) suggesting that neutral effects are likely the predominant processes governing the structure of these network motifs [@simmons2020]. Thus, as indicated for other network properties like nestedness [@krishna2008; @suweis2013], species relative abundances (i.e., neutral effects) are possibly one of the main determinants of indirect interactions in real plant-pollinator networks.
 
-
----
-THIS IS A COMMENT
-IB: End with a generality about those process en nature (e.g. niche or neutral process in other systems).
-
----
-
-Floral visitor appeared consistently in motifs that implied a generalist role. For instance, the comparison between motifs and their mirror image (the inverted version of the motif) always showed higher representation of motifs that were related with a generalist role for pollinators (e.g., Figure 1 and Figure 2 motifs 17 versus 8, 7 versus 4 and 3 versus 2). This is in good agreement with the previous evidences at the species level that highlight the generalist nature of pollinators [@waser1996; @olesen2002]. In accordance with the overall motif structure, we found higher representation of plant and pollinator functional groups in complete, fan and asymmetric complete motifs in contrast to core-peripheral motifs that were under-represented. The functional group of bees was the most frequent in the different positions, as expected because of their high [].
-
-As expected, bees, the most abundant group of floral visitors in the different plant-pollinator networks,  was also the most represented in the different motif positions
+In accordance with the findings of network motif patterns, we found higher representation of plant and pollinator functional groups in complete, fan and asymmetric complete motifs (more densenly connected) in contrast to core-peripheral motifs (less densenly connected) that were under-represented. As expected, the functional group of bees (the one with the highest number of interactions) was the most abundant in the different network motif positions. This is likely to be the case for most plant-pollinator systems as bees are generally the main functional group visiting flowers in plant-pollinator communities [@ollerton2017]. Interestingly, bees were highly over-represented in fan motif positions 4, 16 and 46 (**Figure 3**) which are associated with the highest levels of generalism. Further, this generalist tendency was also observed at motif level (e.g., **Figure 2** comparison of the percentiles between mirror image motifs in fan positions that involve pollinator specialization and generalism). Despite this in good agreement with the current view of the generalist nature of pollinators [@waser1996; @olesen2002], we found that this over-representation of the generalist network motifs was mainly driven by bees while the rest of functional groups tended to be under-represented in these generalist motifs. Further, unlike floral visitors, plant functional groups showed little differences across them on the different motif positions. However, the group of self incompatible perennials with large flowers, one of the groups that is expected to have higher levels of outcrossing rate [@goodwillie2010], also showed high over-representation on the same fan motif that bees did but for the plant positions (**Figure 3**).
 
 
 
 
 
-
-2) Role of FG . Emphasis on fan positions, dig a bit on explaining what this positions imply. Comment that bees are, as expected, prevalent, …
 
 3) Ecology is complex, combinations not recovered by positions. This is a very cool result, because imply that knowing the probabilities of each position is not enough to predict network realizations.
 
@@ -2873,8 +2862,8 @@ data_6 <- melt(data_5)
 
 cluster1 <- subset(data_6, group=="Cluster 1")
 
-cluster1$traits <- c(rep("Breeding system",3), rep("Compatibility",3), rep("Life form",3),
-                     rep("Life span",2), rep("Flower symmetry",2), rep("Nectar",2))
+cluster1$traits <- c(rep("Breeding sys.",3), rep("Compatibility",3), rep("Life form",3),
+                     rep("Life span",2), rep("F. Symm.",2), rep("Nectar",2))
 
 
 #Try to achieve the desire output with plot_grid
@@ -2945,8 +2934,8 @@ c4 <- cluster4 %>%
 
 cluster5 <- subset(data_6, group=="Cluster 5")
 
-cluster5$traits <- c(rep("Breeding system",3), rep("Compatibility",3), rep("Life form",3),
-                     rep("Life span",2), rep("Flower symmetry",2), rep("Nectar",2))
+cluster5$traits <- c(rep("Breeding syst.",3), rep("Compatibility",3), rep("Life form",3),
+                     rep("Life span",2), rep("F. Symm.",2), rep("Nectar",2))
 c5 <- cluster5 %>% 
   ggplot(aes(x = variable,  y = value, fill = group))  +  
   geom_col(position = "dodge") +   scale_fill_manual(name = NULL,values=c("lightgoldenrod2"))+

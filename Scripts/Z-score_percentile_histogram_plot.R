@@ -4,7 +4,7 @@ library(dplyr)
 library(ggplot2)
 library(tidyverse)
 #Read data
-data <- read.csv("../Data/Csv/motifs_observed_probability_SIMUL_CI.csv")
+data <- read.csv("Data/Csv/motifs_observed_probability_SIMUL_CI.csv")
 
 #Check NA's per column
 #data %>%
@@ -20,7 +20,9 @@ data_1 <- data %>%
     between(z_score, -abs(critical_value), abs(critical_value)) ~ "no_diff",
     z_score > abs(critical_value) ~ "over"
   ))
-     
+
+
+nrow(data_1)
 #check levels
 #levels(factor(data_1$infra_over_represented))
 
@@ -47,4 +49,13 @@ ggplot(data_2 %>% filter(round_motif_observed_probability>0), aes(x=z_score, col
                     "No statistical difference", "Over-represented")) +
   scale_color_manual(name="Motif frequencies" ,values=c("coral2", "palegreen3", "cyan3"), labels=c("Under-represented",
                      "No statistical difference", "Over-represented")) + xlab("Z-score")
+
+
+#Forbidden motif calculation
+data_0 <- data_1 %>% filter(round_motif_observed_probability>0)
+nrow(data_0)/nrow(data_1)*100
+data_0 %>% 
+  group_by(infra_over_represented) %>%
+  summarise(no_rows = length(infra_over_represented)) %>%
+  mutate(proportion = no_rows / sum(no_rows))
 

@@ -1443,38 +1443,20 @@ hist / ((p_under[[1]]/p_under[[2]]/p_under[[3]]/p_under[[4]] & theme(panel.grid.
 
 ##DISCUSSION
 
-Understanding the global patterns of network structure is key to unravel the processes that govern community dynamics [@bascompte2007; @bastolla2009; @guimaraes2020]. However, common analytical approaches are unable to capture the full complexity of ecological systems [@simmons2019]. Because network motifs can capture both direct and indirect interactions, by analysing over- and under-representation of motifs we are able to explore in greater detail ecological interactions. We have explored for the first time the overall structure and representation of network motifs in real plant-pollinator networks and shown that the different motifs up to five nodes are consistently over- and under-represented in comparison with simulated networks indicating the presence of ecological processes shaping their structure. Despite the presence of multiple ecological processes likely operating at the same time (e.g., neutral effects, morphological matching or phenological overlap), we found a tendency for over-represented structures with more densely connected motifs (i.e., complete, fan and asymmetric complete) suggesting that neutral effects are likely the predominant processes governing the structure of these network motifs [@simmons2020]. Thus, as indicated for other network properties like nestedness [@krishna2008; @suweis2013], species relative abundances (i.e., neutral effects) are possibly one of the main determinants of indirect interactions in real plant-pollinator networks.
+Understanding the global patterns of network structure is key to unravel the processes that govern community dynamics [@bascompte2007; @bastolla2009; @guimaraes2020]. However, common analytical approaches are unable to capture the full complexity of ecological systems [@simmons2019]. Because network motifs can capture both direct and indirect interactions, by analysing over- and under-representation of motifs we are able to explore in greater detail ecological interactions [@stouffer2007]. We have explored for the first time the overall structure and representation of network motifs in real plant-pollinator networks and shown that the different motifs up to five nodes are consistently over- and under-represented in comparison with simulated networks indicating the presence of ecological processes shaping their structure. Despite the presence of multiple ecological processes likely operating at the same time (e.g., neutral effects, morphological matching or phenological overlap), we found a tendency for over-represented structures with more densely connected motifs (i.e., complete, fan and asymmetric complete) suggesting that neutral effects are likely the predominant processes governing the structure of these network motifs [@simmons2020]. Thus, as indicated for other network properties like nestedness [@krishna2008; @suweis2013], species relative abundances (i.e., neutral effects) are possibly one of the main determinants of indirect interactions in real plant-pollinator networks.
 
-In accordance with the findings of network motif patterns, we found higher representation of plant and pollinator functional groups in complete, fan and asymmetric complete motifs (more densely connected) in contrast to core-peripheral motifs (less densely connected) that were under-represented. As expected, the functional group of bees (the one with the highest number of interactions) was the most abundant in the different network motif positions. This is likely to be the case for most plant-pollinator systems as bees are generally the main functional group visiting flowers in plant-pollinator communities [@ollerton2017]. Interestingly, bees were highly over-represented in fan motif positions 4, 16 and 46 (**Figure 3**) which are associated with the highest levels of generalism. Further, this generalist tendency was also observed at motif level (e.g., **Figure 2** comparison of the percentiles between mirror image motifs in fan positions that involve pollinator specialization and generalism). Despite this is in good agreement with the current view of the generalist nature of pollinators [@waser1996; @olesen2002], we found that this over-representation of the generalist network motifs was mainly driven by bees while the rest of functional groups tended to be under-represented in these generalist motifs. Unlike floral visitors, plant functional groups showed little differences across them on the different motif positions. However, the group of self incompatible perennials with large flowers, one of the groups that is expected to have higher levels of outcrossing rate [@goodwillie2010], also showed high over-representation on the same fan motif that bees did (**Figure 3**).
+In accordance with the findings of network motif patterns, we found higher representation of plant and pollinator functional groups in more densely connected motifs in contrast to the less densely connected ones (i.e., core-peripheral). As expected, the functional group of bees (the one with the highest number of qualitative interactions) was the most abundant in the different network motif positions. This concurs well with other plant-pollinator network studies where bees are the main functional group visiting flowers
+[@ollerton2017]. Interestingly, bees were highly over-represented in fan motif positions 4, 16 and 46 (**Figure 3**) which are associated with the highest levels of generalism. Further, this generalist tendency was also observed at motif level (e.g., **Figure 2** comparison of the percentiles of mirror image motifs that involve the opposed roles of specialization and generalism from a pollinator perpective). Despite this is in good agreement with the current view of the generalist nature of pollinators [@waser1996; @olesen2002], we found that this over-representation of the generalist network motifs was mainly driven by bees while the rest of functional groups tended to be under-represented in these generalist motifs. Unlike floral visitors, plant functional groups showed little differences between their maximum and minimum percentile on the different motif positions in the comparison with simulated networks, and thus similar probability of appearing on them. However, the groups that involved higher levels of outcrossing with perennial lifespan showed a tendency to be more over-represented and probable on the different motif positions. For instance, the group of self incompatible perennials with large flowers, one of the groups that is expected to have higher levels of outcrossing rate [@goodwillie2010], showed the highest over-representation of all plant functional groups on the different motif positions (**Figure 3**).
 
-The observed functional group probabilities on the different motif positions (**Figure 4**) were insufficient to predict most of the observed network motifs (**Figure 5**) suggesting the existence of ecological processes shaping their structure. (maybe comment on them)
+The observed functional group probabilities on the different motif positions (**Figure 4**) were insufficient to predict most of the observed network motifs (**Figure 5**). This implies that not just the structure of network motifs but also the identity of the elements of their structure are influenced by ecological processes that determine under- and over-representation of the different motif combinations. In addition, we found that just 30% of the possible 5,3250 motif combinations took place. However, this restricted set of possible combinations is no surprise, because plant-pollinator networks (i.e., full network level) have a high percentage of non-realized interactions [@bascompte2013]. Some of this non-observed motif combinations are likely to be the cause of under-sampling [@olesen2011; @jordano2016]. However, a large portion of the possible interactions do not take place because of life history constraints [i.e., forbidden links; @olesen2011; @bartomeus2016; @jordano2016]. Thus, similarly to the presence of these forbidden interactions or links, we found also the existence of forbidden motifs that represent set of indirect interactions that do not take place in natural systems.
 
-In addition, we found that just 30% of the possible 5,3250 motif combinations took place. 
+Despite the obvious usefulness of funtional groups in summarizing species ecological roles (e.g., similar reproductive biology and behaviour of pollinators), taxonomical diversity and trait availability limit our ability to properly represent the diverse range of reproductive strategies in natural systems. 
 
-FG combinations, explain briefly...
-
-This restricted set of possible combinations is no surprise, because sampling the full set of interactions is tremendously complex and a large portion of the possible interactions do not take place because of life history constraints [@jordano2016]. Thus, similarly to the presence of these forbidden interactions (or links), we found also the existence of forbidden motifs.  ()
 
 
 
 
 ---
-Thus, similarly to forbidden links, we found the existence of forbidden motifs. Hence, trait-matching
-
-Trait matching example and a ref...
-Phenology example with a ref...
-Co-occurence...
-
-
-
-
-
-3) Ecology is complex, combinations not recovered by positions. This is a very cool result, because imply that knowing the probabilities of each position is not enough to predict network realizations.
-
-
-Despite the obvious usefulness of funtional groups in summarizing species ecological roles (e.g., similar reproductive biology and behaviour of pollinators), taxonomical diversity and trait availability limit our ability to properly represent the diverse range of reproductive strategies in natural systems. 
-
-
 
 4) Limitations (but keep it short and simple): FG are hard to describe, bias in sampling worldwide, …
 
@@ -1486,6 +1468,9 @@ Although functional groups can define
 
 5) Future direction and conclusions (also short). This opens the door to help predicting novel interactions beyond pairwise interactions. We not only know now how the building blocks are structures, but also that who conform this building blocks is not random.
 ---
+
+Idea: explore if over-represented and under-represented groups have trait-matching or not... As suggested in the literature the more stable (and probably more frequent I guess will have well matched traits...)
+
 
 ##REFERENCES
 
@@ -2100,7 +2085,7 @@ draw(ht_list, auto_adjust = FALSE, cluster_rows = F)
 
 \blandscape
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE,fig.height=7, fig.width=12, fig.cap="**Figure S3.** Plant functional group composition separated in qualitative and quantitative variables. Panel A) shows the percentage of the different categories within trait represented with different colours for each functional group. Plot B) shows the radar plot of the different quantitative variables standardize on the same scale also coloured with the same patterns of colours as qualitative variables per cluster."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE,fig.height=7, fig.width=12, fig.cap="**Figure S3.** Plant functional group composition separated in qualitative and quantitative variables. Panel A) shows the percentage of the different categories within trait represented with different colours for each functional group. Plot B) shows the radar plot of the different quantitative variables standardize on the same scale also coloured with the same patterns of colours as qualitative variables per cluster or functional group. Group 1 corresponds to short-lived selfers; group 2 to small outcrossing perennials; group 3 to self-incompatible perennials with large flowers; group 4 to tall plants with small unisexual flowers; and, group 5 to short-lived outcrossers with long zygomorphic flowers."}
 
 
 #CODE TO PLOT FUNCTIONAL GROUPS
@@ -2894,7 +2879,7 @@ cluster1$traits <- c(rep("Breeding sys.",3), rep("Compatibility",3), rep("Life f
 
 c1 <- cluster1 %>% 
   ggplot(aes(x = variable,  y = value, fill = group))  +  
-  geom_col(position = "dodge") +   scale_fill_manual(name = NULL,values=c("sandybrown"))+
+  geom_col(position = "dodge") +   scale_fill_manual(name = NULL,values=c("sandybrown"), labels="Group 1")+
   facet_grid(~traits, scales = "free_x", space = "free_x")+theme_bw()+
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
@@ -2910,7 +2895,7 @@ cluster2$traits <- c(rep("Breeding system",3), rep("Compatibility",3), rep("Life
 
 c2 <- cluster2 %>% 
   ggplot(aes(x = variable,  y = value, fill = group))  +  
-  geom_col(position = "dodge") +   scale_fill_manual(name = NULL,values=c("#7BB0A3"))+
+  geom_col(position = "dodge") +   scale_fill_manual(name = NULL,values=c("#7BB0A3"), labels="Group 2")+
   facet_grid(~traits, scales = "free_x", space = "free_x")+theme_bw()+
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
@@ -2929,7 +2914,7 @@ cluster3$traits <- c(rep("Breeding system",3), rep("Compatibility",3), rep("Life
 
 c3 <- cluster3 %>% 
   ggplot(aes(x = variable,  y = value, fill = group))  +  
-  geom_col(position = "dodge") +   scale_fill_manual(name = NULL,values=c("lightsteelblue2"))+
+  geom_col(position = "dodge") +   scale_fill_manual(name = NULL,values=c("lightsteelblue2"), labels="Group 3")+
   facet_grid(~traits, scales = "free_x", space = "free_x")+theme_bw()+
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
@@ -2945,7 +2930,7 @@ cluster4$traits <- c(rep("Breeding system",3), rep("Compatibility",3), rep("Life
 
 c4 <- cluster4 %>% 
   ggplot(aes(x = variable,  y = value, fill = group))  +  
-  geom_col(position = "dodge") +   scale_fill_manual(name = NULL,values=c("thistle"))+
+  geom_col(position = "dodge") +   scale_fill_manual(name = NULL,values=c("thistle"), labels="Group 4")+
   facet_grid(~traits, scales = "free_x", space = "free_x")+theme_bw()+
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
@@ -2962,7 +2947,7 @@ cluster5$traits <- c(rep("Breeding syst.",3), rep("Compatibility",3), rep("Life 
                      rep("Life span",2), rep("F. Symm.",2), rep("Nectar",2))
 c5 <- cluster5 %>% 
   ggplot(aes(x = variable,  y = value, fill = group))  +  
-  geom_col(position = "dodge") +   scale_fill_manual(name = NULL,values=c("lightgoldenrod2"))+
+  geom_col(position = "dodge") +   scale_fill_manual(name = NULL,values=c("lightgoldenrod2"), labels="Group 5")+
   facet_grid(~traits, scales = "free_x", space = "free_x")+theme_bw()+
   scale_y_continuous(expand = c(0,0)) +
   theme(axis.text.x = element_text(angle = 45,vjust = 1, hjust=1))+

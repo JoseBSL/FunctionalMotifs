@@ -1,6 +1,5 @@
 ---
-title: Plant-pollintor networks worldwide are composed by the same specific building
-  blocks
+title: The non-random assembly of functional motifs in plant-pollinator networks worldwide
 editor_options:
   chunk_output_type: console
 header-includes:

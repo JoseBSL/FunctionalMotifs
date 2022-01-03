@@ -1,0 +1,1590 @@
+---
+title: "Supporting Information"
+editor_options:
+  chunk_output_type: console
+header-includes:
+- \usepackage{booktabs}
+- \usepackage{longtable}
+- \usepackage{array}
+- \usepackage{multirow}
+- \usepackage{wrapfig}
+- \usepackage{float}
+- \usepackage{colortbl}
+- \usepackage{pdflscape}
+- \usepackage{tabu}
+- \usepackage{threeparttable}
+- \usepackage{threeparttablex}
+- \usepackage[normalem]{ulem}
+- \usepackage{makecell}
+- \usepackage{xcolor}
+- \usepackage{caption,setspace}
+- \captionsetup[figure]{labelformat=empty}
+- \floatplacement{figure}{H}
+- \usepackage[skip=3pt]{caption}
+- \captionsetup[figure]{labelformat=empty}
+- \usepackage{lscape}
+- \newcommand{\blandscape}{\begin{landscape}}
+- \newcommand{\elandscape}{\end{landscape}}
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+always_allow_html: true
+---
+
+\captionsetup[table]{labelformat=empty}
+
+**The non-random assembly of functional motifs in plant-pollinator networks worldwide**
+
+Jose B. Lanuza  | Alfonso Allen-Perkins | Ignasi Bartomeus
+
+**TABLES**
+
+**Table S1** List of plant-pollinator network studies.
+
+**Table S2** Type of plant traits used in this study.
+
+**FIGURES**
+
+**Figure S1** Over and under-estimated motif frequencies.
+
+**Figure S2** Over and under-estimated functional groups on motif positions.
+
+**Figure S3** Plant trait composition of functional groups.
+
+**Figure S4** Plant dendrogram with functional groups.
+
+
+\blandscape
+
+```{r, echo=FALSE, message=FALSE, cache=FALSE,fig.width=12,  warning=FALSE}
+##############################
+#TABLE S1. List of studies
+##############################
+
+#Load libraries
+library(kableExtra)
+library(dplyr)
+
+#Create data.frame with references
+
+#vector with number of netw per study
+`Number of networks` <- c("6", #1
+                          "2", #2
+                          "3",#3
+                          "1",#4
+                          "1",#5
+                          "1",#6
+                          "1",#7
+                          "2",#8
+                          "1",#9
+                          "1",#10
+                          "8",#11
+                          "16",#12
+                          "6",#13
+                          "2",#14
+                          "4",#15
+                          "1",#16
+                          "3",#17
+                          "1"#18
+                          )
+
+`First author` <- c("Bartomeus", #1
+                    "Dicks",#2
+                    "Dupont",#3
+                    "Elberling",#4
+                    "Fang",#5
+                    "Inouye",#6
+                    "Lundgren",#7
+                    "Olesen",#8
+                    "Small",#9
+                    "Souza",#10
+                    "Kaiser-Bunbury",#11
+                    "Bartomeus",#12
+                    "Kaiser-Bunbury",#13
+                    "Kaiser-Bunbury",#14
+                    "Peralta",#15
+                    "Burkle",#16
+                    "Arroyo-Correa",#17
+                    "Bundgaard"#18
+                    )
+
+Year <- c(2008,#1
+          2002,#2
+          2003,#3
+          1999,#4
+          2008,#5
+          1988,#6
+          2005,#7
+          2002,#8
+          1976,#9
+          2017,#10
+          2017,#11
+          2015,#12
+          2011,#13
+          2010,#14
+          2006,#15
+          2013,#16
+          2019,#17
+          2003#18
+          ) 
+
+Country <- c("Spain", #1
+               "England", #2
+               "Denmark", #3
+               "Sweden", #4
+               "China", #5
+               "United States", #6
+               "Denmark (Greenland)", #7
+               "Mauritius and Portugal (Azores)", #8
+               "Japan", #9
+               "Brazil", #10
+               "Seychelles", #11
+               "Spain", #12
+               "Seychelles", #13
+               "Mauritius", #14
+               "Argentina", # 15
+               "United States", #16
+               "New Zealand", #17
+               "Denmark" #18
+               )
+
+DOI <- c("https://doi.org/10.1007/s00442-007-0946-1", #1
+         "https://doi.org/10.1046/j.0021-8790.2001.00572.x", #2
+         "https://doi.org/10.1111/j.1365-2656.2008.01501.x", #3
+         "https://doi.org/10.1111/j.1600-0587.1999.tb00507.x", #4
+         "https://doi.org/10.1111/1749-4877.12190", #5
+         "https://doi.org/10.1111/j.1442-9993.1988.tb00968.x", #6
+         "https://doi.org/10.1657/1523-0430(2005)037[0514:TDAHCW]2.0.CO;2", #7
+         "https://doi.org/10.1046/j.1472-4642.2002.00148.x", #8
+         "/13960/t4km08d21", #9
+         "https://doi.org/10.1111/1365-2745.12978", #10
+         "https://doi.org/10.1038/nature21071", #11
+         "https://github.com/ibartomeus/BeeFunData", #12
+         "https://doi.org/10.1111/j.1365-2745.2010.01732.x", #13
+         "https://doi.org/10.1016/j.ppees.2009.04.001", #14
+         "https://doi.org/10.1111/ele.13510", #15
+         "https://doi.org/10.1126/science.1232728", #16
+         "https://doi.org/10.1111/1365-2745.13332", #17
+         "Unpublished, Master thesis" #18
+         )
+
+references <- data.frame(`First author`, Year, `Number of networks`, Country,   DOI)
+
+colnames(references) <- c("First author", "Year", "Number of networks", "Country",  "DOI")
+
+#Check number of studies
+#nrow(references) # 18 studies
+#check number of networks
+#sum(as.numeric(references$`Number of networks`)) #60
+
+references %>%
+  arrange(`First author`)%>%
+  kable( longtable = T, booktabs = T,linesep = "\\addlinespace",align = c("cccc"),escape = FALSE, caption= "\\textbf{Table S1.} List of studies ordered by author with the year of publication, number of contributed networks and digital object identifier") %>%
+  kable_styling(latex_options = c("repeat_header","striped"),  full_width=F,position = c("center"))
+
+```
+
+\elandscape
+
+\newpage
+
+```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, fig.height=16, fig.width=12}
+
+library(kableExtra)
+
+library(dplyr)
+library(readxl) #read excel file (trait data)
+library(dplyr) #data manipulation
+library(visdat) #VISUALIZE MISSING DATA
+library(naniar)
+library(tidyverse)
+########################################################################################################################################################
+#1) READ TRAIT DATA
+########################################################################################################################################################
+
+Trait <- c("Plant height (m)", "Flower width (mm)", "Flower length (mm)", "Inflorescence width (mm)", "Style length (mm)", "Ovules per flower",
+           "Flowers per plant",  "Autonomous selfing (fruit set)")
+
+Trait1 <- c("Lifepan", "Life form", "Flower shape", "Flower symmetry", "Autonomous selfing", "Compatibility system", "Breeding system", "")
+
+T.cat <- linebreak(c("Short-lived \n Perennial", "Herb \n Shrub \n Tree", "Brush \n Campanulate \n Capitulum \n Open \n Papilionaceous \n Tube",  "Actinomorphic \n Zygomorphic", "None \n Low \n Medium \n High", "Self-incomp. \n Partially self-comp. \n Self-comp.", "Hermaphrodite \n Monoecious \n Dioecious",""),align = c("l"))
+
+Type <- c("Vegetative", "Floral", "Floral", "Floral", "Floral", "Floral", "Floral","Reproductive")
+
+Type_1 <- c("Vegetative", "Vegetative", "Floral", "Floral", "Reproductive", "Reproductive", "Reproductive", "")
+
+
+dat <- data.frame(Type, Trait,Type_1, Trait1)
+
+colnames(dat) <- c("Type","Traits","Type", "Traits")
+
+kbl(dat, booktabs = T, linesep = "\\addlinespace", escape = FALSE, align = c("c","l","c","c","l","l","c"),caption = "\\textbf{Table S2.} Traits used to delimit the different plant functional groups divided in quantitative and categorical traits.") %>%
+kable_styling(full_width = T,latex_options = c("striped")) %>%
+add_header_above(c("Quantitative traits" = 2,"Categorical traits" = 2),bold=T)  %>%
+    column_spec(c(1,4), bold = T) %>% row_spec(0, bold=T)
+
+
+
+```
+
+
+\clearpage
+
+
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.width=4.5,fig.height=6.5, fig.cap="**Figure S1.** Comparison of motif frequencies between empirical and simulated networks grouped by average path length (plots a, b, c and d) as determined in Simmons et al. (2020) without considering singletones. This is shown with the mean percentage of motif frequencies in empirical networks that were over the motif frequencies of the simulated ones (percentiles). This was done by network (light blue dots) and then averaged for all networks (black dots with error bars that correspond to the standard deviation)."}
+library(lme4)
+library(nlme)
+library(tidyverse)
+source("../Scripts/Scripts_Alfonso/add_study_id.R")
+d <- read_csv("../Data/Csv/Motifs_frequencies_and_null_models_NOSING/Motifs_frequency_percentile_NOSING.csv")
+d <- add_study_id(d)
+#str(d)
+#head(d)
+
+#ggplot(d %>% filter(motif != 1), aes(percentil_sizeclass))+
+#  geom_histogram(color="black", fill="white")+
+#  facet_wrap(~motif)+
+#  theme_bw()+
+#  labs(x="Sizeclass percentile")
+#
+# Motifs tend to be over- and under-represensented in real networks
+
+# Mean percentile and SE taking into account the study system
+motif_codes <- d %>% filter(motif != 1) %>% # We remove links (motif code: 1)
+  select(motif) %>% unique() %>% pull()
+motif_means <- tibble(motif = motif_codes)
+motif_means$mean <- NA
+motif_means$SE <- NA
+
+for(i.motif in 1:length(motif_codes)){
+  
+  m <- lmer(percentil_sizeclass ~ 1+(1|study_id), #HERE WE NEED STUDY SYSTEM ONLY!! 
+            data = subset(d, motif == motif_codes[i.motif]))  
+  
+  motif_means$mean[i.motif] <- fixed.effects(m) %>% unname()
+  motif_means$SE[i.motif] <- sqrt(diag(vcov(m)))
+  
+}
+
+#Add categories based on path length set by Simmons 2021 et al., Functional Ecology
+d$Broad_categories[d$motif==2 | d$motif==7 | d$motif==17 | d$motif==3|d$motif==4|d$motif==8] <- "Fan" 
+
+d$Broad_categories[d$motif==15 | d$motif==11] <- "Medium-weak" 
+
+d$Broad_categories[d$motif==6 | d$motif==16 |  d$motif==12] <- "Strong" 
+
+d$Broad_categories[d$motif==5 | d$motif==9 |  d$motif==14|  d$motif==13|  d$motif==10] <- "Weak" 
+
+#order the categories from short to long path length
+d$Broad_categories <- factor(d$Broad_categories, levels = c("Strong", "Fan", "Medium-weak", "Weak"))
+
+#Ffilter out two node motifs
+d_1 <- d %>% filter(motif != 1)
+#Merge dataframes to bl able to create facets
+d_2 <- merge(d_1, motif_means, by="motif")
+
+arr <- list('Strong' = expression(bold(paste("Complete (strong, ", bar(x), " = 1.38)"))),
+             'Fan' = expression(bold(paste("Fan (medium-strong, ", bar(x), " = 1.48)"))), 
+             'Medium-weak' = expression(bold(paste("Asymmetric complete (medium-weak, ", bar(x), " = 1.60)"))), 
+             "Weak" =expression(bold(paste("Core-peripheral (weak, ", bar(x), " = 1.85)"))))
+mylabel <- function(val) { return(lapply(val, function(x) arr[x])) }
+
+library(ggforce) #workaround with ggforce to have facets with same sizes 
+
+p <- ggplot()+geom_point(data = d_2, aes(y=factor(motif), 100*percentil_sizeclass), shape=21,color="black",fill="azure2",size=1.75, alpha=0.3)+
+  geom_errorbar(data = d_2,aes(y = factor(motif), xmin=100*(mean-SE), xmax=100*(mean+SE)), 
+                width=0.8,size=0.8,color="black") +theme_bw()+
+  geom_point(data = d_2,aes(y = as.factor(motif), x=100*mean), 
+             size=2,color="black")+labs(y="Two to five node motifs", x = "Percentile")+
+  theme( strip.background = element_blank())+
+  theme(strip.text = element_text(face="bold", size=10, hjust=0),
+        panel.border=element_rect(color="black",size=1.2))
+  
+p + ggforce::facet_col(vars(Broad_categories), scales = 'free', space = 'free',labeller=mylabel)
+
+#Trying to maintain a gradient from low to high in colors
+
+#Fig 1 Should be a dot plot (or forest plot) of the mean +- SE of the 15 motifs.
+#NICE! Can we put motifs in Y axes, and % in X?
+```
+
+
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.height=8,fig.width=8,fig.align = 'center', fig.cap="\\textbf{Figure S2.} Heatmap indicating under- and over- representation of pollinator and plant functional groups in the different motif positions after removing non-robust links (singletones). The different motif positions are dividied by the average path length clasification by Simmons et al. (2020). The superior dendrogram indicates the differences across groups with the more separated groups showing larger differences."}
+
+library(lme4)
+library(nlme)
+library(tidyverse)
+library(stringi)
+source("../Scripts/Scripts_Alfonso/add_study_id.R")
+
+#############################################
+# EXTRACT MEAN VALUES
+#############################################
+
+
+all_position_percentiles <- read_csv("../Data/Csv/Motifs_positions_and_null_models_NOSING/GF_positions_frequency_percentile_NOSING.csv")
+
+all_position_percentiles$position <- stri_extract_first_regex(all_position_percentiles$position,
+                                                              "[0-9]+") %>% as.numeric()
+
+all_position_percentiles <- add_study_id(all_position_percentiles)
+#str(all_position_percentiles)
+#head(all_position_percentiles)
+
+list_plants_FG <- as.character(1:10)
+
+plant_position_percentiles_filtered <- all_position_percentiles %>% 
+  filter(Node_FG %in% list_plants_FG, !position %in% c(1,2),
+         !is.na(expected_freq_its_GF)) #ME DA ERROR
+pollinator_position_percentiles_filtered <- all_position_percentiles %>% 
+  filter(!Node_FG %in% list_plants_FG, !position %in% c(1,2),
+         !is.na(expected_freq_its_GF))
+
+
+# Plants-------------
+
+# Mean percentile and SE taking into account the study system
+plant_codes <- plant_position_percentiles_filtered$position %>% unique()
+plant_means <- plant_position_percentiles_filtered %>% select(position,Node_FG) %>% unique()
+plant_means$mean <- NA
+plant_means$SE <- NA
+
+
+for(i.pos in 1:length(plant_codes)){
+  
+  m <- lmer(percentil_its_GF ~ Node_FG + (1|study_id),
+            data = plant_position_percentiles_filtered %>%
+              filter(position == plant_codes[i.pos]))  
+  
+  temp <- fixed.effects(m) %>% unname()
+  plant_means$mean[plant_means$position == plant_codes[i.pos]] <- c(temp[1],
+                                                                    temp[1]+temp[2],
+                                                                    temp[1]+temp[3],
+                                                                    temp[1]+temp[4],
+                                                                    temp[1]+temp[5]) ## to get real means per FG
+  temp <- sqrt(diag(vcov(m)))
+  plant_means$SE[plant_means$position == plant_codes[i.pos]] <- c(temp[1], 
+                                                                  temp[1]+temp[2],
+                                                                  temp[1]+temp[3],
+                                                                  temp[1]+temp[4],
+                                                                  temp[1]+temp[5])
+  
+}
+
+
+# Pollinators--------
+
+# Mean percentile and SE taking into account the study system
+pollinator_codes <- pollinator_position_percentiles_filtered$position %>% unique()
+pollinator_means <- pollinator_position_percentiles_filtered %>% select(position,Node_FG) %>% unique()
+pollinator_means$mean <- NA
+pollinator_means$SE <- NA
+pollinator_means_reordered <- NULL
+
+for(i.pos in 1:length(pollinator_codes)){
+  
+  m <- lmer(percentil_its_GF ~ Node_FG + (1|study_id), #HERE WE NEED STUDY SYSTEM ONLY!! 
+            data = pollinator_position_percentiles_filtered %>%
+              filter(position == pollinator_codes[i.pos]),
+            control = lmerControl(optimizer ="Nelder_Mead")) # I changed the optimizer because motif 8 (i.pos = 3) caused convergence problems, max gradient = 0.0022 > 0.002.
+  
+  temp <- fixed.effects(m) %>% unname()
+  pollinator_means_aux <- pollinator_means[pollinator_means$position == pollinator_codes[i.pos],] %>% arrange(Node_FG)
+  
+  pollinator_means_aux$mean <- c(temp[1],
+                                 temp[1]+temp[2],
+                                 temp[1]+temp[3],
+                                 temp[1]+temp[4],
+                                 temp[1]+temp[5],
+                                 temp[1]+temp[6],
+                                 temp[1]+temp[7],
+                                 temp[1]+temp[8],
+                                 temp[1]+temp[9]) ## to get real means per FG
+  
+  
+  temp <- sqrt(diag(vcov(m)))
+  pollinator_means_aux$SE <- c(temp[1],
+                               temp[1]+temp[2],
+                               temp[1]+temp[3],
+                               temp[1]+temp[4],
+                               temp[1]+temp[5],
+                               temp[1]+temp[6],
+                               temp[1]+temp[7],
+                               temp[1]+temp[8],
+                               temp[1]+temp[9])
+  
+  pollinator_means_reordered <- bind_rows(pollinator_means_reordered,pollinator_means_aux)
+  
+}
+
+# There are lower limits (mean - SE) smaller than 0 (see Other insects)
+# We set the lower limit of those error bars to zero
+
+pollinator_means_reordered <- pollinator_means_reordered %>% mutate(lower = mean-SE)
+pollinator_means_reordered$lower[pollinator_means_reordered$lower < 0] <- 0
+
+#############################################
+# ADDING BROAD MOTIF CATEGORIES TO POSITIONS
+#############################################
+
+motifs_raw_data <- read_csv("../Data/Data_processing/Motifs_connections/motif_pattern_connections.csv")
+
+motifs_raw_data$Broad_categories <- NA
+
+motifs_raw_data$Broad_categories[motifs_raw_data$motif_id %in% c(5,9,14,13,10)] <- "Core-peripherical"
+motifs_raw_data$Broad_categories[motifs_raw_data$motif_id %in% c(6,16,12)] <- "Complete"
+motifs_raw_data$Broad_categories[motifs_raw_data$motif_id %in% c(2,3,7,4,17,8)] <- "Fan"
+motifs_raw_data$Broad_categories[motifs_raw_data$motif_id %in% c(15,11)] <- "Asymmetric complete"
+
+motifs_raw_data$plant <- gsub("[^0-9.-]", "", motifs_raw_data$plant)
+motifs_raw_data$pollinator <- gsub("[^0-9.-]", "", motifs_raw_data$pollinator)
+motifs_raw_data$plant <- as.numeric(motifs_raw_data$plant)
+motifs_raw_data$pollinator <- as.numeric(motifs_raw_data$pollinator)
+motifs_raw_data <- motifs_raw_data %>% filter(!is.na(Broad_categories))
+
+fan_pollinator <- motifs_raw_data$pollinator[motifs_raw_data$Broad_categories == "Fan"] %>% unique()
+core_per_pollinator <- motifs_raw_data$pollinator[motifs_raw_data$Broad_categories == "Core-peripherical"] %>% unique()
+complete_pollinator <- motifs_raw_data$pollinator[motifs_raw_data$Broad_categories == "Complete"] %>% unique()
+asymm_pollinator <- motifs_raw_data$pollinator[motifs_raw_data$Broad_categories == "Asymmetric complete"] %>% unique()
+
+pollinator_means_reordered$Broad_categories <- NA
+
+pollinator_means_reordered$Broad_categories[pollinator_means_reordered$position %in% fan_pollinator] <- "Fan" 
+pollinator_means_reordered$Broad_categories[pollinator_means_reordered$position %in% asymm_pollinator] <- "Medium-weak" 
+pollinator_means_reordered$Broad_categories[pollinator_means_reordered$position %in% complete_pollinator] <- "Strong" 
+pollinator_means_reordered$Broad_categories[pollinator_means_reordered$position %in% core_per_pollinator] <- "Weak" 
+
+
+fan_plant <- motifs_raw_data$plant[motifs_raw_data$Broad_categories == "Fan"] %>% unique()
+core_per_plant <- motifs_raw_data$plant[motifs_raw_data$Broad_categories == "Core-peripherical"] %>% unique()
+complete_plant <- motifs_raw_data$plant[motifs_raw_data$Broad_categories == "Complete"] %>% unique()
+asymm_plant <- motifs_raw_data$plant[motifs_raw_data$Broad_categories == "Asymmetric complete"] %>% unique()
+
+plant_means$Broad_categories <- NA
+
+plant_means$Broad_categories[plant_means$position %in% fan_plant] <- "Fan" 
+plant_means$Broad_categories[plant_means$position %in% asymm_plant] <- "Medium-weak" 
+plant_means$Broad_categories[plant_means$position %in% complete_plant] <- "Strong" 
+plant_means$Broad_categories[plant_means$position %in% core_per_plant] <- "Weak" 
+
+
+
+########################################
+# CREATE HEATMAPS
+########################################
+
+library(ComplexHeatmap)
+
+# PLANTS-----
+
+# Prepare data for heatmap
+heat_plants_aux <- plant_means %>% spread(Node_FG,mean) %>% select(-SE) 
+
+heat_plants <- heat_plants_aux %>%
+  group_by(position,Broad_categories) %>% 
+  summarise_all(sum,na.rm = T)
+
+heat_plants_fan <- heat_plants %>% filter(Broad_categories == "Fan") %>% select(-Broad_categories) %>% 
+  as.matrix()
+
+rownames(heat_plants_fan) <- heat_plants_fan[,1]
+
+heat_plants_Weak <- heat_plants %>% filter(Broad_categories == "Weak") %>% select(-Broad_categories) %>% 
+  as.matrix()
+
+rownames(heat_plants_Weak) <- heat_plants_Weak[,1]
+
+heat_plants_Strong <- heat_plants %>% filter(Broad_categories == "Strong") %>% select(-Broad_categories) %>% 
+  as.matrix()
+
+rownames(heat_plants_Strong) <- heat_plants_Strong[,1]
+
+heat_plants_Medium_weak <- heat_plants %>% filter(Broad_categories == "Medium-weak") %>% select(-Broad_categories) %>% 
+  as.matrix()
+
+rownames(heat_plants_Medium_weak) <- heat_plants_Medium_weak[,1]
+
+
+# POLLINATORS-----------     
+
+filter_rare_groups <- T
+
+if(filter_rare_groups == T){
+  heat_pollinators_aux <- pollinator_means_reordered %>% filter(!Node_FG %in% c("Birds",
+                                                                                "Lizards",
+                                                                                "Other_insects")) %>% 
+    spread(Node_FG,mean) %>% select(-SE,-lower)
+  
+  colnames(heat_pollinators_aux) <- c("position","Broad_categories","Bees",            
+                                      "Coleoptera","Lepidoptera","Non-bee\nHymenoptera", 
+                                      "Non-syrphids\nDiptera","Syrphids")
+}else{
+  heat_pollinators_aux <- pollinator_means_reordered %>% spread(Node_FG,mean) %>% select(-SE,-lower)
+  
+  colnames(heat_pollinators_aux) <- c("position","Broad_categories","Bees","Birds",            
+                                      "Coleoptera","Lepidoptera","Lizards","Non-bee\nHymenoptera", 
+                                      "Non-syrphids\nDiptera","Other insects","Syrphids")
+}
+
+
+heat_pollinators <- heat_pollinators_aux %>%
+  group_by(position,Broad_categories) %>% 
+  summarise_all(sum,na.rm = T)
+
+heat_pollinators_fan <- heat_pollinators %>% filter(Broad_categories == "Fan") %>% select(-Broad_categories) %>% 
+  as.matrix()
+
+rownames(heat_pollinators_fan) <- heat_pollinators_fan[,1]
+
+heat_pollinators_Weak <- heat_pollinators %>% filter(Broad_categories == "Weak") %>% select(-Broad_categories) %>% 
+  as.matrix()
+
+rownames(heat_pollinators_Weak) <- heat_pollinators_Weak[,1]
+
+heat_pollinators_Strong <- heat_pollinators %>% filter(Broad_categories == "Strong") %>% select(-Broad_categories) %>% 
+  as.matrix()
+
+rownames(heat_pollinators_Strong) <- heat_pollinators_Strong[,1]
+
+heat_pollinators_Medium_weak <- heat_pollinators %>% filter(Broad_categories == "Medium-weak") %>% select(-Broad_categories) %>% 
+  as.matrix()
+
+rownames(heat_pollinators_Medium_weak) <- heat_pollinators_Medium_weak[,1]
+
+
+
+##################
+
+#Do not know how to handle this multiplot for creating a panel 
+ 
+# I'm going to create the 4 plots in one, 
+# I'm not sure that the grouping of the functional group is correct
+# when is done separately
+ 
+#sorry for the mess of libraries that I do below 
+
+ #Prepare first pollinators
+
+library(tidyr)
+library(data.table)
+long <- melt(setDT(heat_pollinators), id.vars = c("position","Broad_categories"), variable.name = "guilds")
+
+long_1 <- long %>% select(-Broad_categories)  
+
+library(reshape2)
+long_m <- acast(long_1, position~guilds, value.var="value")
+
+#set manually the divisions, so far this is the best way I have seen to split the rows by categories
+
+r_split <- c(rep(c("Fan"), 3),rep(c("Core-peripheral"), 2),"Complete",rep(c("Fan"),2),rep(c("Core-peripheral"), 4),
+             rep(c("Asymmetric complete"), 2), "Complete", rep(c("Core-peripheral"), 3),rep(c("Asymmetric complete"), 2),
+             "Complete", "Fan")
+
+#set order of labels that avoids overlapping
+r_split <- factor(r_split, levels=c("Core-peripheral","Complete","Fan","Asymmetric complete"))
+
+#plat a bit with colors, a bit of a more complex set but looks nicer
+library(circlize)
+col_fun = colorRamp2(c(0.05644663,0.25, 0.4673256,0.75, 0.8782047), c("blue","cadetblue3", "azure2", "gold","red"))
+
+h_pol <- Heatmap(long_m, name = "Mean\npercentile", row_split=r_split,cluster_row_slices = FALSE, 
+                 column_title = "Pollinator functional groups",row_names_gp = gpar(fontsize = 10),
+                 col = col_fun,column_names_rot = 45,  column_names_gp = grid::gpar(fontsize = 10),
+                 column_title_gp = gpar(fontsize = 15, fontface = "bold"),
+                 row_title_gp = gpar(fontsize = 10, fontface = "bold"))
+
+ #Prepare plants
+
+#long format
+long_plants <- melt(setDT(heat_plants), id.vars = c("position","Broad_categories"), variable.name = "Functional_groups")
+
+#filter for creating matrix
+long_plants_1 <- long_plants %>% select(-Broad_categories)  
+
+
+#set better colnames
+long_plants_1$Functional_groups <- as.character(long_plants_1$Functional_groups)
+
+long_plants_1$Functional_groups[long_plants_1$Functional_groups==1] <- "Selfing herbs" 
+long_plants_1$Functional_groups[long_plants_1$Functional_groups==2] <- "Small outcrossing\nperennials" 
+long_plants_1$Functional_groups[long_plants_1$Functional_groups==3] <- "Self-incomp. perennials\nwith large flowers" 
+long_plants_1$Functional_groups[long_plants_1$Functional_groups==4] <- "Tall plants with small\nunisexual flowers" 
+long_plants_1$Functional_groups[long_plants_1$Functional_groups==5] <- "Short-lived outcrossers with\nlong zygomorphic flowers" 
+
+long_plants_1$Functional_groups <- factor(long_plants_1$Functional_groups, levels=c("Selfing herbs",
+"Small outcrossing\nperennials" ,"Self-incomp. perennials\nwith large flowers",
+"Tall plants with small\nunisexual flowers" ,"Short-lived outcrossers with\nlong zygomorphic flowers" ))
+
+#create matrix with reshape
+long_plants_m <- acast(long_plants_1, position~Functional_groups, value.var="value")
+
+r_split_plants <- c(rep(c("Fan"), 3),rep(c("Core-peripheral"), 2),"Complete",rep(c("Fan"),2),rep(c("Core-peripheral"), 3),
+                    rep(c("Asymmetric complete"), 2), "Complete", rep(c("Core-peripheral"), 4),rep(c("Asymmetric complete"), 2),
+                    "Complete", "Fan")
+
+r_split_plants <- factor(r_split, levels=c("Core-peripheral","Complete","Fan","Asymmetric complete"))
+
+
+h_plan <- Heatmap(long_plants_m, name = "Mean\npercentile", row_split=r_split_plants,cluster_row_slices = F, 
+                  column_title = "Plant functional groups",row_names_gp = gpar(fontsize = 10),col = col_fun,column_names_rot = 45,  
+                  column_names_gp = grid::gpar(fontsize = 10),column_title_gp = gpar(fontsize = 15, fontface = "bold"),
+                  row_title_gp = gpar(fontsize = 10, fontface = "bold"))
+
+library(patchwork)
+ht_list <- h_pol+h_plan
+
+draw(ht_list, auto_adjust = FALSE, cluster_rows = F)
+
+
+```
+
+\newpage
+
+\blandscape
+
+```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE,fig.height=7, fig.width=12, fig.cap="**Figure S3.** Plant functional group composition separated in qualitative and quantitative variables. Panel A) shows the percentage of the different categories within trait represented with different colours for each functional group. Plot B) shows the radar plot of the different quantitative variables standardize on the same scale also coloured with the same patterns of colours as qualitative variables per cluster or functional group. Group 1 corresponds to short-lived selfers; group 2 to small outcrossing perennials; group 3 to self-incompatible perennials with large flowers; group 4 to tall plants with small unisexual flowers; and, group 5 to short-lived outcrossers with long zygomorphic flowers."}
+
+
+#CODE TO PLOT FUNCTIONAL GROUPS
+#IT CAN BE PLOT WITH MUCH LESS CODE BUT NO TIME FOR CLEANING IT
+
+
+##########################################
+#Visualization of plant functional groups#
+##########################################
+
+library(cowplot)
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(reshape2)
+library(data.table)
+library(patchwork)
+
+#LOAD DATA
+#read unscaled trait data in order to visualize better the clusters
+d <- read.csv("../Data/Csv/all_species_imputed_trait_data_forest_data.csv")
+
+dat_1 <- read.csv("../Data/Csv/imputed_trait_data_hclust_5_clusters_forest_data.csv", row.names = "X") 
+
+d$Clusters <- dat_1$Clusters
+
+#select columns of interest
+t <- d[c("Breeding_system","IMPUTED_Compatibility","Autonomous_selfing_level",
+         "Autonomous_selfing_level_fruit_set", "Flower_morphology", "Flower_symmetry", "Flowers_per_plant", "Flowers_per_inflorescence",
+         "Floral_unit_width", "Corolla_diameter_mean", "Corolla_length_mean", "STYLE_IMPUTED", "OVULES_IMPUTED", "life_form", "lifespan",
+         "IMPUTED_plant_height_mean_m", "Nectar_presence_absence", "Clusters")]
+
+
+
+##############################################################################################################################
+#Prepare table qualitative variables
+##############################################################################################################################
+
+##############################################################################################################################
+#Breeding system
+t$Breeding_system <- factor(t$Breeding_system, levels=c("Dioecious", "Monoecious", "Hermaphrodite"))
+
+#Summary to create table
+breeding <- t %>%
+  group_by(Clusters,Breeding_system) %>%
+  summarise (n = n()) %>%
+  mutate(Percentage = n / sum(n)*100)
+
+breeding <- breeding[,-3]
+
+breeding <- spread(breeding, Clusters, Percentage)
+
+colnames(breeding)[1] <- "Category"
+
+Trait <- data.frame(Trait= c(rep("Breeding system", 3)))
+
+Breeding_system <- cbind(Trait, breeding)
+
+##############################################################################################################################
+#Compatibility
+str(t)
+t$IMPUTED_Compatibility <- as.character(t$IMPUTED_Compatibility)
+t$IMPUTED_Compatibility[t$IMPUTED_Compatibility=="dioecious"] <- "Unisexual flower"
+t$IMPUTED_Compatibility[t$IMPUTED_Compatibility=="monoecious"] <- "Unisexual flower"
+t$IMPUTED_Compatibility[t$IMPUTED_Compatibility=="self_incompatible"] <- "Self incompatible"
+t$IMPUTED_Compatibility[t$IMPUTED_Compatibility=="partially_self_compatible"] <- "Partially self compatible"
+t$IMPUTED_Compatibility[t$IMPUTED_Compatibility=="self_compatible"] <- "Self compatible"
+
+t$IMPUTED_Compatibility <- factor(t$IMPUTED_Compatibility, levels=c("Unisexual flower", "Self incompatible", "Partially self compatible", "Self compatible"))
+#Summary to create table
+comp <- t %>%
+  group_by(Clusters,IMPUTED_Compatibility) %>%
+  summarise (n = n()) %>%
+  mutate(Percentage = n / sum(n)*100)
+
+comp <- comp[,-3]
+
+comp <- spread(comp, Clusters, Percentage)
+#Replace Na's with zeros
+comp[is.na(comp)] <- 0
+#Set call name os categories per trait
+colnames(comp)[1] <- "Category"
+#Create new column
+Trait <- data.frame(Trait= c(rep("Compatibility system", 4)))
+#Add column
+Compatibility_system <- cbind(Trait, comp)
+#Bind rows
+bind_rows(Breeding_system, Compatibility_system)
+
+
+############################################################################################################################################
+#Life form
+t$life_form <- as.character(t$life_form)
+t$life_form[t$life_form =="vine"] <- "Shrub"
+t$life_form[t$life_form =="tree"] <- "Tree"
+t$life_form[t$life_form =="herb"] <- "Herb"
+t$life_form[t$life_form =="shrub"] <- "Shrub"
+#Order levels
+t$life_form <- factor(t$life_form, levels=c("Tree", "Shrub", "Herb"))
+#Summary to create table
+life_form <- t %>%
+  group_by(Clusters,life_form) %>%
+  summarise (n = n()) %>%
+  mutate(Percentage = n / sum(n)*100)
+#delete column to convert to wide
+life_form <- life_form[,-3]
+#convert to wide
+life_form <- spread(life_form, Clusters, Percentage)
+#Set call name os categories per trait
+colnames(life_form)[1] <- "Category"
+#Create new column
+Trait <- data.frame(Trait= c(rep("Life form", 3)))
+#Add column
+Life_form<- cbind(Trait, life_form)
+#Bind rows
+bind_rows(Breeding_system, Compatibility_system, Life_form)
+
+############################################################################################################################################
+t$lifespan <- factor(t$lifespan, levels=c("Perennial","Short lived"))
+#Summary to create table
+life_span <- t %>%
+  group_by(Clusters,lifespan) %>%
+  summarise (n = n()) %>%
+  mutate(Percentage = n / sum(n)*100)
+#delete column to convert to wide
+life_span <- life_span[,-3]
+#convert to wide
+life_span <- spread(life_span, Clusters, Percentage)
+#Set call name os categories per trait
+colnames(life_span)[1] <- "Category"
+#Create new column
+Trait <- data.frame(Trait= c(rep("Life span", 2)))
+#Add column
+Life_span<- cbind(Trait, life_span)
+#Bind rows
+bind_rows(Breeding_system, Compatibility_system, Life_form, Life_span)
+
+############################################################################################################################################
+t$Flower_morphology <- as.character(t$Flower_morphology)
+t$Flower_morphology[t$Flower_morphology=="Funnelform"] <- "Campanulate"
+t$Flower_morphology[t$Flower_morphology=="Spike"] <- "Brush"
+
+Flower_morphology <- t %>%
+  group_by(Clusters,Flower_morphology) %>%
+  summarise (n = n()) %>%
+  mutate(Percentage = n / sum(n)*100)
+#delete column to convert to wide
+Flower_morphology <- Flower_morphology[,-3]
+#convert to wide
+Flower_morphology <- spread(Flower_morphology, Clusters, Percentage)
+#Set call name os categories per trait
+colnames(Flower_morphology)[1] <- "Category"
+#Create new column
+Trait <- data.frame(Trait= c(rep("Flower shape", 6)))
+#Add column
+Flower_morphology<- cbind(Trait, Flower_morphology)
+#Replace Na's with zeros
+Flower_morphology[is.na(Flower_morphology)] <- 0
+#Bind rows
+bind_rows(Breeding_system, Compatibility_system, Life_form, Life_span,Flower_morphology)
+
+############################################################################################################################################
+t$Flower_symmetry <- as.character(t$Flower_symmetry)
+t$Flower_symmetry[t$Flower_symmetry =="actinomorphic"] <- "Actinomorphic"
+t$Flower_symmetry[t$Flower_symmetry =="zygomorphic"] <- "Zygomorphic"
+
+Flower_symmetry <- t %>%
+  group_by(Clusters,Flower_symmetry) %>%
+  summarise (n = n()) %>%
+  mutate(Percentage = n / sum(n)*100)
+#delete column to convert to wide
+Flower_symmetry <- Flower_symmetry[,-3]
+#convert to wide
+Flower_symmetry <- spread(Flower_symmetry, Clusters, Percentage)
+#Set call name os categories per trait
+colnames(Flower_symmetry)[1] <- "Category"
+#Create new column
+Trait <- data.frame(Trait= c(rep("Flower symmetry", 2)))
+#Add column
+Flower_symmetry<- cbind(Trait, Flower_symmetry)
+#Bind rows
+bind_rows(Breeding_system, Compatibility_system, Life_form, Life_span,Flower_morphology,Flower_symmetry)
+############################################################################################################################################
+t$Autonomous_selfing_level <- as.character(t$Autonomous_selfing_level)
+t$Autonomous_selfing_level[t$Autonomous_selfing_level =="none"] <- "None"
+t$Autonomous_selfing_level[t$Autonomous_selfing_level =="low"] <- "Low"
+t$Autonomous_selfing_level[t$Autonomous_selfing_level =="medium"] <- "Medium"
+t$Autonomous_selfing_level[t$Autonomous_selfing_level =="high"] <- "High"
+
+#Order levels
+t$Autonomous_selfing_level <- factor(t$Autonomous_selfing_level, levels=c("High", "Medium", "Low", "None"))
+
+Selfing <- t %>%
+  group_by(Clusters,Autonomous_selfing_level) %>%
+  summarise (n = n()) %>%
+  mutate(Percentage = n / sum(n)*100)
+
+#delete column to convert to wide
+Selfing <- Selfing[,-3]
+#convert to wide
+Selfing <- spread(Selfing, Clusters, Percentage)
+#Set call name os categories per trait
+colnames(Selfing)[1] <- "Category"
+#Create new column
+Trait <- data.frame(Trait= c(rep("Selfing level", 2)))
+#Replace Na's with zeros
+Selfing[is.na(Selfing)] <- 0
+#Add column
+Selfing_1 <- cbind(Trait, Selfing)
+#Bind rows
+bind_rows(Breeding_system, Compatibility_system, Life_form, Life_span,Flower_morphology, Selfing_1)
+
+############################################################################################################################################
+t$Nectar_presence_absence <- as.character(t$Nectar_presence_absence)
+t$Nectar_presence_absence[t$Nectar_presence_absence =="yes"] <- "Yes"
+t$Nectar_presence_absence[t$Nectar_presence_absence =="no"] <- "No"
+
+Nectar <- t %>%
+  group_by(Clusters,Nectar_presence_absence) %>%
+  summarise (n = n()) %>%
+  mutate(Percentage = n / sum(n)*100)
+
+#delete column to convert to wide
+Nectar <- Nectar[,-3]
+#convert to wide
+Nectar <- spread(Nectar, Clusters, Percentage)
+#Set call name os categories per trait
+colnames(Nectar)[1] <- "Category"
+#Create new column
+Trait <- data.frame(Trait= c(rep("Nectar", 2)))
+#Replace Na's with zeros
+Nectar[is.na(Nectar)] <- 0
+#Add column
+Nectar <- cbind(Trait, Nectar)
+#Bind rows
+bind_rows(Breeding_system, Compatibility_system, Life_form, Life_span,Flower_morphology, Flower_symmetry,Selfing_1, Nectar)
+
+
+##############################################################################################################################
+#Prepare table quantitative variables
+##############################################################################################################################
+
+Selfing <-  t %>% group_by(Clusters)%>% 
+  select(Autonomous_selfing_level_fruit_set) %>% # select variables to summarise
+  summarise_each(funs(min = min,
+                     # q25 = quantile(., 0.25), 
+                      median = median, 
+                      #q75 = quantile(., 0.75), 
+                      max = max,
+                      mean = mean, 
+                    sd = sd))
+  
+
+s1 <- as.data.frame(t(Selfing))
+#set colnames
+colnames(s1) <- c("1","2","3","4","5")
+#remove the cluster row
+s1 <- s1[-1,]
+#convert rownames to 1st columns
+s1 <- setDT(s1, keep.rownames = "TRUE")[]
+colnames(s1)[1] <- "Category"
+#Create data frame to add grouping variable
+Trait <- data.frame(Trait= c(rep("Autonomous selfing", 5)))
+#Add column
+Selfing <- cbind(Trait, s1)
+
+##############################################################################################################################
+flower_number <-  t %>% group_by(Clusters)%>% 
+  select(Flowers_per_plant) %>% # select variables to summarise
+  summarise_each(funs(min = min,
+                      # q25 = quantile(., 0.25), 
+                      median = median, 
+                      #q75 = quantile(., 0.75), 
+                      max = max,
+                      mean = mean, 
+                      sd = sd))
+
+
+f1 <- as.data.frame(t(flower_number))
+#set colnames
+colnames(f1) <- c("1","2","3","4","5")
+#remove the cluster row
+f1 <- f1[-1,]
+#convert rownames to 1st columns
+f1 <- setDT(f1, keep.rownames = "TRUE")[]
+colnames(f1)[1] <- "Category"
+#Create data frame to add grouping variable
+Trait <- data.frame(Trait= c(rep("Flower number", 5)))
+#Add column
+Flower_number <- cbind(Trait, f1)
+
+
+##############################################################################################################################
+Flowers_per_inflorescence <-  t %>% group_by(Clusters)%>% 
+  select(Flowers_per_inflorescence) %>% # select variables to summarise
+  summarise_each(funs(min = min,
+                      # q25 = quantile(., 0.25), 
+                      median = median, 
+                      #q75 = quantile(., 0.75), 
+                      max = max,
+                      mean = mean, 
+                      sd = sd))
+
+
+f_i_1 <- as.data.frame(t(Flowers_per_inflorescence))
+#set colnames
+colnames(f_i_1) <- c("1","2","3","4","5")
+#remove the cluster row
+f_i_1 <- f_i_1[-1,]
+#convert rownames to 1st columns
+f_i_1 <- setDT(f_i_1, keep.rownames = "TRUE")[]
+colnames(f_i_1)[1] <- "Category"
+#Create data frame to add grouping variable
+Trait <- data.frame(Trait= c(rep("Flowers per inflorescence", 5)))
+#Add column
+Flower_per_inflo <- cbind(Trait, f_i_1)
+
+bind_rows(Selfing, Flower_number, Flower_per_inflo)
+
+##############################################################################################################################
+Floral_unit_width <-  t %>% group_by(Clusters)%>% 
+  select(Floral_unit_width) %>% # select variables to summarise
+  summarise_each(funs(min = min,
+                      # q25 = quantile(., 0.25), 
+                      median = median, 
+                      #q75 = quantile(., 0.75), 
+                      max = max,
+                      mean = mean, 
+                      sd = sd))
+
+
+f_u_w_1 <- as.data.frame(t(Floral_unit_width))
+#set colnames
+colnames(f_u_w_1) <- c("1","2","3","4","5")
+#remove the cluster row
+f_u_w_1 <- f_u_w_1[-1,]
+#convert rownames to 1st columns
+f_u_w_1 <- setDT(f_u_w_1, keep.rownames = "TRUE")[]
+colnames(f_u_w_1)[1] <- "Category"
+#Create data frame to add grouping variable
+Trait <- data.frame(Trait= c(rep("Inflorescence width", 5)))
+#Add column
+Inflo_width <- cbind(Trait, f_u_w_1)
+
+bind_rows(Selfing, Flower_number, Flower_per_inflo, Inflo_width)
+
+##############################################################################################################################
+Corolla_diameter_mean <-  t %>% group_by(Clusters)%>% 
+  select(Corolla_diameter_mean) %>% # select variables to summarise
+  summarise_each(funs(min = min,
+                      # q25 = quantile(., 0.25), 
+                      median = median, 
+                      #q75 = quantile(., 0.75), 
+                      max = max,
+                      mean = mean, 
+                      sd = sd))
+
+
+c_w_1 <- as.data.frame(t(Corolla_diameter_mean))
+#set colnames
+colnames(c_w_1) <- c("1","2","3","4","5")
+#remove the cluster row
+c_w_1 <- c_w_1[-1,]
+#convert rownames to 1st columns
+c_w_1 <- setDT(c_w_1, keep.rownames = "TRUE")[]
+colnames(c_w_1)[1] <- "Category"
+#Create data frame to add grouping variable
+Trait <- data.frame(Trait= c(rep("Flower width", 5)))
+#Add column
+Flower_width <- cbind(Trait, c_w_1)
+
+bind_rows(Selfing, Flower_number, Flower_per_inflo, Inflo_width, Flower_width)
+
+
+##############################################################################################################################
+Corolla_length_mean <-  t %>% group_by(Clusters)%>% 
+  select(Corolla_length_mean) %>% # select variables to summarise
+  summarise_each(funs(min = min,
+                      # q25 = quantile(., 0.25), 
+                      median = median, 
+                      #q75 = quantile(., 0.75), 
+                      max = max,
+                      mean = mean, 
+                      sd = sd))
+
+
+c_l_1 <- as.data.frame(t(Corolla_length_mean))
+#set colnames
+colnames(c_l_1) <- c("1","2","3","4","5")
+#remove the cluster row
+c_l_1 <- c_l_1[-1,]
+#convert rownames to 1st columns
+c_l_1 <- setDT(c_l_1, keep.rownames = "TRUE")[]
+colnames(c_l_1)[1] <- "Category"
+#Create data frame to add grouping variable
+Trait <- data.frame(Trait= c(rep("Flower length", 5)))
+#Add column
+Flower_length<- cbind(Trait, c_l_1)
+
+bind_rows(Selfing, Flower_number, Flower_per_inflo, Inflo_width, Flower_width, Flower_length)
+
+##############################################################################################################################
+STYLE_IMPUTED <-  t %>% group_by(Clusters)%>% 
+  select(STYLE_IMPUTED) %>% # select variables to summarise
+  summarise_each(funs(min = min,
+                      # q25 = quantile(., 0.25), 
+                      median = median, 
+                      #q75 = quantile(., 0.75), 
+                      max = max,
+                      mean = mean, 
+                      sd = sd))
+
+
+s_l_1 <- as.data.frame(t(STYLE_IMPUTED))
+#set colnames
+colnames(s_l_1) <- c("1","2","3","4","5")
+#remove the cluster row
+s_l_1 <- s_l_1[-1,]
+#convert rownames to 1st columns
+s_l_1 <- setDT(s_l_1, keep.rownames = "TRUE")[]
+colnames(s_l_1)[1] <- "Category"
+#Create data frame to add grouping variable
+Trait <- data.frame(Trait= c(rep("Style length", 5)))
+#Add column
+Style_length<- cbind(Trait, s_l_1)
+
+bind_rows(Selfing, Flower_number, Flower_per_inflo, Inflo_width, Flower_width, Flower_length, Style_length)
+
+##############################################################################################################################
+
+OVULES_IMPUTED <-  t %>% group_by(Clusters)%>% 
+  select(OVULES_IMPUTED) %>% # select variables to summarise
+  summarise_each(funs(min = min,
+                      # q25 = quantile(., 0.25), 
+                      median = median, 
+                      #q75 = quantile(., 0.75), 
+                      max = max,
+                      mean = mean, 
+                      sd = sd))
+
+
+o_n_1 <- as.data.frame(t(OVULES_IMPUTED))
+#set colnames
+colnames(o_n_1) <- c("1","2","3","4","5")
+#remove the cluster row
+o_n_1 <- o_n_1[-1,]
+#convert rownames to 1st columns
+o_n_1 <- setDT(o_n_1, keep.rownames = "TRUE")[]
+colnames(o_n_1)[1] <- "Category"
+#Create data frame to add grouping variable
+Trait <- data.frame(Trait= c(rep("Ovule number", 5)))
+#Add column
+Ovule_number <- cbind(Trait, o_n_1)
+
+bind_rows(Selfing, Flower_number, Flower_per_inflo, Inflo_width, Flower_width, Flower_length, Ovule_number)
+
+
+##############################################################################################################################
+
+IMPUTED_plant_height_mean_m <-  t %>% group_by(Clusters)%>% 
+  select(IMPUTED_plant_height_mean_m) %>% # select variables to summarise
+  summarise_each(funs(min = min,
+                      # q25 = quantile(., 0.25), 
+                      median = median, 
+                      #q75 = quantile(., 0.75), 
+                      max = max,
+                      mean = mean, 
+                      sd = sd))
+
+
+p_h_1 <- as.data.frame(t(IMPUTED_plant_height_mean_m))
+#set colnames
+colnames(p_h_1) <- c("1","2","3","4","5")
+#remove the cluster row
+p_h_1 <- p_h_1[-1,]
+#convert rownames to 1st columns
+p_h_1 <- setDT(p_h_1, keep.rownames = "TRUE")[]
+colnames(p_h_1)[1] <- "Category"
+#Create data frame to add grouping variable
+Trait <- data.frame(Trait= c(rep("Plant height", 5)))
+#Add column
+Plant_height <- cbind(Trait, p_h_1)
+
+
+#Bind quantitative and qualitative variables
+Table_all_traits <- bind_rows(Breeding_system, Compatibility_system, Life_form, Life_span,Flower_morphology, Flower_symmetry,Selfing_1, Nectar,
+          Selfing, Flower_number, Flower_per_inflo, Inflo_width, Flower_width, Flower_length, Style_length, Ovule_number, Plant_height)
+
+#Select just two decimals
+is.num <- sapply(Table_all_traits, is.numeric)
+Table_all_traits[is.num] <- lapply(Table_all_traits[is.num], round, 2)
+
+colnames(Table_all_traits) <- c("Trait", "Category", "Cluster 1", "Cluster 2", "Cluster 3", "Cluster 4", "Cluster 5") 
+
+
+
+
+#LOAD LIBRARIES
+#devtools::install_github("ricardo-bion/ggradar", dependencies=TRUE)
+suppressPackageStartupMessages(library(dplyr))
+library(scales)
+library(tibble)
+library(ggradar)
+library(janitor)
+library(grid)
+library(dplyr)
+library(lubridate)
+#QUANTITATIVVE VARIABLES
+
+#generate subset of quantitative variables for plotting
+quant_median <- subset(Table_all_traits, Category=="median")
+
+#delete col number 2
+quant_median <- quant_median[,-2]
+
+#transpose dataframe
+final_df <- as.data.frame(t(quant_median))
+
+#rownames to colnames (1st one)
+final_df_1 <- final_df %>% row_to_names(row_number = 1)
+
+#Convert all variables to numeric
+final_df_2 <- sapply(final_df_1, function(x) as.numeric(as.character(x)))
+
+#set back the missed rownames in the processing
+rownames(final_df_2) <- rownames(final_df_1)
+
+# Convert to dataframe
+final_df_2 <- as.data.frame(final_df_2)
+
+# Scale values and set rowname as column
+final_df_3 <-final_df_2 %>% rownames_to_column( var = "group" ) %>%   mutate_at(vars(-group),funs(rescale)) 
+
+#Plot Radar
+#ggradar(final_df_3) 
+
+
+#QUALITATIVE VARIABLES
+
+#LOAD DATA
+#read unscaled trait data in order to visualize better the clusters
+d <- read.csv("../Data/Csv/all_species_imputed_trait_data_forest_data.csv")
+
+dat_1 <- read.csv("../Data/Csv/imputed_trait_data_hclust_5_clusters_forest_data.csv", row.names = "X") 
+
+d$Clusters <- dat_1$Clusters
+
+#select columns of interest
+t <- d[c("Breeding_system","IMPUTED_Compatibility","Autonomous_selfing_level",
+         "Autonomous_selfing_level_fruit_set", "Flower_morphology", "Flower_symmetry", "Flowers_per_plant", "Flowers_per_inflorescence",
+         "Floral_unit_width", "Corolla_diameter_mean", "Corolla_length_mean", "STYLE_IMPUTED", "OVULES_IMPUTED", "life_form", "lifespan",
+         "IMPUTED_plant_height_mean_m", "Nectar_presence_absence", "Clusters")]
+
+
+
+##############################################################################################################################
+#Prepare table qualitative variables
+##############################################################################################################################
+
+##############################################################################################################################
+#Breeding system
+t$Breeding_system <- factor(t$Breeding_system, levels=c("Dioecious", "Monoecious", "Hermaphrodite"))
+
+#Summary to create table
+breeding <- t %>%
+  group_by(Clusters,Breeding_system) %>%
+  summarise (n = n()) %>%
+  mutate(Percentage = n / sum(n)*100)
+
+breeding <- breeding[,-3]
+
+breeding <- spread(breeding, Clusters, Percentage)
+
+colnames(breeding)[1] <- "Category"
+
+Trait <- data.frame(Trait= c(rep("Breeding system", 3)))
+
+Breeding_system <- cbind(Trait, breeding)
+
+##############################################################################################################################
+#Compatibility
+str(t)
+t$IMPUTED_Compatibility <- as.character(t$IMPUTED_Compatibility)
+t$IMPUTED_Compatibility[t$IMPUTED_Compatibility=="dioecious"] <- "Self incompatible"
+t$IMPUTED_Compatibility[t$IMPUTED_Compatibility=="monoecious"] <- "Self incompatible"
+t$IMPUTED_Compatibility[t$IMPUTED_Compatibility=="self_incompatible"] <- "Self incompatible"
+t$IMPUTED_Compatibility[t$IMPUTED_Compatibility=="partially_self_compatible"] <- "Partially self compatible"
+t$IMPUTED_Compatibility[t$IMPUTED_Compatibility=="self_compatible"] <- "Self compatible"
+
+t$IMPUTED_Compatibility <- factor(t$IMPUTED_Compatibility, levels=c("Self incompatible", "Partially self compatible", "Self compatible"))
+#Summary to create table
+comp <- t %>%
+  group_by(Clusters,IMPUTED_Compatibility) %>%
+  summarise (n = n()) %>%
+  mutate(Percentage = n / sum(n)*100)
+
+comp <- comp[,-3]
+
+comp <- spread(comp, Clusters, Percentage)
+#Replace Na's with zeros
+comp[is.na(comp)] <- 0
+#Set call name os categories per trait
+colnames(comp)[1] <- "Category"
+#Create new column
+Trait <- data.frame(Trait= c(rep("Compatibility system", 3)))
+#Add column
+Compatibility_system <- cbind(Trait, comp)
+#Bind rows
+bind_rows(Breeding_system, Compatibility_system)
+
+
+############################################################################################################################################
+#Life form
+t$life_form <- as.character(t$life_form)
+t$life_form[t$life_form =="vine"] <- "Shrub"
+t$life_form[t$life_form =="tree"] <- "Tree"
+t$life_form[t$life_form =="herb"] <- "Herb"
+t$life_form[t$life_form =="shrub"] <- "Shrub"
+#Order levels
+t$life_form <- factor(t$life_form, levels=c("Tree", "Shrub", "Herb"))
+#Summary to create table
+life_form <- t %>%
+  group_by(Clusters,life_form) %>%
+  summarise (n = n()) %>%
+  mutate(Percentage = n / sum(n)*100)
+#delete column to convert to wide
+life_form <- life_form[,-3]
+#convert to wide
+life_form <- spread(life_form, Clusters, Percentage)
+#Set call name os categories per trait
+colnames(life_form)[1] <- "Category"
+#Create new column
+Trait <- data.frame(Trait= c(rep("Life form", 3)))
+#Add column
+Life_form<- cbind(Trait, life_form)
+#Bind rows
+bind_rows(Breeding_system, Compatibility_system, Life_form)
+
+############################################################################################################################################
+t$lifespan <- factor(t$lifespan, levels=c("Perennial","Short lived"))
+#Summary to create table
+life_span <- t %>%
+  group_by(Clusters,lifespan) %>%
+  summarise (n = n()) %>%
+  mutate(Percentage = n / sum(n)*100)
+#delete column to convert to wide
+life_span <- life_span[,-3]
+#convert to wide
+life_span <- spread(life_span, Clusters, Percentage)
+#Set call name os categories per trait
+colnames(life_span)[1] <- "Category"
+#Create new column
+Trait <- data.frame(Trait= c(rep("Life span", 2)))
+#Add column
+Life_span<- cbind(Trait, life_span)
+#Bind rows
+bind_rows(Breeding_system, Compatibility_system, Life_form, Life_span)
+
+############################################################################################################################################
+#t$Flower_morphology <- as.character(t$Flower_morphology)
+#t$Flower_morphology[t$Flower_morphology=="Funnelform"] <- "Campanulate"
+#t$Flower_morphology[t$Flower_morphology=="Spike"] <- "Brush"
+#
+#Flower_morphology <- t %>%
+#  group_by(Clusters,Flower_morphology) %>%
+#  summarise (n = n()) %>%
+#  mutate(Percentage = n / sum(n)*100)
+##delete column to convert to wide
+#Flower_morphology <- Flower_morphology[,-3]
+##convert to wide
+#Flower_morphology <- spread(Flower_morphology, Clusters, Percentage)
+##Set call name os categories per trait
+#colnames(Flower_morphology)[1] <- "Category"
+##Create new column
+#Trait <- data.frame(Trait= c(rep("Flower shape", 6)))
+##Add column
+#Flower_morphology<- cbind(Trait, Flower_morphology)
+##Replace Na's with zeros
+#Flower_morphology[is.na(Flower_morphology)] <- 0
+##Bind rows
+#bind_rows(Breeding_system, Compatibility_system, Life_form, Life_span,Flower_morphology)
+#
+############################################################################################################################################
+t$Flower_symmetry <- as.character(t$Flower_symmetry)
+t$Flower_symmetry[t$Flower_symmetry =="actinomorphic"] <- "Actinomorphic"
+t$Flower_symmetry[t$Flower_symmetry =="zygomorphic"] <- "Zygomorphic"
+
+Flower_symmetry <- t %>%
+  group_by(Clusters,Flower_symmetry) %>%
+  summarise (n = n()) %>%
+  mutate(Percentage = n / sum(n)*100)
+#delete column to convert to wide
+Flower_symmetry <- Flower_symmetry[,-3]
+#convert to wide
+Flower_symmetry <- spread(Flower_symmetry, Clusters, Percentage)
+#Set call name os categories per trait
+colnames(Flower_symmetry)[1] <- "Category"
+#Create new column
+Trait <- data.frame(Trait= c(rep("Flower symmetry", 2)))
+#Add column
+Flower_symmetry<- cbind(Trait, Flower_symmetry)
+#Bind rows
+bind_rows(Breeding_system, Compatibility_system, Life_form, Life_span,Flower_morphology,Flower_symmetry)
+############################################################################################################################################
+#t$Autonomous_selfing_level <- as.character(t$Autonomous_selfing_level)
+#t$Autonomous_selfing_level[t$Autonomous_selfing_level =="none"] <- "None"
+#t$Autonomous_selfing_level[t$Autonomous_selfing_level =="low"] <- "Low"
+#t$Autonomous_selfing_level[t$Autonomous_selfing_level =="medium"] <- "Medium"
+#t$Autonomous_selfing_level[t$Autonomous_selfing_level =="high"] <- "High"
+#
+##Order levels
+#t$Autonomous_selfing_level <- factor(t$Autonomous_selfing_level, levels=c("High", "Medium", "Low", "None"))
+#
+#Selfing <- t %>%
+#  group_by(Clusters,Autonomous_selfing_level) %>%
+#  summarise (n = n()) %>%
+#  mutate(Percentage = n / sum(n)*100)
+#
+##delete column to convert to wide
+#Selfing <- Selfing[,-3]
+##convert to wide
+#Selfing <- spread(Selfing, Clusters, Percentage)
+##Set call name os categories per trait
+#colnames(Selfing)[1] <- "Category"
+##Create new column
+#Trait <- data.frame(Trait= c(rep("Selfing level", 2)))
+##Replace Na's with zeros
+#Selfing[is.na(Selfing)] <- 0
+##Add column
+#Selfing_1 <- cbind(Trait, Selfing)
+##Bind rows
+#bind_rows(Breeding_system, Compatibility_system, Life_form, Life_span,Flower_morphology, Selfing_1)
+#
+#############################################################################################################################################
+t$Nectar_presence_absence <- as.character(t$Nectar_presence_absence)
+t$Nectar_presence_absence[t$Nectar_presence_absence =="yes"] <- "Yes"
+t$Nectar_presence_absence[t$Nectar_presence_absence =="no"] <- "No"
+
+Nectar <- t %>%
+  group_by(Clusters,Nectar_presence_absence) %>%
+  summarise (n = n()) %>%
+  mutate(Percentage = n / sum(n)*100)
+
+#delete column to convert to wide
+Nectar <- Nectar[,-3]
+#convert to wide
+Nectar <- spread(Nectar, Clusters, Percentage)
+#Set call name os categories per trait
+colnames(Nectar)[1] <- "Category"
+#Create new column
+Trait <- data.frame(Trait= c(rep("Nectar", 2)))
+#Replace Na's with zeros
+Nectar[is.na(Nectar)] <- 0
+#Add column
+Nectar <- cbind(Trait, Nectar)
+#Bind rows
+data <- bind_rows(Breeding_system, Compatibility_system, Life_form, Life_span, Flower_symmetry, Nectar)
+
+#remove first col
+data_1 <- data[,-1]
+colnames(data_1) <- c("Category", "Cluster 1", "Cluster 2", "Cluster 3", "Cluster 4", "Cluster 5")
+
+#transpose dataframe
+data_2 <- as.data.frame(t(data_1))
+
+#rownames to colnames (1st one)
+data_3 <- data_2 %>% row_to_names(row_number = 1)
+
+#Convert all variables to numeric
+data_4 <- sapply(data_3, function(x) as.numeric(as.character(x)))
+
+#set back the missed rownames in the processing
+rownames(data_4) <- rownames(data_3)
+
+# Convert to dataframe
+data_4 <- as.data.frame(data_4)
+
+# Scale values and set rowname as column
+data_5 <-data_4 %>% rownames_to_column( var = "group" )
+
+
+data_6 <- melt(data_5)
+
+cluster1 <- subset(data_6, group=="Cluster 1")
+
+cluster1$traits <- c(rep("Breeding sys.",3), rep("Compatibility",3), rep("Life form",3),
+                     rep("Life span",2), rep("F. Symm.",2), rep("Nectar",2))
+
+
+#Try to achieve the desire output with plot_grid
+
+c1 <- cluster1 %>% 
+  ggplot(aes(x = variable,  y = value, fill = group))  +  
+  geom_col(position = "dodge") +   scale_fill_manual(name = NULL,values=c("sandybrown"), labels="Group 1")+
+  facet_grid(~traits, scales = "free_x", space = "free_x")+theme_bw()+
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())+scale_y_continuous(expand = c(0,0)) +
+  theme(axis.title.x = element_blank(), axis.text.x=element_blank(),plot.title = element_text(size = 18))+ ylab("")+
+  ggtitle("A) Qualitative variables")
+
+
+cluster2 <- subset(data_6, group=="Cluster 2")
+
+cluster2$traits <- c(rep("Breeding system",3), rep("Compatibility",3), rep("Life form",3),
+                     rep("Life span",2), rep("Flower symmetry",2), rep("Nectar",2))
+
+c2 <- cluster2 %>% 
+  ggplot(aes(x = variable,  y = value, fill = group))  +  
+  geom_col(position = "dodge") +   scale_fill_manual(name = NULL,values=c("#7BB0A3"), labels="Group 2")+
+  facet_grid(~traits, scales = "free_x", space = "free_x")+theme_bw()+
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())+scale_y_continuous(expand = c(0,0)) +
+  theme(strip.background = element_blank(), strip.text = element_blank())+
+  theme(axis.title.x = element_blank(), axis.text.x=element_blank())+ylab("")
+
+
+
+cluster3 <- subset(data_6, group=="Cluster 3")
+
+cluster3$traits <- c(rep("Breeding system",3), rep("Compatibility",3), rep("Life form",3),
+                     rep("Life span",2), rep("Flower symmetry",2), rep("Nectar",2))
+
+
+
+c3 <- cluster3 %>% 
+  ggplot(aes(x = variable,  y = value, fill = group))  +  
+  geom_col(position = "dodge") +   scale_fill_manual(name = NULL,values=c("lightsteelblue2"), labels="Group 3")+
+  facet_grid(~traits, scales = "free_x", space = "free_x")+theme_bw()+
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())+scale_y_continuous(expand = c(0,0)) +
+  theme(axis.title.x = element_blank(), axis.text.x=element_blank())+
+  theme(strip.background = element_blank(), strip.text = element_blank())+ylab("Percentage")
+
+
+cluster4 <- subset(data_6, group=="Cluster 4")
+
+cluster4$traits <- c(rep("Breeding system",3), rep("Compatibility",3), rep("Life form",3),
+                     rep("Life span",2), rep("Flower symmetry",2), rep("Nectar",2))
+
+c4 <- cluster4 %>% 
+  ggplot(aes(x = variable,  y = value, fill = group))  +  
+  geom_col(position = "dodge") +   scale_fill_manual(name = NULL,values=c("thistle"), labels="Group 4")+
+  facet_grid(~traits, scales = "free_x", space = "free_x")+theme_bw()+
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())+scale_y_continuous(expand = c(0,0)) +
+  theme(axis.title.x = element_blank(), axis.text.x=element_blank())+
+  theme(strip.background = element_blank(), strip.text = element_blank())+ylab("")
+
+
+
+
+cluster5 <- subset(data_6, group=="Cluster 5")
+
+cluster5$traits <- c(rep("Breeding syst.",3), rep("Compatibility",3), rep("Life form",3),
+                     rep("Life span",2), rep("F. Symm.",2), rep("Nectar",2))
+c5 <- cluster5 %>% 
+  ggplot(aes(x = variable,  y = value, fill = group))  +  
+  geom_col(position = "dodge") +   scale_fill_manual(name = NULL,values=c("lightgoldenrod2"), labels="Group 5")+
+  facet_grid(~traits, scales = "free_x", space = "free_x")+theme_bw()+
+  scale_y_continuous(expand = c(0,0)) +
+  theme(axis.text.x = element_text(angle = 45,vjust = 1, hjust=1))+
+  theme(strip.background = element_blank(), strip.text = element_blank())+ylab("")+xlab("")
+
+A <- c1 + c2 + c3 + c4 + c5 + plot_layout(ncol = 1)
+
+colnames(final_df_3) <- c("group","Autonomous selfing", "Flower number", "Flowers per \n inflorescence",
+                "Inflorescence \n width", "Flower length", "Style length", "Ovule number",
+                "Plant height")
+
+B <- ggradar(final_df_3, group.colours=c("sandybrown", "#7BB0A3","lightsteelblue2", "thistle", "lightgoldenrod2"),
+             legend.text.size=5, grid.label.size = 0,legend.position = "none",axis.label.size=3)+ 
+  guides(shape = guide_legend(override.aes = list(size = 0.75)))+ ggtitle("B) Quantitative variables")+
+  theme(plot.title = element_text(size = 18))
+
+patch <- A | B 
+
+patch + plot_annotation(title = "Plant functional group composition",theme = theme(plot.title = element_text(size = 20,face="bold")))
+
+```
+
+\newpage
+
+
+```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE, fig.height=7, fig.width=13, fig.cap="**Figure S4.** Hierarchical clustering dendrogram with the branches coloured by the optimal number of clusters (5). The labels of the subgroup of species (N = 524) used in this study are coloured in black in order to show the evenness of the distribution of the species across clusters. The rest of species labels are omitted for visualization purposes (N = 982)."}
+
+library(ggplot2)
+library(dendextend)
+library(dplyr)
+
+e.clust_5 <- readRDS("../Data/RData/e.clust_5.rds")
+
+dendro <- as.dendrogram(e.clust_5)
+dendro.col <- dendro %>%
+  set("branches_k_color", k = 5, value =   c("lightsteelblue2", "thistle", "sandybrown", "#7BB0A3", "lightgoldenrod2")) %>%
+  set("branches_lwd", 0.7) %>%
+  set("labels_colors", 
+      value = c("darkslategray")) %>% 
+  set("labels_cex", 0.075) 
+
+
+labels_colors(dendro.col) <- get_leaves_branches_col(dendro.col)
+
+# We use "darkgrey" to color some species
+final_d_1 <- read.csv("../Data/Csv/data_for_motifs_analysis_1.csv")
+
+plant_species <- unique(final_d_1$Plant_species)
+
+index_species_out <- which(names(labels_colors(dendro.col)) %in% plant_species)
+
+'%ni%' <- Negate('%in%')
+
+index_species_in <- which(names(labels_colors(dendro.col)) %ni% plant_species)
+
+labels_colors(dendro.col)[index_species_out] <- "black"
+labels_colors(dendro.col)[index_species_in] <- "white"
+
+
+ggd1 <- as.ggdend(dendro.col)
+
+ggd1$labels$angle <- 90
+ggd1$labels$vjust <- 1
+ggd1$labels$hjust <- 1
+
+
+
+ggplot(ggd1,offset_labels=-0.05) + theme(panel.grid.major = element_blank(),
+ axis.text = element_blank(),axis.title = element_blank()) +
+  ggtitle("Plant functional groups")+
+  theme(plot.title = element_text(hjust = 0.5, vjust = -2,size = 20,face="bold"))+
+  annotate("text", x=140, y=1.65, label= "Self-incomp. perennials with large flowers ", size=2.5)+
+  annotate("text", x=380, y=2.15, label= "Tall plants with small unisexual flowers", size=2.5) +
+  annotate("text", x=600, y=3.85, label= "Short-lived selfers", size=2.5) +
+  annotate("text", x=1400, y=2.05, label= "Short-lived outcrossers with \n long zygomorphic flowers", size=2.5) +annotate("text", x=950, y=2.05, label= "Small outcrossing perennials", size=2.5) 
+
+
+
+```
+
+\elandscape
+

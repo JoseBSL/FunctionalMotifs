@@ -36,13 +36,20 @@ always_allow_html: true
 
 **The non-random assembly of functional motifs in plant-pollinator networks worldwide**
 
-Jose B. Lanuza  | Alfonso Allen-Perkins | Ignasi Bartomeus
+Jose B. Lanuza, Alfonso Allen-Perkins and Ignasi Bartomeus
+
+\
 
 **TABLES**
 
+
 **Table S1** List of plant-pollinator network studies.
 
-**Table S2** Type of plant traits used in this study.
+**Table S2** List of the plant species used in this study.
+
+**Table S3** Type of plant traits used in this study.
+
+\
 
 **FIGURES**
 
@@ -189,6 +196,43 @@ references %>%
 
 \newpage
 
+
+```{r, echo=FALSE, message=FALSE, cache=FALSE,fig.width=12,  warning=FALSE}
+#Load libraries
+library(tidyverse)
+library(kableExtra)
+
+#Read data
+networks <- read_csv("../Data/Csv/data_for_motifs_analysis_1.csv")
+
+#Subset by interaction greater than 0
+d <- subset(networks, Interaction>0)
+#Create dataframe
+plant_species <- as.data.frame(unique(d$Plant_species))
+#Divide dataset in two
+x <- plant_species[1:168,]
+y <- plant_species[169:336,]
+z <- plant_species[337:503,]
+
+n <- max(length(x), length(y),length(z))
+length(x) <- n                      
+length(y) <- n
+length(z) <- n
+
+#cbind with max length
+d <- as.data.frame(cbind(x, y,z))
+#Convert NA to blank spaces
+d[is.na(d)] <- ""
+#Create table
+kbl(d,booktabs = T,col.names = c("", "List of plant species",""),longtable = T, caption= "\\textbf{Table S2.} List of the 503 plant species used in this study.")%>%column_spec(1,italic = T, )%>%column_spec(2,italic = T) %>%column_spec(3,italic = T)
+
+```
+
+
+
+
+\newpage
+
 ```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, fig.height=16, fig.width=12}
 
 library(kableExtra)
@@ -219,7 +263,7 @@ dat <- data.frame(Type, Trait,Type_1, Trait1)
 
 colnames(dat) <- c("Type","Traits","Type", "Traits")
 
-kbl(dat, booktabs = T, linesep = "\\addlinespace", escape = FALSE, align = c("c","l","c","c","l","l","c"),caption = "\\textbf{Table S2.} Traits used to delimit the different plant functional groups divided in quantitative and categorical traits.") %>%
+kbl(dat, booktabs = T, linesep = "\\addlinespace", escape = FALSE, align = c("c","l","c","c","l","l","c"),caption = "\\textbf{Table S3.} Traits used to delimit the different plant functional groups divided in quantitative and categorical traits.") %>%
 kable_styling(full_width = T,latex_options = c("striped")) %>%
 add_header_above(c("Quantitative traits" = 2,"Categorical traits" = 2),bold=T)  %>%
     column_spec(c(1,4), bold = T) %>% row_spec(0, bold=T)

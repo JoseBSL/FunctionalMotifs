@@ -228,3 +228,6 @@ p2 <- ggplot(plant_means_s,aes(x=s,y=mean))+
 
 library(patchwork)
 p1+p2
+
+
+#Preparing plot for publication

@@ -213,21 +213,33 @@ pollinator_means_reordered_s <- pollinator_means_reordered %>%
 plant_means_s$s[is.nan(plant_means_s$s)] <- 1.0
 pollinator_means_reordered_s$s[is.nan(pollinator_means_reordered_s$s)] <- 1.0
 
+library(patchwork)
 
-p1 <- ggplot(pollinator_means_reordered_s,aes(x=s,y=mean))+
-  geom_point(alpha=0.5)+
-  geom_smooth(method = "lm")+
+#select poll functional groups of interest
+levels(factor(pollinator_means_reordered_s$Node_FG))
+vars <- c("Birds","Lizards", "Other_insects")
+pollinator_means_reordered_s_1 <- pollinator_means_reordered_s %>% filter(!Node_FG %in% vars)
+  
+p1 <- ggplot(pollinator_means_reordered_s_1,aes(x=s,y=mean))+
+  geom_point(alpha=0.5, color="black")+
+  geom_smooth(method = "lm",color="black")+
   facet_wrap(~Node_FG)+
-  labs(x="specificty",y="mean average frequency (position)")
+  labs(x="Specificty",y="Average frequency per position") +
+  theme_bw() + ggtitle("Floral visitors") +
+  theme(plot.title = element_text(hjust = 0.5))
 
 p2 <- ggplot(plant_means_s,aes(x=s,y=mean))+
-  geom_point(alpha=0.5)+
-  geom_smooth(method = "lm")+
+  geom_point(alpha=0.5, color="black")+
+  geom_smooth(method = "lm", color="black")+
   facet_wrap(~Node_FG)+
-  labs(x="specificty",y="mean average frequency (position)")
+  labs(x="Specificty",y="Average frequency per position")+
+  theme_bw() + ggtitle("Plants") +
+  theme(plot.title = element_text(hjust = 0.5))
 
-library(patchwork)
-p1+p2
+p1/p2
+
+#save data 
+write.csv(pollinator_means_reordered_s_1, "Data/Csv/pollinator_means_reordered_s_1.csv")
+write.csv(plant_means_s, "Data/Csv/plant_means_s.csv")
 
 
-#Preparing plot for publication

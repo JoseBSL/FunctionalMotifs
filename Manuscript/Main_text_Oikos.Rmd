@@ -177,6 +177,7 @@ In total, there were 1,126 species of floral visitors with 6,325 interactions re
 
 Most motifs were under- and over-represented (close to the 1st and 99th percentile, respectively) in the comparison between empirical and simulated networks (**Figure 2**). Motifs 3, 5, 9, 10 and 14 were under-represented in empirical networks, that is, all were close to the 1st percentile and under the 25th percentile. Interestingly, four out of five of these motifs belonged to the largest path length classification (i.e., core-peripheral). In addition, motifs 2, 6, 7, 16 and 17 were over-represented, all over the 75th percentile and thus the closest to the 99th percentile. In contrast to the under-represented motifs, over-represented motifs belonged to the two shortest path length groups (i.e., complete and fan). The remaining motifs (i.e., 4, 8, 11, 12, 13, and 15) were between the 25th and 75th percentile. Notably, the exclusion of singletones from this analysis did not change the observed results (**Figure S1**). 
 
+
 ```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.width=4.5,fig.height=6.5, fig.cap="**Figure 2.** Comparison of motif frequencies between empirical and simulated networks grouped by average path length (plots a, b, c and d) as determined in Simmons et al. (2020). This is shown with the mean percentage of motif frequencies in empirical networks that were over the motif frequencies of the simulated ones (percentiles). This was done by network (light blue dots) and then averaged for all networks (black dots with error bars that correspond to the standard deviation)."}
 library(lme4)
 library(nlme)
@@ -236,17 +237,40 @@ arr <- list('Strong' = expression(bold(paste("(a) Strong (Complete, ", bar(x), "
 mylabel <- function(val) { return(lapply(val, function(x) arr[x])) }
 
 library(ggforce) #workaround with ggforce to have facets with same sizes 
+library(ggtext)
 
-p <- ggplot()+geom_point(data = d_2, aes(y=factor(motif), 100*percentil_sizeclass), shape=21,color="black",fill="azure2",size=1.75, alpha=0.3)+
+labels <- c("2" = "*Motif 2* <img src='../Images/motif_2.png' width='22'/>" ,
+          "3"= "*Motif 3* <img src='../Images/motif_3.png' width='22'/>",
+          "4"= "*Motif 4* <img src='../Images/motif_4.png' width='22'/>",
+          "5"= "*Motif 5* <img src='../Images/motif_5.png' width='22'/>",
+          "6"= "*Motif 6* <img src='../Images/motif_6.png' width='22'/>",
+          "7"= "*Motif 7* <img src='../Images/motif_7.png' width='22'/>",
+          "8"= "*Motif 8* <img src='../Images/motif_8.png' width='22'/>",
+          "9"= "*Motif 9* <img src='../Images/motif_9.png' width='22'/>",
+          "10"= "*Motif 10* <img src='../Images/motif_10.png' width='22'/>",
+          "11"= "*Motif 11* <img src='../Images/motif_11.png' width='22'/>",
+          "12"= "*Motif 12* <img src='../Images/motif_12.png' width='22'/>",
+          "13"= "*Motif 13* <img src='../Images/motif_13.png' width='22'/>",
+          "14"= "*Motif 14* <img src='../Images/motif_14.png' width='22'/>",
+          "15"= "*Motif 15* <img src='../Images/motif_15.png' width='22'/>",
+          "16"= "*Motif 16* <img src='../Images/motif_16.png' width='22'/>",
+          "17"= "*Motif 17* <img src='../Images/motif_17.png' width='22'/>")
+            
+
+p <- ggplot()+geom_point(data = d_2 , aes(y=factor(motif), 100*percentil_sizeclass), shape=21,color="black",fill="azure2",size=1.75, alpha=0.3)+
   geom_errorbar(data = d_2,aes(y = factor(motif), xmin=100*(mean-SE), xmax=100*(mean+SE)), 
                 width=0.8,size=0.8,color="black") +theme_bw()+
   geom_point(data = d_2,aes(y = as.factor(motif), x=100*mean), 
              size=2,color="black")+labs(y="Two to five node motifs", x = "Percentile")+
   theme( strip.background = element_blank())+
   theme(strip.text = element_text(face="bold", size=10, hjust=0),
-        panel.border=element_rect(color="black",size=1.2))
-  
+        panel.border=element_rect(color="black",size=1.2))+
+  scale_y_discrete(name = NULL,
+                   labels = labels) +
+  theme(axis.text.y = ggtext::element_markdown())
+
 p + ggforce::facet_col(vars(Broad_categories), scales = 'free', space = 'free',labeller=mylabel)
+
 
 #Trying to maintain a gradient from low to high in colors
 

@@ -1,0 +1,105 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.width=4.5,fig.height=6.5, fig.cap="**Figure 2.** Comparison of motif frequencies between empirical and simulated networks grouped by average path length (plots a, b, c and d) as determined in Simmons et al. (2020). This is shown with the mean percentage of motif frequencies in empirical networks that were over the motif frequencies of the simulated ones (percentiles). This was done by network (light blue dots) and then averaged for all networks (black dots with error bars that correspond to the standard deviation)."}
+library(lme4)
+library(nlme)
+library(tidyverse)
+source("../Scripts/Scripts_Alfonso/add_study_id.R")
+d <- read_csv("../Data/Csv/Motifs_frequencies_and_null_models/Motifs_frequency_percentile.csv")
+d <- add_study_id(d)
+#str(d)
+#head(d)
+
+#ggplot(d %>% filter(motif != 1), aes(percentil_sizeclass))+
+#  geom_histogram(color="black", fill="white")+
+#  facet_wrap(~motif)+
+#  theme_bw()+
+#  labs(x="Sizeclass percentile")
+#
+# Motifs tend to be over- and under-represensented in real networks
+
+# Mean percentile and SE taking into account the study system
+motif_codes <- d %>% filter(motif != 1) %>% # We remove links (motif code: 1)
+  select(motif) %>% unique() %>% pull()
+motif_means <- tibble(motif = motif_codes)
+motif_means$mean <- NA
+motif_means$SE <- NA
+
+for(i.motif in 1:length(motif_codes)){
+  
+  m <- lmer(percentil_sizeclass ~ 1+(1|study_id), #HERE WE NEED STUDY SYSTEM ONLY!! 
+            data = subset(d, motif == motif_codes[i.motif]))  
+  
+  motif_means$mean[i.motif] <- fixed.effects(m) %>% unname()
+  motif_means$SE[i.motif] <- sqrt(diag(vcov(m)))
+  
+}
+
+#Add categories based on path length set by Simmons 2021 et al., Functional Ecology
+d$Broad_categories[d$motif==2 | d$motif==7 | d$motif==17 | d$motif==3|d$motif==4|d$motif==8] <- "Fan" 
+
+d$Broad_categories[d$motif==15 | d$motif==11] <- "Medium-weak" 
+
+d$Broad_categories[d$motif==6 | d$motif==16 |  d$motif==12] <- "Strong" 
+
+d$Broad_categories[d$motif==5 | d$motif==9 |  d$motif==14|  d$motif==13|  d$motif==10] <- "Weak" 
+
+#order the categories from short to long path length
+d$Broad_categories <- factor(d$Broad_categories, levels = c("Strong", "Fan", "Medium-weak", "Weak"))
+
+#Ffilter out two node motifs
+d_1 <- d %>% filter(motif != 1)
+#Merge dataframes to bl able to create facets
+d_2 <- merge(d_1, motif_means, by="motif")
+
+arr <- list('Strong' = expression(bold(paste("(a) Strong (Complete, ", bar(x), " = 1.38)"))),
+             'Fan' = expression(bold(paste("(b) Medium-strong (fan, ", bar(x), " = 1.48)"))), 
+             'Medium-weak' = expression(bold(paste("(c) Medium-weak (asymmetric complete, ", bar(x), " = 1.60)"))), 
+             "Weak" =expression(bold(paste("(d) Weak (core-peripheral, ", bar(x), " = 1.85)"))))
+mylabel <- function(val) { return(lapply(val, function(x) arr[x])) }
+
+library(ggforce) #workaround with ggforce to have facets with same sizes 
+library(ggtext)
+
+labels <- c("2" = "*Motif 2* <img src='../Images/motif_2.png' width='22'/>" ,
+          "3"= "*Motif 3* <img src='../Images/motif_3.png' width='22'/>",
+          "4"= "*Motif 4* <img src='../Images/motif_4.png' width='22'/>",
+          "5"= "*Motif 5* <img src='../Images/motif_5.png' width='22'/>",
+          "6"= "*Motif 6* <img src='../Images/motif_6.png' width='22'/>",
+          "7"= "*Motif 7* <img src='../Images/motif_7.png' width='22'/>",
+          "8"= "*Motif 8* <img src='../Images/motif_8.png' width='22'/>",
+          "9"= "*Motif 9* <img src='../Images/motif_9.png' width='22'/>",
+          "10"= "*Motif 10* <img src='../Images/motif_10.png' width='22'/>",
+          "11"= "*Motif 11* <img src='../Images/motif_11.png' width='22'/>",
+          "12"= "*Motif 12* <img src='../Images/motif_12.png' width='22'/>",
+          "13"= "*Motif 13* <img src='../Images/motif_13.png' width='22'/>",
+          "14"= "*Motif 14* <img src='../Images/motif_14.png' width='22'/>",
+          "15"= "*Motif 15* <img src='../Images/motif_15.png' width='22'/>",
+          "16"= "*Motif 16* <img src='../Images/motif_16.png' width='22'/>",
+          "17"= "*Motif 17* <img src='../Images/motif_17.png' width='22'/>")
+            
+
+p <- ggplot()+geom_point(data = d_2 , aes(y=factor(motif), 100*percentil_sizeclass), shape=21,color="black",fill="azure2",size=1.75, alpha=0.3)+
+  geom_errorbar(data = d_2,aes(y = factor(motif), xmin=100*(mean-SE), xmax=100*(mean+SE)), 
+                width=0.8,size=0.8,color="black") +theme_bw()+
+  geom_point(data = d_2,aes(y = as.factor(motif), x=100*mean), 
+             size=2,color="black")+labs(y="Two to five node motifs", x = "Percentile")+
+  theme( strip.background = element_blank())+
+  theme(strip.text = element_text(face="bold", size=10, hjust=0),
+        panel.border=element_rect(color="black",size=1.2))+
+  scale_y_discrete(name = NULL,
+                   labels = labels) +
+  theme(axis.text.y = ggtext::element_markdown())
+
+p + ggforce::facet_col(vars(Broad_categories), scales = 'free', space = 'free',labeller=mylabel)
+
+
+#Trying to maintain a gradient from low to high in colors
+
+#Fig 1 Should be a dot plot (or forest plot) of the mean +- SE of the 15 motifs.
+#NICE! Can we put motifs in Y axes, and % in X?
+```

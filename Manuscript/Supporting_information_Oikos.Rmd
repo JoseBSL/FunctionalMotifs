@@ -335,6 +335,24 @@ arr <- list('Strong' = expression(bold(paste("Complete (strong, ", bar(x), " = 1
 mylabel <- function(val) { return(lapply(val, function(x) arr[x])) }
 
 library(ggforce) #workaround with ggforce to have facets with same sizes 
+library(ggtext)
+
+labels <- c("2" = "*Motif 2* <img src='../Images/motif_2.png' width='22'/>" ,
+          "3"= "*Motif 3* <img src='../Images/motif_3.png' width='22'/>",
+          "4"= "*Motif 4* <img src='../Images/motif_4.png' width='22'/>",
+          "5"= "*Motif 5* <img src='../Images/motif_5.png' width='22'/>",
+          "6"= "*Motif 6* <img src='../Images/motif_6.png' width='22'/>",
+          "7"= "*Motif 7* <img src='../Images/motif_7.png' width='22'/>",
+          "8"= "*Motif 8* <img src='../Images/motif_8.png' width='22'/>",
+          "9"= "*Motif 9* <img src='../Images/motif_9.png' width='22'/>",
+          "10"= "*Motif 10* <img src='../Images/motif_10.png' width='22'/>",
+          "11"= "*Motif 11* <img src='../Images/motif_11.png' width='22'/>",
+          "12"= "*Motif 12* <img src='../Images/motif_12.png' width='22'/>",
+          "13"= "*Motif 13* <img src='../Images/motif_13.png' width='22'/>",
+          "14"= "*Motif 14* <img src='../Images/motif_14.png' width='22'/>",
+          "15"= "*Motif 15* <img src='../Images/motif_15.png' width='22'/>",
+          "16"= "*Motif 16* <img src='../Images/motif_16.png' width='22'/>",
+          "17"= "*Motif 17* <img src='../Images/motif_17.png' width='22'/>")
 
 p <- ggplot()+geom_point(data = d_2, aes(y=factor(motif), 100*percentil_sizeclass), shape=21,color="black",fill="azure2",size=1.75, alpha=0.3)+
   geom_errorbar(data = d_2,aes(y = factor(motif), xmin=100*(mean-SE), xmax=100*(mean+SE)), 
@@ -343,7 +361,10 @@ p <- ggplot()+geom_point(data = d_2, aes(y=factor(motif), 100*percentil_sizeclas
              size=2,color="black")+labs(y="Two to five node motifs", x = "Percentile")+
   theme( strip.background = element_blank())+
   theme(strip.text = element_text(face="bold", size=10, hjust=0),
-        panel.border=element_rect(color="black",size=1.2))
+        panel.border=element_rect(color="black",size=1.2))+
+  scale_y_discrete(name = NULL,
+                   labels = labels) +
+  theme(axis.text.y = ggtext::element_markdown())
   
 p + ggforce::facet_col(vars(Broad_categories), scales = 'free', space = 'free',labeller=mylabel)
 

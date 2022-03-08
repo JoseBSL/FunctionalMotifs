@@ -1,0 +1,98 @@
+---
+title: ""
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r, echo=FALSE, message=FALSE, cache=FALSE, fig.pos="t", warning=FALSE,out.width="75%",fig.align="center", fig.width=10,fig.height=12}
+
+library(ggplot2)
+library(scatterpie)
+library(RColorBrewer)
+library(tidyverse)
+
+
+direct_indirect <- read_csv("../../Data/Data_processing/Motifs_connections/motif_interactions.csv")
+direct_indirect <- direct_indirect %>% select(motif_id,position,direct_interactions, indirect_interactions,ind_same_type_over_directed_int)
+
+plant_means_reordered <- read_csv("../../Data/Csv/plant_abs_freq_means.csv")
+
+#Dplyr merge
+joined_tibble <- left_join(direct_indirect, plant_means_reordered)
+
+#1 Selfing herbs
+one <- joined_tibble %>% filter(Node_FG=="1")
+one$ind_same_type_over_directed_int <- round(one$ind_same_type_over_directed_int, digits = 1)
+#Convert to factor
+one$position <- as.factor(one$position)
+one$ind_same_type_over_directed_int <- as.factor(one$ind_same_type_over_directed_int)
+one_plot <- ggplot(one,aes(position,mean_natural_units))+
+  geom_col(position = "dodge")+
+  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Selfing herbs")+
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())+
+  ylab("Frequency")
+
+#2 Small outcrossing perennials
+two <- joined_tibble %>% filter(Node_FG=="2")
+two$ind_same_type_over_directed_int <- round(two$ind_same_type_over_directed_int, digits = 1)
+#Convert to factor
+two$position <- as.factor(two$position)
+two$ind_same_type_over_directed_int <- as.factor(two$ind_same_type_over_directed_int)
+two_plot <- ggplot(two,aes(position,mean_natural_units))+
+  geom_col(position = "dodge")+
+  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Small outcrossing perennials")+
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())+
+  ylab("Frequency")
+
+#3 Self-incomp. perennials with large flowers
+three <- joined_tibble %>% filter(Node_FG=="3")
+three$ind_same_type_over_directed_int <- round(three$ind_same_type_over_directed_int, digits = 1)
+#Convert to factor
+three$position <- as.factor(three$position)
+three$ind_same_type_over_directed_int <- as.factor(three$ind_same_type_over_directed_int)
+three_plot <- ggplot(three,aes(position,mean_natural_units))+
+  geom_col(position = "dodge")+
+  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Self-incomp. perennials with large flowers") +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())+
+  ylab("Frequency")
+
+#4 Tall plants with small unisexual flowers
+four <- joined_tibble %>% filter(Node_FG=="4")
+four$ind_same_type_over_directed_int <- round(four$ind_same_type_over_directed_int, digits = 2)
+#Convert to factor
+four$position <- as.factor(four$position)
+four$ind_same_type_over_directed_int <- as.factor(four$ind_same_type_over_directed_int)
+four_plot <- ggplot(four,aes(position,mean_natural_units))+
+  geom_col(position = "dodge")+
+  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Tall plants with small unisexual flowers") +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())+
+  ylab("Frequency")
+
+#5 Short-lived outcrossers with long zygomorphic flowers
+five <- joined_tibble %>% filter(Node_FG=="5")
+five$ind_same_type_over_directed_int <- round(five$ind_same_type_over_directed_int, digits = 1)
+#Convert to factor
+five$position <- as.factor(five$position)
+five$ind_same_type_over_directed_int <- as.factor(five$ind_same_type_over_directed_int)
+five_plot <- ggplot(five,aes(position,mean_natural_units))+
+  geom_col(position = "dodge")+
+  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Short-lived outcrossers with long zygomorphic flowers")+
+  ylab("Frequency")
+
+
+library(patchwork)
+one_plot / two_plot / three_plot / four_plot / five_plot + plot_annotation(
+  title = 'Proportion indirect/direct interactions (0, 0.3, 0.5, 1, 2, 3)',
+  theme = theme(plot.title = element_text(size = 18, face="bold")))
+
+
+```

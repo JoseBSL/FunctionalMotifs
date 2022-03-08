@@ -46,9 +46,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 \singlespacing
 
-Ecological processes leave distinct structural imprints on species interactions shaping the topology of mutualistic networks. Detecting those relationships is not trivial since they go beyond pairwise interactions, but may get blurred when considering full network descriptors. However, recent work has shown the network meso-scale could capture this important information. The meso-scale describes network subgraphs representing patterns of interactions between a small number of species (i.e. motifs) and those constitute the building blocks of the whole network. Despite the possible implications of network motifs to better capture species interactions, they remain overlooked in natural plant-pollinator networks. By exploring 60 networks from 18 different studies with wide geographical coverage we show that some motifs are consistently under- and over-represented worldwide, suggesting that the building blocks of plant-pollinator networks are not random. Furthermore, we found that distinct motif positions describing species ecological roles (e.g., generalization, indirect interactions) are occupied by different groups on both trophic levels. For instance, bees appear consistently in generalist motif positions and plants with higher levels of outcrossing tend to have a large number of indirect interactions. Interestingly, the realized combinations of different groups within a motif can not be retrieved from their joint probability distributions, indicating that group combinations are not random either. Our result highlights the non-random structure of indirect interactions in plant-pollinator networks and opens the door to predict novel interactions beyond pairwise interactions within a community context.  
+Ecological processes leave distinct structural imprints on species interactions shaping the topology of mutualistic networks. Detecting those relationships is not trivial since they go beyond pairwise interactions, but may get blurred when considering full network descriptors. However, recent work has shown the network meso-scale can capture this important information. The meso-scale describes network subgraphs representing patterns of interactions between a small number of species (i.e., motifs) and those constitute the building blocks of the whole network. Despite the possible implications of network motifs to better capture species interactions, they remain overlooked in natural plant-pollinator networks. By exploring 60 networks from 18 different studies with wide geographical coverage we show that some motifs are consistently under- and over-represented worldwide, suggesting that the building blocks of plant-pollinator networks are not random. Furthermore, we found that distinct motif positions describing species ecological roles (e.g., generalization and number of indirect interactions) are occupied by different groups on both trophic levels. Bees and plant species with separated sexes on different or the same individuals (e.g., dioecious or monoecious species) appeared consistently in generalist motif positions with lower number of indirect interactions. The rest of floral visitor groups tended to appear with more frequency on motif positions that involved higher specialization and higher number of indirect interactions while the rest of plant groups showed similar frequencies on the different motif positions. Interestingly, the realized combinations of different groups within a motif can not be retrieved from their joint probability distributions, indicating that group combinations are not random either. Our result highlights the non-random structure of the meso-scale on plant-pollinators networks and the association of different plant and floral visitor groups with certain motifs with different ecological roles at a macro-ecological scale.
 
-Keyworkds: plant-pollinator networks, plant-pollinator interactions, network motifs, functional groups, plant traits, floral visitors
+Keywords: plant-pollinator networks, plant-pollinator interactions, network motifs, functional groups, plant traits, floral visitors
 
 \doublespacing
 
@@ -60,7 +60,7 @@ Traditionally, plant-pollinator research has focused on direct interactions but 
 
 By linking the structural properties of the meso-scale with the species ecology we can progress knowledge on species interactions. For instance, different motifs can have different ecological meanings [@simmons2019] and the position within a motif can determine the species functional role [@stouffer2012; @baker2015]. Yet, our understanding of the ecological implications of network motifs in real plant-pollinator networks remains in its infancy. Moreover, it is unclear how the species ecology and life-history traits determines the species' functional role within the network of interactions [@coux2016]. For example, large pollinators can forage larger distances [@greenleaf2007], deposit greater pollen quantities [@foldesi2021] and handle complex zygomorphic flowers in comparison with small pollinators that are restricted to lower floral complexity [@gong2009]. How this different pollinator behavior translates into their interaction topology is unknown. Similarly, recent empirical findings indicate that the meso-scale is the best descriptor of plant reproductive success [@allen2021], but little is known about how plants reproductive strategies shape their position within the network of interactions. Although some studies have evaluated plant reproductive strategies in plant-pollinator networks [@tur2013; @lazaro2020], this is an often overlooked aspect in a community context [@devaux2014] and rarely incorporated into plant-pollinator network studies. Hence, exploring how the main plant reproductive strategies integrate with the emergent motif framework could help to progress knowledge on plant-pollinator interactions. 
 
-Here, we used 60 plant-pollinator networks from 18 different studies and 14 countries, alongside functional groups of plants and taxonomic groups of floral visitors based on functional traits and taxonomic rank, respectively. To obtain plant functional groups, we used a comprehensive dataset that included floral, reproductive and vegetative traits compiled in a larger set of networks. Floral visitor groups were divided by the main taxonomic groups that differed in life form and behaviour. Once we split the different plant-pollinator networks into their motif elements, we explored: (i) if there is a common invariant structural property in the overall motif networks (i.e. over- and under-represented motifs); (ii) which plant and pollinator groups are over- and under-represented in the different motif positions; and, (iii) if there are over- and under-represented plant and pollinator group combinations within a motif.
+Here, we used 60 plant-pollinator networks from 18 different studies and 14 countries, alongside functional groups of plants and taxonomic groups of floral visitors based on functional traits and taxonomic rank, respectively. To obtain plant functional groups, we used a comprehensive dataset that included floral, reproductive and vegetative traits compiled in a larger set of networks. Floral visitor groups were divided by the main taxonomic groups that differed in life form and behaviour. Once we split the different plant-pollinator networks into their motif elements, we explored: (i) if there is a common invariant structural property in the overall motif networks (i.e. over- and under-represented motifs); (ii) which plant and floral visitor groups are over- and under-represented in the different motif positions; and, (iii) if there are over- and under-represented plant and floral visitor group combinations within a motif.
 
 # Methods
 
@@ -78,13 +78,13 @@ Second, floral visitors were grouped into taxonomic groups based on taxonomic ra
 
 Following previous work [@simmons2019b; @simmons2020], we broke down the plant-pollinator networks into their constituent motifs that can capture both direct and indirect interactions. Prior to analyses, we turned the quantitative networks into qualitative (or binary) ones, where interactions are present or absent. All analyses were run considering singletons (species with only one interaction detected) but we conducted a second exploration without singletons (64.98$\%$ of interactions) to evaluate the effect of rare species on the observed patterns. Results without singletons are qualitatively consistent and are not further discussed in the main text (**Figures S1 and S2**). 
 
-We calculated the frequency of all motifs up to five nodes (17 different motifs in total; see **Figure 1**) for each empirical network, by using the _bmotif_ package version _2.0.2_ [@bmotifsimmons2019]. We focused exclusively on motifs up to five nodes in our analyses for computational reasons and the ease of visualization and interpretation of a reduced set of less complex motifs. Throughout the entire manuscript, floral visitors occupy the top nodes of the different motifs and plants the bottom ones. To control for variation in network size, motif frequencies were normalised as a proportion of the total number of motifs within each motif class (i.e., the number of nodes a motif contains). In addition, we excluded two-node motifs (or links) from our analyses because their normalised frequencies would always equal one. Like @simmons2020, we classified the different motifs by their average path length (mean number of links between all pairs of nodes) into four different groups: (i) complete or strong ($\overline{x} = 1.38$), (ii) fan or medium-strong ($\overline{x} = 1.48$), (iii) assymmetric complete or medium-weak ($\overline{x} = 1.60$) and (iv) core-peripheral or weak ($\overline{x} = 1.85$). More densely connected motifs (e.g., complete or fan groups) experience higher number of indirect interactions in contrast to motifs that are less densely connected (e.g., medium-weak or weak groups).
+We calculated the frequency of all motifs up to five nodes (17 different motifs in total; see **Figure 1**) for each empirical network, by using the _bmotif_ package version _2.0.2_ [@bmotifsimmons2019]. We focused exclusively on motifs up to five nodes in our analyses for computational reasons and for the ease of visualization and interpretation of a reduced set of less complex network motifs. Throughout the entire manuscript, floral visitors occupy the top nodes of the different motifs and plants the bottom ones. To control for variation in network size, motif frequencies were normalised as a proportion of the total number of motifs within each motif class (i.e., the number of nodes a motif contains). In addition, we excluded two-node motifs (or links) from our analyses because their normalised frequencies would always equal one. Like @simmons2020, we classified the different motifs by their average path length (mean number of links between all pairs of nodes) into four different groups: (i) complete or strong ($\overline{x} = 1.38$), (ii) fan or medium-strong ($\overline{x} = 1.48$), (iii) assymmetric complete or medium-weak ($\overline{x} = 1.60$) and (iv) core-peripheral or weak ($\overline{x} = 1.85$). In general terms, plant and floral visitor groups on more densely connected motifs (e.g., complete or fan) will experience lower number of indirect interactions in contrast to groups on less densely connected ones (e.g., medium-weak or weak).
 
 
 ```{r, echo=FALSE, message=FALSE, cache=FALSE, fig.pos="t", warning=FALSE,out.width="75%",fig.align="center", fig.cap="\\textbf{Figure 1.} Adapted figure of Simmons et al., 2019 with all the possible motifs from two to five species in bipartite networks. There is a total of 17 possible motifs with 46 different positions denoted within each node.", fig.width=10,fig.height=8}
 library(tidyverse)
 library(RColorBrewer)
-source("../Scripts/Scripts_Alfonso/plot_motif_positionsV2.R")
+source("../../Scripts/Scripts_Alfonso/plot_motif_positionsV2.R")
 
 motif_number <- 1
 p1 <- plot_motif_positions(motif_number)
@@ -145,9 +145,10 @@ library(patchwork)
 
 ```
 
-**MA FORTUNA, what about degree?**
 
-To assess the significance of the observed frequencies, we created 1,000 simulated networks for each binary network using the _nullmodel_ function and the _vaznull_ model in the _bipartite_ package version _2.14_ [@dormann2009]. Generated networks had the same number of plants and floral visitors, as well as the same connectance of their corresponding empirical networks. After extracting the motif frequencies from the simulated networks, for each motif type and empirical network, we calculated the percentage of simulated networks whose frequencies were smaller than the ones observed, that is, we estimated the percentile of the observed motif frequencies. Motifs whose percentile is close to 0 or 100 are under- or over-represented in the empirical networks, respectively, and thus they cannot be predicted by connectance and the number of species alone. To summarize general patterns across networks, we used an intercept-only linear mixed model (LMM) per motif with the help of the package lmer version _1.1-21_ [@bates2015], where the response variable was the observed motif percentile per network. In these models, we used the study identifiers in **Table S1** as a random intercept. By doing so, we obtained estimates of the average motif frequency, but controlling the variation at the study level. 
+To assess the significance of the observed frequencies, we created 1,000 simulated networks for each binary network using the _nullmodel_ function and the _vaznull_ model in the _bipartite_ package version _2.14_ [@dormann2009]. Generated networks had the same number of plants and floral visitors, as well as the same connectance of their corresponding empirical networks. More restricted null models with also degree as constant were also explored but did not allowed sufficient permutations given that many constraints and provided highly similar or identical networks to the original ones.
+
+After extracting the motif frequencies from the simulated networks, for each motif type and empirical network, we calculated the percentage of simulated networks whose frequencies were smaller than the ones observed, that is, we estimated the percentile of the observed motif frequencies. Motifs whose percentile is close to 0 or 100 are under- or over-represented in the empirical networks, respectively, and thus they cannot be predicted by connectance and the number of species alone. To summarize general patterns across networks, we used an intercept-only linear mixed model (LMM) per motif with the help of the package lmer version _1.1-21_ [@bates2015], where the response variable was the observed motif percentile per network. In these models, we used the study identifiers in **Table S1** as a random intercept. By doing so, we obtained estimates of the average motif frequency, but controlling the variation at the study level. 
 
 **Over- and under-represented groups on motif positions**
 
@@ -180,8 +181,8 @@ Most motifs were under- and over-represented (close to the 1st and 99th percenti
 library(lme4)
 library(nlme)
 library(tidyverse)
-source("../Scripts/Scripts_Alfonso/add_study_id.R")
-d <- read_csv("../Data/Csv/Motifs_frequencies_and_null_models/Motifs_frequency_percentile.csv")
+source("../../Scripts/Scripts_Alfonso/add_study_id.R")
+d <- read_csv("../../Data/Csv/Motifs_frequencies_and_null_models/Motifs_frequency_percentile.csv")
 d <- add_study_id(d)
 #str(d)
 #head(d)
@@ -237,22 +238,22 @@ mylabel <- function(val) { return(lapply(val, function(x) arr[x])) }
 library(ggforce) #workaround with ggforce to have facets with same sizes 
 library(ggtext)
 
-labels <- c("2" = "*Motif 2* <img src='../Images/motif_2.png' width='22'/>" ,
-          "3"= "*Motif 3* <img src='../Images/motif_3.png' width='22'/>",
-          "4"= "*Motif 4* <img src='../Images/motif_4.png' width='22'/>",
-          "5"= "*Motif 5* <img src='../Images/motif_5.png' width='22'/>",
-          "6"= "*Motif 6* <img src='../Images/motif_6.png' width='22'/>",
-          "7"= "*Motif 7* <img src='../Images/motif_7.png' width='22'/>",
-          "8"= "*Motif 8* <img src='../Images/motif_8.png' width='22'/>",
-          "9"= "*Motif 9* <img src='../Images/motif_9.png' width='22'/>",
-          "10"= "*Motif 10* <img src='../Images/motif_10.png' width='22'/>",
-          "11"= "*Motif 11* <img src='../Images/motif_11.png' width='22'/>",
-          "12"= "*Motif 12* <img src='../Images/motif_12.png' width='22'/>",
-          "13"= "*Motif 13* <img src='../Images/motif_13.png' width='22'/>",
-          "14"= "*Motif 14* <img src='../Images/motif_14.png' width='22'/>",
-          "15"= "*Motif 15* <img src='../Images/motif_15.png' width='22'/>",
-          "16"= "*Motif 16* <img src='../Images/motif_16.png' width='22'/>",
-          "17"= "*Motif 17* <img src='../Images/motif_17.png' width='22'/>")
+labels <- c("2" = "*Motif 2* <img src='../../Images/motif_2.png' width='22'/>" ,
+          "3"= "*Motif 3* <img src='../../Images/motif_3.png' width='22'/>",
+          "4"= "*Motif 4* <img src='../../Images/motif_4.png' width='22'/>",
+          "5"= "*Motif 5* <img src='../../Images/motif_5.png' width='22'/>",
+          "6"= "*Motif 6* <img src='../../Images/motif_6.png' width='22'/>",
+          "7"= "*Motif 7* <img src='../../Images/motif_7.png' width='22'/>",
+          "8"= "*Motif 8* <img src='../../Images/motif_8.png' width='22'/>",
+          "9"= "*Motif 9* <img src='../../Images/motif_9.png' width='22'/>",
+          "10"= "*Motif 10* <img src='../../Images/motif_10.png' width='22'/>",
+          "11"= "*Motif 11* <img src='../../Images/motif_11.png' width='22'/>",
+          "12"= "*Motif 12* <img src='../../Images/motif_12.png' width='22'/>",
+          "13"= "*Motif 13* <img src='../../Images/motif_13.png' width='22'/>",
+          "14"= "*Motif 14* <img src='../../Images/motif_14.png' width='22'/>",
+          "15"= "*Motif 15* <img src='../../Images/motif_15.png' width='22'/>",
+          "16"= "*Motif 16* <img src='../../Images/motif_16.png' width='22'/>",
+          "17"= "*Motif 17* <img src='../../Images/motif_17.png' width='22'/>")
             
 
 p <- ggplot()+geom_point(data = d_2 , aes(y=factor(motif), 100*percentil_sizeclass), shape=21,color="black",fill="azure2",size=1.75, alpha=0.3)+
@@ -287,12 +288,12 @@ library(lme4)
 library(nlme)
 library(tidyverse)
 library(stringi)
-source("../Scripts/Scripts_Alfonso/add_study_id.R")
+source("../../Scripts/Scripts_Alfonso/add_study_id.R")
 
 #############################################
 # EXTRACT MEAN VALUES
 #############################################
-all_position_percentiles <- read_csv("../Data/Csv/Motifs_positions_and_null_models/GF_positions_frequency_percentile.csv")
+all_position_percentiles <- read_csv("../../Data/Csv/Motifs_positions_and_null_models/GF_positions_frequency_percentile.csv")
 
 all_position_percentiles$position <- stri_extract_first_regex(all_position_percentiles$position,
                                                               "[0-9]+") %>% as.numeric()
@@ -397,7 +398,7 @@ pollinator_means_reordered$lower[pollinator_means_reordered$lower < 0] <- 0
 # ADDING BROAD MOTIF CATEGORIES TO POSITIONS
 #############################################
 
-motifs_raw_data <- read_csv("../Data/Data_processing/Motifs_connections/motif_pattern_connections.csv")
+motifs_raw_data <- read_csv("../../Data/Data_processing/Motifs_connections/motif_pattern_connections.csv")
 
 motifs_raw_data$Broad_categories <- NA
 
@@ -538,14 +539,14 @@ library(lme4)
 library(nlme)
 library(tidyverse)
 library(stringi)
-source("../Scripts/Scripts_Alfonso/add_study_id.R")
+source("../../Scripts/Scripts_Alfonso/add_study_id.R")
 
 #############################################
 # EXTRACT MEAN VALUES
 #############################################
 
 
-all_position_percentiles <- read_csv("../Data/Csv/Motifs_positions_and_null_models/GF_positions_frequency_percentile.csv")
+all_position_percentiles <- read_csv("../../Data/Csv/Motifs_positions_and_null_models/GF_positions_frequency_percentile.csv")
 
 all_position_percentiles$position <- stri_extract_first_regex(all_position_percentiles$position,
                                                               "[0-9]+") %>% as.numeric()
@@ -650,7 +651,7 @@ pollinator_means_reordered$lower[pollinator_means_reordered$lower < 0] <- 0
 # ADDING BROAD MOTIF CATEGORIES TO POSITIONS
 #############################################
 
-motifs_raw_data <- read_csv("../Data/Data_processing/Motifs_connections/motif_pattern_connections.csv")
+motifs_raw_data <- read_csv("../../Data/Data_processing/Motifs_connections/motif_pattern_connections.csv")
 
 motifs_raw_data$Broad_categories <- NA
 
@@ -925,8 +926,8 @@ library(scatterpie)
 library(RColorBrewer)
 library(tidyverse)
 
-plant_means_reordered <- read_csv("../Data/Csv/plant_abs_freq_means.csv")
-pollinator_means_reordered <- read_csv("../Data/Csv/pollinator_abs_freq_means.csv")
+plant_means_reordered <- read_csv("../../Data/Csv/plant_abs_freq_means.csv")
+pollinator_means_reordered <- read_csv("../../Data/Csv/pollinator_abs_freq_means.csv")
 #Filter out in order to have just 6 FG'S
 pollinator_means_reordered <- pollinator_means_reordered %>% filter(!Node_FG %in% c("Birds", "Lizards", "Other_insects"))
 
@@ -1000,7 +1001,7 @@ equidistribution <- function(number_nodes){
 }
 
 plot_pie_motif_positions <- function(motif_number){
-  motifs_raw_data <- read_csv("../Data/Data_processing/Motifs_connections/motif_pattern_connections.csv")
+  motifs_raw_data <- read_csv("../../Data/Data_processing/Motifs_connections/motif_pattern_connections.csv")
   
   motif_data <- motifs_raw_data %>% filter(motif_id == motif_number)
   
@@ -1184,7 +1185,7 @@ plot_motif_label <- function(label){
   plant_nodes <- nodes[nodes %in% plant_means_reordered$Node_FG]
   pollinator_nodes <- nodes[nodes %in% pollinator_means_reordered$Node_FG]
   
-  motifs_raw_data <- read_csv("../Data/Data_processing/Motifs_connections/motif_pattern_connections.csv")
+  motifs_raw_data <- read_csv("../../Data/Data_processing/Motifs_connections/motif_pattern_connections.csv")
   
   motif_data <- motifs_raw_data %>% filter(motif_id == motif_number)
   
@@ -1280,8 +1281,8 @@ plot_motif_label <- function(label){
 
 # Data with pollinator/plant labels
 
-plant_means_reordered <- read_csv("../Data/Csv/plant_abs_freq_means.csv")
-pollinator_means_reordered <- read_csv("../Data/Csv/pollinator_abs_freq_means.csv")
+plant_means_reordered <- read_csv("../../Data/Csv/plant_abs_freq_means.csv")
+pollinator_means_reordered <- read_csv("../../Data/Csv/pollinator_abs_freq_means.csv")
 #Filter out in order to have just 6 FG'S
 pollinator_means_reordered <- pollinator_means_reordered %>% filter(!Node_FG %in% c("Birds", "Lizards", "Other_insects"))
 
@@ -1294,7 +1295,7 @@ pollinator_means_reordered <- pollinator_means_reordered %>% filter(!Node_FG %in
 # Check top Z-scores of each group (Under, No diff, Over)
 
 #Read data
-data <- read.csv("../Data/Csv/motifs_observed_probability_SIMUL_CI.csv")
+data <- read.csv("../../Data/Csv/motifs_observed_probability_SIMUL_CI.csv")
 
 #Find critical value of Z-score
 p <- 0.05 #cutoff probability 95% confidence
@@ -1364,7 +1365,7 @@ for (i in 1:5){
 
 
 #Run Script with histogram plot
-source("../Scripts/Z-score_percentile_histogram_plot.R")  
+source("../../Scripts/Z-score_percentile_histogram_plot.R")  
 
 hist <- ggplot(data_2 %>% filter(round_motif_observed_probability>0), aes(x=z_score, color=infra_over_represented, fill=infra_over_represented)) + 
   geom_histogram(bins = 93, alpha = 0.5, position = "identity",lwd = 0.25)+

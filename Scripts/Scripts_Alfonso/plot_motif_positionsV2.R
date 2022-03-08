@@ -19,7 +19,7 @@ equidistribution <- function(number_nodes){
 
 plot_motif_positions <- function(motif_number){
   
-  motifs_raw_data <- read_csv("../Data/Data_processing/Motifs_connections/motif_pattern_connections.csv")
+  motifs_raw_data <- read_csv("../../Data/Data_processing/Motifs_connections/motif_pattern_connections.csv")
   
   motif_data <- motifs_raw_data %>% filter(motif_id == motif_number)
   

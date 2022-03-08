@@ -203,7 +203,7 @@ library(tidyverse)
 library(kableExtra)
 
 #Read data
-networks <- read_csv("../Data/Csv/data_for_motifs_analysis_1.csv")
+networks <- read_csv("../../Data/Csv/data_for_motifs_analysis_1.csv")
 
 #Subset by interaction greater than 0
 d <- subset(networks, Interaction>0)
@@ -280,8 +280,8 @@ add_header_above(c("Quantitative traits" = 2,"Categorical traits" = 2),bold=T)  
 library(lme4)
 library(nlme)
 library(tidyverse)
-source("../Scripts/Scripts_Alfonso/add_study_id.R")
-d <- read_csv("../Data/Csv/Motifs_frequencies_and_null_models_NOSING/Motifs_frequency_percentile_NOSING.csv")
+source("../../Scripts/Scripts_Alfonso/add_study_id.R")
+d <- read_csv("../../Data/Csv/Motifs_frequencies_and_null_models_NOSING/Motifs_frequency_percentile_NOSING.csv")
 d <- add_study_id(d)
 #str(d)
 #head(d)
@@ -337,22 +337,22 @@ mylabel <- function(val) { return(lapply(val, function(x) arr[x])) }
 library(ggforce) #workaround with ggforce to have facets with same sizes 
 library(ggtext)
 
-labels <- c("2" = "*Motif 2* <img src='../Images/motif_2.png' width='22'/>" ,
-          "3"= "*Motif 3* <img src='../Images/motif_3.png' width='22'/>",
-          "4"= "*Motif 4* <img src='../Images/motif_4.png' width='22'/>",
-          "5"= "*Motif 5* <img src='../Images/motif_5.png' width='22'/>",
-          "6"= "*Motif 6* <img src='../Images/motif_6.png' width='22'/>",
-          "7"= "*Motif 7* <img src='../Images/motif_7.png' width='22'/>",
-          "8"= "*Motif 8* <img src='../Images/motif_8.png' width='22'/>",
-          "9"= "*Motif 9* <img src='../Images/motif_9.png' width='22'/>",
-          "10"= "*Motif 10* <img src='../Images/motif_10.png' width='22'/>",
-          "11"= "*Motif 11* <img src='../Images/motif_11.png' width='22'/>",
-          "12"= "*Motif 12* <img src='../Images/motif_12.png' width='22'/>",
-          "13"= "*Motif 13* <img src='../Images/motif_13.png' width='22'/>",
-          "14"= "*Motif 14* <img src='../Images/motif_14.png' width='22'/>",
-          "15"= "*Motif 15* <img src='../Images/motif_15.png' width='22'/>",
-          "16"= "*Motif 16* <img src='../Images/motif_16.png' width='22'/>",
-          "17"= "*Motif 17* <img src='../Images/motif_17.png' width='22'/>")
+labels <- c("2" = "*Motif 2* <img src='../../Images/motif_2.png' width='22'/>" ,
+          "3"= "*Motif 3* <img src='../../Images/motif_3.png' width='22'/>",
+          "4"= "*Motif 4* <img src='../../Images/motif_4.png' width='22'/>",
+          "5"= "*Motif 5* <img src='../../Images/motif_5.png' width='22'/>",
+          "6"= "*Motif 6* <img src='../../Images/motif_6.png' width='22'/>",
+          "7"= "*Motif 7* <img src='../../Images/motif_7.png' width='22'/>",
+          "8"= "*Motif 8* <img src='../../Images/motif_8.png' width='22'/>",
+          "9"= "*Motif 9* <img src='../../Images/motif_9.png' width='22'/>",
+          "10"= "*Motif 10* <img src='../../Images/motif_10.png' width='22'/>",
+          "11"= "*Motif 11* <img src='../../Images/motif_11.png' width='22'/>",
+          "12"= "*Motif 12* <img src='../../Images/motif_12.png' width='22'/>",
+          "13"= "*Motif 13* <img src='../../Images/motif_13.png' width='22'/>",
+          "14"= "*Motif 14* <img src='../../Images/motif_14.png' width='22'/>",
+          "15"= "*Motif 15* <img src='../../Images/motif_15.png' width='22'/>",
+          "16"= "*Motif 16* <img src='../../Images/motif_16.png' width='22'/>",
+          "17"= "*Motif 17* <img src='../../Images/motif_17.png' width='22'/>")
 
 p <- ggplot()+geom_point(data = d_2, aes(y=factor(motif), 100*percentil_sizeclass), shape=21,color="black",fill="azure2",size=1.75, alpha=0.3)+
   geom_errorbar(data = d_2,aes(y = factor(motif), xmin=100*(mean-SE), xmax=100*(mean+SE)), 
@@ -381,14 +381,14 @@ library(lme4)
 library(nlme)
 library(tidyverse)
 library(stringi)
-source("../Scripts/Scripts_Alfonso/add_study_id.R")
+source("../../Scripts/Scripts_Alfonso/add_study_id.R")
 
 #############################################
 # EXTRACT MEAN VALUES
 #############################################
 
 
-all_position_percentiles <- read_csv("../Data/Csv/Motifs_positions_and_null_models_NOSING/GF_positions_frequency_percentile_NOSING.csv")
+all_position_percentiles <- read_csv("../../Data/Csv/Motifs_positions_and_null_models_NOSING/GF_positions_frequency_percentile_NOSING.csv")
 
 all_position_percentiles$position <- stri_extract_first_regex(all_position_percentiles$position,
                                                               "[0-9]+") %>% as.numeric()
@@ -493,7 +493,7 @@ pollinator_means_reordered$lower[pollinator_means_reordered$lower < 0] <- 0
 # ADDING BROAD MOTIF CATEGORIES TO POSITIONS
 #############################################
 
-motifs_raw_data <- read_csv("../Data/Data_processing/Motifs_connections/motif_pattern_connections.csv")
+motifs_raw_data <- read_csv("../../Data/Data_processing/Motifs_connections/motif_pattern_connections.csv")
 
 motifs_raw_data$Broad_categories <- NA
 
@@ -729,9 +729,9 @@ library(patchwork)
 
 #LOAD DATA
 #read unscaled trait data in order to visualize better the clusters
-d <- read.csv("../Data/Csv/all_species_imputed_trait_data_forest_data.csv")
+d <- read.csv("../../Data/Csv/all_species_imputed_trait_data_forest_data.csv")
 
-dat_1 <- read.csv("../Data/Csv/imputed_trait_data_hclust_5_clusters_forest_data.csv", row.names = "X") 
+dat_1 <- read.csv("../../Data/Csv/imputed_trait_data_hclust_5_clusters_forest_data.csv", row.names = "X") 
 
 d$Clusters <- dat_1$Clusters
 
@@ -1250,9 +1250,9 @@ final_df_3 <-final_df_2 %>% rownames_to_column( var = "group" ) %>%   mutate_at(
 
 #LOAD DATA
 #read unscaled trait data in order to visualize better the clusters
-d <- read.csv("../Data/Csv/all_species_imputed_trait_data_forest_data.csv")
+d <- read.csv("../../Data/Csv/all_species_imputed_trait_data_forest_data.csv")
 
-dat_1 <- read.csv("../Data/Csv/imputed_trait_data_hclust_5_clusters_forest_data.csv", row.names = "X") 
+dat_1 <- read.csv("../../Data/Csv/imputed_trait_data_hclust_5_clusters_forest_data.csv", row.names = "X") 
 
 d$Clusters <- dat_1$Clusters
 
@@ -1602,7 +1602,7 @@ library(ggplot2)
 library(dendextend)
 library(dplyr)
 
-e.clust_5 <- readRDS("../Data/RData/e.clust_5.rds")
+e.clust_5 <- readRDS("../../Data/RData/e.clust_5.rds")
 
 dendro <- as.dendrogram(e.clust_5)
 dendro.col <- dendro %>%
@@ -1616,7 +1616,7 @@ dendro.col <- dendro %>%
 labels_colors(dendro.col) <- get_leaves_branches_col(dendro.col)
 
 # We use "darkgrey" to color some species
-final_d_1 <- read.csv("../Data/Csv/data_for_motifs_analysis_1.csv")
+final_d_1 <- read.csv("../../Data/Csv/data_for_motifs_analysis_1.csv")
 
 plant_species <- unique(final_d_1$Plant_species)
 

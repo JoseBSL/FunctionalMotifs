@@ -4,7 +4,7 @@ library(dplyr)
 library(ggplot2)
 library(tidyverse)
 #Read data
-data <- read.csv("../Data/Csv/motifs_observed_probability_SIMUL_CI.csv")
+data <- read.csv("../../Data/Csv/motifs_observed_probability_SIMUL_CI.csv")
 
 #Check NA's per column
 #data %>%

@@ -92,7 +92,7 @@ five_plot <- ggplot(five,aes(position,mean_natural_units))+
 library(patchwork)
 one_plot / two_plot / three_plot / four_plot / five_plot + plot_annotation(
   title = 'Proportion indirect/direct interactions (0, 0.3, 0.5, 1, 2, 3)',
-  theme = theme(plot.title = element_text(size = 18, face="bold")))
+  theme = theme(plot.title = element_text(size = 18, face="bold"))) & theme_bw()
 
 
 ```

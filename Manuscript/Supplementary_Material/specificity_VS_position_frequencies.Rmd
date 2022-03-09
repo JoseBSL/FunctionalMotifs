@@ -33,7 +33,7 @@ p1 <- ggplot(pollinator_means_reordered_s_1,aes(x=s,y=mean))+
   geom_point(alpha=0.5, color="black")+
   geom_smooth(method = "lm",color="black")+
   facet_wrap(~Node_FG)+
-  labs(x="Specificty",y="Average frequency per position") +
+  labs(x="Specificty",y="Average frequency per motif position") +
   theme_bw() + ggtitle("Floral visitors") +
   theme(plot.title = element_text(hjust = 0.5, size = 25),
         axis.text=element_text(size=12),
@@ -45,14 +45,14 @@ p2 <- ggplot(plant_means_s,aes(x=s,y=mean))+
   geom_point(alpha=0.5, color="black")+
   geom_smooth(method = "lm", color="black")+
   facet_wrap(~Node_FG)+
-  labs(x="Specificty",y="Average frequency per position")+
+  labs(x="Specificty",y="Average frequency per motif position")+
   theme_bw() + ggtitle("Plants") +
   theme(plot.title = element_text(hjust = 0.5, size = 25),
         axis.text=element_text(size=12),
         axis.title=element_text(size=18),
         strip.text = element_text(size=20))
 
-p1/p2
+p1/p2 +  plot_annotation(tag_levels = c('A'),  tag_suffix = ')') &  theme(plot.tag = element_text(size = 22))
 
 
 ```

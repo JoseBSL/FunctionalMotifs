@@ -55,11 +55,17 @@ Jose B. Lanuza, Alfonso Allen-Perkins and Ignasi Bartomeus
 
 **Figure S1** Over and under-estimated motif frequencies.
 
-**Figure S2** Over and under-estimated functional groups on motif positions.
+**Figure S2** Association between the frequency and specificity of the different groups on motif positions.
 
-**Figure S3** Plant trait composition of functional groups.
+**Figure S3** Frequency of floral visitor groups and proportion of indirect-direct interactions.
 
-**Figure S4** Plant dendrogram with functional groups.
+**Figure S4** Frequency of plant groups per motif and proportion of indirect-direct interactions.
+
+**Figure S5** Over and under-estimated groups on motif positions.
+
+**Figure S6** Plant trait composition of functional groups.
+
+**Figure S7** Dendrogram with plant functional groups.
 
 
 \blandscape
@@ -375,7 +381,8 @@ p + ggforce::facet_col(vars(Broad_categories), scales = 'free', space = 'free',l
 ```
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, fig.height=12, fig.width=12, fig.align = 'center', fig.cap="\\textbf{Figure S2.}"}
+```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, fig.height=12, fig.width=12, fig.align = 'center', fig.cap="\\textbf{Figure S2.} Association between the frequency and specificity on the different motif positions for floral visitor (panel A) and plant (panel B) groups. The different numerical categories of the plant groups correspond to: 1 (selfing herbs), 2 (small outcrossing perennials), 3 (self-incompatible perennials with large flowers), 4 (tall plants with small unisexual flowers) and 5 (short-lived outcrossers with long zygomorphic flowers)."}
+
 
 library(ggplot2)
 library(patchwork)
@@ -413,7 +420,7 @@ p1/p2 +  plot_annotation(tag_levels = c('A'),  tag_suffix = ')') &  theme(plot.t
 ```
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE,out.width="90%",fig.align="center", fig.width=10,fig.height=12, fig.cap="\\textbf{Figure S3.}"}
+```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE,out.width="90%",fig.align="center", fig.width=10,fig.height=12, fig.cap="\\textbf{Figure S3.} Frequency of the different floral visitor groups on the different motif positions aggregated by the proportion of indirect-direct interactions for the different motif positions."}
 
 library(ggplot2)
 library(scatterpie)
@@ -522,7 +529,7 @@ bee_plot / cole_plot / lepi_plot / non_bee_plot / non_syr_plot / syr_plot + plot
 ```
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE,out.width="90%",fig.align="center", fig.width=10,fig.height=12, fig.cap="\\textbf{Figure S4.}"}
+```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE,out.width="90%",fig.align="center", fig.width=10,fig.height=12, fig.cap="\\textbf{Figure S4.} Frequency of the different plant groups on the different motif positions aggregated by the proportion of indirect-direct interactions for the different motif positions."}
 
 library(ggplot2)
 library(scatterpie)

@@ -55,18 +55,17 @@ Jose B. Lanuza, Alfonso Allen-Perkins and Ignasi Bartomeus
 
 **Figure S1** Over and under-estimated motif frequencies.
 
-**Figure S2** Association between the frequency and specificity of the different groups on motif positions.
+**Figure S2** Over and under-estimated groups on motif positions.
 
-**Figure S3** Frequency of floral visitor groups and proportion of indirect-direct interactions.
+**Figure S3** Plant trait composition of functional groups.
 
-**Figure S4** Frequency of plant groups per motif and proportion of indirect-direct interactions.
+**Figure S4** Dendrogram with plant functional groups.
 
-**Figure S5** Over and under-estimated groups on motif positions.
+**Figure S5** Association between the frequency and specificity of the different groups on motif positions.
 
-**Figure S6** Plant trait composition of functional groups.
+**Figure S6** Frequency of floral visitor groups and proportion of indirect-direct interactions.
 
-**Figure S7** Dendrogram with plant functional groups.
-
+**Figure S7** Frequency of plant groups per motif and proportion of indirect-direct interactions.
 
 \blandscape
 
@@ -381,247 +380,7 @@ p + ggforce::facet_col(vars(Broad_categories), scales = 'free', space = 'free',l
 ```
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, fig.height=12, fig.width=12, fig.align = 'center', fig.cap="\\textbf{Figure S2.} Association between the frequency and specificity on the different motif positions for floral visitor (panel A) and plant (panel B) groups. The different numerical categories of the plant groups correspond to: 1 (selfing herbs), 2 (small outcrossing perennials), 3 (self-incompatible perennials with large flowers), 4 (tall plants with small unisexual flowers) and 5 (short-lived outcrossers with long zygomorphic flowers)."}
-
-
-library(ggplot2)
-library(patchwork)
-
-pollinator_means_reordered_s_1 <- read.csv("../../Data/Csv/pollinator_means_reordered_s_1.csv")
-
-plant_means_s <- read.csv("../../Data/Csv/plant_means_s.csv")
-
-p1 <- ggplot(pollinator_means_reordered_s_1,aes(x=s,y=mean))+
-  geom_point(alpha=0.5, color="black")+
-  geom_smooth(method = "lm",color="black")+
-  facet_wrap(~Node_FG)+
-  labs(x="Specificty",y="Average frequency per motif position") +
-  theme_bw() + ggtitle("Floral visitors") +
-  theme(plot.title = element_text(hjust = 0.5, size = 25),
-        axis.text=element_text(size=12),
-        axis.title=element_text(size=18),
-        strip.text = element_text(size=20))
-
-
-p2 <- ggplot(plant_means_s,aes(x=s,y=mean))+
-  geom_point(alpha=0.5, color="black")+
-  geom_smooth(method = "lm", color="black")+
-  facet_wrap(~Node_FG)+
-  labs(x="Specificty",y="Average frequency per motif position")+
-  theme_bw() + ggtitle("Plants") +
-  theme(plot.title = element_text(hjust = 0.5, size = 25),
-        axis.text=element_text(size=12),
-        axis.title=element_text(size=18),
-        strip.text = element_text(size=20))
-
-p1/p2 +  plot_annotation(tag_levels = c('A'),  tag_suffix = ')') &  theme(plot.tag = element_text(size = 22))
-
-
-```
-
-
-```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE,out.width="90%",fig.align="center", fig.width=10,fig.height=12, fig.cap="\\textbf{Figure S3.} Frequency of the different floral visitor groups on the different motif positions aggregated by the proportion of indirect-direct interactions for the different motif positions."}
-
-library(ggplot2)
-library(scatterpie)
-library(RColorBrewer)
-library(tidyverse)
-
-
-direct_indirect <- read_csv("../../Data/Data_processing/Motifs_connections/motif_interactions.csv")
-direct_indirect <- direct_indirect %>% select(motif_id,position,direct_interactions, indirect_interactions,ind_same_type_over_directed_int)
-
-pollinator_means_reordered <- read_csv("../../Data/Csv/pollinator_abs_freq_means.csv")
-#Filter out in order to have just 6 FG'S
-pollinator_means_reordered <- pollinator_means_reordered %>% filter(!Node_FG %in% c("Birds", "Lizards", "Other_insects"))
-
-#Dplyr merge
-joined_tibble <- left_join(direct_indirect, pollinator_means_reordered)
-
-#Bees
-bees <- joined_tibble %>% filter(Node_FG=="Bee")
-bees$ind_same_type_over_directed_int <- round(bees$ind_same_type_over_directed_int, digits = 1)
-#Convert to factor
-bees$position <- as.factor(bees$position)
-bees$ind_same_type_over_directed_int <- as.factor(bees$ind_same_type_over_directed_int)
-bee_plot <- ggplot(bees,aes(position,mean_natural_units))+
-  geom_col(position = "dodge")+
-  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Bees")+
-  theme(axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
-        axis.ticks.x=element_blank())+
-  ylab("Frequency")+theme_bw() + xlab("")
-
-#Coleoptera
-cole <- joined_tibble %>% filter(Node_FG=="Coleoptera")
-cole$ind_same_type_over_directed_int <- round(cole$ind_same_type_over_directed_int, digits = 1)
-#Convert to factor
-cole$position <- as.factor(cole$position)
-cole$ind_same_type_over_directed_int <- as.factor(cole$ind_same_type_over_directed_int)
-cole_plot <- ggplot(cole,aes(position,mean_natural_units))+
-  geom_col(position = "dodge")+
-  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Coleoptera")+
-  theme(axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
-        axis.ticks.x=element_blank())+
-  ylab("Frequency")+theme_bw() + xlab("")
-
-#Lepidoptera
-lepi <- joined_tibble %>% filter(Node_FG=="Lepidoptera")
-lepi$ind_same_type_over_directed_int <- round(lepi$ind_same_type_over_directed_int, digits = 1)
-#Convert to factor
-lepi$position <- as.factor(lepi$position)
-lepi$ind_same_type_over_directed_int <- as.factor(lepi$ind_same_type_over_directed_int)
-lepi_plot <- ggplot(lepi,aes(position,mean_natural_units))+
-  geom_col(position = "dodge")+
-  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Lepidoptera") +
-  theme(axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
-        axis.ticks.x=element_blank())+
-  ylab("Frequency")+theme_bw()+ xlab("")
-
-#Non-bee-Hymenoptera
-non_bee <- joined_tibble %>% filter(Node_FG=="Non-bee-Hymenoptera")
-non_bee$ind_same_type_over_directed_int <- round(non_bee$ind_same_type_over_directed_int, digits = 2)
-#Convert to factor
-non_bee$position <- as.factor(non_bee$position)
-non_bee$ind_same_type_over_directed_int <- as.factor(non_bee$ind_same_type_over_directed_int)
-non_bee_plot <- ggplot(non_bee,aes(position,mean_natural_units))+
-  geom_col(position = "dodge")+
-  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Non-bee-Hymenoptera") +
-  theme(axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
-        axis.ticks.x=element_blank())+
-  ylab("Frequency")+theme_bw()+ xlab("")
-
-#Non-syrphids-diptera
-non_syr <- joined_tibble %>% filter(Node_FG=="Non-syrphids-diptera")
-non_syr$ind_same_type_over_directed_int <- round(non_syr$ind_same_type_over_directed_int, digits = 1)
-#Convert to factor
-non_syr$position <- as.factor(non_syr$position)
-non_syr$ind_same_type_over_directed_int <- as.factor(non_syr$ind_same_type_over_directed_int)
-non_syr_plot <- ggplot(non_syr,aes(position,mean_natural_units))+
-  geom_col(position = "dodge")+
-  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Non-syrphids-diptera")+
-theme(axis.title.x=element_blank(),
-      axis.text.x=element_blank(),
-      axis.ticks.x=element_blank())+
-  ylab("Frequency")+theme_bw()+ xlab("")
-
-#Syrphids
-syr <- joined_tibble %>% filter(Node_FG=="Syrphids")
-syr$ind_same_type_over_directed_int <- round(syr$ind_same_type_over_directed_int, digits = 1)
-#Convert to factor
-syr$position <- as.factor(syr$position)
-syr$ind_same_type_over_directed_int <- as.factor(syr$ind_same_type_over_directed_int)
-syr_plot <- ggplot(syr,aes(position,mean_natural_units))+
-  geom_col(position = "dodge")+
-  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Syrphids") +
-   ylab("Frequency")+theme_bw() + xlab("Motif position")
-  
-
-library(patchwork)
-bee_plot / cole_plot / lepi_plot / non_bee_plot / non_syr_plot / syr_plot + plot_annotation(title= 'Floral visitors',
-  subtitle = 'Proportion indirect/direct interactions (0, 0.3, 0.5, 1, 2, 3)',
-  theme = theme(plot.title = element_text(size = 18, face="bold"),plot.subtitle = element_text(size = 18, face="bold")))
-
-
-```
-
-
-```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE,out.width="90%",fig.align="center", fig.width=10,fig.height=12, fig.cap="\\textbf{Figure S4.} Frequency of the different plant groups on the different motif positions aggregated by the proportion of indirect-direct interactions for the different motif positions."}
-
-library(ggplot2)
-library(scatterpie)
-library(RColorBrewer)
-library(tidyverse)
-
-
-direct_indirect <- read_csv("../../Data/Data_processing/Motifs_connections/motif_interactions.csv")
-direct_indirect <- direct_indirect %>% select(motif_id,position,direct_interactions, indirect_interactions,ind_same_type_over_directed_int)
-
-plant_means_reordered <- read_csv("../../Data/Csv/plant_abs_freq_means.csv")
-
-#Dplyr merge
-joined_tibble <- left_join(direct_indirect, plant_means_reordered)
-
-#1 Selfing herbs
-one <- joined_tibble %>% filter(Node_FG=="1")
-one$ind_same_type_over_directed_int <- round(one$ind_same_type_over_directed_int, digits = 1)
-#Convert to factor
-one$position <- as.factor(one$position)
-one$ind_same_type_over_directed_int <- as.factor(one$ind_same_type_over_directed_int)
-one_plot <- ggplot(one,aes(position,mean_natural_units))+
-  geom_col(position = "dodge")+
-  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Selfing herbs")+
-  theme(axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
-        axis.ticks.x=element_blank())+
-  ylab("Frequency")+ xlab("") + theme_bw()
-
-#2 Small outcrossing perennials
-two <- joined_tibble %>% filter(Node_FG=="2")
-two$ind_same_type_over_directed_int <- round(two$ind_same_type_over_directed_int, digits = 1)
-#Convert to factor
-two$position <- as.factor(two$position)
-two$ind_same_type_over_directed_int <- as.factor(two$ind_same_type_over_directed_int)
-two_plot <- ggplot(two,aes(position,mean_natural_units))+
-  geom_col(position = "dodge")+
-  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Small outcrossing perennials")+
-  theme(axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
-        axis.ticks.x=element_blank())+
-  ylab("Frequency")+ xlab("") + theme_bw()
-
-#3 Self-incomp. perennials with large flowers
-three <- joined_tibble %>% filter(Node_FG=="3")
-three$ind_same_type_over_directed_int <- round(three$ind_same_type_over_directed_int, digits = 1)
-#Convert to factor
-three$position <- as.factor(three$position)
-three$ind_same_type_over_directed_int <- as.factor(three$ind_same_type_over_directed_int)
-three_plot <- ggplot(three,aes(position,mean_natural_units))+
-  geom_col(position = "dodge")+
-  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Self-incomp. perennials with large flowers") +
-  theme(axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
-        axis.ticks.x=element_blank())+
-  ylab("Frequency")+ xlab("") + theme_bw()
-
-#4 Tall plants with small unisexual flowers
-four <- joined_tibble %>% filter(Node_FG=="4")
-four$ind_same_type_over_directed_int <- round(four$ind_same_type_over_directed_int, digits = 2)
-#Convert to factor
-four$position <- as.factor(four$position)
-four$ind_same_type_over_directed_int <- as.factor(four$ind_same_type_over_directed_int)
-four_plot <- ggplot(four,aes(position,mean_natural_units))+
-  geom_col(position = "dodge")+
-  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Tall plants with small unisexual flowers") +
-  theme(axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
-        axis.ticks.x=element_blank())+
-  ylab("Frequency")+ xlab("") + theme_bw()
-
-#5 Short-lived outcrossers with long zygomorphic flowers
-five <- joined_tibble %>% filter(Node_FG=="5")
-five$ind_same_type_over_directed_int <- round(five$ind_same_type_over_directed_int, digits = 1)
-#Convert to factor
-five$position <- as.factor(five$position)
-five$ind_same_type_over_directed_int <- as.factor(five$ind_same_type_over_directed_int)
-five_plot <- ggplot(five,aes(position,mean_natural_units))+
-  geom_col(position = "dodge")+
-  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Short-lived outcrossers with long zygomorphic flowers")+
-  ylab("Frequency") + xlab("Motif position") + theme_bw()
-
-
-library(patchwork)
-one_plot / two_plot / three_plot / four_plot / five_plot + plot_annotation(title= 'Plants', subtitle = 'Proportion indirect/direct interactions (0, 0.3, 0.5, 1, 2, 3)',
-  theme = theme(plot.title = element_text(size = 18, face="bold"),plot.subtitle = element_text(size = 18, face="bold"))) 
-
-
-```
-
-
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.height=8,fig.width=8,fig.align = 'center', fig.cap="\\textbf{Figure S5.} Heatmap indicating under- and over- representation of pollinator and plant functional groups in the different motif positions after removing non-robust links (singletones). The different motif positions are dividied by the average path length clasification by Simmons et al. (2020). The superior dendrogram indicates the differences across groups with the more separated groups showing larger differences."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.height=8,fig.width=8,fig.align = 'center', fig.cap="\\textbf{Figure S2.} Heatmap indicating under- and over- representation of pollinator and plant functional groups in the different motif positions after removing non-robust links (singletones). The different motif positions are dividied by the average path length clasification by Simmons et al. (2020). The superior dendrogram indicates the differences across groups with the more separated groups showing larger differences."}
 
 library(lme4)
 library(nlme)
@@ -954,7 +713,7 @@ draw(ht_list, auto_adjust = FALSE, cluster_rows = F)
 
 \blandscape
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE,fig.height=7, fig.width=12, fig.cap="**Figure S6.** Plant functional group composition separated in qualitative and quantitative variables. Panel A) shows the percentage of the different categories within trait represented with different colours for each functional group. Plot B) shows the radar plot of the different quantitative variables standardize on the same scale also coloured with the same patterns of colours as qualitative variables per cluster or functional group. Group 1 corresponds to short-lived selfers; group 2 to small outcrossing perennials; group 3 to self-incompatible perennials with large flowers; group 4 to tall plants with small unisexual flowers; and, group 5 to short-lived outcrossers with long zygomorphic flowers."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE,fig.height=7, fig.width=12, fig.cap="**Figure S3.** Plant functional group composition separated in qualitative and quantitative variables. Panel A) shows the percentage of the different categories within trait represented with different colours for each functional group. Plot B) shows the radar plot of the different quantitative variables standardize on the same scale also coloured with the same patterns of colours as qualitative variables per cluster or functional group. Group 1 corresponds to short-lived selfers; group 2 to small outcrossing perennials; group 3 to self-incompatible perennials with large flowers; group 4 to tall plants with small unisexual flowers; and, group 5 to short-lived outcrossers with long zygomorphic flowers."}
 
 
 #CODE TO PLOT FUNCTIONAL GROUPS
@@ -1842,7 +1601,7 @@ patch + plot_annotation(title = "Plant functional group composition",theme = the
 \newpage
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE, fig.height=7, fig.width=13, fig.cap="**Figure S7.** Hierarchical clustering dendrogram with the branches coloured by the optimal number of clusters (5). The labels of the subgroup of species (N = 524) used in this study are coloured in black in order to show the evenness of the distribution of the species across clusters. The rest of species labels are omitted for visualization purposes (N = 982)."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE, fig.height=7, fig.width=13, fig.cap="**Figure S4.** Hierarchical clustering dendrogram with the branches coloured by the optimal number of clusters (5). The labels of the subgroup of species (N = 524) used in this study are coloured in black in order to show the evenness of the distribution of the species across clusters. The rest of species labels are omitted for visualization purposes (N = 982)."}
 
 library(ggplot2)
 library(dendextend)
@@ -1898,4 +1657,245 @@ ggplot(ggd1,offset_labels=-0.05) + theme(panel.grid.major = element_blank(),
 ```
 
 \elandscape
+
+
+```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, fig.height=12, fig.width=12, fig.align = 'center', fig.cap="\\textbf{Figure S5.} Association between the frequency and specificity on the different motif positions for floral visitor (panel A) and plant (panel B) groups. The different numerical categories of the plant groups correspond to: 1 (selfing herbs), 2 (small outcrossing perennials), 3 (self-incompatible perennials with large flowers), 4 (tall plants with small unisexual flowers) and 5 (short-lived outcrossers with long zygomorphic flowers)."}
+
+
+library(ggplot2)
+library(patchwork)
+
+pollinator_means_reordered_s_1 <- read.csv("../../Data/Csv/pollinator_means_reordered_s_1.csv")
+
+plant_means_s <- read.csv("../../Data/Csv/plant_means_s.csv")
+
+p1 <- ggplot(pollinator_means_reordered_s_1,aes(x=s,y=mean))+
+  geom_point(alpha=0.5, color="black")+
+  geom_smooth(method = "lm",color="black")+
+  facet_wrap(~Node_FG)+
+  labs(x="Specificty",y="Average frequency per motif position") +
+  theme_bw() + ggtitle("Floral visitors") +
+  theme(plot.title = element_text(hjust = 0.5, size = 25),
+        axis.text=element_text(size=12),
+        axis.title=element_text(size=18),
+        strip.text = element_text(size=20))
+
+
+p2 <- ggplot(plant_means_s,aes(x=s,y=mean))+
+  geom_point(alpha=0.5, color="black")+
+  geom_smooth(method = "lm", color="black")+
+  facet_wrap(~Node_FG)+
+  labs(x="Specificty",y="Average frequency per motif position")+
+  theme_bw() + ggtitle("Plants") +
+  theme(plot.title = element_text(hjust = 0.5, size = 25),
+        axis.text=element_text(size=12),
+        axis.title=element_text(size=18),
+        strip.text = element_text(size=20))
+
+p1/p2 +  plot_annotation(tag_levels = c('A'),  tag_suffix = ')') &  theme(plot.tag = element_text(size = 22))
+
+
+```
+
+
+```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE,out.width="90%",fig.align="center", fig.width=10,fig.height=12, fig.cap="\\textbf{Figure S6.} Frequency of the different floral visitor groups on the different motif positions aggregated by the proportion of indirect-direct interactions for the different motif positions."}
+
+library(ggplot2)
+library(scatterpie)
+library(RColorBrewer)
+library(tidyverse)
+
+
+direct_indirect <- read_csv("../../Data/Data_processing/Motifs_connections/motif_interactions.csv")
+direct_indirect <- direct_indirect %>% select(motif_id,position,direct_interactions, indirect_interactions,ind_same_type_over_directed_int)
+
+pollinator_means_reordered <- read_csv("../../Data/Csv/pollinator_abs_freq_means.csv")
+#Filter out in order to have just 6 FG'S
+pollinator_means_reordered <- pollinator_means_reordered %>% filter(!Node_FG %in% c("Birds", "Lizards", "Other_insects"))
+
+#Dplyr merge
+joined_tibble <- left_join(direct_indirect, pollinator_means_reordered)
+
+#Bees
+bees <- joined_tibble %>% filter(Node_FG=="Bee")
+bees$ind_same_type_over_directed_int <- round(bees$ind_same_type_over_directed_int, digits = 1)
+#Convert to factor
+bees$position <- as.factor(bees$position)
+bees$ind_same_type_over_directed_int <- as.factor(bees$ind_same_type_over_directed_int)
+bee_plot <- ggplot(bees,aes(position,mean_natural_units))+
+  geom_col(position = "dodge")+
+  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Bees")+
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())+
+  ylab("Frequency")+theme_bw() + xlab("")
+
+#Coleoptera
+cole <- joined_tibble %>% filter(Node_FG=="Coleoptera")
+cole$ind_same_type_over_directed_int <- round(cole$ind_same_type_over_directed_int, digits = 1)
+#Convert to factor
+cole$position <- as.factor(cole$position)
+cole$ind_same_type_over_directed_int <- as.factor(cole$ind_same_type_over_directed_int)
+cole_plot <- ggplot(cole,aes(position,mean_natural_units))+
+  geom_col(position = "dodge")+
+  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Coleoptera")+
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())+
+  ylab("Frequency")+theme_bw() + xlab("")
+
+#Lepidoptera
+lepi <- joined_tibble %>% filter(Node_FG=="Lepidoptera")
+lepi$ind_same_type_over_directed_int <- round(lepi$ind_same_type_over_directed_int, digits = 1)
+#Convert to factor
+lepi$position <- as.factor(lepi$position)
+lepi$ind_same_type_over_directed_int <- as.factor(lepi$ind_same_type_over_directed_int)
+lepi_plot <- ggplot(lepi,aes(position,mean_natural_units))+
+  geom_col(position = "dodge")+
+  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Lepidoptera") +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())+
+  ylab("Frequency")+theme_bw()+ xlab("")
+
+#Non-bee-Hymenoptera
+non_bee <- joined_tibble %>% filter(Node_FG=="Non-bee-Hymenoptera")
+non_bee$ind_same_type_over_directed_int <- round(non_bee$ind_same_type_over_directed_int, digits = 2)
+#Convert to factor
+non_bee$position <- as.factor(non_bee$position)
+non_bee$ind_same_type_over_directed_int <- as.factor(non_bee$ind_same_type_over_directed_int)
+non_bee_plot <- ggplot(non_bee,aes(position,mean_natural_units))+
+  geom_col(position = "dodge")+
+  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Non-bee-Hymenoptera") +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())+
+  ylab("Frequency")+theme_bw()+ xlab("")
+
+#Non-syrphids-diptera
+non_syr <- joined_tibble %>% filter(Node_FG=="Non-syrphids-diptera")
+non_syr$ind_same_type_over_directed_int <- round(non_syr$ind_same_type_over_directed_int, digits = 1)
+#Convert to factor
+non_syr$position <- as.factor(non_syr$position)
+non_syr$ind_same_type_over_directed_int <- as.factor(non_syr$ind_same_type_over_directed_int)
+non_syr_plot <- ggplot(non_syr,aes(position,mean_natural_units))+
+  geom_col(position = "dodge")+
+  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Non-syrphids-diptera")+
+theme(axis.title.x=element_blank(),
+      axis.text.x=element_blank(),
+      axis.ticks.x=element_blank())+
+  ylab("Frequency")+theme_bw()+ xlab("")
+
+#Syrphids
+syr <- joined_tibble %>% filter(Node_FG=="Syrphids")
+syr$ind_same_type_over_directed_int <- round(syr$ind_same_type_over_directed_int, digits = 1)
+#Convert to factor
+syr$position <- as.factor(syr$position)
+syr$ind_same_type_over_directed_int <- as.factor(syr$ind_same_type_over_directed_int)
+syr_plot <- ggplot(syr,aes(position,mean_natural_units))+
+  geom_col(position = "dodge")+
+  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Syrphids") +
+   ylab("Frequency")+theme_bw() + xlab("Motif position")
+  
+
+library(patchwork)
+bee_plot / cole_plot / lepi_plot / non_bee_plot / non_syr_plot / syr_plot + plot_annotation(title= 'Floral visitors',
+  subtitle = 'Proportion indirect/direct interactions (0, 0.3, 0.5, 1, 2, 3)',
+  theme = theme(plot.title = element_text(size = 18, face="bold"),plot.subtitle = element_text(size = 18, face="bold")))
+
+
+```
+
+
+```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE,out.width="90%",fig.align="center", fig.width=10,fig.height=12, fig.cap="\\textbf{Figure S7.} Frequency of the different plant groups on the different motif positions aggregated by the proportion of indirect-direct interactions for the different motif positions."}
+
+library(ggplot2)
+library(scatterpie)
+library(RColorBrewer)
+library(tidyverse)
+
+
+direct_indirect <- read_csv("../../Data/Data_processing/Motifs_connections/motif_interactions.csv")
+direct_indirect <- direct_indirect %>% select(motif_id,position,direct_interactions, indirect_interactions,ind_same_type_over_directed_int)
+
+plant_means_reordered <- read_csv("../../Data/Csv/plant_abs_freq_means.csv")
+
+#Dplyr merge
+joined_tibble <- left_join(direct_indirect, plant_means_reordered)
+
+#1 Selfing herbs
+one <- joined_tibble %>% filter(Node_FG=="1")
+one$ind_same_type_over_directed_int <- round(one$ind_same_type_over_directed_int, digits = 1)
+#Convert to factor
+one$position <- as.factor(one$position)
+one$ind_same_type_over_directed_int <- as.factor(one$ind_same_type_over_directed_int)
+one_plot <- ggplot(one,aes(position,mean_natural_units))+
+  geom_col(position = "dodge")+
+  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Selfing herbs")+
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())+
+  ylab("Frequency")+ xlab("") + theme_bw()
+
+#2 Small outcrossing perennials
+two <- joined_tibble %>% filter(Node_FG=="2")
+two$ind_same_type_over_directed_int <- round(two$ind_same_type_over_directed_int, digits = 1)
+#Convert to factor
+two$position <- as.factor(two$position)
+two$ind_same_type_over_directed_int <- as.factor(two$ind_same_type_over_directed_int)
+two_plot <- ggplot(two,aes(position,mean_natural_units))+
+  geom_col(position = "dodge")+
+  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Small outcrossing perennials")+
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())+
+  ylab("Frequency")+ xlab("") + theme_bw()
+
+#3 Self-incomp. perennials with large flowers
+three <- joined_tibble %>% filter(Node_FG=="3")
+three$ind_same_type_over_directed_int <- round(three$ind_same_type_over_directed_int, digits = 1)
+#Convert to factor
+three$position <- as.factor(three$position)
+three$ind_same_type_over_directed_int <- as.factor(three$ind_same_type_over_directed_int)
+three_plot <- ggplot(three,aes(position,mean_natural_units))+
+  geom_col(position = "dodge")+
+  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Self-incomp. perennials with large flowers") +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())+
+  ylab("Frequency")+ xlab("") + theme_bw()
+
+#4 Tall plants with small unisexual flowers
+four <- joined_tibble %>% filter(Node_FG=="4")
+four$ind_same_type_over_directed_int <- round(four$ind_same_type_over_directed_int, digits = 2)
+#Convert to factor
+four$position <- as.factor(four$position)
+four$ind_same_type_over_directed_int <- as.factor(four$ind_same_type_over_directed_int)
+four_plot <- ggplot(four,aes(position,mean_natural_units))+
+  geom_col(position = "dodge")+
+  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Tall plants with small unisexual flowers") +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())+
+  ylab("Frequency")+ xlab("") + theme_bw()
+
+#5 Short-lived outcrossers with long zygomorphic flowers
+five <- joined_tibble %>% filter(Node_FG=="5")
+five$ind_same_type_over_directed_int <- round(five$ind_same_type_over_directed_int, digits = 1)
+#Convert to factor
+five$position <- as.factor(five$position)
+five$ind_same_type_over_directed_int <- as.factor(five$ind_same_type_over_directed_int)
+five_plot <- ggplot(five,aes(position,mean_natural_units))+
+  geom_col(position = "dodge")+
+  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Short-lived outcrossers with long zygomorphic flowers")+
+  ylab("Frequency") + xlab("Motif position") + theme_bw()
+
+
+library(patchwork)
+one_plot / two_plot / three_plot / four_plot / five_plot + plot_annotation(title= 'Plants', subtitle = 'Proportion indirect/direct interactions (0, 0.3, 0.5, 1, 2, 3)',
+  theme = theme(plot.title = element_text(size = 18, face="bold"),plot.subtitle = element_text(size = 18, face="bold"))) 
+
+
+```
+
 

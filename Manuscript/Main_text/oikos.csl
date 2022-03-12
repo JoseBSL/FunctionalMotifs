@@ -88,7 +88,7 @@
         </date>
       </if>
       <else>
-        <text term="in press"/>
+        <text term=""/>
       </else>
     </choose>
   </macro>
@@ -99,7 +99,7 @@
         <text variable="page"/>
       </if>
       <else>
-        <text term="in press"/>
+        <text term=""/>
       </else>
     </choose>
   </macro>
@@ -167,7 +167,7 @@
               <text variable="page" prefix=": " suffix="."/>
             </if>
             <else>
-              <text term="in press" prefix=" " suffix="."/>
+              <text term="" prefix=" " suffix="."/>
             </else>
           </choose>
         </else-if>

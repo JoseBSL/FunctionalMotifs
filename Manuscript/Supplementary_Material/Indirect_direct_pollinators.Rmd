@@ -28,10 +28,10 @@ bees <- joined_tibble %>% filter(Node_FG=="Bee")
 bees$ind_same_type_over_directed_int <- round(bees$ind_same_type_over_directed_int, digits = 1)
 #Convert to factor
 bees$position <- as.factor(bees$position)
-bees$ind_same_type_over_directed_int <- as.factor(bees$ind_same_type_over_directed_int)
+bees$indirect_interactions <- as.factor(bees$indirect_interactions)
 bee_plot <- ggplot(bees,aes(position,mean_natural_units))+
   geom_col(position = "dodge")+
-  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Bees")+
+  facet_grid(.~indirect_interactions,scale='free_x', space = "free_x") + ggtitle("Bees")+
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())+
@@ -42,10 +42,10 @@ cole <- joined_tibble %>% filter(Node_FG=="Coleoptera")
 cole$ind_same_type_over_directed_int <- round(cole$ind_same_type_over_directed_int, digits = 1)
 #Convert to factor
 cole$position <- as.factor(cole$position)
-cole$ind_same_type_over_directed_int <- as.factor(cole$ind_same_type_over_directed_int)
+cole$indirect_interactions <- as.factor(cole$indirect_interactions)
 cole_plot <- ggplot(cole,aes(position,mean_natural_units))+
   geom_col(position = "dodge")+
-  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Coleoptera")+
+  facet_grid(.~indirect_interactions,scale='free_x', space = "free_x") + ggtitle("Coleoptera")+
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())+
@@ -56,10 +56,10 @@ lepi <- joined_tibble %>% filter(Node_FG=="Lepidoptera")
 lepi$ind_same_type_over_directed_int <- round(lepi$ind_same_type_over_directed_int, digits = 1)
 #Convert to factor
 lepi$position <- as.factor(lepi$position)
-lepi$ind_same_type_over_directed_int <- as.factor(lepi$ind_same_type_over_directed_int)
+lepi$indirect_interactions <- as.factor(lepi$indirect_interactions)
 lepi_plot <- ggplot(lepi,aes(position,mean_natural_units))+
   geom_col(position = "dodge")+
-  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Lepidoptera") +
+  facet_grid(.~indirect_interactions,scale='free_x', space = "free_x") + ggtitle("Lepidoptera") +
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())+
@@ -70,10 +70,10 @@ non_bee <- joined_tibble %>% filter(Node_FG=="Non-bee-Hymenoptera")
 non_bee$ind_same_type_over_directed_int <- round(non_bee$ind_same_type_over_directed_int, digits = 2)
 #Convert to factor
 non_bee$position <- as.factor(non_bee$position)
-non_bee$ind_same_type_over_directed_int <- as.factor(non_bee$ind_same_type_over_directed_int)
+non_bee$indirect_interactions <- as.factor(non_bee$indirect_interactions)
 non_bee_plot <- ggplot(non_bee,aes(position,mean_natural_units))+
   geom_col(position = "dodge")+
-  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Non-bee-Hymenoptera") +
+  facet_grid(.~indirect_interactions,scale='free_x', space = "free_x") + ggtitle("Non-bee-Hymenoptera") +
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())+
@@ -84,10 +84,10 @@ non_syr <- joined_tibble %>% filter(Node_FG=="Non-syrphids-diptera")
 non_syr$ind_same_type_over_directed_int <- round(non_syr$ind_same_type_over_directed_int, digits = 1)
 #Convert to factor
 non_syr$position <- as.factor(non_syr$position)
-non_syr$ind_same_type_over_directed_int <- as.factor(non_syr$ind_same_type_over_directed_int)
+non_syr$indirect_interactions <- as.factor(non_syr$indirect_interactions)
 non_syr_plot <- ggplot(non_syr,aes(position,mean_natural_units))+
   geom_col(position = "dodge")+
-  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Non-syrphids-diptera")+
+  facet_grid(.~indirect_interactions,scale='free_x', space = "free_x") + ggtitle("Non-syrphids-diptera")+
 theme(axis.title.x=element_blank(),
       axis.text.x=element_blank(),
       axis.ticks.x=element_blank())+
@@ -98,16 +98,16 @@ syr <- joined_tibble %>% filter(Node_FG=="Syrphids")
 syr$ind_same_type_over_directed_int <- round(syr$ind_same_type_over_directed_int, digits = 1)
 #Convert to factor
 syr$position <- as.factor(syr$position)
-syr$ind_same_type_over_directed_int <- as.factor(syr$ind_same_type_over_directed_int)
+syr$indirect_interactions <- as.factor(syr$indirect_interactions)
 syr_plot <- ggplot(syr,aes(position,mean_natural_units))+
   geom_col(position = "dodge")+
-  facet_grid(.~ind_same_type_over_directed_int,scale='free_x', space = "free_x") + ggtitle("Syrphids") +
+  facet_grid(.~indirect_interactions,scale='free_x', space = "free_x") + ggtitle("Syrphids") +
    ylab("Frequency")+theme_bw() + xlab("Position within motif")
   
 
 library(patchwork)
 bee_plot / cole_plot / lepi_plot / non_bee_plot / non_syr_plot / syr_plot + plot_annotation(
-  title = 'Proportion indirect/direct interactions (0, 0.3, 0.5, 1, 2, 3)',
+  title = 'Number of indirect interactions (0, 1, 2, 3)',
   theme = theme(plot.title = element_text(size = 18, face="bold")))
 
 

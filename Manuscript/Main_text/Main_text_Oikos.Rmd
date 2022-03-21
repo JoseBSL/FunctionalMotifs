@@ -65,6 +65,16 @@ Here, we used 60 plant-pollinator networks from 18 different studies and 14 coun
 
 # Methods
 
+**Overview**
+
+To investigate the structure of the meso-scale in plant-pollinator networks, we have gathered 60 published plant-pollinator networks with worldwide distribution. Then, we have divided the plant and floral visitor species from these networks into groups that summarize their main life-history strategies. After, we calculated the normalize motif frequencies and investigated if these frequencies are similar to the ones expected by chance with thelp of null models. Then, we have also calculated the normalize group frequencies for the different motif positions and investigated also over- and under-representation of the group frequencies.
+
+: (i) gathered 60 published plant-pollinator networks with worldwide distribution; (ii) determined the main plant and floral visitor groups that summarize the principal life-history strategies of the species in these networks; (iii) calculated the normalized motif frequencies and compare them with the expected frequencies from null models from the same set of plant-pollinator networks; (iv) calculated the normalise frequencies of the different plant and floral visitor groups and compare them with the ones from null models; (v) explore the association 
+
+the structure of the meso-scale of plant-pollinator networks we have gathered 60 networks with worldwide distribution. Then, we have determined for the different plant and floral visitor the main groups that define the principal life-history strategies. After, we have calculated the normalize motif frequencies in this same set of plant-pollinator networks and investigated if the overall motif frequencies concur or not with the expected frequencies from null models originated from the same set of networks. Then, 
+
+After, we have calculated the frequencies of the different plant and floral visitor groups and explore if these frequencies also match the expected from null models or not. Finally, we investigate if the plant and floral visitor motif combinations can be retrieve from their expected probability or not by assuming 
+
 **Plant-pollinator studies**
 
 We have compiled 60 plant-pollinator networks from 18 different studies (**Table S1**). All studies sampled plant-pollinator interactions in natural systems and were selected based on wide geographical coverage and presence of interaction frequency as a measure of interaction strength. In total, there were 503 plant species, 1,111 floral visitors species and 6,248 pairwise interactions registered. For ease of data manipulation, plant and floral visitor species names were standardize with the help of the R package _taxize_ version _0.9.99_ [@chamberlain2020]. All analyses and data manipulation were conducted in R _version 4.0.5_ [@R]. 
@@ -241,8 +251,9 @@ In total, there were 1,126 species of floral visitors with 6,325 interactions re
 
 Most motifs were under- or over-represented (close to the 1st and 99th percentile, respectively) in the comparison between empirical and simulated networks (**Figure 2**). Motifs 3, 5, 9, 10 and 14 were under-represented in empirical networks, that is, all were close to the 1st percentile and under the 25th percentile. Interestingly, four out of five of these motifs belonged to the largest path length classification (i.e., core-peripheral). In addition, motifs 2, 6, 7, 16 and 17 were over-represented, all over the 75th percentile. In contrast to the under-represented motifs, over-represented motifs belonged to the two shortest path length groups (i.e., complete and fan). The remaining motifs (i.e., 4, 8, 11, 12, 13, and 15) were between the 25th and 75th percentile.
 
-F
+
 ```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.width=4.5,fig.height=6.5, fig.cap="**Figure 2.** Comparison of motif frequencies between empirical and simulated networks grouped by average path length (plots a, b, c and d) as determined in Simmons et al. (2020). This is shown with the mean percentage of motif frequencies in empirical networks that were over the motif frequencies of the simulated ones (percentiles). This was done by network (light blue transparent dots) and then averaged for all networks (black dots with error bars that correspond to the standard deviation)."}
+
 library(lme4)
 library(nlme)
 library(tidyverse)
@@ -1483,7 +1494,7 @@ Despite the obvious usefulness of functional groups in summarizing species ecolo
 
 In conclusion, by following the framework of @simmons2020 we have been able to explore competitive and facilitative interactions in plant-pollinator networks worldwide and found that indirect interactions are non-random and are more strongly related to neutral processes than any other ecological process. Further, we found that plant and floral visitor groups are associated with different motif positions that involve distinct ecological roles (e.g., generalization versus specialization) and that the different motif combinations are strongly constrained. Although in this study we do not predict indirect interactions, our work is a first step to elucidate novel interactions beyond pairwise interactions. 
 
-*Acknowledgements* - This study was supported by the European project SAFEGUARD (101003476 H2020-SFS-2019-2). We would like to thank David García-Callejas for useful comments on the manuscript before submission. Finally, JBL also thanks the University of New England for the funding provided to carry out this work.
+*Acknowledgements* - This study was supported by the European project SAFEGUARD (101003476 H2020-SFS-2019-2). JBL also thanks the University of New England for the funding provided to carry out this work. Finally, we would like to thank David García-Callejas for his useful comments on the manuscript before submission.
 
 # Author contributions
 

@@ -1,7 +1,6 @@
 library(tidyverse)
 library(RColorBrewer)
-source("../Scripts/Scripts_Alfonso/trial_motif_positions.R")
-
+source("Scripts/trial_motif_positions.R")
 
 motif_number <- 1
 p1 <- plot_motif_positions(motif_number) +
@@ -105,17 +104,18 @@ theme(axis.title.y = element_text(color="black", size=14, face="bold"))
 
 
 #Create custom legend
-a <- c(1,2,3,4,5)
-b <- c(1,2,3,4,5)
-c <- c("a","b", "c", "d", "e")
+a <- c(1,2,3,4)
+b <- c(1,2,3,4)
+c <- c("a","b", "c", "d")
 abc <- data.frame(a,b,c)
 p1 <- ggplot(abc, aes(x=a,y=b, color=c))+geom_point() + theme_bw() + 
   scale_colour_manual(name = 'Path length \n classification', 
-                      values =c('goldenrod2'= 'goldenrod2','mediumaquamarine'='mediumaquamarine',
-                                'skyblue'='skyblue', 'lightcoral'='lightcoral'), 
-                      labels = c('Strong \n mean path length = 1.38', 
-                                 'Medium-strong \n mean path length = 1.48',
-                                 'Medium-weak \n mean path length = 1.60','Weak \n mean path length = 1.85'))+
+                      values =c(a= 'goldenrod2',b='mediumaquamarine',
+                                c='skyblue', d='lightcoral'), 
+                      labels = c(a='Strong \n mean path length = 1.38', 
+                                 b='Medium-strong \n mean path length = 1.48',
+                                 c='Medium-weak \n mean path length = 1.60',
+                                 d='Weak \n mean path length = 1.85'))+
 theme(legend.position="bottom")
 
 legend <- cowplot::get_legend(p1+ theme(legend.position = "bottom"))

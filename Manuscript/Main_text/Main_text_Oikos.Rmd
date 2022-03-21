@@ -88,61 +88,126 @@ library(RColorBrewer)
 source("../../Scripts/Scripts_Alfonso/plot_motif_positionsV2.R")
 
 motif_number <- 1
-p1 <- plot_motif_positions(motif_number)
+p1 <- plot_motif_positions(motif_number) +
+geom_point(aes(color = as.factor(label)),size=10,color = "grey90")+
+geom_text(aes(x, y , label = label),size=3)
+
 
 motif_number <- 2
-p2 <- plot_motif_positions(motif_number)
+p2 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "mediumaquamarine")+
+geom_text(aes(x, y , label = label),size=3)
 
 motif_number <- 3
-p3 <- plot_motif_positions(motif_number)
+p3 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "mediumaquamarine")+
+geom_text(aes(x, y , label = label),size=3)
 
 motif_number <- 4
-p4 <- plot_motif_positions(motif_number)
+p4 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "mediumaquamarine")+
+geom_text(aes(x, y , label = label),size=3)
 
 motif_number <- 5
-p5 <- plot_motif_positions(motif_number)
+p5 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "lightcoral")+
+geom_text(aes(x, y , label = label),size=3)
 
 motif_number <- 6
-p6 <- plot_motif_positions(motif_number)
+p6 <- plot_motif_positions(motif_number) +
+geom_point(aes(color = as.factor(label)),size=10,color = "goldenrod2")+
+geom_text(aes(x, y , label = label),size=3)
+
 
 motif_number <- 7
-p7 <- plot_motif_positions(motif_number)
+p7 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "mediumaquamarine")+
+geom_text(aes(x, y , label = label),size=3)
 
 motif_number <- 8   
-p8 <- plot_motif_positions(motif_number)
+p8 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "mediumaquamarine")+
+geom_text(aes(x, y , label = label),size=3)
 
 motif_number <- 9
-p9 <- plot_motif_positions(motif_number)
+p9 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "lightcoral")+
+geom_text(aes(x, y , label = label),size=3)
 
 motif_number <- 10
-p10 <- plot_motif_positions(motif_number)
+p10 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "lightcoral")+
+geom_text(aes(x, y , label = label),size=3)
 
 motif_number <- 11
-p11 <- plot_motif_positions(motif_number)
+p11 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "skyblue")+
+geom_text(aes(x, y , label = label),size=3)
 
 motif_number <- 12
-p12 <- plot_motif_positions(motif_number)
+p12 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "goldenrod2")+
+geom_text(aes(x, y , label = label),size=3)
 
 motif_number <- 13
-p13 <- plot_motif_positions(motif_number)
+p13 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "lightcoral")+
+geom_text(aes(x, y , label = label),size=3)
 
 motif_number <- 14
-p14 <- plot_motif_positions(motif_number)
+p14 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "lightcoral")+
+geom_text(aes(x, y , label = label),size=3)
 
 motif_number <- 15
-p15 <- plot_motif_positions(motif_number)
+p15 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "skyblue")+
+geom_text(aes(x, y , label = label),size=3)
+
 
 motif_number <- 16
-p16 <- plot_motif_positions(motif_number)
+p16 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "goldenrod2")+
+geom_text(aes(x, y , label = label),size=3)
 
 motif_number <- 17
-p17 <- plot_motif_positions(motif_number)
+p17 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "mediumaquamarine")+
+geom_text(aes(x, y , label = label),size=3) 
+
+
 
 
 library(patchwork)
 
-(p1 & ylab("2 species")| p2 & ylab("3 species") | p3 )/ (p4 & ylab("4 species")| p5 | p6 | p7)/ (p8  & ylab("5 species")| p9 | p10 | p11 | p12) / (p13 & ylab("5 species")| p14 | p15 | p16 | p17) & theme(axis.title.y = element_text(color="black", size=14, face="bold")) #+
- #plot_annotation(tag_levels = '1') 
+p <- (p1 & ylab("2 species")| p2 & ylab("3 species") | p3 ) /
+(p4 & ylab("4 species")| p5 | p6 | p7) / 
+(p8  & ylab("5 species")| p9 | p10 | p11 | p12) /
+(p13 & ylab("5 species")| p14 | p15 | p16 | p17) &
+theme(axis.title.y = element_text(color="black", size=14, face="bold"))
+
+
+
+#Create custom legend
+a <- c(1,2,3,4)
+b <- c(1,2,3,4)
+c <- c("a","b", "c", "d")
+abc <- data.frame(a,b,c)
+p1 <- ggplot(abc, aes(x=a,y=b, color=c))+geom_point() + theme_bw() + 
+  scale_colour_manual(name = 'Path length classification', 
+                      values =c(a= 'goldenrod2',b='mediumaquamarine',
+                                c='skyblue', d='lightcoral'), 
+                      labels = c(a='Strong \n mean path length = 1.38', 
+                                 b='Medium-strong \n mean path length = 1.48',
+                                 c='Medium-weak \n mean path length = 1.60',
+                                 d='Weak \n mean path length = 1.85'))+
+theme(legend.position="bottom")+ guides(colour = guide_legend(override.aes = list(size=8),title.position="top", title.hjust = 0.5))
+
+legend <- cowplot::get_legend(p1+ theme(legend.position = "bottom",legend.text = element_text(size=10), legend.title = element_text(size=12, 
+face="bold"),legend.box.background = element_rect(color="black", size=2)))
+
+cowplot::plot_grid(p, legend, ncol = 1, rel_heights = c(12, 1.8))
+
 
 ```
 
@@ -1418,8 +1483,7 @@ Despite the obvious usefulness of functional groups in summarizing species ecolo
 
 In conclusion, by following the framework of @simmons2020 we have been able to explore competitive and facilitative interactions in plant-pollinator networks worldwide and found that indirect interactions are non-random and are more strongly related to neutral processes than any other ecological process. Further, we found that plant and floral visitor groups are associated with different motif positions that involve distinct ecological roles (e.g., generalization versus specialization) and that the different motif combinations are strongly constrained. Although in this study we do not predict indirect interactions, our work is a first step to elucidate novel interactions beyond pairwise interactions. 
 
-*Acknowledgements* - This study was supported by the European project SAFEGUARD (101003476 H2020-SFS-2019-2). We thank all researchers that made their data openly available and sent it upon request. We also thank Bryony Wilcox, Greg Bible, Mercedes Sanchez-Lanuza and David Ragel for their help with data collection. Finally, JBL also thanks the University of New England for the funding provided to carry out this work.
-
+*Acknowledgements* - This study was supported by the European project SAFEGUARD (101003476 H2020-SFS-2019-2). We would like to thank David García-Callejas for useful comments on the manuscript before submission. Finally, JBL also thanks the University of New England for the funding provided to carry out this work.
 
 # Author contributions
 

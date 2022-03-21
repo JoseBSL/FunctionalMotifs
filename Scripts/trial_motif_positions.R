@@ -1,8 +1,26 @@
 
+equidistribution <- function(number_nodes){
+  
+  x_width <- 5.5/(number_nodes+1)
+  
+  x_result <- rep(-1.5,number_nodes)
+  
+  for(i in 1:number_nodes){
+    
+    x_result[i] <- x_result[i] + i*x_width
+    
+  }
+  
+  return(x_result)
+  
+}
+
+
+
 plot_motif_positions <- function(motif_number){
   
-  motifs_raw_data <- read_csv("../Data/Data_processing/Motifs_connections/motif_pattern_connections.csv")
-  
+  motifs_raw_data <- read_csv("Data/Data_processing/Motifs_connections/motif_pattern_connections.csv")
+
   motif_data <- motifs_raw_data %>% filter(motif_id == motif_number)
   
   
@@ -10,43 +28,14 @@ plot_motif_positions <- function(motif_number){
   
   labdown = motif_data$plant %>% unique()
   
-  if(length(labdown)==2){
-    
-    xdown = c(0.75,2.25)
-    
-  }else if(length(labdown)==3){
-    
-    xdown = c(0,1.5,3)
-    
-  }else if(length(labdown)==4){
-    
-    xdown = c(-0.75,0.75,2.25,3.75)
-    
-  }else{
-    
-    xdown = c(1.5)
-  }
+  
+  xdown = equidistribution(length(labdown))
   
   ydown = rep(0,length(labdown))
   
   labup = motif_data$pollinator %>% unique()
   
-  if(length(labup)==2){
-    
-    xup = c(0.75,2.25)
-    
-  }else if(length(labup)==3){
-    
-    xup = c(0,1.5,3)
-    
-  }else if(length(labup)==4){
-    
-    xup = c(-0.75,0.75,2.25,3.75)
-    
-  }else{
-    
-    xup = c(1.5)
-  }
+  xup = equidistribution(length(labup))
   
   yup = rep(1,length(labup))
   
@@ -74,16 +63,20 @@ plot_motif_positions <- function(motif_number){
   
   ggplot(data=d_nodes, aes(x, y)) +
     scale_shape_identity() +
-    geom_segment(data = link_df, aes(x=xdown, y=ydown, xend = xup, yend = yup), size = 1, color = "grey25")+
-    geom_point(aes(color = as.factor(label)),size=10,color = "azure2")+
+    geom_segment(data = link_df, aes(x=xdown, y=ydown, xend = xup, yend = yup), size = 1, color = "grey20")+
+    geom_point(aes(color = as.factor(label)),size=10, color = "azure2")+
     geom_text(aes(x, y , label = label),size=3)+
-  #  scale_colour_manual(values = c("cornflowerblue"))+
-    xlim(-1.5,4.5)+ ylim(-0.5,1.5)+
+    #   scale_color_brewer(palette = "Set2")+
+    xlim(-1.5,4)+ ylim(-0.5,1.5)+
     theme(panel.background = element_blank(),
           axis.text.x=element_blank(),
           axis.ticks.x=element_blank(),
           axis.text.y=element_blank(),
           axis.ticks.y=element_blank())+
-    labs(x=NULL,y=NULL)
+    labs(x=NULL,y=NULL)+
+    guides(color = FALSE)+
+    ggtitle(paste0("Motif ",motif_number))+
+    theme(plot.title = element_text(hjust = 0.5))
+  
   
 }

@@ -1,0 +1,100 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE}
+
+
+#Create coordinate dataset for plotting
+
+longitude <- c("3.296797",  #1
+               "1.575532", #2
+               "9.275556", 
+               "18.5", #4
+               "99.63806", #5
+               "148.266667",
+               "-52", 
+               "-31", "57.43", #8
+               "-75.5", #9
+               "-57.885", #10
+               "55.447778",
+               "-6.16895", #12bart
+               "55.43333", #13
+               "57.733333",
+               "-68.015892", #15
+               "-89.8968771",
+               "171.756111",
+               "10.233333")
+
+latitude <- c("42.315336", #1
+              "52.762395", #2
+              "56.0725",
+              "68.35", #4
+              "27.90139", #5
+              "-36.45", #6
+              "71", #7
+              "39.4", "-20.25", #8
+              "45.4", #9
+              "-21.701111", #10
+              "-4.67",
+              "37.234966", #12bart
+              "-4.666667", #13
+              "-20.4538",
+              "-32.008985", #15
+              "39.278958",
+              "-43.035889",
+              "56.066667")
+
+id <- c("Bartomeus1", #1
+        "Dicks", #2
+        "Dupont", 
+        "Elberling", #4
+        "Fang", #5
+        "Inouye", #6
+        "Lundgren", #7
+        "Olesen", "Olesen", #8
+        "Small", #9
+        "Souza", #10
+        "Kaiser-Bunbury1", #
+        "Bartomeus2", #12
+        "Kaiser-Bunbury2", #13
+        "Kaiser-Bunbury3", #14
+        "Peralta", #15
+        "Burkle",
+        "Arroyo-Correa",
+        "Bundgaard")
+
+d <- data.frame(longitude, latitude, id)
+
+library("ggplot2")
+library("sf")
+library("rnaturalearth")
+library("rnaturalearthdata")
+
+world <- ne_countries(scale = "medium", returnclass = "sf")
+class(world)
+
+d$longitude <- as.numeric(d$longitude)
+d$latitude <- as.numeric(d$latitude)
+
+ggplot(data = world) +
+  geom_sf(fill="antiquewhite", color="grey49") +
+  xlab("Longitude") + ylab("Latitude") +
+  geom_jitter(data=d , aes(longitude,latitude, color=id), 
+              shape = 10,  fill = "white",size = 4, 
+              stroke = 1,width = 0.2, height = 3)+ 
+  theme(panel.grid.major = element_line(color = gray(.5), 
+                                        linetype = "dashed", size = 0), panel.background = element_rect(fill = "aliceblue"))+
+  xlab("")+ylab("")+
+  coord_sf(expand = FALSE)+
+  theme(axis.text.x=element_blank(), #remove x axis labels
+        axis.ticks.x=element_blank(), #remove x axis ticks
+        axis.text.y=element_blank(),  #remove y axis labels
+        axis.ticks.y=element_blank()  #remove y axis ticks
+  )
+
+
+
+
+```

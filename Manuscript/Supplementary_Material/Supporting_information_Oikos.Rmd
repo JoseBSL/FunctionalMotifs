@@ -53,19 +53,21 @@ Jose B. Lanuza, Alfonso Allen-Perkins and Ignasi Bartomeus
 
 **FIGURES**
 
-**Figure S1** Over and under-estimated motif frequencies.
+**Figure S1** Map with the plant-pollinator study locations.
 
-**Figure S2** Over and under-estimated groups on motif positions.
+**Figure S2** Over and under-estimated motif frequencies.
 
-**Figure S3** Plant trait composition of functional groups.
+**Figure S3** Over and under-estimated groups on motif positions.
 
-**Figure S4** Dendrogram with plant functional groups.
+**Figure S4** Plant trait composition of functional groups.
 
-**Figure S5** Association between the frequency and specificity of the different groups on motif positions.
+**Figure S5** Dendrogram with plant functional groups.
 
-**Figure S6** Frequency of floral visitor groups and number of indirect interactions per motif positions.
+**Figure S6** Association between the frequency and specificity of the different groups on motif positions.
 
-**Figure S7** Frequency of plant groups and number of indirect interactions per motif positions.
+**Figure S7** Frequency of floral visitor groups and number of indirect interactions per motif positions.
+
+**Figure S8** Frequency of plant groups and number of indirect interactions per motif positions.
 
 \blandscape
 
@@ -234,8 +236,6 @@ kbl(d,booktabs = T,col.names = c("", "List of plant species",""),longtable = T, 
 ```
 
 
-
-
 \newpage
 
 ```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, fig.height=16, fig.width=12}
@@ -280,8 +280,106 @@ add_header_above(c("Quantitative traits" = 2,"Categorical traits" = 2),bold=T)  
 
 \clearpage
 
+```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE, fig.cap="**Figure S1.** Map with the different locations of the plant-pollinator studies used in this work to explore woldwide patterns at the meso-scale level. For each study just one location is shown except for the study of Olesen that was conducted in two very different locations (Mauritius and Azores)."}
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.width=4.5,fig.height=6.5, fig.cap="**Figure S1.** Comparison of motif frequencies between empirical and simulated networks grouped by average path length (plots a, b, c and d) as determined in Simmons et al. (2020) without considering singletones. This is shown with the mean percentage of motif frequencies in empirical networks that were over the motif frequencies of the simulated ones (percentiles). This was done by network (light blue dots) and then averaged for all networks (black dots with error bars that correspond to the standard deviation)."}
+
+#Create coordinate dataset for plotting
+
+longitude <- c("3.296797",  #1
+               "1.575532", #2
+               "9.275556", 
+               "18.5", #4
+               "99.63806", #5
+               "148.266667",
+               "-52", 
+               "-31", "57.43", #8
+               "-75.5", #9
+               "-57.885", #10
+               "55.447778",
+               "-6.16895", #12bart
+               "55.43333", #13
+               "57.733333",
+               "-68.015892", #15
+               "-89.8968771",
+               "171.756111",
+               "10.233333")
+
+latitude <- c("42.315336", #1
+              "52.762395", #2
+              "56.0725",
+              "68.35", #4
+              "27.90139", #5
+              "-36.45", #6
+              "71", #7
+              "39.4", "-20.25", #8
+              "45.4", #9
+              "-21.701111", #10
+              "-4.67",
+              "37.234966", #12bart
+              "-4.666667", #13
+              "-20.4538",
+              "-32.008985", #15
+              "39.278958",
+              "-43.035889",
+              "56.066667")
+
+id <- c("Bartomeus1", #1
+        "Dicks", #2
+        "Dupont", 
+        "Elberling", #4
+        "Fang", #5
+        "Inouye", #6
+        "Lundgren", #7
+        "Olesen", "Olesen", #8
+        "Small", #9
+        "Souza", #10
+        "Kaiser-Bunbury1", #
+        "Bartomeus2", #12
+        "Kaiser-Bunbury2", #13
+        "Kaiser-Bunbury3", #14
+        "Peralta", #15
+        "Burkle",
+        "Arroyo-Correa",
+        "Bundgaard")
+
+d <- data.frame(longitude, latitude, id)
+
+library("ggplot2")
+library("sf")
+library("rnaturalearth")
+library("rnaturalearthdata")
+
+world <- ne_countries(scale = "medium", returnclass = "sf")
+class(world)
+
+d$longitude <- as.numeric(d$longitude)
+d$latitude <- as.numeric(d$latitude)
+
+sf::sf_use_s2(FALSE)
+
+
+ggplot(data = world) +
+  geom_sf(fill="antiquewhite", color="grey49") +
+  xlab("Longitude") + ylab("Latitude") +
+  geom_jitter(data=d , aes(longitude,latitude, color=id), 
+              shape = 10,  fill = "white",size = 4, 
+              stroke = 1,width = 0.2, height = 3)+ 
+  theme(panel.grid.major = element_line(color = gray(.5), 
+linetype = "dashed", size = 0), panel.background = element_rect(fill = "aliceblue"))+
+  coord_sf(expand = FALSE) +  scale_y_continuous(breaks = c(-50,0, 50)) +
+  scale_x_continuous(breaks = c(-100,0, 100)) +
+  theme(legend.key.size = unit(0.3, 'cm'), legend.text = element_text(size=6),
+         legend.title = element_text(size=12))+
+  scale_colour_discrete(name = "Study \n locations")
+  
+
+
+
+```
+
+\clearpage
+
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.width=4.5,fig.height=6.5, fig.cap="**Figure S2.** Comparison of motif frequencies between empirical and simulated networks grouped by average path length (plots a, b, c and d) as determined in Simmons et al. (2020) without considering singletones. This is shown with the mean percentage of motif frequencies in empirical networks that were over the motif frequencies of the simulated ones (percentiles). This was done by network (light blue dots) and then averaged for all networks (black dots with error bars that correspond to the standard deviation)."}
 library(lme4)
 library(nlme)
 library(tidyverse)
@@ -380,7 +478,7 @@ p + ggforce::facet_col(vars(Broad_categories), scales = 'free', space = 'free',l
 ```
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.height=8,fig.width=8,fig.align = 'center', fig.cap="\\textbf{Figure S2.} Heatmap indicating under- and over- representation of pollinator and plant functional groups in the different motif positions after removing non-robust links (singletones). The different motif positions are dividied by the average path length clasification by Simmons et al. (2020). The superior dendrogram indicates the differences across groups with the more separated groups showing larger differences."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.height=8,fig.width=8,fig.align = 'center', fig.cap="\\textbf{Figure S3.} Heatmap indicating under- and over- representation of pollinator and plant functional groups in the different motif positions after removing non-robust links (singletones). The different motif positions are dividied by the average path length clasification by Simmons et al. (2020). The superior dendrogram indicates the differences across groups with the more separated groups showing larger differences."}
 
 library(lme4)
 library(nlme)
@@ -713,7 +811,7 @@ draw(ht_list, auto_adjust = FALSE, cluster_rows = F)
 
 \blandscape
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE,fig.height=7, fig.width=12, fig.cap="**Figure S3.** Plant functional group composition separated in qualitative and quantitative variables. Panel A) shows the percentage of the different categories within trait represented with different colours for each functional group. Plot B) shows the radar plot of the different quantitative variables standardize on the same scale also coloured with the same patterns of colours as qualitative variables per cluster or functional group. Group 1 corresponds to short-lived selfers; group 2 to small outcrossing perennials; group 3 to self-incompatible perennials with large flowers; group 4 to tall plants with small unisexual flowers; and, group 5 to short-lived outcrossers with long zygomorphic flowers."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE,fig.height=7, fig.width=12, fig.cap="**Figure S4.** Plant functional group composition separated in qualitative and quantitative variables. Panel A) shows the percentage of the different categories within trait represented with different colours for each functional group. Plot B) shows the radar plot of the different quantitative variables standardize on the same scale also coloured with the same patterns of colours as qualitative variables per cluster or functional group. Group 1 corresponds to short-lived selfers; group 2 to small outcrossing perennials; group 3 to self-incompatible perennials with large flowers; group 4 to tall plants with small unisexual flowers; and, group 5 to short-lived outcrossers with long zygomorphic flowers."}
 
 
 #CODE TO PLOT FUNCTIONAL GROUPS
@@ -1601,7 +1699,7 @@ patch + plot_annotation(title = "Plant functional group composition",theme = the
 \newpage
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE, fig.height=7, fig.width=13, fig.cap="**Figure S4.** Hierarchical clustering dendrogram with the branches coloured by the optimal number of clusters (5). The labels of the subgroup of species (N = 524) used in this study are coloured in black in order to show the evenness of the distribution of the species across clusters. The rest of species labels are omitted for visualization purposes (N = 982)."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE, fig.height=7, fig.width=13, fig.cap="**Figure S5.** Hierarchical clustering dendrogram with the branches coloured by the optimal number of clusters (5). The labels of the subgroup of species (N = 524) used in this study are coloured in black in order to show the evenness of the distribution of the species across clusters. The rest of species labels are omitted for visualization purposes (N = 982)."}
 
 library(ggplot2)
 library(dendextend)
@@ -1659,7 +1757,7 @@ ggplot(ggd1,offset_labels=-0.05) + theme(panel.grid.major = element_blank(),
 \elandscape
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, fig.height=12, fig.width=12, fig.align = 'center', fig.cap="\\textbf{Figure S5.} Association between the frequency and specificity on the different motif positions for floral visitor (panel A) and plant (panel B) groups. The different numerical categories of the plant groups correspond to: 1 (selfing herbs), 2 (small outcrossing perennials), 3 (self-incompatible perennials with large flowers), 4 (tall plants with small unisexual flowers) and 5 (short-lived outcrossers with long zygomorphic flowers)."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, fig.height=12, fig.width=12, fig.align = 'center', fig.cap="\\textbf{Figure S6.} Association between the frequency and specificity on the different motif positions for floral visitor (panel A) and plant (panel B) groups. The different numerical categories of the plant groups correspond to: 1 (selfing herbs), 2 (small outcrossing perennials), 3 (self-incompatible perennials with large flowers), 4 (tall plants with small unisexual flowers) and 5 (short-lived outcrossers with long zygomorphic flowers)."}
 
 
 library(ggplot2)
@@ -1698,7 +1796,7 @@ p1/p2 +  plot_annotation(tag_levels = c('A'),  tag_suffix = ')') &  theme(plot.t
 ```
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE,out.width="90%",fig.align="center", fig.width=10,fig.height=12, fig.cap="\\textbf{Figure S6.} Frequency of the different floral visitor groups on the different motif positions aggregated by the number of indirect interactions for the different motif positions."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE,out.width="90%",fig.align="center", fig.width=10,fig.height=12, fig.cap="\\textbf{Figure S7.} Frequency of the different floral visitor groups on the different motif positions aggregated by the number of indirect interactions for the different motif positions."}
 
 library(ggplot2)
 library(scatterpie)
@@ -1807,7 +1905,7 @@ bee_plot / cole_plot / lepi_plot / non_bee_plot / non_syr_plot / syr_plot + plot
 ```
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE,out.width="90%",fig.align="center", fig.width=10,fig.height=12, fig.cap="\\textbf{Figure S7.} Frequency of the different plant groups on the different motif positions aggregated by the number of indirect interactions for the different motif positions."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE,out.width="90%",fig.align="center", fig.width=10,fig.height=12, fig.cap="\\textbf{Figure S8.} Frequency of the different plant groups on the different motif positions aggregated by the number of indirect interactions for the different motif positions."}
 
 library(ggplot2)
 library(scatterpie)

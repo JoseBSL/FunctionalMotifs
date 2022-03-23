@@ -30,7 +30,66 @@ DOI <- c("https://doi.org/10.1007/s00442-007-0946-1", "https://doi.org/10.1046/j
          "https://doi.org/10.1126/science.1232728", "https://doi.org/10.1111/1365-2745.13332", "Unpublished, Master thesis")
 
 
-references <- data.frame(`First author`, Year, `Number of networks`,   DOI)
+longitude <- c("3.296797",
+               "1.575532",
+               "9.275556", 
+               "18.5", 
+               "99.63806", 
+               "148.266667",
+               "-52", 
+               "-31", "57.43",
+               "-75.5",
+               "-57.885",
+               "55.447778",
+               "-6.16895",
+               "55.433333",
+               "57.733333",
+               "57.4024",
+               "-68.015892",
+               "-89.8968771",
+               "171.756111",
+               "10.233333")
+
+latitude <- c("42.315336",
+              "52.762395",
+              "56.0725",
+              "68.35", 
+              "27.90139", 
+              "-36.45",
+              "71", 
+              "39.4", "-20.25",
+              "45.4",
+              "-21.701111",
+              "-4.67",
+              "37.234966",
+              "-4.666667",
+              "-22.7",
+              "-20.4538",
+              "-32.008985",
+              "39.278958",
+              "-43.035889",
+              "56.066667")
+
+id <- c("Bartomeus1", 
+        "Dicks",
+        "Dupont", 
+        "Elberling", 
+        "Fang", 
+        "Inouye", 
+        "Lundgren", 
+        "Olesen", "Olesen",
+        "Small",
+        "Souza",
+        "Kaiser-Bunbury1",
+        "Bartomeus2",
+        "Kaiser-Bunbury2",
+        "Kaiser-Bunbury3",
+        "Peralta",
+        "Burkle",
+        "Arroyo-Correa",
+        "Bundgaard")
+
+references <- data.frame(`First author`, Year, `Number of networks`,DOI)
 
 colnames(references) <- c("First author", "Year", "Number of networks",  "DOI")
 

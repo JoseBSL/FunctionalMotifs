@@ -4,7 +4,7 @@
 
 Authors: Jose B. Lanuza  | Alfonso Allen-Perkins | Ignasi Bartomeus
 
-This repo contains all data and scripts to analyse and write the manuscript from this work
+This repo contains all data and scripts used to analyse and write the manuscript from this work
 
 Folders:
 

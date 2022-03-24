@@ -36,8 +36,6 @@ always_allow_html: true
 
 **The non-random assembly of functional motifs in plant-pollinator networks**
 
-Jose B. Lanuza, Alfonso Allen-Perkins and Ignasi Bartomeus
-
 \
 
 **TABLES**

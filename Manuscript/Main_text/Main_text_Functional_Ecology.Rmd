@@ -1497,7 +1497,8 @@ IB, AA-P and JBL designed the idea. JBL collected the data. AA-P lead the analys
 
 # Data availability statement
 
-All data and code would be deposited at Driad Digital repository upon acceptance.
+All data and code would be deposited at Driad Digital repository upon acceptance. For the review process we have added our plant dataset on google sheets and can be accessed with the help of the following link: https://docs.google.com/spreadsheets/d/1q3fFNwHb7k-kpLzxfgnAHGNUrdOiUnCRQU13NKXzTX4/edit?usp=sharing
+
 
 \newpage
 

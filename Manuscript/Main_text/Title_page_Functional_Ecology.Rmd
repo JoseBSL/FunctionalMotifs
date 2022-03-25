@@ -1,5 +1,5 @@
 ---
-title: "The non-random assembly of functional motifs in plant-pollinator networks worldwide"
+title: "The non-random assembly of functional motifs in plant-pollinator networks"
 output: pdf_document
 ---
 

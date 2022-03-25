@@ -34,9 +34,7 @@ always_allow_html: true
 
 \captionsetup[table]{labelformat=empty}
 
-**The non-random assembly of functional motifs in plant-pollinator networks worldwide**
-
-Jose B. Lanuza, Alfonso Allen-Perkins and Ignasi Bartomeus
+**The non-random assembly of functional motifs in plant-pollinator networks**
 
 \
 
@@ -311,17 +309,17 @@ latitude <- c("42.315336", #1
               "27.90139", #5
               "-36.45", #6
               "71", #7
-              "39.4", "-20.25", #8
+              "39.4", "-23.25", #8 #modified for visibility of ovelapping
               "45.4", #9
               "-21.701111", #10
-              "-4.67",
+              "-7.67",#11 #modified for visibility of ovelapping
               "37.234966", #12bart
               "-4.666667", #13
               "-20.4538",
               "-32.008985", #15
               "39.278958",
               "-43.035889",
-              "56.066667")
+              "59.066667")#18 #modified for visibility of ovelapping
 
 id <- c("Bartomeus1", #1
         "Dicks", #2
@@ -357,20 +355,28 @@ d$latitude <- as.numeric(d$latitude)
 
 sf::sf_use_s2(FALSE)
 
+#these colors come from the library(pals)- labs = c('alphabet')
 
+
+colors <- c("#FFA405", "#0075DC", "#993F00", "#4C005C", "#5EF1F2", 
+        "#005C31", "#2BCE48", "black", "lightblue", "#94FFB5", 
+        "#8F7C00", "#9DCC00", "#C20088", "#003380", "gold1", 
+        "#FFA8BB", "#426600", "#FF0010", "#191919")
+
+set.seed(12)
 ggplot(data = world) +
   geom_sf(fill="antiquewhite", color="grey49") +
   xlab("Longitude") + ylab("Latitude") +
-  geom_jitter(data=d , aes(longitude,latitude, color=id), 
-              shape = 10,  fill = "white",size = 4, 
-              stroke = 1,width = 0.2, height = 3)+ 
+  geom_point(data=d , aes(longitude,latitude,  color=id),  shape=10,
+           size = 3.5, stroke=1)+ 
   theme(panel.grid.major = element_line(color = gray(.5), 
 linetype = "dashed", size = 0), panel.background = element_rect(fill = "aliceblue"))+
   coord_sf(expand = FALSE) +  scale_y_continuous(breaks = c(-50,0, 50)) +
   scale_x_continuous(breaks = c(-100,0, 100)) +
-  theme(legend.key.size = unit(0.3, 'cm'), legend.text = element_text(size=6),
+  theme(legend.key.size = unit(0.5, 'cm'), legend.text = element_text(size=6),
          legend.title = element_text(size=12))+
-  scale_colour_discrete(name = "Study \n locations")
+  scale_colour_discrete(name = "Study \n locations") +   scale_colour_manual(
+    values = colors)
   
 
 

@@ -78,6 +78,13 @@ class(world)
 d$longitude <- as.numeric(d$longitude)
 d$latitude <- as.numeric(d$latitude)
 
+colors <- c("#FFE100", "#0075DC", "#993F00", "#4C005C", "#191919", 
+        "#005C31", "#2BCE48", "#FFCC99", "#808080", "#94FFB5", 
+        "#8F7C00", "#9DCC00", "#C20088", "#003380", "#FFA405", 
+        "#FFA8BB", "#426600", "#FF0010", "#5EF1F2", "#00998F", 
+        "#E0FF66", "#740AFF", "#990000", "#FFFF80", "#FFE100", 
+        "#FF5005")
+
 ggplot(data = world) +
   geom_sf(fill="antiquewhite", color="grey49") +
   xlab("Longitude") + ylab("Latitude") +
@@ -92,7 +99,8 @@ ggplot(data = world) +
         axis.ticks.x=element_blank(), #remove x axis ticks
         axis.text.y=element_blank(),  #remove y axis labels
         axis.ticks.y=element_blank()  #remove y axis ticks
-  )
+  ) +   scale_colour_manual(
+    values = colors)
 
 
 

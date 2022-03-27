@@ -242,4 +242,24 @@ p1/p2
 write.csv(pollinator_means_reordered_s_1, "Data/Csv/pollinator_means_reordered_s_1.csv")
 write.csv(plant_means_s, "Data/Csv/plant_means_s.csv")
 
+library(glmmTMB)
+library(performance)
+m_lm_pos_poll <- glmmTMB(mean~s*Node_FG, data = pollinator_means_reordered_s_1,
+                         family = beta_family())
+summary(m_lm_pos_poll)
+r2(m_lm_pos_poll)
 
+m_lm_pos_poll_rd <- glmmTMB(mean ~ s + (1|Node_FG), data = pollinator_means_reordered_s_1,
+                            family = beta_family())
+
+summary(m_lm_pos_poll_rd)
+r2(m_lm_pos_poll_rd)
+
+library(visreg)
+visreg2d(m_lm_pos_poll, "Node_FG","s",scale ="response")
+visreg(m_lm_pos_poll,"s",scale ="response")
+visreg(m_lm_pos_poll,"Node_FG",scale ="response")
+
+visreg2d(m_lm_pos_poll_rd, "Node_FG","s",scale ="response")
+visreg(m_lm_pos_poll_rd,"s",scale ="response")
+visreg(m_lm_pos_poll_rd,"Node_FG",scale ="response")

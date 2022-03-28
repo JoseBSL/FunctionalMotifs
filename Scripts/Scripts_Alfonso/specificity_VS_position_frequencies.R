@@ -286,8 +286,17 @@ pollinator_freq_position_s_ind <- pollinator_freq_position_s %>%
   filter(!Node_FG %in% c("Birds","Lizards","Other_insects")) %>%
   rename(Percentil=percentil_its_GF,Specificity=s,Indirect_interactions=indirect_interactions,Group=Node_FG)
 
-model_freq_specif_ind <- lmer(Percentil ~ Specificity*Group + Indirect_interactions*Group + (1|study_id), 
-                           pollinator_freq_position_s_ind)
+pollinator_freq_position_s_ind$Percentil[pollinator_freq_position_s_ind$Percentil==0] <- 
+  1e-10
+
+pollinator_freq_position_s_ind$Percentil[pollinator_freq_position_s_ind$Percentil==1] <- 
+  1-1e-10
+
+model_freq_specif_ind <- glmmTMB(Percentil ~ Specificity*Group + 
+                                   Indirect_interactions*Group + 
+                                   (1|study_id), 
+                           pollinator_freq_position_s_ind,
+                           family = beta_family())
 
 
 summary(model_freq_specif_ind)
@@ -297,14 +306,143 @@ library(visreg)
 visreg2d(model_freq_specif_ind, "Group","Specificity",scale ="response")
 visreg2d(model_freq_specif_ind, "Group","Indirect_interactions",scale ="response")
 
-library(tidyverse)
-library(ggplot2)
-p3 <- ggplot(pollinator_freq_position_s,aes(x=s,y=percentil_its_GF))+
-  geom_point(alpha=0.5, color="black")+
-  geom_smooth(method = "lm",color="black")+
-  facet_wrap(~Node_FG)+
-  labs(x="Specificty",y="Percentil per position") +
-  theme_bw() + ggtitle("Floral visitors") +
-  theme(plot.title = element_text(hjust = 0.5))
+########################################3
+#
 
-p1/p3
+
+############################
+#Visualization of slopes by using visreg
+
+library(ggeffects)
+library(scales)
+Bee_freq_position_s_ind <- pollinator_freq_position_s_ind %>% 
+  filter(Group =="Bee")
+
+model_Bee <- glmmTMB(Percentil ~ Specificity + 
+                       Indirect_interactions + 
+                       (1|study_id), Bee_freq_position_s_ind,
+                     family = beta_family())
+
+coleoptera_freq_position_s_ind <- pollinator_freq_position_s_ind %>% 
+  filter(Group =="Coleoptera")
+
+model_coleoptera <- glmmTMB(Percentil ~ Specificity + 
+                       Indirect_interactions + 
+                       (1|study_id), coleoptera_freq_position_s_ind,
+                     family = beta_family())
+
+Lepidoptera_freq_position_s_ind <- pollinator_freq_position_s_ind %>% 
+  filter(Group =="Lepidoptera")
+model_Lepidoptera <- glmmTMB(Percentil ~ Specificity + 
+                       Indirect_interactions + 
+                       (1|study_id), Lepidoptera_freq_position_s_ind,
+                     family = beta_family())
+
+NonbeeHymenoptera_freq_position_s_ind <- pollinator_freq_position_s_ind %>% 
+  filter(Group =="Non-bee-Hymenoptera")
+model_NonbeeHymenoptera <- glmmTMB(Percentil ~ Specificity + 
+                               Indirect_interactions + 
+                               (1|study_id), NonbeeHymenoptera_freq_position_s_ind,
+                             family = beta_family())
+Nonsyrphidsdiptera_freq_position_s_ind <- pollinator_freq_position_s_ind %>% 
+  filter(Group =="Non-syrphids-diptera")
+model_Nonsyrphidsdiptera <- glmmTMB(Percentil ~ Specificity + 
+                                     Indirect_interactions + 
+                                     (1|study_id), Nonsyrphidsdiptera_freq_position_s_ind,
+                                   family = beta_family())
+
+Syrphids_freq_position_s_ind <- pollinator_freq_position_s_ind %>% 
+  filter(Group =="Syrphids")
+model_Syrphids <- glmmTMB(Percentil ~ Specificity + 
+                                      Indirect_interactions + 
+                                      (1|study_id), Syrphids_freq_position_s_ind,
+                                    family = beta_family())
+
+
+
+#####################################
+dev.off()
+par(mfrow = c(4,3),mar=c(3.95,4,1,1))
+
+visreg(model_Bee,"Specificity",xlab="Specificity",ylab="Percentil",
+       main="Bee",scale="response", rug=FALSE)#,gg = TRUE, partial=TRUE)#, rug=FALSE)+
+points(Percentil ~ Specificity, data = Bee_freq_position_s_ind, 
+       col = rgb(red = 0, green = 0, blue = 0, alpha = 0.5),
+       pch = 20) 
+
+visreg(model_coleoptera,"Specificity",xlab="Specificity",ylab="Percentil",
+       main="Coleoptera",scale="response", rug=FALSE)#,gg = TRUE, partial=TRUE)#, rug=FALSE)+
+points(Percentil ~ Specificity, data = coleoptera_freq_position_s_ind, 
+       col = rgb(red = 0, green = 0, blue = 0, alpha = 0.5),
+       pch = 20) 
+
+visreg(model_Lepidoptera,"Specificity",xlab="Specificity",ylab="Percentil",
+       main="Lepidoptera",scale="response", rug=FALSE)#,gg = TRUE, partial=TRUE)#, rug=FALSE)+
+points(Percentil ~ Specificity, data = Lepidoptera_freq_position_s_ind, 
+       col = rgb(red = 0, green = 0, blue = 0, alpha = 0.5),
+       pch = 20) 
+
+visreg(model_NonbeeHymenoptera,"Specificity",xlab="Specificity",ylab="Percentil",
+       main="Non-bee-Hymenoptera",scale="response", rug=FALSE)#,gg = TRUE, partial=TRUE)#, rug=FALSE)+
+points(Percentil ~ Specificity, data = NonbeeHymenoptera_freq_position_s_ind, 
+       col = rgb(red = 0, green = 0, blue = 0, alpha = 0.5),
+       pch = 20) 
+
+visreg(model_Nonsyrphidsdiptera,"Specificity",xlab="Specificity",ylab="Percentil",
+       main="Non-syrphids-diptera",scale="response", rug=FALSE)#,gg = TRUE, partial=TRUE)#, rug=FALSE)+
+points(Percentil ~ Specificity, data = Nonsyrphidsdiptera_freq_position_s_ind, 
+       col = rgb(red = 0, green = 0, blue = 0, alpha = 0.5),
+       pch = 20) 
+
+visreg(model_Syrphids,"Specificity",xlab="Specificity",ylab="Percentil",
+       main="Syrphids",scale="response", rug=FALSE)#,gg = TRUE, partial=TRUE)#, rug=FALSE)+
+points(Percentil ~ Specificity, data = Syrphids_freq_position_s_ind, 
+       col = rgb(red = 0, green = 0, blue = 0, alpha = 0.5),
+       pch = 20) 
+
+
+##############
+
+visreg(model_Bee,"Indirect_interactions",xlab="I. interactions",ylab="Percentil",
+       main="Bee",scale="response", rug=FALSE)#,gg = TRUE, partial=TRUE)#, rug=FALSE)+
+points(Percentil ~ Indirect_interactions, data = Bee_freq_position_s_ind, 
+       col = rgb(red = 0, green = 0, blue = 0, alpha = 0.5),
+       pch = 20) 
+
+visreg(model_coleoptera,"Indirect_interactions",xlab="I. interactions",ylab="Percentil",
+       main="Coleoptera",scale="response", rug=FALSE)#,gg = TRUE, partial=TRUE)#, rug=FALSE)+
+points(Percentil ~ Indirect_interactions, data = coleoptera_freq_position_s_ind, 
+       col = rgb(red = 0, green = 0, blue = 0, alpha = 0.5),
+       pch = 20) 
+
+visreg(model_Lepidoptera,"Specificity",xlab="Specificity",ylab="Percentil",
+       main="Lepidoptera",scale="response", rug=FALSE)#,gg = TRUE, partial=TRUE)#, rug=FALSE)+
+points(Percentil ~ Indirect_interactions, data = Lepidoptera_freq_position_s_ind, 
+       col = rgb(red = 0, green = 0, blue = 0, alpha = 0.5),
+       pch = 20) 
+
+visreg(model_NonbeeHymenoptera,"Indirect_interactions",xlab="I. interactions",ylab="Percentil",
+       main="Non-bee-Hymenoptera",scale="response", rug=FALSE)#,gg = TRUE, partial=TRUE)#, rug=FALSE)+
+points(Percentil ~ Indirect_interactions, data = NonbeeHymenoptera_freq_position_s_ind, 
+       col = rgb(red = 0, green = 0, blue = 0, alpha = 0.5),
+       pch = 20) 
+
+visreg(model_Nonsyrphidsdiptera,"Indirect_interactions",xlab="I. interactions",ylab="Percentil",
+       main="Non-syrphids-diptera",scale="response", rug=FALSE)#,gg = TRUE, partial=TRUE)#, rug=FALSE)+
+points(Percentil ~ Indirect_interactions, data = Nonsyrphidsdiptera_freq_position_s_ind, 
+       col = rgb(red = 0, green = 0, blue = 0, alpha = 0.5),
+       pch = 20) 
+
+visreg(model_Syrphids,"Indirect_interactions",xlab="I. interactions",ylab="Percentil",
+       main="Syrphids",scale="response", rug=FALSE)#,gg = TRUE, partial=TRUE)#, rug=FALSE)+
+points(Percentil ~ Indirect_interactions, data = Syrphids_freq_position_s_ind, 
+       col = rgb(red = 0, green = 0, blue = 0, alpha = 0.5),
+       pch = 20) 
+
+# save
+#
+#
+#
+#
+#
+dev.off()

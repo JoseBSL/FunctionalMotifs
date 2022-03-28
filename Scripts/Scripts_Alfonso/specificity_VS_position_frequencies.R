@@ -263,3 +263,42 @@ visreg(m_lm_pos_poll,"Node_FG",scale ="response")
 visreg2d(m_lm_pos_poll_rd, "Node_FG","s",scale ="response")
 visreg(m_lm_pos_poll_rd,"s",scale ="response")
 visreg(m_lm_pos_poll_rd,"Node_FG",scale ="response")
+
+
+#---------------------------------
+# Analisys with LMMs all obs. freq. per position and study
+library(lme4)
+library(performance)
+
+pollinator_freq_position_s <- pollinator_position_percentiles_filtered %>% 
+  left_join(specificity_pollinator, by = "position") %>% mutate(position=as.factor(position))
+
+pollinator_freq_position_s$s[is.nan(pollinator_freq_position_s$s)] <- 1.0
+
+model_freq_specif1 <- lmer(observed_freq ~ s*Node_FG+(1|Network_id), 
+                             pollinator_freq_position_s)
+
+model_freq_specif2 <- lmer(observed_freq ~ s+(1+s|Node_FG/Network_id), 
+                           pollinator_freq_position_s)
+
+summary(model_freq_specif1)
+r2(model_freq_specif1)
+
+summary(model_freq_specif2)
+r2(model_freq_specif2)
+
+library(visreg)
+visreg2d(model_freq_specif1, "Node_FG","s",scale ="response")
+visreg(model_freq_specif1, "Node_FG", gg=TRUE, ylab="Node_FG")
+
+library(tidyverse)
+library(ggplot2)
+p3 <- ggplot(pollinator_freq_position_s,aes(x=s,y=observed_freq))+
+  geom_point(alpha=0.5, color="black")+
+  geom_smooth(method = "lm",color="black")+
+  facet_wrap(~Node_FG)+
+  labs(x="Specificty",y="Observed frequency per position") +
+  theme_bw() + ggtitle("Floral visitors") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+p1/p3

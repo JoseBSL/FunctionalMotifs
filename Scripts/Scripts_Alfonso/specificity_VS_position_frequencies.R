@@ -270,6 +270,7 @@ visreg(m_lm_pos_poll_rd,"Node_FG",scale ="response")
 
 
 library(lme4)
+library(glmmTMB)
 library(performance)
 
 pollinator_freq_position_s <- pollinator_position_percentiles_filtered %>% 
@@ -306,12 +307,35 @@ library(visreg)
 visreg2d(model_freq_specif_ind, "Group","Specificity",scale ="response")
 visreg2d(model_freq_specif_ind, "Group","Indirect_interactions",scale ="response")
 
+# Pollinator Model REAL OUTPUTS!!!
+
+pollinators_sp_plot <- visreg(model_freq_specif_ind, "Specificity", by="Group",
+                         strip.names=c("Bee",
+                                       "Coleoptera",
+                                       "Lepidoptera",
+                                       "Non-bee-Hymenoptera",
+                                       "Non-syrphids-diptera",
+                                       "Syrphids"),gg = TRUE)+
+  theme_bw()
+
+pollinators_ind_int_plot <- visreg(model_freq_specif_ind, "Indirect_interactions", by="Group",
+                              strip.names=c("Bee",
+                                            "Coleoptera",
+                                            "Lepidoptera",
+                                            "Non-bee-Hymenoptera",
+                                            "Non-syrphids-diptera",
+                                            "Syrphids"),gg = TRUE)+
+  theme_bw()+xlab("Indirect interactions")
+
+library(patchwork)
+pollinators_sp_plot/pollinators_ind_int_plot
+
 ########################################3
 #
 
 
 ############################
-#Visualization of slopes by using visreg
+#Visualization of slopes by using visreg: This is not OK because I will use individual fits
 
 library(ggeffects)
 library(scales)
@@ -487,8 +511,30 @@ summary(model_freq_specif_ind_plant)
 r2(model_freq_specif_ind_plant)
 
 library(visreg)
+dev.off()
 visreg2d(model_freq_specif_ind_plant, "Group","Specificity",scale ="response")
 visreg2d(model_freq_specif_ind_plant, "Group","Indirect_interactions",scale ="response")
+
+# Plant Model REAL OUTPUTS!!!
+
+plants_sp_plot <- visreg(model_freq_specif_ind_plant, "Specificity", by="Group",
+       strip.names=c("Selfing herbs",
+                     "Small outcrossing perennials",
+                     "Self-incompatible perennials\nwith large flowers",
+                     "Tall plants with small\nunisexual flowers",
+                     "Short-lived outcrossers with\nlong zygomorphic flowers"),gg = TRUE)+
+  theme_bw()
+
+plants_ind_int_plot <- visreg(model_freq_specif_ind_plant, "Indirect_interactions", by="Group",
+                         strip.names=c("Selfing herbs",
+                                       "Small outcrossing perennials",
+                                       "Self-incompatible perennials\nwith large flowers",
+                                       "Tall plants with small\nunisexual flowers",
+                                       "Short-lived outcrossers with\nlong zygomorphic flowers"),gg = TRUE)+
+  theme_bw()+xlab("Indirect interactions")
+
+library(patchwork)
+plants_sp_plot/plants_ind_int_plot
 
 ########################################3
 #
@@ -576,7 +622,7 @@ points(Percentil ~ Specificity, data = G3_freq_position_s_ind,
        pch = 20) 
 
 visreg(model_G3,"Indirect_interactions",xlab="I. interactions",ylab="Percentil",
-       main="self-incompatible perennials with large flowers",scale="response", rug=FALSE)#,gg = TRUE, partial=TRUE)#, rug=FALSE)+
+       main="Self-incompatible perennials with large flowers",scale="response", rug=FALSE)#,gg = TRUE, partial=TRUE)#, rug=FALSE)+
 points(Percentil ~ Indirect_interactions, data = G3_freq_position_s_ind, 
        col = rgb(red = 0, green = 0, blue = 0, alpha = 0.5),
        pch = 20) 

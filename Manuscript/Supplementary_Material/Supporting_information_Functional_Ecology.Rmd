@@ -1763,43 +1763,59 @@ ggplot(ggd1,offset_labels=-0.05) + theme(panel.grid.major = element_blank(),
 \elandscape
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE, fig.height=12, fig.width=12, fig.align = 'center', fig.cap="\\textbf{Figure S6.} Association between the frequency and specificity on the different motif positions for floral visitor (panel A) and plant (panel B) groups. The different numerical categories of the plant groups correspond to: 1 (selfing herbs), 2 (small outcrossing perennials), 3 (self-incompatible perennials with large flowers), 4 (tall plants with small unisexual flowers) and 5 (short-lived outcrossers with long zygomorphic flowers)."}
+\blandscape
 
+
+```{r, echo=FALSE, message=FALSE, cache=FALSE, fig.pos="t", warning=FALSE,fig.align="center", fig.width=14,fig.height=7, out.width='100%'}
 
 library(ggplot2)
+library(glmmTMB)
+#Read floral visitor data and model output
+model_freq_specif_ind <- readRDS("../../Data/RData/model_freq_specif_ind.RData")
+pollinator_freq_position_s_ind <- readRDS("../../Data/RData/pollinator_freq_position_s_ind.RData")
+#Read plant data and model output
+model_freq_specif_ind_plant <- readRDS("../../Data/RData/model_freq_specif_ind_plant.RData")
+plant_freq_position_s_ind <- readRDS("../../Data/RData/plant_freq_position_s_ind.RData")
+
+library(visreg)
+
+# Pollinator Model REAL OUTPUTS!!!
+
+pollinators_sp_plot <- visreg(model_freq_specif_ind, "Specificity", by="Group",line.par = list(col = 'black'),
+                         strip.names=c("Bee",
+                                       "Coleoptera",
+                                       "Lepidoptera",
+                                       "Non-bee-Hymenoptera",
+                                       "Non-syrphids-diptera",
+                                       "Syrphids"),gg = TRUE) + theme_bw() +
+  xlab("Specialization") + ylab("Partial residuals \n for percentile")+
+  scale_x_continuous(breaks = seq(0, 1, by = 0.5))+ scale_fill_grey(start=0.5, end=0.8) +
+   theme(strip.text.x = element_text(size = 12),plot.title = element_text(hjust = 0.5, size = 23))+
+    ggtitle("Floral visitors")
+
+
+
+plants_sp_plot <- visreg(model_freq_specif_ind_plant, "Specificity",line.par = list(col = 'black'), by="Group",
+       strip.names=c("Selfing herbs",
+                     "Small outcrossing perennials",
+                     "Self-incompatible perennials\nwith large flowers",
+                     "Tall plants with small\nunisexual flowers",
+                     "Short-lived outcrossers with\nlong zygomorphic flowers"),gg = TRUE)+ theme_bw() +
+  xlab("Specialization") + ylab("Partial residuals \n for percentile")+
+  scale_x_continuous(breaks = seq(0, 1, by = 0.5))+
+   theme(strip.text.x = element_text(size = 12),plot.title = element_text(hjust = 0.5, size = 23))+
+  ggtitle("Plants")
+
+
 library(patchwork)
-
-pollinator_means_reordered_s_1 <- read.csv("../../Data/Csv/pollinator_means_reordered_s_1.csv")
-
-plant_means_s <- read.csv("../../Data/Csv/plant_means_s.csv")
-
-p1 <- ggplot(pollinator_means_reordered_s_1,aes(x=s,y=mean))+
-  geom_point(alpha=0.5, color="black")+
-  geom_smooth(method = "lm",color="black")+
-  facet_wrap(~Node_FG)+
-  labs(x="Specificty",y="Average frequency per motif position") +
-  theme_bw() + ggtitle("Floral visitors") +
-  theme(plot.title = element_text(hjust = 0.5, size = 25),
-        axis.text=element_text(size=12),
-        axis.title=element_text(size=18),
-        strip.text = element_text(size=20))
-
-
-p2 <- ggplot(plant_means_s,aes(x=s,y=mean))+
-  geom_point(alpha=0.5, color="black")+
-  geom_smooth(method = "lm", color="black")+
-  facet_wrap(~Node_FG)+
-  labs(x="Specificty",y="Average frequency per motif position")+
-  theme_bw() + ggtitle("Plants") +
-  theme(plot.title = element_text(hjust = 0.5, size = 25),
-        axis.text=element_text(size=12),
-        axis.title=element_text(size=18),
-        strip.text = element_text(size=20))
-
-p1/p2 +  plot_annotation(tag_levels = c('A'),  tag_suffix = ')') &  theme(plot.tag = element_text(size = 22))
+pollinators_sp_plot/plants_sp_plot & theme(axis.text=element_text(size=10),
+        axis.title=element_text(size=16)) & plot_annotation(tag_levels = c('A'),  tag_suffix = ')') &  theme(plot.tag = element_text(size = 22))
 
 
 ```
+
+\elandscape
+
 
 
 ```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE,out.width="90%",fig.align="center", fig.width=10,fig.height=12, fig.cap="\\textbf{Figure S7.} Frequency of the different floral visitor groups on the different motif positions aggregated by the number of indirect interactions for the different motif positions."}

@@ -7,7 +7,7 @@ classoption: landscape
 
 ---
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE, fig.pos="t", warning=FALSE,out.width="75%",fig.align="center", fig.width=14,fig.height=6, out.width='100%'}
+```{r, echo=FALSE, message=FALSE, cache=FALSE, fig.pos="t", warning=FALSE,fig.align="center", fig.width=14,fig.height=7, out.width='100%'}
 
 library(ggplot2)
 library(glmmTMB)
@@ -30,7 +30,11 @@ pollinators_sp_plot <- visreg(model_freq_specif_ind, "Specificity", by="Group",l
                                        "Non-syrphids-diptera",
                                        "Syrphids"),gg = TRUE) + theme_bw() +
   xlab("Specialization") + ylab("Partial residuals \n for percentile")+
-  scale_x_continuous(breaks = seq(0, 1, by = 0.5))+ scale_fill_grey(start=0.5, end=0.8)
+  scale_x_continuous(breaks = seq(0, 1, by = 0.5))+ scale_fill_grey(start=0.5, end=0.8) +
+   theme(strip.text.x = element_text(size = 12),plot.title = element_text(hjust = 0.5, size = 23))+
+    ggtitle("Floral visitors")
+
+
 
 plants_sp_plot <- visreg(model_freq_specif_ind_plant, "Specificity",line.par = list(col = 'black'), by="Group",
        strip.names=c("Selfing herbs",
@@ -39,12 +43,16 @@ plants_sp_plot <- visreg(model_freq_specif_ind_plant, "Specificity",line.par = l
                      "Tall plants with small\nunisexual flowers",
                      "Short-lived outcrossers with\nlong zygomorphic flowers"),gg = TRUE)+ theme_bw() +
   xlab("Specialization") + ylab("Partial residuals \n for percentile")+
-  scale_x_continuous(breaks = seq(0, 1, by = 0.5))
+  scale_x_continuous(breaks = seq(0, 1, by = 0.5))+
+   theme(strip.text.x = element_text(size = 12),plot.title = element_text(hjust = 0.5, size = 23))+
+  ggtitle("Plants")
+
+
 
 
 library(patchwork)
 pollinators_sp_plot/plants_sp_plot & theme(axis.text=element_text(size=10),
-        axis.title=element_text(size=14)) & plot_annotation(tag_levels = c('A'),  tag_suffix = ')') &  theme(plot.tag = element_text(size = 22))
+        axis.title=element_text(size=16)) & plot_annotation(tag_levels = c('A'),  tag_suffix = ')') &  theme(plot.tag = element_text(size = 22))
 
 
 ```

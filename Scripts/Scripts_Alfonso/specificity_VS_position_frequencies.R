@@ -266,7 +266,7 @@ visreg(m_lm_pos_poll_rd,"Node_FG",scale ="response")
 
 
 #---------------------------------
-# Analisys with LMMs
+# Percentil analises with LMMs for Pollinators
 
 
 library(lme4)
@@ -438,6 +438,178 @@ visreg(model_Syrphids,"Indirect_interactions",xlab="I. interactions",ylab="Perce
 points(Percentil ~ Indirect_interactions, data = Syrphids_freq_position_s_ind, 
        col = rgb(red = 0, green = 0, blue = 0, alpha = 0.5),
        pch = 20) 
+
+# save
+#
+#
+#
+#
+#
+dev.off()
+
+
+
+#---------------------------------
+# Percentil analises with LMMs for Plants
+
+
+library(lme4)
+library(performance)
+
+plant_freq_position_s <- plant_position_percentiles_filtered %>% 
+  left_join(specificity_plant, by = "position")
+
+plant_freq_position_s$s[is.nan(plant_freq_position_s$s)] <- 1.0
+
+# Indirect interaction data
+motif_interactions <- read_csv("Data/Data_processing/Motifs_connections/motif_interactions.csv") %>%
+  select(position,indirect_interactions) %>% unique()
+
+plant_freq_position_s_ind <- plant_freq_position_s %>% 
+  left_join(motif_interactions, by = "position") %>% 
+  filter(!Node_FG %in% c("Birds","Lizards","Other_insects")) %>%
+  rename(Percentil=percentil_its_GF,Specificity=s,Indirect_interactions=indirect_interactions,Group=Node_FG)
+
+plant_freq_position_s_ind$Percentil[plant_freq_position_s_ind$Percentil==0] <- 
+  1e-10
+
+plant_freq_position_s_ind$Percentil[plant_freq_position_s_ind$Percentil==1] <- 
+  1-1e-10
+
+model_freq_specif_ind_plant <- glmmTMB(Percentil ~ Specificity*Group + 
+                                   Indirect_interactions*Group + 
+                                   (1|study_id), 
+                                 plant_freq_position_s_ind,
+                                 family = beta_family())
+
+
+summary(model_freq_specif_ind_plant)
+r2(model_freq_specif_ind_plant)
+
+library(visreg)
+visreg2d(model_freq_specif_ind_plant, "Group","Specificity",scale ="response")
+visreg2d(model_freq_specif_ind_plant, "Group","Indirect_interactions",scale ="response")
+
+########################################3
+#
+
+
+############################
+#Visualization of slopes by using visreg
+
+library(ggeffects)
+library(scales)
+G1_freq_position_s_ind <- plant_freq_position_s_ind %>% 
+  filter(Group =="1")
+
+model_G1 <- glmmTMB(Percentil ~ Specificity + 
+                       Indirect_interactions + 
+                       (1|study_id), G1_freq_position_s_ind,
+                     family = beta_family())
+
+G2_freq_position_s_ind <- plant_freq_position_s_ind %>% 
+  filter(Group =="2")
+
+model_G2 <- glmmTMB(Percentil ~ Specificity + 
+                              Indirect_interactions + 
+                              (1|study_id), G2_freq_position_s_ind,
+                            family = beta_family())
+
+G3_freq_position_s_ind <- plant_freq_position_s_ind %>% 
+  filter(Group =="3")
+model_G3<- glmmTMB(Percentil ~ Specificity + 
+                               Indirect_interactions + 
+                               (1|study_id), G3_freq_position_s_ind,
+                             family = beta_family())
+
+G4_freq_position_s_ind <- plant_freq_position_s_ind %>% 
+  filter(Group =="4")
+model_G4 <- glmmTMB(Percentil ~ Specificity + 
+                                     Indirect_interactions + 
+                                     (1|study_id), G4_freq_position_s_ind,
+                                   family = beta_family())
+G5_freq_position_s_ind <- plant_freq_position_s_ind %>% 
+  filter(Group =="5")
+model_G5 <- glmmTMB(Percentil ~ Specificity + 
+                                      Indirect_interactions + 
+                                      (1|study_id), G5_freq_position_s_ind,
+                                    family = beta_family())
+
+
+
+
+#####################################
+dev.off()
+par(mfrow = c(5,2),mar=c(3.95,4,1,1))
+
+visreg(model_G1,"Specificity",xlab="Specificity",ylab="Percentil",
+       main="Selfing herbs",scale="response", rug=FALSE)#,gg = TRUE, partial=TRUE)#, rug=FALSE)+
+points(Percentil ~ Specificity, data = G1_freq_position_s_ind, 
+       col = rgb(red = 0, green = 0, blue = 0, alpha = 0.5),
+       pch = 20) 
+
+visreg(model_G1,"Indirect_interactions",xlab="I. interactions",ylab="Percentil",
+       main="Selfing herbs",scale="response", rug=FALSE)#,gg = TRUE, partial=TRUE)#, rug=FALSE)+
+points(Percentil ~ Indirect_interactions, data = G1_freq_position_s_ind, 
+       col = rgb(red = 0, green = 0, blue = 0, alpha = 0.5),
+       pch = 20) 
+
+
+visreg(model_G2,"Specificity",xlab="Specificity",ylab="Percentil",
+       main="Small outcrossing perennials",scale="response", rug=FALSE)#,gg = TRUE, partial=TRUE)#, rug=FALSE)+
+points(Percentil ~ Specificity, data = G2_freq_position_s_ind, 
+       col = rgb(red = 0, green = 0, blue = 0, alpha = 0.5),
+       pch = 20) 
+
+visreg(model_G2,"Indirect_interactions",xlab="I. interactions",ylab="Percentil",
+       main="Small outcrossing perennials",scale="response", rug=FALSE)#,gg = TRUE, partial=TRUE)#, rug=FALSE)+
+points(Percentil ~ Indirect_interactions, data = G2_freq_position_s_ind, 
+       col = rgb(red = 0, green = 0, blue = 0, alpha = 0.5),
+       pch = 20) 
+
+
+
+visreg(model_G3,"Specificity",xlab="Specificity",ylab="Percentil",
+       main="Self-incompatible perennials with large flowers",scale="response", rug=FALSE)#,gg = TRUE, partial=TRUE)#, rug=FALSE)+
+points(Percentil ~ Specificity, data = G3_freq_position_s_ind, 
+       col = rgb(red = 0, green = 0, blue = 0, alpha = 0.5),
+       pch = 20) 
+
+visreg(model_G3,"Indirect_interactions",xlab="I. interactions",ylab="Percentil",
+       main="self-incompatible perennials with large flowers",scale="response", rug=FALSE)#,gg = TRUE, partial=TRUE)#, rug=FALSE)+
+points(Percentil ~ Indirect_interactions, data = G3_freq_position_s_ind, 
+       col = rgb(red = 0, green = 0, blue = 0, alpha = 0.5),
+       pch = 20) 
+
+
+
+visreg(model_G4,"Specificity",xlab="Specificity",ylab="Percentil",
+       main="Tall plants with small unisexual flowers",scale="response", rug=FALSE)#,gg = TRUE, partial=TRUE)#, rug=FALSE)+
+points(Percentil ~ Specificity, data = G4_freq_position_s_ind, 
+       col = rgb(red = 0, green = 0, blue = 0, alpha = 0.5),
+       pch = 20) 
+
+visreg(model_G4,"Indirect_interactions",xlab="I. interactions",ylab="Percentil",
+       main="Tall plants with small unisexual flowers",scale="response", rug=FALSE)#,gg = TRUE, partial=TRUE)#, rug=FALSE)+
+points(Percentil ~ Indirect_interactions, data = G4_freq_position_s_ind, 
+       col = rgb(red = 0, green = 0, blue = 0, alpha = 0.5),
+       pch = 20) 
+
+
+
+visreg(model_G5,"Specificity",xlab="Specificity",ylab="Percentil",
+       main="Short-lived outcrossers with long zygomorphic flowers",scale="response", rug=FALSE)#,gg = TRUE, partial=TRUE)#, rug=FALSE)+
+points(Percentil ~ Specificity, data = G5_freq_position_s_ind, 
+       col = rgb(red = 0, green = 0, blue = 0, alpha = 0.5),
+       pch = 20) 
+
+visreg(model_G5,"Indirect_interactions",xlab="I. interactions",ylab="Percentil",
+       main="Short-lived outcrossers with long zygomorphic flowers",scale="response", rug=FALSE)#,gg = TRUE, partial=TRUE)#, rug=FALSE)+
+points(Percentil ~ Indirect_interactions, data = G5_freq_position_s_ind, 
+       col = rgb(red = 0, green = 0, blue = 0, alpha = 0.5),
+       pch = 20) 
+
+
 
 # save
 #

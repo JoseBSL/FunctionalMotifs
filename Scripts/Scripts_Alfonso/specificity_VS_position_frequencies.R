@@ -328,6 +328,11 @@ pollinators_ind_int_plot <- visreg(model_freq_specif_ind, "Indirect_interactions
                                             "Syrphids"),gg = TRUE)+
   theme_bw()+xlab("Indirect interactions")
 
+
+
+#Save model data
+saveRDS(model_freq_specif_ind, "Data/RData/model_freq_specif_ind.RData")
+
 library(patchwork)
 pollinators_sp_plot/pollinators_ind_int_plot
 
@@ -549,6 +554,9 @@ plants_ind_int_plot <- visreg(model_freq_specif_ind_plant, "Indirect_interaction
 
 library(patchwork)
 plants_sp_plot/plants_ind_int_plot
+
+#Save model data
+saveRDS(model_freq_specif_ind_plant, "Data/RData/model_freq_specif_ind_plant.RData")
 
 
 library("DHARMa")

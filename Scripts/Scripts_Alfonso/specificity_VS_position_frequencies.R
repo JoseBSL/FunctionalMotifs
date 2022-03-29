@@ -255,6 +255,7 @@ m_lm_pos_poll_rd <- glmmTMB(mean ~ s + (1|Node_FG), data = pollinator_means_reor
 summary(m_lm_pos_poll_rd)
 r2(m_lm_pos_poll_rd)
 
+
 library(visreg)
 visreg2d(m_lm_pos_poll, "Node_FG","s",scale ="response")
 visreg(m_lm_pos_poll,"s",scale ="response")
@@ -301,6 +302,17 @@ model_freq_specif_ind <- lmer(Percentil ~ Specificity*Group +
                            pollinator_freq_position_s_ind)
 
 
+model_freq_specif_ind <- glmmTMB(Percentil ~ Specificity*Group +
+                       scale(Indirect_interactions)*Group + 
+                       (1|study_id/position),
+                     pollinator_freq_position_s_ind)
+
+
+#Save model data
+saveRDS(model_freq_specif_ind, "Data/RData/model_freq_specif_ind.RData")
+saveRDS(pollinator_freq_position_s_ind, "Data/RData/pollinator_freq_position_s_ind.RData")
+
+
 summary(model_freq_specif_ind)
 r2(model_freq_specif_ind)
 
@@ -309,6 +321,7 @@ visreg2d(model_freq_specif_ind, "Group","Specificity",scale ="response")
 visreg2d(model_freq_specif_ind, "Group","Indirect_interactions",scale ="response")
 
 # Pollinator Model REAL OUTPUTS!!!
+model_freq_specif_ind <- readRDS("Data/RData/model_freq_specif_ind.RData")
 
 pollinators_sp_plot <- visreg(model_freq_specif_ind, "Specificity", by="Group",
                          strip.names=c("Bee",
@@ -316,8 +329,7 @@ pollinators_sp_plot <- visreg(model_freq_specif_ind, "Specificity", by="Group",
                                        "Lepidoptera",
                                        "Non-bee-Hymenoptera",
                                        "Non-syrphids-diptera",
-                                       "Syrphids"),gg = TRUE)+
-  theme_bw()
+                                       "Syrphids"),gg = TRUE) + theme_bw()
 
 pollinators_ind_int_plot <- visreg(model_freq_specif_ind, "Indirect_interactions", by="Group",
                               strip.names=c("Bee",
@@ -325,13 +337,9 @@ pollinators_ind_int_plot <- visreg(model_freq_specif_ind, "Indirect_interactions
                                             "Lepidoptera",
                                             "Non-bee-Hymenoptera",
                                             "Non-syrphids-diptera",
-                                            "Syrphids"),gg = TRUE)+
-  theme_bw()+xlab("Indirect interactions")
+                                            "Syrphids"),gg = TRUE)+ theme_bw()+xlab("Indirect interactions")
 
 
-
-#Save model data
-saveRDS(model_freq_specif_ind, "Data/RData/model_freq_specif_ind.RData")
 
 library(patchwork)
 pollinators_sp_plot/pollinators_ind_int_plot
@@ -552,11 +560,14 @@ plants_ind_int_plot <- visreg(model_freq_specif_ind_plant, "Indirect_interaction
                                        "Short-lived outcrossers with\nlong zygomorphic flowers"),gg = TRUE)+
   theme_bw()+xlab("Indirect interactions")
 
+model_freq_specif_ind_plant$fit
+
 library(patchwork)
 plants_sp_plot/plants_ind_int_plot
 
 #Save model data
 saveRDS(model_freq_specif_ind_plant, "Data/RData/model_freq_specif_ind_plant.RData")
+saveRDS(plant_freq_position_s_ind, "Data/RData/plant_freq_position_s_ind.RData")
 
 
 library("DHARMa")

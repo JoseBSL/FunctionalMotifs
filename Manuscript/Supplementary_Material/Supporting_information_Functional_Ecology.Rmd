@@ -1768,7 +1768,7 @@ ggplot(ggd1,offset_labels=-0.05) + theme(panel.grid.major = element_blank(),
 \blandscape
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE,fig.align="center", fig.width=14,fig.height=7, out.width='100%',  fig.cap="\\textbf{Figure S6.} Association between the percentile (see main text) and specialization of the different plant and floral visitor groups on motif positions. Here we consider that percentiles over 0.75 indicate over-representation and percentiles under 0.25 under-representation in the comparison among empirical and simulated networks"}
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE,fig.align="center", fig.width=14,fig.height=7, out.width='100%',  fig.cap="\\textbf{Figure S6.} Association between the percentile (see main text) and specialization of the different plant and floral visitor groups on motif positions. Here we consider that percentiles above 0.75 indicate over-representation and percentiles below 0.25 under-representation in the comparison between empirical and simulated networks."}
 
 library(ggplot2)
 library(glmmTMB)
@@ -1818,7 +1818,7 @@ pollinators_sp_plot/plants_sp_plot & theme(axis.text=element_text(size=10),
 
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE,fig.align="center", fig.width=14,fig.height=7, out.width='100%', fig.cap="\\textbf{Figure S7.} Association between the percentile (see main text) and number of indirect interactions of the different plant and floral visitor groups on motif positions. Here we consider that percentiles over 0.75 indicate over-representation and percentiles under 0.25 under-representation in the comparison among empirical and simulated networks"}
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE,fig.align="center", fig.width=14,fig.height=7, out.width='100%', fig.cap="\\textbf{Figure S7.} Association between the percentile (see main text) and number of indirect interactions of the different plant and floral visitor groups on motif positions. Here we consider that percentiles above 0.75 indicate over-representation and percentiles below 0.25 under-representation in the comparison between empirical and simulated networks."}
 
 library(ggplot2)
 library(glmmTMB)

@@ -194,7 +194,7 @@ colnames(references) <- c("First author", "Year", "Number of networks", "Country
 
 references %>%
   arrange(`First author`)%>%
-  kable( longtable = T, booktabs = T,linesep = "\\addlinespace",align = c("cccc"),escape = FALSE, caption= "\\textbf{Table S1.} List of studies ordered by author with the year of publication, number of contributed networks and digital object identifier") %>%
+  kable( longtable = T, booktabs = T,linesep = "\\addlinespace",align = c("cccc"),escape = FALSE, caption= "\\textbf{Table S1.} List of studies ordered by author with the year of publication, number of contributed networks and digital object identifier.") %>%
   kable_styling(latex_options = c("repeat_header","striped"),  full_width=F,position = c("center"))
 
 ```
@@ -486,7 +486,7 @@ p + ggforce::facet_col(vars(Broad_categories), scales = 'free', space = 'free',l
 ```
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.height=8,fig.width=8,fig.align = 'center', fig.cap="\\textbf{Figure S3.} Heatmap indicating under- and over- representation of pollinator and plant functional groups in the different motif positions after removing non-robust links (singletones). The different motif positions are dividied by the average path length clasification by Simmons et al. (2020). The superior dendrogram indicates the differences across groups with the more separated groups showing larger differences."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE, fig.height=8,fig.width=8,fig.align = 'center', fig.cap="\\textbf{Figure S3.} Heatmap indicating under- and over- representation of pollinator and plant functional groups in the different motif positions after removing non-robust links (singletones). The different motif positions are dividied by the average path length clasification determined by Simmons et al. (2020). The superior dendrogram indicates the differences across groups with the more separated groups showing larger differences."}
 
 library(lme4)
 library(nlme)
@@ -819,7 +819,7 @@ draw(ht_list, auto_adjust = FALSE, cluster_rows = F)
 
 \blandscape
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE,fig.height=7, fig.width=12, fig.cap="**Figure S4.** Plant functional group composition separated in qualitative and quantitative variables. Panel A) shows the percentage of the different categories within trait represented with different colours for each functional group. Plot B) shows the radar plot of the different quantitative variables standardize on the same scale also coloured with the same patterns of colours as qualitative variables per cluster or functional group. Group 1 corresponds to short-lived selfers; group 2 to small outcrossing perennials; group 3 to self-incompatible perennials with large flowers; group 4 to tall plants with small unisexual flowers; and, group 5 to short-lived outcrossers with long zygomorphic flowers."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE,fig.height=7, fig.width=12, fig.cap="**Figure S4.** Plant functional group composition separated in qualitative and quantitative variables. Panel A) shows the percentage of the different categories within trait represented with different colours for each functional group. Plot B) shows the radar plot of the different quantitative variables standardise on the same scale also coloured with the same patterns of colours as qualitative variables per cluster or functional group. Group 1 corresponds to short-lived selfers; group 2 to small outcrossing perennials; group 3 to self-incompatible perennials with large flowers; group 4 to tall plants with small unisexual flowers; and, group 5 to short-lived outcrossers with long zygomorphic flowers."}
 
 
 #CODE TO PLOT FUNCTIONAL GROUPS
@@ -1768,7 +1768,7 @@ ggplot(ggd1,offset_labels=-0.05) + theme(panel.grid.major = element_blank(),
 \blandscape
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE,fig.align="center", fig.width=14,fig.height=7, out.width='100%',  fig.cap="\\textbf{Figure S6.} Association between the percentile and specialization of the different plant and floral visitor groups on motif positions"}
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE,fig.align="center", fig.width=14,fig.height=7, out.width='100%',  fig.cap="\\textbf{Figure S6.} Association between the percentile (see main text) and specialization of the different plant and floral visitor groups on motif positions. Here we consider that percentiles over 0.75 indicate over-representation and percentiles under 0.25 under-representation in the comparison among empirical and simulated networks"}
 
 library(ggplot2)
 library(glmmTMB)
@@ -1818,7 +1818,7 @@ pollinators_sp_plot/plants_sp_plot & theme(axis.text=element_text(size=10),
 
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE,fig.align="center", fig.width=14,fig.height=7, out.width='100%', fig.cap="\\textbf{Figure S7.} Association between the percentile and number of indirect interactions of the different plant and floral visitor groups on motif positions"}
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE,fig.align="center", fig.width=14,fig.height=7, out.width='100%', fig.cap="\\textbf{Figure S7.} Association between the percentile (see main text) and number of indirect interactions of the different plant and floral visitor groups on motif positions. Here we consider that percentiles over 0.75 indicate over-representation and percentiles under 0.25 under-representation in the comparison among empirical and simulated networks"}
 
 library(ggplot2)
 library(glmmTMB)

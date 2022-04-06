@@ -35,6 +35,15 @@ biblio-style: apalike
 csl: functional-ecology.csl #funct. ecol. style from zotero styles
 ---
 
+
+__Jose B. Lanuza^1,2^__  | __Alfonso Allen-Perkins^2,3^__ | __Ignasi Bartomeus^2^__
+
+1 School of Environmental and Rural Science, University of New England, Armidale, New South Wales 2350, Australia.
+
+2 Estación Biológica de Doñana (EBD-CSIC), E-41092 Seville, Spain.
+
+3 Departamento de Ingeniería Eléctrica, Electrónica, Automática y Física Aplicada, ETSIDI, Universidad Politécnica de Madrid, 28040 Madrid, Spain.
+
 \captionsetup[table]{labelformat=empty}
 
 ```{r setup, include=FALSE}

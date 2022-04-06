@@ -27,7 +27,6 @@ header-includes:
 - \newcommand{\elandscape}{\end{landscape}}
 - \usepackage[left]{lineno}
 - \linenumbers
-
 output:
   pdf_document: default
   html_document: default

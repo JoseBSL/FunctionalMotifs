@@ -30,7 +30,7 @@ output:
   html_document: default
   word_document: default
 always_allow_html: true
-bibliography: bibliography.bib
+bibliography: bibliography_no_doi.bib
 biblio-style: apalike
 csl: functional-ecology.csl #funct. ecol. style from zotero styles
 ---

@@ -1491,15 +1491,6 @@ Despite the obvious usefulness of functional groups in summarizing species ecolo
 
 In conclusion, by following the framework of @simmons2020 we have been able to explore competitive and facilitative interactions in plant-pollinator networks worldwide and found that indirect interactions are non-random and are more strongly related to neutral processes than to any other ecological process. Further, we found that plant and floral visitor groups are associated with different motif positions that involve distinct ecological roles (e.g., generalisation versus specialisation) and that the different motif combinations are strongly constrained. Although we are still far to predict how species interact, our work is a first step to elucidate beyond pairwise interactions.
 
-*Acknowledgements* - This study was supported by the European project SAFEGUARD (101003476 H2020-SFS-2019-2). JBL also thanks the University of New England for the funding provided to carry out this work. Finally, we would like to thank David García-Callejas for his useful comments on the manuscript before submission.
-
-# Author contributions
-
-IB, AA-P and JBL designed the idea. JBL collected the data. AA-P lead the analysis with contributions of JBL and guidance of IB. JBL wrote the manuscript with contributions of IB and AA-P.
-
-# Data availability statement
-
-All data and code is deposited at GitHub: https://github.com/JoseBSL/FunctionalMotifs.
 
 \newpage
 

@@ -14,6 +14,7 @@ Folders:
 
 - Images: Contains files used to create a plot in the manuscript folder.
 
-- Data: Raw data can be found in Data/Trait_data_raw (plant database) and Data/Data_networks_quantitative where all plant-pollinator networks used in this study can be found there.
+- Data: Raw data can be found in Data/Trait_data_raw (plant database) and Data/Data_networks_quantitative where all plant-pollinator networks used in this study can be found there. We have already released a first version of this project with Zenodo: https://doi.org/10.5281/zenodo.6489213.
+
 
 

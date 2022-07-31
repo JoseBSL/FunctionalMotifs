@@ -14,8 +14,8 @@ library(visreg)
 ############################################
 
 
-percentage_studies <- .75
-repetitions <- 100
+percentage_studies <- 1.0
+repetitions <- 1
 
 ################################################################################
 # Initializing variables
@@ -482,9 +482,40 @@ for (rep_i in 1:repetitions) {
 # PLOT GRAPHS
 #######################################
 
-# Load data
+library(tidyverse)
 
-percentage_studies_load <- .75
+# Load data for all datasets------------------------
+
+percentage_studies_load <- 1.0
+repetitions_load <- 1
+
+file_suffix <- paste0("pollinator_sp_plot_",repetitions_load,"_repetitions_",
+                      round(100*percentage_studies_load),"_percent.csv")
+
+shade_data_pollinator_sp_plot_all <- read_csv(paste0("Data/Csv/shade_data_",file_suffix))
+mean_line_data_pollinator_sp_plot_all <- read_csv(paste0("Data/Csv/mean_line_data_",file_suffix))
+
+file_suffix <- paste0("pollinator_int_plot_",repetitions_load,"_repetitions_",
+                      round(100*percentage_studies_load),"_percent.csv")
+
+shade_data_pollinator_int_plot_all <- read_csv(paste0("Data/Csv/shade_data_",file_suffix))
+mean_line_data_pollinator_int_plot_all <- read_csv(paste0("Data/Csv/mean_line_data_",file_suffix))
+
+file_suffix <- paste0("plant_sp_plot_",repetitions_load,"_repetitions_",
+                      round(100*percentage_studies_load),"_percent.csv")
+
+shade_data_plant_sp_plot_all <- read_csv(paste0("Data/Csv/shade_data_",file_suffix))
+mean_line_data_plant_sp_plot_all <- read_csv(paste0("Data/Csv/mean_line_data_",file_suffix))
+
+file_suffix <- paste0("plant_int_plot_",repetitions_load,"_repetitions_",
+                      round(100*percentage_studies_load),"_percent.csv")
+
+shade_data_plant_int_plot_all <- read_csv(paste0("Data/Csv/shade_data_",file_suffix))
+mean_line_data_plant_int_plot_all <- read_csv(paste0("Data/Csv/mean_line_data_",file_suffix))
+
+# Load data for a fraction of the total datasets-----------------
+
+percentage_studies_load <- .60
 repetitions_load <- 100
 
 file_suffix <- paste0("pollinator_sp_plot_",repetitions_load,"_repetitions_",
@@ -541,9 +572,16 @@ final_pollinator_sp_plot <- ggplot(shade_data_pollinator_sp_plot)+
   facet_grid( ~ PANEL, labeller=pollinator_labeller)+
   geom_line(data = mean_line_data_pollinator_sp_plot, 
             aes(x = x, y = y, co = as.factor(repetition)), alpha=0.5)+
+  geom_line(data = shade_data_pollinator_sp_plot_all,
+              aes(x=x, y=ymax, color ="red"), size = 1.2,linetype = "dashed")+
+  geom_line(data = shade_data_pollinator_sp_plot_all,
+            aes(x=x, y= ymin, color ="red"), size = 1.2, linetype = "dashed")+
+  geom_line(data = mean_line_data_pollinator_sp_plot_all, 
+            aes(x = x, y = y, color ="red"), size = 1.2)+
   theme_bw()+
   ggtitle("Floral visitors") +
-  labs(y="Percentile", x =NULL)
+  labs(y="Percentile", x =NULL)+
+  theme(legend.position = "none")
 
 
 final_pollinator_int_plot <- ggplot(shade_data_pollinator_int_plot)+
@@ -551,9 +589,16 @@ final_pollinator_int_plot <- ggplot(shade_data_pollinator_int_plot)+
   facet_grid( ~ PANEL, labeller=pollinator_labeller)+
   geom_line(data = mean_line_data_pollinator_int_plot, 
             aes(x = x, y = y, co = as.factor(repetition)), alpha=0.5)+
+  geom_line(data = shade_data_pollinator_int_plot_all,
+            aes(x=x, y=ymax, color ="red"), size = 1.2,linetype = "dashed")+
+  geom_line(data = shade_data_pollinator_int_plot_all,
+            aes(x=x, y= ymin, color ="red"), size = 1.2, linetype = "dashed")+
+  geom_line(data = mean_line_data_pollinator_int_plot_all, 
+            aes(x = x, y = y, color ="red"), size = 1.2)+
   theme_bw()+
   ggtitle("Floral visitors") +
-  labs(y="Percentile", x =NULL)
+  labs(y="Percentile", x =NULL)+
+  theme(legend.position = "none")
 
 
 final_plant_sp_plot <- ggplot(shade_data_plant_sp_plot)+
@@ -561,9 +606,16 @@ final_plant_sp_plot <- ggplot(shade_data_plant_sp_plot)+
   facet_grid( ~ PANEL, labeller=plant_labeller)+
   geom_line(data = mean_line_data_plant_sp_plot, 
             aes(x = x, y = y, co = as.factor(repetition)), alpha=0.5)+
+  geom_line(data = shade_data_plant_sp_plot_all,
+            aes(x=x, y=ymax, color ="red"), size = 1.2,linetype = "dashed")+
+  geom_line(data = shade_data_plant_sp_plot_all,
+            aes(x=x, y= ymin, color ="red"), size = 1.2, linetype = "dashed")+
+  geom_line(data = mean_line_data_plant_sp_plot_all, 
+            aes(x = x, y = y, color ="red"), size = 1.2)+
   theme_bw()+
   ggtitle("Plants")+
-  labs(x = "Specialization", y="Percentile")
+  labs(x = "Specialization", y="Percentile")+
+  theme(legend.position = "none")
 
 
 final_plant_int_plot <- ggplot(shade_data_plant_int_plot)+
@@ -571,9 +623,16 @@ final_plant_int_plot <- ggplot(shade_data_plant_int_plot)+
   facet_grid( ~ PANEL, labeller=plant_labeller)+
   geom_line(data = mean_line_data_plant_int_plot, 
             aes(x = x, y = y, co = as.factor(repetition)), alpha=0.5)+
+  geom_line(data = shade_data_plant_int_plot_all,
+            aes(x=x, y=ymax, color ="red"), size = 1.2,linetype = "dashed")+
+  geom_line(data = shade_data_plant_int_plot_all,
+            aes(x=x, y= ymin, color ="red"), size = 1.2, linetype = "dashed")+
+  geom_line(data = mean_line_data_plant_int_plot_all, 
+            aes(x = x, y = y, color ="red"), size = 1.2)+
   theme_bw()+
   ggtitle("Plants")+
-  labs(y="Percentile", x ="Number of indirect interactions")
+  labs(y="Percentile", x ="Number of indirect interactions")+
+  theme(legend.position = "none")
 
 library(patchwork)
 

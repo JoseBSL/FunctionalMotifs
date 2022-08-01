@@ -255,13 +255,13 @@ library(tidyverse)
 Trait <- c("Plant height (m)", "Flower width (mm)", "Flower length (mm)", "Inflorescence width (mm)", "Style length (mm)", "Ovules per flower",
            "Flowers per plant",  "Autonomous selfing (fruit set)")
 
-Trait1 <- c("Lifepan", "Life form", "Flower shape", "Flower symmetry", "Autonomous selfing", "Compatibility system", "Breeding system", "")
+Trait1 <- c("Lifepan", "Life form", "Flower shape", "Flower symmetry", "Compatibility system", "Breeding system", "", "")
 
-T.cat <- linebreak(c("Short-lived \n Perennial", "Herb \n Shrub \n Tree", "Brush \n Campanulate \n Capitulum \n Open \n Papilionaceous \n Tube",  "Actinomorphic \n Zygomorphic", "None \n Low \n Medium \n High", "Self-incomp. \n Partially self-comp. \n Self-comp.", "Hermaphrodite \n Monoecious \n Dioecious",""),align = c("l"))
+T.cat <- linebreak(c("Short-lived \n Perennial", "Herb \n Shrub \n Tree", "Brush \n Campanulate \n Capitulum \n Open \n Papilionaceous \n Tube",  "Actinomorphic \n Zygomorphic",  "Self-incomp. \n Partially self-comp. \n Self-comp.", "Hermaphrodite \n Monoecious \n Dioecious","", ""),align = c("l"))
 
 Type <- c("Vegetative", "Floral", "Floral", "Floral", "Floral", "Floral", "Floral","Reproductive")
 
-Type_1 <- c("Vegetative", "Vegetative", "Floral", "Floral", "Reproductive", "Reproductive", "Reproductive", "")
+Type_1 <- c("Vegetative", "Vegetative", "Floral", "Floral", "Reproductive", "Reproductive", "", "")
 
 
 dat <- data.frame(Type, Trait,Type_1, Trait1)
@@ -819,7 +819,285 @@ draw(ht_list, auto_adjust = FALSE, cluster_rows = F)
 
 \blandscape
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE,fig.height=7, fig.width=12, fig.cap="**Figure S4.** Plant functional group composition separated in qualitative and quantitative variables. Panel A) shows the percentage of the different categories within trait represented with different colours for each functional group. Plot B) shows the radar plot of the different quantitative variables standardise on the same scale also coloured with the same patterns of colours as qualitative variables per cluster or functional group. Group 1 corresponds to short-lived selfers; group 2 to small outcrossing perennials; group 3 to self-incompatible perennials with large flowers; group 4 to tall plants with small unisexual flowers; and, group 5 to short-lived outcrossers with long zygomorphic flowers."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE,fig.height=7, fig.width=12, fig.cap="**Figure S4.** Association between the percentile (frequency comparison between empirical and simulated networks) and specialization of the different plant and floral visitor groups on the distinct motif positions for 1000 random sets that contain the 60% of the whole set of networks each. Black lines represent the mean percentile values of random samples and the continuous red line indicates the mean percentile values for the whole set of networks. Grey areas show the 95% confidence intervals for random samples, whereas those for the whole set of networks are displayed by using red dashed lines. Note that percentiles above 0.75 indicate over-representation and those below 0.25 under-representation in the comparison between empirical and simulated networks."}
+
+library(tidyverse)
+
+# Load data for all datasets------------------------
+
+percentage_studies_load <- 1.0
+repetitions_load <- 1
+
+file_suffix <- paste0("pollinator_sp_plot_",repetitions_load,"_repetitions_",
+                      round(100*percentage_studies_load),"_percent.csv")
+
+shade_data_pollinator_sp_plot_all <- read_csv(paste0("../../Data/Csv/shade_data_",file_suffix))
+mean_line_data_pollinator_sp_plot_all <- read_csv(paste0("../../Data/Csv/mean_line_data_",file_suffix))
+
+file_suffix <- paste0("pollinator_int_plot_",repetitions_load,"_repetitions_",
+                      round(100*percentage_studies_load),"_percent.csv")
+
+shade_data_pollinator_int_plot_all <- read_csv(paste0("../../Data/Csv/shade_data_",file_suffix))
+mean_line_data_pollinator_int_plot_all <- read_csv(paste0("../../Data/Csv/mean_line_data_",file_suffix))
+
+file_suffix <- paste0("plant_sp_plot_",repetitions_load,"_repetitions_",
+                      round(100*percentage_studies_load),"_percent.csv")
+
+shade_data_plant_sp_plot_all <- read_csv(paste0("../../Data/Csv/shade_data_",file_suffix))
+mean_line_data_plant_sp_plot_all <- read_csv(paste0("../../Data/Csv/mean_line_data_",file_suffix))
+
+file_suffix <- paste0("plant_int_plot_",repetitions_load,"_repetitions_",
+                      round(100*percentage_studies_load),"_percent.csv")
+
+shade_data_plant_int_plot_all <- read_csv(paste0("../../Data/Csv/shade_data_",file_suffix))
+mean_line_data_plant_int_plot_all <- read_csv(paste0("../../Data/Csv/mean_line_data_",file_suffix))
+
+# Load data for a fraction of the total datasets-----------------
+
+percentage_studies_load <- .60
+repetitions_load <- 100
+
+file_suffix <- paste0("pollinator_sp_plot_",repetitions_load,"_repetitions_",
+                      round(100*percentage_studies_load),"_percent.csv")
+
+shade_data_pollinator_sp_plot <- read_csv(paste0("../../Data/Csv/shade_data_",file_suffix))
+mean_line_data_pollinator_sp_plot <- read_csv(paste0("../../Data/Csv/mean_line_data_",file_suffix))
+
+file_suffix <- paste0("pollinator_int_plot_",repetitions_load,"_repetitions_",
+                      round(100*percentage_studies_load),"_percent.csv")
+
+shade_data_pollinator_int_plot <- read_csv(paste0("../../Data/Csv/shade_data_",file_suffix))
+mean_line_data_pollinator_int_plot <- read_csv(paste0("../../Data/Csv/mean_line_data_",file_suffix))
+
+file_suffix <- paste0("plant_sp_plot_",repetitions_load,"_repetitions_",
+                      round(100*percentage_studies_load),"_percent.csv")
+
+shade_data_plant_sp_plot <- read_csv(paste0("../../Data/Csv/shade_data_",file_suffix))
+mean_line_data_plant_sp_plot <- read_csv(paste0("../../Data/Csv/mean_line_data_",file_suffix))
+
+file_suffix <- paste0("plant_int_plot_",repetitions_load,"_repetitions_",
+                      round(100*percentage_studies_load),"_percent.csv")
+
+shade_data_plant_int_plot <- read_csv(paste0("../../Data/Csv/shade_data_",file_suffix))
+mean_line_data_plant_int_plot <- read_csv(paste0("../../Data/Csv/mean_line_data_",file_suffix))
+
+pollinator_names <- list(
+  '1'="Bee",
+  '2'="Coleoptera",
+  '3'="Lepidoptera",
+  '4'="Non-bee-Hymenoptera",
+  '5'="Non-syrphids-diptera",
+  '6'="Syrphids"
+)
+
+plant_names <- list(
+  '1'="Selfing herbs",
+  '2'="Small outcrossing perennials",
+  '3'="Self-incompatible perennials\nwith large flowers",
+  '4'="Tall plants with small\nunisexual flowers",
+  '5'="Short-lived outcrossers with\nlong zygomorphic flowers")
+
+pollinator_labeller <- function(variable,value){
+  return(pollinator_names[value])
+}
+
+plant_labeller <- function(variable,value){
+  return(plant_names[value])
+}
+
+
+final_pollinator_sp_plot <- ggplot(shade_data_pollinator_sp_plot)+
+  geom_ribbon(aes(x=x, ymax=ymax, ymin= ymin, fil = as.factor(repetition)), alpha=1/repetitions_load)+
+  facet_grid( ~ PANEL, labeller=pollinator_labeller)+
+  geom_line(data = mean_line_data_pollinator_sp_plot, 
+            aes(x = x, y = y, co = as.factor(repetition)), alpha=0.5)+
+  geom_line(data = shade_data_pollinator_sp_plot_all,
+              aes(x=x, y=ymax, color ="red"), size = 1.2,linetype = "dashed")+
+  geom_line(data = shade_data_pollinator_sp_plot_all,
+            aes(x=x, y= ymin, color ="red"), size = 1.2, linetype = "dashed")+
+  geom_line(data = mean_line_data_pollinator_sp_plot_all, 
+            aes(x = x, y = y, color ="red"), size = 1.2)+
+  theme_bw()+
+  ggtitle("Floral visitors") +
+  labs(y="Percentile", x =NULL)+
+  theme(legend.position = "none")
+
+
+final_plant_sp_plot <- ggplot(shade_data_plant_sp_plot)+
+  geom_ribbon(aes(x=x, ymax=ymax, ymin= ymin, fil = as.factor(repetition)), alpha=1/repetitions_load)+
+  facet_grid( ~ PANEL, labeller=plant_labeller)+
+  geom_line(data = mean_line_data_plant_sp_plot, 
+            aes(x = x, y = y, co = as.factor(repetition)), alpha=0.5)+
+  geom_line(data = shade_data_plant_sp_plot_all,
+            aes(x=x, y=ymax, color ="red"), size = 1.2,linetype = "dashed")+
+  geom_line(data = shade_data_plant_sp_plot_all,
+            aes(x=x, y= ymin, color ="red"), size = 1.2, linetype = "dashed")+
+  geom_line(data = mean_line_data_plant_sp_plot_all, 
+            aes(x = x, y = y, color ="red"), size = 1.2)+
+  theme_bw()+
+  ggtitle("Plants")+
+  labs(x = "Specialization", y="Percentile")+
+  theme(legend.position = "none")
+
+
+
+library(patchwork)
+
+final_pollinator_sp_plot/final_plant_sp_plot & theme(axis.text=element_text(size=10),
+                                                    axis.title=element_text(size=16)) & 
+  plot_annotation(tag_levels = c('A'),  tag_suffix = ')') &  theme(plot.tag = element_text(size = 22))
+
+
+
+
+```
+
+
+\newpage
+
+
+```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE,fig.height=7, fig.width=12, fig.cap="**Figure S5.** Association between the percentile (frequency comparison between empirical and simulated networks) and number of indirect interactions of the different plant and floral visitor groups on the distinct motif positions for 1000 random sets that contain the 60% of the whole set of networks each. Black lines represent the mean percentile values of random samples and the continuous red line indicates the mean percentile values for the whole set of networks. Grey areas show the 95% confidence intervals for random samples, whereas those for the whole set of networks are displayed by using red dashed lines. Note that percentiles above 0.75 indicate over-representation and those below 0.25 under-representation in the comparison between empirical and simulated networks. "}
+
+library(tidyverse)
+
+# Load data for all datasets------------------------
+
+percentage_studies_load <- 1.0
+repetitions_load <- 1
+
+file_suffix <- paste0("pollinator_sp_plot_",repetitions_load,"_repetitions_",
+                      round(100*percentage_studies_load),"_percent.csv")
+
+shade_data_pollinator_sp_plot_all <- read_csv(paste0("../../Data/Csv/shade_data_",file_suffix))
+mean_line_data_pollinator_sp_plot_all <- read_csv(paste0("../../Data/Csv/mean_line_data_",file_suffix))
+
+file_suffix <- paste0("pollinator_int_plot_",repetitions_load,"_repetitions_",
+                      round(100*percentage_studies_load),"_percent.csv")
+
+shade_data_pollinator_int_plot_all <- read_csv(paste0("../../Data/Csv/shade_data_",file_suffix))
+mean_line_data_pollinator_int_plot_all <- read_csv(paste0("../../Data/Csv/mean_line_data_",file_suffix))
+
+file_suffix <- paste0("plant_sp_plot_",repetitions_load,"_repetitions_",
+                      round(100*percentage_studies_load),"_percent.csv")
+
+shade_data_plant_sp_plot_all <- read_csv(paste0("../../Data/Csv/shade_data_",file_suffix))
+mean_line_data_plant_sp_plot_all <- read_csv(paste0("../../Data/Csv/mean_line_data_",file_suffix))
+
+file_suffix <- paste0("plant_int_plot_",repetitions_load,"_repetitions_",
+                      round(100*percentage_studies_load),"_percent.csv")
+
+shade_data_plant_int_plot_all <- read_csv(paste0("../../Data/Csv/shade_data_",file_suffix))
+mean_line_data_plant_int_plot_all <- read_csv(paste0("../../Data/Csv/mean_line_data_",file_suffix))
+
+# Load data for a fraction of the total datasets-----------------
+
+percentage_studies_load <- .60
+repetitions_load <- 100
+
+file_suffix <- paste0("pollinator_sp_plot_",repetitions_load,"_repetitions_",
+                      round(100*percentage_studies_load),"_percent.csv")
+
+shade_data_pollinator_sp_plot <- read_csv(paste0("../../Data/Csv/shade_data_",file_suffix))
+mean_line_data_pollinator_sp_plot <- read_csv(paste0("../../Data/Csv/mean_line_data_",file_suffix))
+
+file_suffix <- paste0("pollinator_int_plot_",repetitions_load,"_repetitions_",
+                      round(100*percentage_studies_load),"_percent.csv")
+
+shade_data_pollinator_int_plot <- read_csv(paste0("../../Data/Csv/shade_data_",file_suffix))
+mean_line_data_pollinator_int_plot <- read_csv(paste0("../../Data/Csv/mean_line_data_",file_suffix))
+
+file_suffix <- paste0("plant_sp_plot_",repetitions_load,"_repetitions_",
+                      round(100*percentage_studies_load),"_percent.csv")
+
+shade_data_plant_sp_plot <- read_csv(paste0("../../Data/Csv/shade_data_",file_suffix))
+mean_line_data_plant_sp_plot <- read_csv(paste0("../../Data/Csv/mean_line_data_",file_suffix))
+
+file_suffix <- paste0("plant_int_plot_",repetitions_load,"_repetitions_",
+                      round(100*percentage_studies_load),"_percent.csv")
+
+shade_data_plant_int_plot <- read_csv(paste0("../../Data/Csv/shade_data_",file_suffix))
+mean_line_data_plant_int_plot <- read_csv(paste0("../../Data/Csv/mean_line_data_",file_suffix))
+
+pollinator_names <- list(
+  '1'="Bee",
+  '2'="Coleoptera",
+  '3'="Lepidoptera",
+  '4'="Non-bee-Hymenoptera",
+  '5'="Non-syrphids-diptera",
+  '6'="Syrphids"
+)
+
+plant_names <- list(
+  '1'="Selfing herbs",
+  '2'="Small outcrossing perennials",
+  '3'="Self-incompatible perennials\nwith large flowers",
+  '4'="Tall plants with small\nunisexual flowers",
+  '5'="Short-lived outcrossers with\nlong zygomorphic flowers")
+
+pollinator_labeller <- function(variable,value){
+  return(pollinator_names[value])
+}
+
+plant_labeller <- function(variable,value){
+  return(plant_names[value])
+}
+
+
+
+
+
+final_pollinator_int_plot <- ggplot(shade_data_pollinator_int_plot)+
+  geom_ribbon(aes(x=x, ymax=ymax, ymin= ymin, fil = as.factor(repetition)), alpha=1/repetitions_load)+
+  facet_grid( ~ PANEL, labeller=pollinator_labeller)+
+  geom_line(data = mean_line_data_pollinator_int_plot, 
+            aes(x = x, y = y, co = as.factor(repetition)), alpha=0.5)+
+  geom_line(data = shade_data_pollinator_int_plot_all,
+            aes(x=x, y=ymax, color ="red"), size = 1.2,linetype = "dashed")+
+  geom_line(data = shade_data_pollinator_int_plot_all,
+            aes(x=x, y= ymin, color ="red"), size = 1.2, linetype = "dashed")+
+  geom_line(data = mean_line_data_pollinator_int_plot_all, 
+            aes(x = x, y = y, color ="red"), size = 1.2)+
+  theme_bw()+
+  ggtitle("Floral visitors") +
+  labs(y="Percentile", x =NULL)+
+  theme(legend.position = "none")
+
+
+
+
+
+final_plant_int_plot <- ggplot(shade_data_plant_int_plot)+
+  geom_ribbon(aes(x=x, ymax=ymax, ymin= ymin, fil = as.factor(repetition)), alpha=1/repetitions_load)+
+  facet_grid( ~ PANEL, labeller=plant_labeller)+
+  geom_line(data = mean_line_data_plant_int_plot, 
+            aes(x = x, y = y, co = as.factor(repetition)), alpha=0.5)+
+  geom_line(data = shade_data_plant_int_plot_all,
+            aes(x=x, y=ymax, color ="red"), size = 1.2,linetype = "dashed")+
+  geom_line(data = shade_data_plant_int_plot_all,
+            aes(x=x, y= ymin, color ="red"), size = 1.2, linetype = "dashed")+
+  geom_line(data = mean_line_data_plant_int_plot_all, 
+            aes(x = x, y = y, color ="red"), size = 1.2)+
+  theme_bw()+
+  ggtitle("Plants")+
+  labs(y="Percentile", x ="Number of indirect interactions")+
+  theme(legend.position = "none")
+
+library(patchwork)
+
+
+final_pollinator_int_plot/final_plant_int_plot & theme(axis.text=element_text(size=10),
+                                                       axis.title=element_text(size=16)) & 
+  plot_annotation(tag_levels = c('A'),  tag_suffix = ')') &  theme(plot.tag = element_text(size = 22))
+
+
+
+```
+
+
+\newpage
+
+
+```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE,fig.height=7, fig.width=12, fig.cap="**Figure S6.** Plant functional group composition separated in qualitative and quantitative variables. Panel A) shows the percentage of the different categories within trait represented with different colours for each functional group. Plot B) shows the radar plot of the different quantitative variables standardise on the same scale also coloured with the same patterns of colours as qualitative variables per cluster or functional group. Group 1 corresponds to short-lived selfers; group 2 to small outcrossing perennials; group 3 to self-incompatible perennials with large flowers; group 4 to tall plants with small unisexual flowers; and, group 5 to short-lived outcrossers with long zygomorphic flowers."}
 
 
 #CODE TO PLOT FUNCTIONAL GROUPS
@@ -1707,7 +1985,7 @@ patch + plot_annotation(title = "Plant functional group composition",theme = the
 \newpage
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE, fig.height=7, fig.width=13, fig.cap="**Figure S5.** Hierarchical clustering dendrogram with the branches coloured by the optimal number of clusters (5). The labels of the subgroup of species (N = 524) used in this study are coloured in black in order to show the evenness of the distribution of the species across clusters. The rest of species labels are omitted for visualization purposes (N = 982)."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE, fig.height=7, fig.width=13, fig.cap="**Figure S7.** Hierarchical clustering dendrogram with the branches coloured by the optimal number of clusters (5). The labels of the subgroup of species (N = 524) used in this study are coloured in black in order to show the evenness of the distribution of the species across clusters. The rest of species labels are omitted for visualization purposes (N = 982)."}
 
 library(ggplot2)
 library(dendextend)
@@ -1768,7 +2046,7 @@ ggplot(ggd1,offset_labels=-0.05) + theme(panel.grid.major = element_blank(),
 \blandscape
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE,fig.align="center", fig.width=14,fig.height=7, out.width='100%',  fig.cap="\\textbf{Figure S6.} Association between the percentile (see main text) and specialization of the different plant and floral visitor groups on motif positions. Here we consider that percentiles above 0.75 indicate over-representation and percentiles below 0.25 under-representation in the comparison between empirical and simulated networks."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE,fig.align="center", fig.width=14,fig.height=7, out.width='100%',  fig.cap="\\textbf{Figure S8.} Association between the percentile (see main text) and specialization of the different plant and floral visitor groups on motif positions. Here we consider that percentiles above 0.75 indicate over-representation and percentiles below 0.25 under-representation in the comparison between empirical and simulated networks."}
 
 library(ggplot2)
 library(glmmTMB)
@@ -1818,7 +2096,7 @@ pollinators_sp_plot/plants_sp_plot & theme(axis.text=element_text(size=10),
 
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE,fig.align="center", fig.width=14,fig.height=7, out.width='100%', fig.cap="\\textbf{Figure S7.} Association between the percentile (see main text) and number of indirect interactions of the different plant and floral visitor groups on motif positions. Here we consider that percentiles above 0.75 indicate over-representation and percentiles below 0.25 under-representation in the comparison between empirical and simulated networks."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE,  warning=FALSE,fig.align="center", fig.width=14,fig.height=7, out.width='100%', fig.cap="\\textbf{Figure S9.} Association between the percentile (see main text) and number of indirect interactions of the different plant and floral visitor groups on motif positions. Here we consider that percentiles above 0.75 indicate over-representation and percentiles below 0.25 under-representation in the comparison between empirical and simulated networks."}
 
 library(ggplot2)
 library(glmmTMB)
@@ -1872,7 +2150,7 @@ pollinators_sp_plot/plants_sp_plot & theme(axis.text=element_text(size=10),
 
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE,out.width="90%",fig.align="center", fig.width=10,fig.height=12, fig.cap="\\textbf{Figure S8.} Frequency of the different floral visitor groups on the different motif positions aggregated by the number of indirect interactions for the different motif positions."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE,out.width="90%",fig.align="center", fig.width=10,fig.height=12, fig.cap="\\textbf{Figure S10.} Frequency of the different floral visitor groups on the different motif positions aggregated by the number of indirect interactions for the different motif positions."}
 
 library(ggplot2)
 library(scatterpie)
@@ -1981,7 +2259,7 @@ bee_plot / cole_plot / lepi_plot / non_bee_plot / non_syr_plot / syr_plot + plot
 ```
 
 
-```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE,out.width="90%",fig.align="center", fig.width=10,fig.height=12, fig.cap="\\textbf{Figure S9.} Frequency of the different plant groups on the different motif positions aggregated by the number of indirect interactions for the different motif positions."}
+```{r, echo=FALSE, message=FALSE, cache=FALSE, warning=FALSE,out.width="90%",fig.align="center", fig.width=10,fig.height=12, fig.cap="\\textbf{Figure S11.} Frequency of the different plant groups on the different motif positions aggregated by the number of indirect interactions for the different motif positions."}
 
 library(ggplot2)
 library(scatterpie)

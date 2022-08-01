@@ -14,8 +14,8 @@ library(visreg)
 ############################################
 
 
-percentage_studies <- 1.0
-repetitions <- 1
+percentage_studies <- .60
+repetitions <- 1000
 
 ################################################################################
 # Initializing variables
@@ -516,7 +516,7 @@ mean_line_data_plant_int_plot_all <- read_csv(paste0("Data/Csv/mean_line_data_",
 # Load data for a fraction of the total datasets-----------------
 
 percentage_studies_load <- .60
-repetitions_load <- 100
+repetitions_load <- 1000
 
 file_suffix <- paste0("pollinator_sp_plot_",repetitions_load,"_repetitions_",
                       round(100*percentage_studies_load),"_percent.csv")
@@ -568,10 +568,10 @@ plant_labeller <- function(variable,value){
 
 
 final_pollinator_sp_plot <- ggplot(shade_data_pollinator_sp_plot)+
-  geom_ribbon(aes(x=x, ymax=ymax, ymin= ymin, fil = as.factor(repetition)), alpha=1/repetitions_load)+
+  geom_ribbon(aes(x=x, ymax=ymax, ymin= ymin, fil = as.factor(repetition)), alpha=10/repetitions_load)+
   facet_grid( ~ PANEL, labeller=pollinator_labeller)+
   geom_line(data = mean_line_data_pollinator_sp_plot, 
-            aes(x = x, y = y, co = as.factor(repetition)), alpha=0.5)+
+            aes(x = x, y = y, co = as.factor(repetition)), alpha=0.2)+
   geom_line(data = shade_data_pollinator_sp_plot_all,
               aes(x=x, y=ymax, color ="red"), size = 1.2,linetype = "dashed")+
   geom_line(data = shade_data_pollinator_sp_plot_all,
@@ -585,10 +585,10 @@ final_pollinator_sp_plot <- ggplot(shade_data_pollinator_sp_plot)+
 
 
 final_pollinator_int_plot <- ggplot(shade_data_pollinator_int_plot)+
-  geom_ribbon(aes(x=x, ymax=ymax, ymin= ymin, fil = as.factor(repetition)), alpha=1/repetitions_load)+
+  geom_ribbon(aes(x=x, ymax=ymax, ymin= ymin, fil = as.factor(repetition)), alpha=10/repetitions_load)+
   facet_grid( ~ PANEL, labeller=pollinator_labeller)+
   geom_line(data = mean_line_data_pollinator_int_plot, 
-            aes(x = x, y = y, co = as.factor(repetition)), alpha=0.5)+
+            aes(x = x, y = y, co = as.factor(repetition)), alpha=0.2)+
   geom_line(data = shade_data_pollinator_int_plot_all,
             aes(x=x, y=ymax, color ="red"), size = 1.2,linetype = "dashed")+
   geom_line(data = shade_data_pollinator_int_plot_all,
@@ -602,10 +602,10 @@ final_pollinator_int_plot <- ggplot(shade_data_pollinator_int_plot)+
 
 
 final_plant_sp_plot <- ggplot(shade_data_plant_sp_plot)+
-  geom_ribbon(aes(x=x, ymax=ymax, ymin= ymin, fil = as.factor(repetition)), alpha=1/repetitions_load)+
+  geom_ribbon(aes(x=x, ymax=ymax, ymin= ymin, fil = as.factor(repetition)), alpha=10/repetitions_load)+
   facet_grid( ~ PANEL, labeller=plant_labeller)+
   geom_line(data = mean_line_data_plant_sp_plot, 
-            aes(x = x, y = y, co = as.factor(repetition)), alpha=0.5)+
+            aes(x = x, y = y, co = as.factor(repetition)), alpha=0.2)+
   geom_line(data = shade_data_plant_sp_plot_all,
             aes(x=x, y=ymax, color ="red"), size = 1.2,linetype = "dashed")+
   geom_line(data = shade_data_plant_sp_plot_all,
@@ -619,10 +619,10 @@ final_plant_sp_plot <- ggplot(shade_data_plant_sp_plot)+
 
 
 final_plant_int_plot <- ggplot(shade_data_plant_int_plot)+
-  geom_ribbon(aes(x=x, ymax=ymax, ymin= ymin, fil = as.factor(repetition)), alpha=1/repetitions_load)+
+  geom_ribbon(aes(x=x, ymax=ymax, ymin= ymin, fil = as.factor(repetition)), alpha=10/repetitions_load)+
   facet_grid( ~ PANEL, labeller=plant_labeller)+
   geom_line(data = mean_line_data_plant_int_plot, 
-            aes(x = x, y = y, co = as.factor(repetition)), alpha=0.5)+
+            aes(x = x, y = y, co = as.factor(repetition)), alpha=0.2)+
   geom_line(data = shade_data_plant_int_plot_all,
             aes(x=x, y=ymax, color ="red"), size = 1.2,linetype = "dashed")+
   geom_line(data = shade_data_plant_int_plot_all,

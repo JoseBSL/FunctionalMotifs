@@ -821,6 +821,10 @@ draw(ht_list, auto_adjust = FALSE, cluster_rows = F)
 
 ```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE,fig.height=7, fig.width=12, fig.cap="**Figure S4.** Association between the percentile (frequency comparison between empirical and simulated networks) and specialization of the different plant and floral visitor groups on the distinct motif positions for 1000 random sets that contain the 60% of the whole set of networks each. Black lines represent the mean percentile values of random samples and the continuous red line indicates the mean percentile values for the whole set of networks. Grey areas show the 95% confidence intervals for random samples, whereas those for the whole set of networks are displayed by using red dashed lines. Note that percentiles above 0.75 indicate over-representation and those below 0.25 under-representation in the comparison between empirical and simulated networks."}
 
+#######################################
+# PLOT GRAPHS
+#######################################
+
 library(tidyverse)
 
 # Load data for all datasets------------------------
@@ -855,7 +859,7 @@ mean_line_data_plant_int_plot_all <- read_csv(paste0("../../Data/Csv/mean_line_d
 # Load data for a fraction of the total datasets-----------------
 
 percentage_studies_load <- .60
-repetitions_load <- 100
+repetitions_load <- 1000
 
 file_suffix <- paste0("pollinator_sp_plot_",repetitions_load,"_repetitions_",
                       round(100*percentage_studies_load),"_percent.csv")
@@ -907,10 +911,10 @@ plant_labeller <- function(variable,value){
 
 
 final_pollinator_sp_plot <- ggplot(shade_data_pollinator_sp_plot)+
-  geom_ribbon(aes(x=x, ymax=ymax, ymin= ymin, fil = as.factor(repetition)), alpha=1/repetitions_load)+
+  geom_ribbon(aes(x=x, ymax=ymax, ymin= ymin, fil = as.factor(repetition)), alpha=10/repetitions_load)+
   facet_grid( ~ PANEL, labeller=pollinator_labeller)+
   geom_line(data = mean_line_data_pollinator_sp_plot, 
-            aes(x = x, y = y, co = as.factor(repetition)), alpha=0.5)+
+            aes(x = x, y = y, co = as.factor(repetition)), alpha=0.2)+
   geom_line(data = shade_data_pollinator_sp_plot_all,
               aes(x=x, y=ymax, color ="red"), size = 1.2,linetype = "dashed")+
   geom_line(data = shade_data_pollinator_sp_plot_all,
@@ -924,10 +928,10 @@ final_pollinator_sp_plot <- ggplot(shade_data_pollinator_sp_plot)+
 
 
 final_plant_sp_plot <- ggplot(shade_data_plant_sp_plot)+
-  geom_ribbon(aes(x=x, ymax=ymax, ymin= ymin, fil = as.factor(repetition)), alpha=1/repetitions_load)+
+  geom_ribbon(aes(x=x, ymax=ymax, ymin= ymin, fil = as.factor(repetition)), alpha=10/repetitions_load)+
   facet_grid( ~ PANEL, labeller=plant_labeller)+
   geom_line(data = mean_line_data_plant_sp_plot, 
-            aes(x = x, y = y, co = as.factor(repetition)), alpha=0.5)+
+            aes(x = x, y = y, co = as.factor(repetition)), alpha=0.2)+
   geom_line(data = shade_data_plant_sp_plot_all,
             aes(x=x, y=ymax, color ="red"), size = 1.2,linetype = "dashed")+
   geom_line(data = shade_data_plant_sp_plot_all,
@@ -940,14 +944,11 @@ final_plant_sp_plot <- ggplot(shade_data_plant_sp_plot)+
   theme(legend.position = "none")
 
 
-
 library(patchwork)
 
 final_pollinator_sp_plot/final_plant_sp_plot & theme(axis.text=element_text(size=10),
                                                     axis.title=element_text(size=16)) & 
   plot_annotation(tag_levels = c('A'),  tag_suffix = ')') &  theme(plot.tag = element_text(size = 22))
-
-
 
 
 ```
@@ -957,6 +958,10 @@ final_pollinator_sp_plot/final_plant_sp_plot & theme(axis.text=element_text(size
 
 
 ```{r, echo=FALSE, message=FALSE, cache=FALSE, results='hide', warning=FALSE,fig.height=7, fig.width=12, fig.cap="**Figure S5.** Association between the percentile (frequency comparison between empirical and simulated networks) and number of indirect interactions of the different plant and floral visitor groups on the distinct motif positions for 1000 random sets that contain the 60% of the whole set of networks each. Black lines represent the mean percentile values of random samples and the continuous red line indicates the mean percentile values for the whole set of networks. Grey areas show the 95% confidence intervals for random samples, whereas those for the whole set of networks are displayed by using red dashed lines. Note that percentiles above 0.75 indicate over-representation and those below 0.25 under-representation in the comparison between empirical and simulated networks."}
+
+#######################################
+# PLOT GRAPHS
+#######################################
 
 library(tidyverse)
 
@@ -992,7 +997,7 @@ mean_line_data_plant_int_plot_all <- read_csv(paste0("../../Data/Csv/mean_line_d
 # Load data for a fraction of the total datasets-----------------
 
 percentage_studies_load <- .60
-repetitions_load <- 100
+repetitions_load <- 1000
 
 file_suffix <- paste0("pollinator_sp_plot_",repetitions_load,"_repetitions_",
                       round(100*percentage_studies_load),"_percent.csv")
@@ -1044,13 +1049,11 @@ plant_labeller <- function(variable,value){
 
 
 
-
-
 final_pollinator_int_plot <- ggplot(shade_data_pollinator_int_plot)+
-  geom_ribbon(aes(x=x, ymax=ymax, ymin= ymin, fil = as.factor(repetition)), alpha=1/repetitions_load)+
+  geom_ribbon(aes(x=x, ymax=ymax, ymin= ymin, fil = as.factor(repetition)), alpha=10/repetitions_load)+
   facet_grid( ~ PANEL, labeller=pollinator_labeller)+
   geom_line(data = mean_line_data_pollinator_int_plot, 
-            aes(x = x, y = y, co = as.factor(repetition)), alpha=0.5)+
+            aes(x = x, y = y, co = as.factor(repetition)), alpha=0.2)+
   geom_line(data = shade_data_pollinator_int_plot_all,
             aes(x=x, y=ymax, color ="red"), size = 1.2,linetype = "dashed")+
   geom_line(data = shade_data_pollinator_int_plot_all,
@@ -1064,13 +1067,11 @@ final_pollinator_int_plot <- ggplot(shade_data_pollinator_int_plot)+
 
 
 
-
-
 final_plant_int_plot <- ggplot(shade_data_plant_int_plot)+
-  geom_ribbon(aes(x=x, ymax=ymax, ymin= ymin, fil = as.factor(repetition)), alpha=1/repetitions_load)+
+  geom_ribbon(aes(x=x, ymax=ymax, ymin= ymin, fil = as.factor(repetition)), alpha=10/repetitions_load)+
   facet_grid( ~ PANEL, labeller=plant_labeller)+
   geom_line(data = mean_line_data_plant_int_plot, 
-            aes(x = x, y = y, co = as.factor(repetition)), alpha=0.5)+
+            aes(x = x, y = y, co = as.factor(repetition)), alpha=0.2)+
   geom_line(data = shade_data_plant_int_plot_all,
             aes(x=x, y=ymax, color ="red"), size = 1.2,linetype = "dashed")+
   geom_line(data = shade_data_plant_int_plot_all,
@@ -1088,7 +1089,6 @@ library(patchwork)
 final_pollinator_int_plot/final_plant_int_plot & theme(axis.text=element_text(size=10),
                                                        axis.title=element_text(size=16)) & 
   plot_annotation(tag_levels = c('A'),  tag_suffix = ')') &  theme(plot.tag = element_text(size = 22))
-
 
 
 ```

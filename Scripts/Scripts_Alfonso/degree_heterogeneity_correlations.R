@@ -14,7 +14,7 @@ my_network_ids <- gsub(".csv", "", my_files)
 library(igraph)
 library(tidyverse)
 library(DescTools)
-
+library(bipartite)
 setwd(dir_ini)
 int.threshold <- 1
 networks <- read_csv("Data/Csv/data_for_motifs_analysis_1.csv") %>% select(-X1) %>%
@@ -104,6 +104,7 @@ VAR = lapply(my_network_ids, function(i) {VAR_fun(i)})
 connectance_d = bind_rows(connectance)
 nestedness_d = bind_rows(nestedness)
 degree_dist_d = bind_rows(degree_dist)
+
 gini_dist_d = as.numeric(gini_coefficients)
 heterogeneity_index_dist_d = as.numeric(heterogeneity_index)
 VAR_dist_d = as.numeric(VAR)
@@ -114,3 +115,20 @@ cor.test(connectance_d$connectance, nestedness_d$nestedness, method = "spearman"
 cor.test(connectance_d$connectance, gini_dist_d, method = "spearman")
 cor.test(connectance_d$connectance, heterogeneity_index_dist_d, method = "spearman")
 cor.test(connectance_d$connectance, VAR_dist_d, method = "spearman")
+
+
+#Bind cols
+#1st create datframe of interest
+gini_dist_d = data.frame(gini_index=as.numeric(gini_coefficients))
+#Now bind cols in one 
+d = bind_cols(connectance_d,nestedness_d, gini_dist_d)
+
+d %>% cor(method ="spearman") %>%
+  ggcorrplot::ggcorrplot(lab = TRUE, type = "lower") +
+  ggtitle("Network metric correlations")
+
+library(ggstatsplot)
+
+ggcorrmat(d, type="nonparametric")+
+  ggtitle("Network metric correlations")
+

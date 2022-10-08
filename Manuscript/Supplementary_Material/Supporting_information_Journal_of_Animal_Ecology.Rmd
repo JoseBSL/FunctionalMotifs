@@ -34,7 +34,7 @@ always_allow_html: true
 
 \captionsetup[table]{labelformat=empty}
 
-**The non-random assembly of indirect interactions in plant-pollinator networks**
+**The non-random assembly of network motifs in plant-pollinator networks**
 
 \
 

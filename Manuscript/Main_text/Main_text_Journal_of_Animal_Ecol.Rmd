@@ -1463,6 +1463,10 @@ In conclusion, by following the framework of @simmons2020 we have been able to e
 
 This study was supported by the European project SAFEGUARD (101003476 H2020-SFS-2019-2). JBL also thanks the University of New England for the funding provided to carry out this work. Finally, we would like to thank David García-Callejas for his useful comments on the manuscript before submission.
 
+# Conflict of interest declaration
+
+The authors declare no conflict of interest.
+
 # Author contributions
 
 IB, AA-P and JBL designed the idea. JBL collected the data. AA-P led the analysis with contributions of JBL and guidance of IB. JBL wrote the manuscript with contributions of IB and AA-P.

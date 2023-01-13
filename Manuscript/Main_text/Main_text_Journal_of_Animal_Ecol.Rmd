@@ -1469,12 +1469,11 @@ The authors declare no conflict of interest.
 
 # Author contributions
 
-IB, AA-P and JBL designed the idea. JBL collected the data. AA-P led the analysis with contributions of JBL and guidance of IB. JBL wrote the manuscript with contributions of IB and AA-P.
+All authors designed the idea. Jose B. Lanuza collected the data. Alfonso Allen-Perkins led the analysis with contributions of Jose B. Lanuza and guidance of Ignasi Bartomeus. Jose B. Lanuza wrote the manuscript with contributions of Ignasi Bartomeus and Alfonso Allen-Perkins.
 
 # Data Availability Statement
 
-All data and code are publicly available at Github (<https://github.com/JoseBSL/FunctionalMotifs>) and Zenodo (<https://doi.org/10.5281/zenodo.6489213>).
-
+Data and code available from the online repositories Zenodo  <https://doi.org/10.5281/zenodo.6489213> [@zenodo2022] and Github <https://github.com/JoseBSL/FunctionalMotifs>.
 \newpage
 
 # References

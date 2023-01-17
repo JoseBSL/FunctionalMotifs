@@ -55,7 +55,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 \singlespacing
 
-Ecological processes leave distinct structural imprints on the species interactions that shape the topology of animal-plant mutualistic networks. Detecting how direct and indirect interactions between animals and plants are organised is not trivial since they go beyond pairwise interactions, but may get blurred when considering global network descriptors. Recent work has shown that the meso-scale, the intermediate level of network complexity between the species and the global network, can capture this important information. The meso-scale describes network subgraphs representing patterns of direct and indirect interactions between a small number of species, and when these network subgraphs differ statistically from a benchmark, they are often referred to as "network motifs". Although motifs can capture relevant ecological information of species interactions, they remain overlooked in natural plant-pollinator networks. By exploring 60 empirical plant-pollinator networks from 18 different studies with wide geographical coverage, we show that some network subgraphs are consistently under- or over-represented, suggesting the presence of worldwide network motifs in plant-pollinator networks. In addition, we found a higher proportion of densely connected network subgraphs that, based on previous findings, could reflect that species relative abundances are the main driver shaping the structure of the meso-scale on plant-pollinator communities. Moreover, we found that distinct subgraph positions describing species ecological roles (e.g., generalisation and number of indirect interactions) are occupied by different groups of animal and plant species representing their main life-history strategies (i.e., functional groups). For instance, we found that the functional group of 'bees' was over-represented in subgraph positions with a lower number of indirect interactions in contrast to the rest of floral visitors groups. Finally, we show that the observed functional group combinations within a subgraph can not be retrieved from their expected probabilities (i.e., joint probability distributions), indicating that plant and floral visitor associations within subgraphs are not random either. Therefore, our results highlight the presence of common network motifs in plant-pollinator communities that are formed by a non-random association of plants and floral visitors functional groups.
+1. Ecological processes leave distinct structural imprints on the species interactions that shape the topology of animal-plant mutualistic networks. Detecting how direct and indirect interactions between animals and plants are organised is not trivial since they go beyond pairwise interactions, but may get blurred when considering global network descriptors.
+
+2. Recent work has shown that the meso-scale, the intermediate level of network complexity between the species and the global network, can capture this important information. The meso-scale describes network subgraphs representing patterns of direct and indirect interactions between a small number of species, and when these network subgraphs differ statistically from a benchmark, they are often referred to as "network motifs". Although motifs can capture relevant ecological information of species interactions, they remain overlooked in natural plant-pollinator networks.
+
+3. By exploring 60 empirical plant-pollinator networks from 18 different studies with wide geographical coverage, we show that some network subgraphs are consistently under- or over-represented, suggesting the presence of worldwide network motifs in plant-pollinator networks. In addition, we found a higher proportion of densely connected network subgraphs that, based on previous findings, could reflect that species relative abundances are the main driver shaping the structure of the meso-scale on plant-pollinator communities. Moreover, we found that distinct subgraph positions describing species ecological roles (e.g., generalisation and number of indirect interactions) are occupied by different groups of animal and plant species representing their main life-history strategies (i.e., functional groups). For instance, we found that the functional group of 'bees' was over-represented in subgraph positions with a lower number of indirect interactions in contrast to the rest of floral visitors groups. Finally, we show that the observed functional group combinations within a subgraph can not be retrieved from their expected probabilities (i.e., joint probability distributions), indicating that plant and floral visitor associations within subgraphs are not random either. 
+
+4. Our results highlight the presence of common network motifs in plant-pollinator communities that are formed by a non-random association of plants and floral visitors functional groups.
 
 Keywords: pollinators, plant-pollinator networks, plant-pollinator interactions, network motifs, indirect interactions, floral visitors
 
@@ -1135,7 +1141,7 @@ plot_pie_motif_positions <- function(motif_number){
           legend.title = element_text(size=12, face="bold"),legend.background = element_rect(size=0.5, linetype="solid",colour ="black"))+
     labs(x=NULL,y=NULL)+
     guides(color = FALSE,fill=guide_legend(title="Functional groups"))+
-    ggtitle(paste0("Motif ",motif_number))+
+    ggtitle(paste0("Subgraph ",motif_number))+
     theme(plot.title = element_text(hjust = 0.5),legend.key.size = unit(0.5, 'cm'))+
     theme(plot.margin=unit(c(0,0,0,0),"cm"))
 }
@@ -1319,7 +1325,7 @@ plot_motif_label <- function(label){
           axis.text.y=element_blank(),
           axis.ticks.y=element_blank())+
     labs(x=NULL,y=NULL)+
-    ggtitle(paste0("Motif ",motif_number))+
+    ggtitle(paste0("Subgraph ",motif_number))+
     theme(plot.title = element_text(hjust = 0.5,size=10))+
     guides(color=guide_legend(title="Functional groups"))
   

@@ -75,7 +75,7 @@ plot_motif_positions <- function(motif_number){
           axis.ticks.y=element_blank())+
     labs(x=NULL,y=NULL)+
     guides(color = FALSE)+
-    ggtitle(paste0("Motif ",motif_number))+
+    ggtitle(paste0("Subgraph ",motif_number))+
     theme(plot.title = element_text(hjust = 0.5))
   
   

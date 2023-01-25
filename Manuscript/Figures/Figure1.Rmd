@@ -1,0 +1,161 @@
+---
+editor_options:
+  chunk_output_type: console
+header-includes:
+- \usepackage{booktabs}
+- \usepackage{longtable}
+- \usepackage{array}
+- \usepackage{multirow}
+- \usepackage{wrapfig}
+- \usepackage{float}
+- \usepackage{colortbl}
+- \usepackage{pdflscape}
+- \usepackage{tabu}
+- \usepackage{threeparttable}
+- \usepackage{threeparttablex}
+- \usepackage[normalem]{ulem}
+- \usepackage{makecell}
+- \usepackage{xcolor}
+- \usepackage{caption,setspace}
+- \captionsetup[figure]{labelformat=empty}
+- \floatplacement{figure}{H}
+- \usepackage[skip=3pt]{caption}
+- \captionsetup[figure]{labelformat=empty}
+- \usepackage{lscape}
+- \newcommand{\blandscape}{\begin{landscape}}
+- \newcommand{\elandscape}{\end{landscape}}
+- \usepackage[left]{lineno}
+- \linenumbers
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+always_allow_html: true
+---
+
+
+```{r, echo=FALSE, message=FALSE, cache=FALSE, fig.pos="t", warning=FALSE,out.width="75%",fig.align="center", fig.cap="\\textbf{Figure 1.} Adapted figure of Simmons et al., (2019). All possible network subgraphs from two to five species in bipartite networks grouped by the different subgraph classes (2-species, 3-species, 4-species and 5-species). There are a total of 17 possible subgraphs with 46 different positions denoted within each node. The different subgraphs are aggregated by the broad indirect interaction structures they represent on four different groups (strong, medium-strong, medium-weak and weak). For each group, we show in the legend the mean value of the average path length of all subgraphs within it. The different path length groups range from densely connected network structures (strong subgraphs where all possible interactions are realised and the mean path length is minimum) to weakly connected ones (weak subgraphs where the mean path length is maximum).", fig.width=10,fig.height=8}
+library(tidyverse)
+library(RColorBrewer)
+source("../../Scripts/Scripts_Alfonso/plot_motif_positionsV2.R")
+
+motif_number <- 1
+p1 <- plot_motif_positions(motif_number) +
+geom_point(aes(color = as.factor(label)),size=10,color = "grey90")+
+geom_text(aes(x, y , label = label),size=3)
+
+motif_number <- 2
+p2 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "mediumaquamarine")+
+geom_text(aes(x, y , label = label),size=3)
+
+motif_number <- 3
+p3 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "mediumaquamarine")+
+geom_text(aes(x, y , label = label),size=3)
+
+motif_number <- 4
+p4 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "mediumaquamarine")+
+geom_text(aes(x, y , label = label),size=3)
+
+motif_number <- 5
+p5 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "lightcoral")+
+geom_text(aes(x, y , label = label),size=3)
+
+motif_number <- 6
+p6 <- plot_motif_positions(motif_number) +
+geom_point(aes(color = as.factor(label)),size=10,color = "goldenrod2")+
+geom_text(aes(x, y , label = label),size=3)
+
+motif_number <- 7
+p7 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "mediumaquamarine")+
+geom_text(aes(x, y , label = label),size=3)
+
+motif_number <- 8   
+p8 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "mediumaquamarine")+
+geom_text(aes(x, y , label = label),size=3)
+
+motif_number <- 9
+p9 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "lightcoral")+
+geom_text(aes(x, y , label = label),size=3)
+
+motif_number <- 10
+p10 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "lightcoral")+
+geom_text(aes(x, y , label = label),size=3)
+
+motif_number <- 11
+p11 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "skyblue")+
+geom_text(aes(x, y , label = label),size=3)
+
+motif_number <- 12
+p12 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "goldenrod2")+
+geom_text(aes(x, y , label = label),size=3)
+
+motif_number <- 13
+p13 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "lightcoral")+
+geom_text(aes(x, y , label = label),size=3)
+
+motif_number <- 14
+p14 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "lightcoral")+
+geom_text(aes(x, y , label = label),size=3)
+
+motif_number <- 15
+p15 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "skyblue")+
+geom_text(aes(x, y , label = label),size=3)
+
+motif_number <- 16
+p16 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "goldenrod2")+
+geom_text(aes(x, y , label = label),size=3)
+
+motif_number <- 17
+p17 <- plot_motif_positions(motif_number)+
+geom_point(aes(color = as.factor(label)),size=10,color = "mediumaquamarine")+
+geom_text(aes(x, y , label = label),size=3) 
+
+
+
+
+library(patchwork)
+
+p <- (p1 & ylab("2 species")| p2 & ylab("3 species") | p3 ) /
+(p4 & ylab("4 species")| p5 | p6 | p7) / 
+(p8  & ylab("5 species")| p9 | p10 | p11 | p12) /
+(p13 & ylab("5 species")| p14 | p15 | p16 | p17) &
+theme(axis.title.y = element_text(color="black", size=14, face="bold"))
+
+
+
+#Create custom legend
+a <- c(1,2,3,4)
+b <- c(1,2,3,4)
+c <- c("a","b", "c", "d")
+abc <- data.frame(a,b,c)
+p1 <- ggplot(abc, aes(x=a,y=b, color=c))+geom_point() + theme_bw() + 
+  scale_colour_manual(name = 'Path length classification', 
+                      values =c(a= 'goldenrod2',b='mediumaquamarine',
+                                c='skyblue', d='lightcoral'), 
+                      labels = c(a='Strong \n mean path length = 1.38', 
+                                 b='Medium-strong \n mean path length = 1.48',
+                                 c='Medium-weak \n mean path length = 1.60',
+                                 d='Weak \n mean path length = 1.85'))+
+theme(legend.position="bottom")+ guides(colour = guide_legend(override.aes = list(size=8),title.position="top", title.hjust = 0.5))
+
+legend <- cowplot::get_legend(p1+ theme(legend.position = "bottom",legend.text = element_text(size=10), legend.title = element_text(size=12, 
+face="bold"),legend.box.background = element_rect(color="black", size=2)))
+
+cowplot::plot_grid(p, legend, ncol = 1, rel_heights = c(12, 1.8))
+
+```
+

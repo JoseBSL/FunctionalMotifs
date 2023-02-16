@@ -1,6 +1,6 @@
 # FunctionalMotifs project
 
-## The non-random assembly of functional motifs in plant-pollinator networks (unpublished)
+## The non-random assembly of functional motifs in plant-pollinator networks
 
 Authors: Jose B. Lanuza  | Alfonso Allen-Perkins | Ignasi Bartomeus
 
